@@ -30,14 +30,14 @@ public class ExtraItem implements Parcelable {
     @NonNull public final String value;
     @NonNull public final String type;
 
-    public ExtraItem(@NonNull String key, @NonNull String value, @NonNull String type) {
+    public ExtraItem(final @NonNull String key, final @NonNull String value, final @NonNull String type) {
         this.key = key;
         this.value = value;
         this.type = type;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (!(obj instanceof ExtraItem))
@@ -57,7 +57,7 @@ public class ExtraItem implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeString(key);
         dest.writeString(value);
         dest.writeString(type);
@@ -65,16 +65,16 @@ public class ExtraItem implements Parcelable {
 
     public static final Creator<ExtraItem> CREATOR
             = new Creator<ExtraItem>() {
-        public ExtraItem createFromParcel(Parcel in) {
+        public ExtraItem createFromParcel(final Parcel in) {
             return new ExtraItem(in);
         }
 
-        public ExtraItem[] newArray(int size) {
+        public ExtraItem[] newArray(final int size) {
             return new ExtraItem[size];
         }
     };
 
-    private ExtraItem(Parcel in) {
+    private ExtraItem(final Parcel in) {
         key = in.readString();
         value = in.readString();
         type = in.readString();

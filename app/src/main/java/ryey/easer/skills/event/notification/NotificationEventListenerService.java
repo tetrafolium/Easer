@@ -49,7 +49,7 @@ public class NotificationEventListenerService extends NotificationListenerServic
 
     BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             final String action = intent.getAction();
             if (action == null)
                 return;
@@ -66,9 +66,9 @@ public class NotificationEventListenerService extends NotificationListenerServic
         }
     };
 
-    static void listen(Context context,
-                       NotificationEventData eventData,
-                       Uri uri) {
+    static void listen(final Context context,
+                       final NotificationEventData eventData,
+                       final Uri uri) {
         Intent intent = new Intent(ACTION_LISTEN);
         intent.putExtra(EXTRA_DATA, eventData);
         intent.putExtra(EXTRA_URI, uri);
@@ -76,9 +76,9 @@ public class NotificationEventListenerService extends NotificationListenerServic
         LocalBroadcastManager.getInstance(context.getApplicationContext()).sendBroadcast(intent);
     }
 
-    static void cancel(Context context,
-                       NotificationEventData eventData,
-                       Uri uri) {
+    static void cancel(final Context context,
+                       final NotificationEventData eventData,
+                       final Uri uri) {
         Intent intent = new Intent(ACTION_CANCEL);
         intent.putExtra(EXTRA_DATA, eventData);
         intent.putExtra(EXTRA_URI, uri);
@@ -86,7 +86,7 @@ public class NotificationEventListenerService extends NotificationListenerServic
         LocalBroadcastManager.getInstance(context.getApplicationContext()).sendBroadcast(intent);
     }
 
-    private static boolean match(StatusBarNotification sbn, String t_app, String t_title, String t_content) {
+    private static boolean match(final StatusBarNotification sbn, final String t_app, final String t_title, final String t_content) {
         Logger.d("app: <%s> <%s>", t_app, sbn.getPackageName());
         if (t_app != null) {
             if (!t_app.equals(sbn.getPackageName()))
@@ -107,7 +107,7 @@ public class NotificationEventListenerService extends NotificationListenerServic
     }
 
     @Override
-    public void onNotificationPosted(StatusBarNotification sbn) {
+    public void onNotificationPosted(final StatusBarNotification sbn) {
         for (CompoundData compoundData : dataList) {
             NotificationEventData eventData = compoundData.notificationEventData;
             Intent intent = match(sbn, eventData.app, eventData.title, eventData.content)
@@ -125,7 +125,7 @@ public class NotificationEventListenerService extends NotificationListenerServic
     }
 
     @Override
-    public void onNotificationRemoved(StatusBarNotification sbn) {
+    public void onNotificationRemoved(final StatusBarNotification sbn) {
         super.onNotificationRemoved(sbn);
     }
 
@@ -151,16 +151,16 @@ public class NotificationEventListenerService extends NotificationListenerServic
     }
 
     private void addListenToNotification(
-            NotificationEventData notificationEventData,
-            Uri uri) {
+            final NotificationEventData notificationEventData,
+            final Uri uri) {
         dataList.add(new CompoundData(
                 notificationEventData,
                 uri));
     }
 
     private void delListenToNotification(
-            NotificationEventData notificationEventData,
-            Uri uri) {
+            final NotificationEventData notificationEventData,
+            final Uri uri) {
         CompoundData compoundData = new CompoundData(
                 notificationEventData,
                 uri);
@@ -171,14 +171,14 @@ public class NotificationEventListenerService extends NotificationListenerServic
         final NotificationEventData notificationEventData;
         final Uri uri;
         private CompoundData(
-                NotificationEventData notificationEventData,
-                Uri uri) {
+                final NotificationEventData notificationEventData,
+                final Uri uri) {
             this.notificationEventData = notificationEventData;
             this.uri = uri;
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (obj == null)
                 return false;
             if (!(obj instanceof CompoundData))

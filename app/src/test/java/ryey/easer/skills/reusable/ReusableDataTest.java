@@ -39,14 +39,14 @@ public class ReusableDataTest {
     @Test
     public void testSetAndGet() throws Exception {
         for (Boolean state : new Boolean[]{true, false}) {
-            class IBooleanOperationData extends BooleanOperationData {}
+            class IBooleanOperationData extends BooleanOperationData { }
             BooleanOperationData data0 = new IBooleanOperationData();
             data0.set(state);
             assertEquals(data0.state, state);
         }
 
         for (int level : new int[]{-100, 10, 101}) {
-            class IIntegerOperationData extends IntegerOperationData {}
+            class IIntegerOperationData extends IntegerOperationData { }
             IntegerOperationData data0 = new IIntegerOperationData();
             data0.set(level);
             assertEquals((int) data0.get(), level);
@@ -56,7 +56,7 @@ public class ReusableDataTest {
             class IStringOperationData extends StringOperationData {
                 @NonNull
                 @Override
-                public OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment) {
+                public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
                     fail();
                     return null;
                 }
@@ -70,7 +70,7 @@ public class ReusableDataTest {
     @Test
     public void testIsValid() throws Exception {
         for (Boolean state : new Boolean[]{true, false, null}) {
-            class IBooleanOperationData extends BooleanOperationData {}
+            class IBooleanOperationData extends BooleanOperationData { }
             BooleanOperationData data0 = new IBooleanOperationData();
             if (state != null)
                 data0.set(state);
@@ -81,7 +81,7 @@ public class ReusableDataTest {
             for (final int irbound : new int[]{90, 100}) {
                 for (int level : new int[]{-100, ilbound, 10, irbound, 101}) {
                     class IIntegerOperationData extends IntegerOperationData {
-                        IIntegerOperationData(int lbound, int rbound) {
+                        IIntegerOperationData(final int lbound, final int rbound) {
                             this.lbound = lbound;
                             this.rbound = rbound;
                         }

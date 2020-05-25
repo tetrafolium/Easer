@@ -57,12 +57,12 @@ public class CellLocationUSourceSkill implements USourceSkill<CellLocationUSourc
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.checkPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION);
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         SkillUtils.requestPermission(activity, requestCode, Manifest.permission.ACCESS_COARSE_LOCATION);
     }
 
@@ -85,21 +85,21 @@ public class CellLocationUSourceSkill implements USourceSkill<CellLocationUSourc
     }
 
     @Override
-    public Slot<CellLocationUSourceData> slot(@NonNull Context context, @NonNull CellLocationUSourceData data) {
+    public Slot<CellLocationUSourceData> slot(final @NonNull Context context, final @NonNull CellLocationUSourceData data) {
         return new CellLocationSlot(context, data);
     }
 
     @Override
-    public Slot<CellLocationUSourceData> slot(@NonNull Context context, @NonNull CellLocationUSourceData data, boolean retriggerable, boolean persistent) {
+    public Slot<CellLocationUSourceData> slot(final @NonNull Context context, final @NonNull CellLocationUSourceData data, final boolean retriggerable, final boolean persistent) {
         return new CellLocationSlot(context, data, retriggerable, persistent);
     }
 
     @NonNull
     @Override
-    public Tracker<CellLocationUSourceData> tracker(@NonNull Context context,
-                                                    @ValidData @NonNull CellLocationUSourceData data,
-                                                    @NonNull PendingIntent event_positive,
-                                                    @NonNull PendingIntent event_negative) {
+    public Tracker<CellLocationUSourceData> tracker(final @NonNull Context context,
+                                                    final @ValidData @NonNull CellLocationUSourceData data,
+                                                    final @NonNull PendingIntent event_positive,
+                                                    final @NonNull PendingIntent event_negative) {
         return new CellLocationTracker(context, data, event_positive, event_negative);
     }
 

@@ -43,7 +43,7 @@ class RotationOperationDataFactory implements OperationDataFactory<RotationOpera
     @ValidData
     @NonNull
     @Override
-    public RotationOperationData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public RotationOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new RotationOperationData(data, format, version);
     }
 }

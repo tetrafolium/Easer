@@ -30,20 +30,20 @@ public class RemoteOperationData implements Parcelable {
     public final PluginDataFormat format;
     public final String rawData;
 
-    public RemoteOperationData(String pluginId, PluginDataFormat format, String rawData) {
+    public RemoteOperationData(final String pluginId, final PluginDataFormat format, final String rawData) {
         this.pluginId = pluginId;
         this.format = format;
         this.rawData = rawData;
     }
 
-    protected RemoteOperationData(Parcel in) {
+    protected RemoteOperationData(final Parcel in) {
         pluginId = in.readString();
         format = PluginDataFormat.fromParcel(in);
         rawData = in.readString();
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeString(pluginId);
         PluginDataFormat.toParcel(dest, format);
         dest.writeString(rawData);
@@ -56,12 +56,12 @@ public class RemoteOperationData implements Parcelable {
 
     public static final Creator<RemoteOperationData> CREATOR = new Creator<RemoteOperationData>() {
         @Override
-        public RemoteOperationData createFromParcel(Parcel in) {
+        public RemoteOperationData createFromParcel(final Parcel in) {
             return new RemoteOperationData(in);
         }
 
         @Override
-        public RemoteOperationData[] newArray(int size) {
+        public RemoteOperationData[] newArray(final int size) {
             return new RemoteOperationData[size];
         }
     };

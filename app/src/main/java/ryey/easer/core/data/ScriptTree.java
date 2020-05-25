@@ -34,11 +34,11 @@ import ryey.easer.commons.local_skill.eventskill.EventData;
 final public class ScriptTree {
     final ScriptStructure data;
     @NonNull final List<ScriptTree> subs;
-    public ScriptTree(@NonNull ScriptStructure scriptStructure) {
+    public ScriptTree(final @NonNull ScriptStructure scriptStructure) {
         this.data = scriptStructure;
         this.subs = new LinkedList<>();
     }
-    public ScriptTree(@NonNull ScriptStructure data, @NonNull List<ScriptTree> subs) {
+    public ScriptTree(final @NonNull ScriptStructure data, final @NonNull List<ScriptTree> subs) {
         this.data = data;
         this.subs = subs;
     }
@@ -69,7 +69,7 @@ final public class ScriptTree {
     public boolean isPersistent() {
         return data.isPersistent();
     }
-    public void addSub(ScriptTree sub) {
+    public void addSub(final ScriptTree sub) {
         subs.add(sub);
     }
     @NonNull

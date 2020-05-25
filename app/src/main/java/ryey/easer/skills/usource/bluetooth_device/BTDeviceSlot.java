@@ -30,7 +30,7 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class BTDeviceSlot extends AbstractSlot<BTDeviceUSourceData> {
 
-    private static Bundle dynamicsForCurrentDevice(BluetoothDevice bluetoothDevice) {
+    private static Bundle dynamicsForCurrentDevice(final BluetoothDevice bluetoothDevice) {
         Bundle bundle = new Bundle();
         bundle.putString(BTDeviceUSourceData.DeviceNameDynamics.id, bluetoothDevice.getName());
         bundle.putString(BTDeviceUSourceData.DeviceAddressDynamics.id, bluetoothDevice.getAddress());
@@ -41,7 +41,7 @@ public class BTDeviceSlot extends AbstractSlot<BTDeviceUSourceData> {
 
     private final BroadcastReceiver connReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             String action = intent.getAction();
             if (action.equals(BluetoothDevice.ACTION_ACL_CONNECTED)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
@@ -67,11 +67,11 @@ public class BTDeviceSlot extends AbstractSlot<BTDeviceUSourceData> {
         filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
     }
 
-    public BTDeviceSlot(Context context, BTDeviceUSourceData data) {
+    public BTDeviceSlot(final Context context, final BTDeviceUSourceData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    BTDeviceSlot(Context context, BTDeviceUSourceData data, boolean retriggerable, boolean persistent) {
+    BTDeviceSlot(final Context context, final BTDeviceUSourceData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
     }
 
@@ -85,11 +85,11 @@ public class BTDeviceSlot extends AbstractSlot<BTDeviceUSourceData> {
         context.unregisterReceiver(connReceiver);
     }
 
-    private boolean is_target(BluetoothDevice device) {
+    private boolean is_target(final BluetoothDevice device) {
         return eventData.match(device.getAddress());
     }
 
-    private void determine_satisfied(Bundle dynamics) {
+    private void determine_satisfied(final Bundle dynamics) {
         changeSatisfiedState(matched_devices > 0, dynamics);
     }
 }

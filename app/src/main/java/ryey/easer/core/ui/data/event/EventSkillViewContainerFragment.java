@@ -29,12 +29,12 @@ import ryey.easer.skills.LocalSkillRegistry;
 
 public class EventSkillViewContainerFragment<D extends EventData, S extends EventSkill<D>> extends SourceSkillViewContainerFragment<D, S> {
 
-    static <D extends EventData, S extends EventSkill<D>> EventSkillViewContainerFragment<D, S> createInstance(S plugin) {
+    static <D extends EventData, S extends EventSkill<D>> EventSkillViewContainerFragment<D, S> createInstance(final S plugin) {
         return SourceSkillViewContainerFragment.createInstance(plugin, new EventSkillViewContainerFragment<>());
     }
 
     @Override
-    protected S findSkill(String skillID) {
+    protected S findSkill(final String skillID) {
         return (S) LocalSkillRegistry.getInstance().event().findSkill(skillID);
     }
 

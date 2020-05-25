@@ -44,7 +44,7 @@ import static ryey.easer.skills.condition.calendar.CalendarHelper.nextEvent_matc
 
 public class CalendarTracker extends SkeletonTracker<CalendarConditionData> {
 
-    private static final String ACTION_UPDATE= "ryey.easer.skills.condition.calendar.UPDATE";
+    private static final String ACTION_UPDATE = "ryey.easer.skills.condition.calendar.UPDATE";
 
     private final Intent intentUpdate = new Intent(ACTION_UPDATE);
     private final IntentFilter intentUpdate_filter = new IntentFilter(ACTION_UPDATE);
@@ -52,7 +52,7 @@ public class CalendarTracker extends SkeletonTracker<CalendarConditionData> {
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             Logger.d("Intent received. action: %s", intent.getAction());
             if (intent.getAction().equals(ACTION_UPDATE)) {
                 updateTracker();
@@ -64,14 +64,14 @@ public class CalendarTracker extends SkeletonTracker<CalendarConditionData> {
 
     private ContentObserver calendarObserver = new ContentObserver(null) {
         @Override
-        public void onChange(boolean selfChange) {
+        public void onChange(final boolean selfChange) {
             updateTracker();
         }
     };
 
-    CalendarTracker(Context context, CalendarConditionData data,
-                   @NonNull PendingIntent event_positive,
-                   @NonNull PendingIntent event_negative) {
+    CalendarTracker(final Context context, final CalendarConditionData data,
+                   final @NonNull PendingIntent event_positive,
+                   final @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
         if (mAlarmManager == null)
             mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

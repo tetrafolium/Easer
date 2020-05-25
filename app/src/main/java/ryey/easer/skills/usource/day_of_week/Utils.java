@@ -27,7 +27,7 @@ import java.util.Collection;
 
 public class Utils {
 
-    static void scheduleAlarmEveryday(AlarmManager alarmManager, PendingIntent pendingIntent) {
+    static void scheduleAlarmEveryday(final AlarmManager alarmManager, final PendingIntent pendingIntent) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
@@ -40,7 +40,7 @@ public class Utils {
                 AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
-    static boolean isSatisfied(Collection<Integer> days) {
+    static boolean isSatisfied(final Collection<Integer> days) {
         Calendar now = Calendar.getInstance();
         int hour = now.get(Calendar.HOUR_OF_DAY);
         int day_of_week = now.get(Calendar.DAY_OF_WEEK) - 1; // Starts with 1, but ours starts with 0

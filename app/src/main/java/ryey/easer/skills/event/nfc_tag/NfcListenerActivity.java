@@ -30,7 +30,7 @@ import ryey.easer.commons.ui.CommonBaseActivity;
 public class NfcListenerActivity extends CommonBaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String action = getIntent().getAction();
         if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)

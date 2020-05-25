@@ -55,12 +55,12 @@ public class DateUSourceSkill implements USourceSkill<DateUSourceData> {
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return null;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
 
     }
 
@@ -88,17 +88,17 @@ public class DateUSourceSkill implements USourceSkill<DateUSourceData> {
     }
 
     @Override
-    public AbstractSlot<DateUSourceData> slot(@NonNull Context context, @ValidData @NonNull DateUSourceData data) {
+    public AbstractSlot<DateUSourceData> slot(final @NonNull Context context, final @ValidData @NonNull DateUSourceData data) {
         return new DateSlot(context, data);
     }
 
     @Override
-    public AbstractSlot<DateUSourceData> slot(@NonNull Context context, @NonNull DateUSourceData data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot<DateUSourceData> slot(final @NonNull Context context, final @NonNull DateUSourceData data, final boolean retriggerable, final boolean persistent) {
         return new DateSlot(context, data, retriggerable, persistent);
     }
 
     @Override
-    public Tracker<DateUSourceData> tracker(@NonNull Context context, @NonNull DateUSourceData data, @NonNull PendingIntent event_positive, @NonNull PendingIntent event_negative) {
+    public Tracker<DateUSourceData> tracker(final @NonNull Context context, final @NonNull DateUSourceData data, final @NonNull PendingIntent event_positive, final @NonNull PendingIntent event_negative) {
         return new DateTracker(context, data, event_positive, event_negative);
     }
 

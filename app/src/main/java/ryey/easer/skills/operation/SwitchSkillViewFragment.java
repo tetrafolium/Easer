@@ -38,22 +38,22 @@ public abstract class SwitchSkillViewFragment<T extends OperationData> extends S
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_reusable__switch, container, false);
         aSwitch = view.findViewById(R.id.plugin_reusable__switch);
         return view;
     }
 
-    private static void setSwitch(@NonNull Switch sw, boolean state) {
+    private static void setSwitch(final @NonNull Switch sw, final boolean state) {
         sw.setChecked(state);
     }
 
-    private static boolean fromSwitch(@NonNull Switch sw) {
+    private static boolean fromSwitch(final @NonNull Switch sw) {
         return sw.isChecked();
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull T data) {
+    protected void _fill(final @ValidData @NonNull T data) {
         if (data instanceof BooleanOperationData) {
             Boolean state = ((BooleanOperationData) data).get();
             setSwitch(aSwitch, state);

@@ -35,12 +35,12 @@ import ryey.easer.skills.SkillUtils;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class CellularLoader extends OperationLoader<CellularOperationData> {
-    public CellularLoader(Context context) {
+    public CellularLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull CellularOperationData data) {
+    public boolean load(final @ValidData @NonNull CellularOperationData data) {
         Boolean state = data.get();
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         if (state == (telephonyManager.getDataState() == TelephonyManager.DATA_CONNECTED)) {

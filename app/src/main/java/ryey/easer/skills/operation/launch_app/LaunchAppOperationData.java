@@ -45,13 +45,13 @@ public class LaunchAppOperationData implements OperationData {
     final @Nullable String app_class;
     final @Nullable Extras extras;
 
-    LaunchAppOperationData(String app_package, @Nullable String app_class, @Nullable Extras extras) {
+    LaunchAppOperationData(final String app_package, final @Nullable String app_class, final @Nullable Extras extras) {
         this.app_package = app_package;
         this.app_class = app_class;
         this.extras = extras;
     }
 
-    LaunchAppOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    LaunchAppOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
             default:
                 try {
@@ -67,7 +67,7 @@ public class LaunchAppOperationData implements OperationData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String ret;
         switch (format) {
             default:
@@ -93,7 +93,7 @@ public class LaunchAppOperationData implements OperationData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (!(obj instanceof LaunchAppOperationData))
@@ -113,7 +113,7 @@ public class LaunchAppOperationData implements OperationData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeString(app_package);
         dest.writeString(app_class);
         dest.writeParcelable(extras, 0);
@@ -121,16 +121,16 @@ public class LaunchAppOperationData implements OperationData {
 
     public static final Creator<LaunchAppOperationData> CREATOR
             = new Creator<LaunchAppOperationData>() {
-        public LaunchAppOperationData createFromParcel(Parcel in) {
+        public LaunchAppOperationData createFromParcel(final Parcel in) {
             return new LaunchAppOperationData(in);
         }
 
-        public LaunchAppOperationData[] newArray(int size) {
+        public LaunchAppOperationData[] newArray(final int size) {
             return new LaunchAppOperationData[size];
         }
     };
 
-    private LaunchAppOperationData(Parcel in) {
+    private LaunchAppOperationData(final Parcel in) {
         app_package = in.readString();
         app_class = in.readString();
         extras = in.readParcelable(Extras.class.getClassLoader());
@@ -144,7 +144,7 @@ public class LaunchAppOperationData implements OperationData {
 
     @NonNull
     @Override
-    public OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment) {
+    public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
         return this;
     }
 }

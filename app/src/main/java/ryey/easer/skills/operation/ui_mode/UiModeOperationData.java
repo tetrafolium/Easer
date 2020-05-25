@@ -41,7 +41,7 @@ public class UiModeOperationData implements OperationData {
 
     @NonNull
     @Override
-    public OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment) {
+    public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
         return this;
     }
 
@@ -52,17 +52,17 @@ public class UiModeOperationData implements OperationData {
 
     UiMode ui_mode;
 
-    UiModeOperationData(UiMode ui_mode) {
+    UiModeOperationData(final UiMode ui_mode) {
         this.ui_mode = ui_mode;
     }
 
-    UiModeOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    UiModeOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         ui_mode = UiMode.valueOf(data);
     }
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         return ui_mode.name();
     }
 
@@ -74,7 +74,7 @@ public class UiModeOperationData implements OperationData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (obj == null || !(obj instanceof UiModeOperationData))
@@ -88,22 +88,22 @@ public class UiModeOperationData implements OperationData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeInt(ui_mode.ordinal());
     }
 
     public static final Creator<UiModeOperationData> CREATOR
             = new Creator<UiModeOperationData>() {
-        public UiModeOperationData createFromParcel(Parcel in) {
+        public UiModeOperationData createFromParcel(final Parcel in) {
             return new UiModeOperationData(in);
         }
 
-        public UiModeOperationData[] newArray(int size) {
+        public UiModeOperationData[] newArray(final int size) {
             return new UiModeOperationData[size];
         }
     };
 
-    private UiModeOperationData(Parcel in) {
+    private UiModeOperationData(final Parcel in) {
         ui_mode = UiMode.values()[in.readInt()];
     }
 }

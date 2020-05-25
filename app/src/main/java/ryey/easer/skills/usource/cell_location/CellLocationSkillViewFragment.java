@@ -45,13 +45,13 @@ public class CellLocationSkillViewFragment extends SkillViewFragment<CellLocatio
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_usource__cell_location, container, false);
 
         editText = view.findViewById(R.id.location_text);
         view.findViewById(R.id.location_picker).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 if (!SkillUtils.checkPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION))
                     return;
 
@@ -66,7 +66,7 @@ public class CellLocationSkillViewFragment extends SkillViewFragment<CellLocatio
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull CellLocationUSourceData data) {
+    protected void _fill(final @ValidData @NonNull CellLocationUSourceData data) {
         editText.setText(data.toString());
     }
 
@@ -81,7 +81,7 @@ public class CellLocationSkillViewFragment extends SkillViewFragment<CellLocatio
     }
 
     @Override
-    public void onPositiveClicked(@NonNull List<CellLocationSingleData> singleDataList) {
+    public void onPositiveClicked(final @NonNull List<CellLocationSingleData> singleDataList) {
         String display_str = editText.getText().toString();
         StringBuilder stringBuilder = new StringBuilder(display_str);
         for (CellLocationSingleData singleData : singleDataList) {

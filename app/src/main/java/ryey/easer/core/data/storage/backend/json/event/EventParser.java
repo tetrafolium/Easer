@@ -38,7 +38,7 @@ import ryey.easer.skills.LocalSkillRegistry;
 public class EventParser implements Parser<EventStructure> {
 
     @Override
-    public EventStructure parse(InputStream in) throws IOException, IllegalStorageDataException {
+    public EventStructure parse(final InputStream in) throws IOException, IllegalStorageDataException {
         try {
             JSONObject jsonObject = new JSONObject(IOUtils.inputStreamToString(in));
             int version = jsonObject.optInt(C.VERSION, C.VERSION_USE_SCENARIO);

@@ -70,12 +70,12 @@ public class CommandOperationSkill implements OperationSkill<CommandOperationDat
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return null;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
 
     }
 
@@ -94,7 +94,7 @@ public class CommandOperationSkill implements OperationSkill<CommandOperationDat
 
     @NonNull
     @Override
-    public OperationLoader<CommandOperationData> loader(@NonNull Context context) {
+    public OperationLoader<CommandOperationData> loader(final @NonNull Context context) {
         return new CommandLoader(context);
     }
 

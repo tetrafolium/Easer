@@ -50,14 +50,14 @@ public abstract class EditSourceDataFragment<D extends StorageData, S extends Sk
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_source_data, container, false);
 
         mButtonSelect = view.findViewById(R.id.btn_select);
         mButtonSelect.setText(buttonText());
         mButtonSelect.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 SourceSelectorDialogFragment<S> eventSelectorFragment = selectorDialogFragment();
                 eventSelectorFragment.setSelectedListener(EditSourceDataFragment.this);
                 eventSelectorFragment.show(getChildFragmentManager(), TAG_SELECT_DIALOG);
@@ -67,7 +67,7 @@ public abstract class EditSourceDataFragment<D extends StorageData, S extends Sk
         return view;
     }
 
-    public void loadFromData(D data) {
+    public void loadFromData(final D data) {
         S skill = findSkill(data);
         assert skill != null;
         setSkill(skillViewContainerFragment(skill),
@@ -82,15 +82,15 @@ public abstract class EditSourceDataFragment<D extends StorageData, S extends Sk
     }
 
     @Override
-    public void onSelected(SourceSelectorDialogFragment.SkillItemWrapper<S> skillItemWrapper) {
+    public void onSelected(final SourceSelectorDialogFragment.SkillItemWrapper<S> skillItemWrapper) {
         setSkill(skillViewContainerFragment(skillItemWrapper.skill), skillItemWrapper.name);
     }
 
-    private void setSkill(SourceSkillViewContainerFragment<D, S> skillViewContainerFragment, String name) {
+    private void setSkill(final SourceSkillViewContainerFragment<D, S> skillViewContainerFragment, final String name) {
         setSkill(skillViewContainerFragment, name, null);
     }
 
-    private void setSkill(SourceSkillViewContainerFragment<D, S> skillViewContainerFragment, String name, D data) {
+    private void setSkill(final SourceSkillViewContainerFragment<D, S> skillViewContainerFragment, final String name, final D data) {
         mButtonSelect.setText(name);
         this.skillViewContainerFragment = skillViewContainerFragment;
         getChildFragmentManager().beginTransaction()

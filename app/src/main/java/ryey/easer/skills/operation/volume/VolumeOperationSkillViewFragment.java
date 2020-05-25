@@ -48,7 +48,7 @@ public class VolumeOperationSkillViewFragment extends SkillViewFragment<VolumeOp
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.plugin_operation__volume, container, false);
 
         //noinspection ConstantConditions
@@ -63,7 +63,7 @@ public class VolumeOperationSkillViewFragment extends SkillViewFragment<VolumeOp
         checkBox_ring = view.findViewById(R.id.checkBox_ring);
         checkBox_ring.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            public void onCheckedChanged(final CompoundButton compoundButton, final boolean b) {
                 seekBar_ring.setVisibility(b ? View.VISIBLE : View.GONE);
             }
         });
@@ -73,7 +73,7 @@ public class VolumeOperationSkillViewFragment extends SkillViewFragment<VolumeOp
         checkBox_media = view.findViewById(R.id.checkBox_media);
         checkBox_media.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            public void onCheckedChanged(final CompoundButton compoundButton, final boolean b) {
                 seekBar_media.setVisibility(b ? View.VISIBLE : View.GONE);
             }
         });
@@ -83,7 +83,7 @@ public class VolumeOperationSkillViewFragment extends SkillViewFragment<VolumeOp
         checkBox_alarm = view.findViewById(R.id.checkBox_alarm);
         checkBox_alarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            public void onCheckedChanged(final CompoundButton compoundButton, final boolean b) {
                 seekBar_alarm.setVisibility(b ? View.VISIBLE : View.GONE);
             }
         });
@@ -93,7 +93,7 @@ public class VolumeOperationSkillViewFragment extends SkillViewFragment<VolumeOp
         checkBox_notification = view.findViewById(R.id.checkBox_notification);
         checkBox_notification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            public void onCheckedChanged(final CompoundButton compoundButton, final boolean b) {
                 seekBar_notification.setVisibility(b ? View.VISIBLE : View.GONE);
             }
         });
@@ -104,7 +104,7 @@ public class VolumeOperationSkillViewFragment extends SkillViewFragment<VolumeOp
         checkBox_bt = view.findViewById(R.id.checkBox_bt);
         checkBox_bt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            public void onCheckedChanged(final CompoundButton compoundButton, final boolean b) {
                 int visibility = b ? View.VISIBLE : View.GONE;
                 seekBar_bt.setVisibility(visibility);
                 view.findViewById(R.id.textView_bt_delay).setVisibility(visibility);
@@ -116,7 +116,7 @@ public class VolumeOperationSkillViewFragment extends SkillViewFragment<VolumeOp
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull VolumeOperationData data) {
+    protected void _fill(final @ValidData @NonNull VolumeOperationData data) {
         setVolumeVisual(checkBox_ring, seekBar_ring, data.vol_ring);
         setVolumeVisual(checkBox_media, seekBar_media, data.vol_media);
         setVolumeVisual(checkBox_alarm, seekBar_alarm, data.vol_alarm);
@@ -148,7 +148,7 @@ public class VolumeOperationSkillViewFragment extends SkillViewFragment<VolumeOp
         return new VolumeOperationData(vol_ring, vol_media, vol_alarm, vol_notification, vol_bt, bt_delay);
     }
 
-    private static void setVolumeVisual(CheckBox checkBox, SeekBar seekBar, Integer value) {
+    private static void setVolumeVisual(final CheckBox checkBox, final SeekBar seekBar, final Integer value) {
         if (value == null) {
             checkBox.setChecked(false);
         } else {
@@ -157,7 +157,7 @@ public class VolumeOperationSkillViewFragment extends SkillViewFragment<VolumeOp
         }
     }
 
-    private static Integer getVolume(SeekBar seekBar) {
+    private static Integer getVolume(final SeekBar seekBar) {
         if (seekBar.getVisibility() == View.VISIBLE)
             return seekBar.getProgress();
         else

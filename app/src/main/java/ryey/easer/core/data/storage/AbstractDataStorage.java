@@ -38,7 +38,7 @@ public abstract class AbstractDataStorage<T extends Named & Verifiable & WithCre
     protected final Context context;
     protected final T_backend[] storage_backend_list;
 
-    protected AbstractDataStorage(Context context, T_backend[] storage_backend_list) {
+    protected AbstractDataStorage(final Context context, final T_backend[] storage_backend_list) {
         this.context = context;
         this.storage_backend_list = storage_backend_list;
     }
@@ -54,7 +54,7 @@ public abstract class AbstractDataStorage<T extends Named & Verifiable & WithCre
         return list;
     }
 
-    public boolean has(String name) {
+    public boolean has(final String name) {
         for (T_backend backend : storage_backend_list) {
             if (backend.has(name))
                 return true;
@@ -62,7 +62,7 @@ public abstract class AbstractDataStorage<T extends Named & Verifiable & WithCre
         return false;
     }
 
-    public T get(String name) {
+    public T get(final String name) {
         for (T_backend backend : storage_backend_list) {
             try {
                 return backend.get(name);
@@ -81,7 +81,7 @@ public abstract class AbstractDataStorage<T extends Named & Verifiable & WithCre
      * @return {@code true} if no file conflict, {@code false} otherwise
      * @throws IOException If anything else happens (e.g. no disk space)
      */
-    public boolean add(T data) throws IOException {
+    public boolean add(final T data) throws IOException {
         for (T_backend backend : storage_backend_list) {
             if (backend.has(data.getName())) {
                 try {
@@ -107,7 +107,7 @@ public abstract class AbstractDataStorage<T extends Named & Verifiable & WithCre
      * @param name Name of the data
      * @return {@code true} if {@param name} is safely deleted, {@code false} if it is used by other events.
      */
-    public boolean delete(String name) {
+    public boolean delete(final String name) {
         if (!isSafeToDelete(name))
             return false;
         for (T_backend backend : storage_backend_list) {
@@ -126,7 +126,7 @@ public abstract class AbstractDataStorage<T extends Named & Verifiable & WithCre
      * @return {@code true} if no name conflict; {@code false} otherwise.
      * @throws IOException See {@link #add(Named)}
      */
-    public boolean edit(String oldName, T data) throws IOException {
+    public boolean edit(final String oldName, final T data) throws IOException {
         if (oldName.equals(data.getName())) {
             update(data);
             return true;
@@ -148,7 +148,7 @@ public abstract class AbstractDataStorage<T extends Named & Verifiable & WithCre
      * @param data The new data which is going to replace the old data
      * @throws IOException See {@link #add(Named)}
      */
-    void update(T data) throws IOException {
+    void update(final T data) throws IOException {
         String name = data.getName();
         for (T_backend backend : storage_backend_list) {
             if (backend.has(name)) {

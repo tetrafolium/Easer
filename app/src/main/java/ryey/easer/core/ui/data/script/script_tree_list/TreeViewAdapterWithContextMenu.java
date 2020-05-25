@@ -41,17 +41,17 @@ public class TreeViewAdapterWithContextMenu extends TreeViewAdapter {
 
     private final WeakReference<Context> refContext;
 
-    TreeViewAdapterWithContextMenu(List<TreeNode> nodes, Context context) {
+    TreeViewAdapterWithContextMenu(final List<TreeNode> nodes, final Context context) {
         this(nodes, new EventNodeBinder(), context);
     }
 
-    private TreeViewAdapterWithContextMenu(List<TreeNode> nodes, EventNodeBinder binder, Context context) {
+    private TreeViewAdapterWithContextMenu(final List<TreeNode> nodes, final EventNodeBinder binder, final Context context) {
         super(nodes, Arrays.asList(binder));
         binder.setRef(this);
         this.refContext = new WeakReference<>(context);
     }
 
-    public void setOnLongItemClickListener(onLongItemClickListener onLongItemClickListener) {
+    public void setOnLongItemClickListener(final onLongItemClickListener onLongItemClickListener) {
         mOnLongItemClickListener = onLongItemClickListener;
     }
 
@@ -63,22 +63,22 @@ public class TreeViewAdapterWithContextMenu extends TreeViewAdapter {
 
         WeakReference<TreeViewAdapterWithContextMenu> ref;
 
-        public void setRef(TreeViewAdapterWithContextMenu ref) {
+        public void setRef(final TreeViewAdapterWithContextMenu ref) {
             this.ref = new WeakReference<>(ref);
         }
 
         @Override
-        public TreeViewAdapterWithContextMenu.ViewHolder provideViewHolder(View view) {
+        public TreeViewAdapterWithContextMenu.ViewHolder provideViewHolder(final View view) {
             return new TreeViewAdapterWithContextMenu.ViewHolder(view);
         }
 
         @Override
-        public void bindView(TreeViewAdapterWithContextMenu.ViewHolder viewHolder, int position, TreeNode treeNode) {
+        public void bindView(final TreeViewAdapterWithContextMenu.ViewHolder viewHolder, final int position, final TreeNode treeNode) {
             final EventItem item = (EventItem) treeNode.getContent();
 
             viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public boolean onLongClick(View v) {
+                public boolean onLongClick(final View v) {
                     if (ref.get().mOnLongItemClickListener != null) {
                         ref.get().mOnLongItemClickListener.ItemLongClicked(v, item);
                     }
@@ -116,7 +116,7 @@ public class TreeViewAdapterWithContextMenu extends TreeViewAdapter {
         final TextView tvEventName;
         final ImageView ivArrow;
 
-        ViewHolder(View rootView) {
+        ViewHolder(final View rootView) {
             super(rootView);
             tvEventName = rootView.findViewById(R.id.tv_name);
             ivArrow = rootView.findViewById(R.id.iv_arrow);

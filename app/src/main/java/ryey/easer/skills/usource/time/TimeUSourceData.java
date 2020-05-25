@@ -42,11 +42,11 @@ import ryey.easer.plugin.PluginDataFormat;
 public class TimeUSourceData implements USourceData {
     private static final SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm", Locale.US);
 
-    private static String TimeToText(Calendar calendar) {
+    private static String TimeToText(final Calendar calendar) {
         return sdf_time.format(calendar.getTime());
     }
 
-    private static Calendar TextToTime(String text) throws ParseException {
+    private static Calendar TextToTime(final String text) throws ParseException {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(sdf_time.parse(text));
         return calendar;
@@ -62,12 +62,12 @@ public class TimeUSourceData implements USourceData {
     Calendar time;
     Rel rel;
 
-    TimeUSourceData(Calendar time, Rel rel) {
+    TimeUSourceData(final Calendar time, final Rel rel) {
         this.time = time;
         this.rel = rel;
     }
 
-    TimeUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    TimeUSourceData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
             default:
                 try {
@@ -109,7 +109,7 @@ public class TimeUSourceData implements USourceData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (obj == null || !(obj instanceof TimeUSourceData))
@@ -121,7 +121,7 @@ public class TimeUSourceData implements USourceData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
             default:
@@ -143,23 +143,23 @@ public class TimeUSourceData implements USourceData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeLong(time.getTimeInMillis());
         dest.writeInt(rel.ordinal());
     }
 
     public static final Parcelable.Creator<TimeUSourceData> CREATOR
             = new Parcelable.Creator<TimeUSourceData>() {
-        public TimeUSourceData createFromParcel(Parcel in) {
+        public TimeUSourceData createFromParcel(final Parcel in) {
             return new TimeUSourceData(in);
         }
 
-        public TimeUSourceData[] newArray(int size) {
+        public TimeUSourceData[] newArray(final int size) {
             return new TimeUSourceData[size];
         }
     };
 
-    private TimeUSourceData(Parcel in) {
+    private TimeUSourceData(final Parcel in) {
         time = Calendar.getInstance();
         time.setTimeInMillis(in.readLong());
         rel = Rel.values()[in.readInt()];

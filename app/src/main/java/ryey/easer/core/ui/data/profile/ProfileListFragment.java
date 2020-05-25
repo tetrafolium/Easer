@@ -78,13 +78,13 @@ public class ProfileListFragment extends AbstractDataListFragment {
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(final ContextMenu menu, final View v, final ContextMenu.ContextMenuInfo menuInfo) {
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.list_profile, menu);
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(final MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         ListDataWrapper wrapper = (ListDataWrapper) getListView().getItemAtPosition(info.position);
         String name = wrapper.name;
@@ -129,7 +129,7 @@ public class ProfileListFragment extends AbstractDataListFragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final @NonNull View view, final @Nullable Bundle savedInstanceState) {
         //TODO: Check remote plugins also
         //noinspection ConstantConditions
         if (LocalSkillRegistry.getInstance().operation().getEnabledSkills(getContext()).size() == 0) {

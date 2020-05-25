@@ -43,7 +43,7 @@ class WifiOperationDataFactory implements OperationDataFactory<WifiOperationData
     @ValidData
     @NonNull
     @Override
-    public WifiOperationData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public WifiOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new WifiOperationData(data, format, version);
     }
 }

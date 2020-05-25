@@ -45,7 +45,8 @@ public class CalendarConditionSkill implements ConditionSkill<CalendarConditionD
     }
 
     @Override
-    public int name() { return R.string.event_calendar; }
+    public int name() {
+        return R.string.event_calendar; }
 
     @Override
     public boolean isCompatible(@NonNull final Context context) {
@@ -54,12 +55,12 @@ public class CalendarConditionSkill implements ConditionSkill<CalendarConditionD
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.checkPermission(context, Manifest.permission.READ_CALENDAR);
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         SkillUtils.requestPermission(activity, requestCode, Manifest.permission.READ_CALENDAR);
     }
 
@@ -83,10 +84,10 @@ public class CalendarConditionSkill implements ConditionSkill<CalendarConditionD
 
     @NonNull
     @Override
-    public Tracker<CalendarConditionData> tracker(@NonNull Context context,
-                                                 @ValidData @NonNull CalendarConditionData data,
-                                                 @NonNull PendingIntent event_positive,
-                                                 @NonNull PendingIntent event_negative) {
+    public Tracker<CalendarConditionData> tracker(final @NonNull Context context,
+                                                 final @ValidData @NonNull CalendarConditionData data,
+                                                 final @NonNull PendingIntent event_positive,
+                                                 final @NonNull PendingIntent event_negative) {
         return new CalendarTracker(context, data, event_positive, event_negative);
     }
 

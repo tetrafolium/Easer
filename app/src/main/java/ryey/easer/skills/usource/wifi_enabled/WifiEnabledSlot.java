@@ -33,7 +33,7 @@ public class WifiEnabledSlot extends AbstractSlot<WifiEnabledUSourceData> {
 
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(intent.getAction())) {
                 int extraWifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, WifiManager.WIFI_STATE_UNKNOWN);
 
@@ -51,11 +51,11 @@ public class WifiEnabledSlot extends AbstractSlot<WifiEnabledUSourceData> {
     };
     private final IntentFilter intentFilter = new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION);
 
-    WifiEnabledSlot(@NonNull Context context, @NonNull WifiEnabledUSourceData data) {
+    WifiEnabledSlot(final @NonNull Context context, final @NonNull WifiEnabledUSourceData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    public WifiEnabledSlot(@NonNull Context context, @NonNull WifiEnabledUSourceData data, boolean retriggerable, boolean persistent) {
+    public WifiEnabledSlot(final @NonNull Context context, final @NonNull WifiEnabledUSourceData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
     }
 

@@ -42,7 +42,7 @@ public class InterruptionFilterSwitcherService extends NotificationListenerServi
     private final IntentFilter mFilter = new IntentFilter(ACTION_CHANGE);
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             String action = intent.getAction();
             if (action == null || !action.equals(ACTION_CHANGE))
                 throw new IllegalAccessError();
@@ -52,7 +52,7 @@ public class InterruptionFilterSwitcherService extends NotificationListenerServi
         }
     };
 
-    static void setInterruptionFilter(Context context, int mode) {
+    static void setInterruptionFilter(final Context context, final int mode) {
         Intent intent = new Intent(ACTION_CHANGE);
         intent.putExtra(EXTRA_MODE, mode);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);

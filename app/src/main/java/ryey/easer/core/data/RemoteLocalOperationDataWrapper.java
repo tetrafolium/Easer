@@ -27,12 +27,12 @@ public class RemoteLocalOperationDataWrapper {
     public final OperationData localData;
     public final RemoteOperationData remoteData;
 
-    public RemoteLocalOperationDataWrapper(OperationData localData) {
+    public RemoteLocalOperationDataWrapper(final OperationData localData) {
         this.localData = localData;
         this.remoteData = null;
     }
 
-    public RemoteLocalOperationDataWrapper(RemoteOperationData remoteData) {
+    public RemoteLocalOperationDataWrapper(final RemoteOperationData remoteData) {
         this.remoteData = remoteData;
         this.localData = null;
     }

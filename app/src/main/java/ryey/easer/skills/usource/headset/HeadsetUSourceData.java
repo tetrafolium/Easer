@@ -62,12 +62,12 @@ public class HeadsetUSourceData implements USourceData {
     final HeadsetState hs_state;
     final HeadsetType hs_type;
 
-    HeadsetUSourceData(@NonNull HeadsetState hs_state, @NonNull HeadsetType hs_type) {
+    HeadsetUSourceData(final @NonNull HeadsetState hs_state, final @NonNull HeadsetType hs_type) {
         this.hs_state = hs_state;
         this.hs_type = hs_type;
     }
 
-    HeadsetUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    HeadsetUSourceData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
             default:
                 String name;
@@ -86,7 +86,7 @@ public class HeadsetUSourceData implements USourceData {
     }
 
     @NonNull
-    private static HeadsetState getHSState(JSONObject jsonObject, int version) throws JSONException {
+    private static HeadsetState getHSState(final JSONObject jsonObject, final int version) throws JSONException {
         String name;
         HeadsetState hs_state;
         if (version < C.VERSION_UNIFORMED_SOURCE) {
@@ -133,7 +133,7 @@ public class HeadsetUSourceData implements USourceData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null || !(obj instanceof HeadsetUSourceData))
             return false;
         if (!Utils.nullableEqual(hs_state, ((HeadsetUSourceData) obj).hs_state))
@@ -145,7 +145,7 @@ public class HeadsetUSourceData implements USourceData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
             default:
@@ -172,23 +172,23 @@ public class HeadsetUSourceData implements USourceData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeSerializable(hs_state);
         dest.writeSerializable(hs_type);
     }
 
     public static final Creator<HeadsetUSourceData> CREATOR
             = new Creator<HeadsetUSourceData>() {
-        public HeadsetUSourceData createFromParcel(Parcel in) {
+        public HeadsetUSourceData createFromParcel(final Parcel in) {
             return new HeadsetUSourceData(in);
         }
 
-        public HeadsetUSourceData[] newArray(int size) {
+        public HeadsetUSourceData[] newArray(final int size) {
             return new HeadsetUSourceData[size];
         }
     };
 
-    private HeadsetUSourceData(Parcel in) {
+    private HeadsetUSourceData(final Parcel in) {
         hs_state = (HeadsetState) in.readSerializable();
         hs_type = (HeadsetType) in.readSerializable();
     }

@@ -45,7 +45,7 @@ class PowerUSourceDataFactory implements USourceDataFactory<PowerUSourceData> {
     @ValidData
     @NonNull
     @Override
-    public PowerUSourceData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public PowerUSourceData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new PowerUSourceData(data, format, version);
     }
 }

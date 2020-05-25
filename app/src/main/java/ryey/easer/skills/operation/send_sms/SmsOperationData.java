@@ -46,16 +46,16 @@ public class SmsOperationData implements OperationData {
     String destination;
     String content;
 
-    SmsOperationData(String destination, String content) {
+    SmsOperationData(final String destination, final String content) {
         this.destination = destination;
         this.content = content;
     }
 
-    SmsOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    SmsOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         parse(data, format, version);
     }
 
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         try {
             JSONObject jsonObject = new JSONObject(data);
             destination = jsonObject.getString(K_DEST);
@@ -68,7 +68,7 @@ public class SmsOperationData implements OperationData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
             default:
@@ -99,7 +99,7 @@ public class SmsOperationData implements OperationData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (!(obj instanceof SmsOperationData))
@@ -117,23 +117,23 @@ public class SmsOperationData implements OperationData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeString(destination);
         dest.writeString(content);
     }
 
     public static final Parcelable.Creator<SmsOperationData> CREATOR
             = new Parcelable.Creator<SmsOperationData>() {
-        public SmsOperationData createFromParcel(Parcel in) {
+        public SmsOperationData createFromParcel(final Parcel in) {
             return new SmsOperationData(in);
         }
 
-        public SmsOperationData[] newArray(int size) {
+        public SmsOperationData[] newArray(final int size) {
             return new SmsOperationData[size];
         }
     };
 
-    private SmsOperationData(Parcel in) {
+    private SmsOperationData(final Parcel in) {
         destination = in.readString();
         content = in.readString();
     }
@@ -146,7 +146,7 @@ public class SmsOperationData implements OperationData {
 
     @NonNull
     @Override
-    public OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment) {
+    public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
         String new_content = Utils.applyDynamics(content, dynamicsAssignment);
         return new SmsOperationData(destination, new_content);
     }

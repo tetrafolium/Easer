@@ -46,17 +46,17 @@ public class StateControlOperationData implements OperationData {
     public final String scriptName;
     final boolean newStatus;
 
-    public StateControlOperationData(StateControlOperationData ref, String scriptName) {
+    public StateControlOperationData(final StateControlOperationData ref, final String scriptName) {
         this.scriptName = scriptName;
         newStatus = ref.newStatus;
     }
 
-    StateControlOperationData(String scriptName, boolean newStatus) {
+    StateControlOperationData(final String scriptName, final boolean newStatus) {
         this.scriptName = scriptName;
         this.newStatus = newStatus;
     }
 
-    StateControlOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    StateControlOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
             default:
                 try {
@@ -75,7 +75,7 @@ public class StateControlOperationData implements OperationData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
             default:
@@ -92,7 +92,7 @@ public class StateControlOperationData implements OperationData {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null)
             return false;
         if (!(obj instanceof StateControlOperationData))
@@ -112,7 +112,7 @@ public class StateControlOperationData implements OperationData {
     }
 
     @SuppressWarnings("RedundantIfStatement")
-    public boolean isValid(Context context) {
+    public boolean isValid(final Context context) {
         if (!isValid())
             return false;
         ScriptDataStorage dataStorage = new ScriptDataStorage(context);
@@ -127,23 +127,23 @@ public class StateControlOperationData implements OperationData {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
+    public void writeToParcel(final Parcel parcel, final int i) {
         parcel.writeString(scriptName);
         parcel.writeByte((byte) (newStatus ? 1 : 0));
     }
 
     public static final Creator<StateControlOperationData> CREATOR
             = new Creator<StateControlOperationData>() {
-        public StateControlOperationData createFromParcel(Parcel in) {
+        public StateControlOperationData createFromParcel(final Parcel in) {
             return new StateControlOperationData(in);
         }
 
-        public StateControlOperationData[] newArray(int size) {
+        public StateControlOperationData[] newArray(final int size) {
             return new StateControlOperationData[size];
         }
     };
 
-    private StateControlOperationData(Parcel in) {
+    private StateControlOperationData(final Parcel in) {
         scriptName = in.readString();
         newStatus = in.readByte() != 0;
     }
@@ -156,7 +156,7 @@ public class StateControlOperationData implements OperationData {
 
     @NonNull
     @Override
-    public OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment) {
+    public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
         return this;
     }
 }

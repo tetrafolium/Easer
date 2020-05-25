@@ -79,7 +79,7 @@ public class EHService extends Service {
     private final AsyncHelper.DelayedLoadProfileJobs jobLP = new AsyncHelper.DelayedLoadProfileJobs();
     private final ServiceConnection connection = new ServiceConnection() {
         @Override
-        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+        public void onServiceConnected(final ComponentName componentName, final IBinder iBinder) {
             Logger.v("%s onServiceConnected: %s", TAG, componentName);
             if (componentName.getClassName().equals(ConditionHolderService.class.getName())) {
                 jobCH.onBind((ConditionHolderService.CHBinder) iBinder);
@@ -93,7 +93,7 @@ public class EHService extends Service {
         }
 
         @Override
-        public void onServiceDisconnected(ComponentName componentName) {
+        public void onServiceDisconnected(final ComponentName componentName) {
             Logger.v("%s onServiceDisconnected: %s", TAG, componentName);
             if (componentName.getClassName().equals(ConditionHolderService.class.getName())) {
                 jobCH.onUnbind();
@@ -104,16 +104,16 @@ public class EHService extends Service {
     };
 
     private final CoreSkillHelper coreSkillHelper = new CoreSkillHelper(this);
-    public static void registerConditionEventNotifier(@NonNull Context context, @NonNull String conditionName, @NonNull Uri notifyData) {
+    public static void registerConditionEventNotifier(final @NonNull Context context, final @NonNull String conditionName, final @NonNull Uri notifyData) {
         CoreSkillHelper.registerConditionEventNotifier(context, conditionName, notifyData);
     }
-    public static void unregisterConditionEventNotifier(@NonNull Context context, @NonNull String conditionName, @NonNull Uri notifyData) {
+    public static void unregisterConditionEventNotifier(final @NonNull Context context, final @NonNull String conditionName, final @NonNull Uri notifyData) {
         CoreSkillHelper.unregisterConditionEventNotifier(context, conditionName, notifyData);
     }
 
     final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             String action = intent.getAction();
             Logger.d("Broadcast received :: action: <%s>", action);
             if (ACTION_RELOAD.equals(action)) {
@@ -128,17 +128,17 @@ public class EHService extends Service {
         return running;
     }
 
-    public static void start(Context context) {
+    public static void start(final Context context) {
         Intent intent = new Intent(context, EHService.class);
         ContextCompat.startForegroundService(context, intent);
     }
 
-    public static void stop(Context context) {
+    public static void stop(final Context context) {
         Intent intent = new Intent(context, EHService.class);
         context.stopService(intent);
     }
 
-    public static void reload(Context context) {
+    public static void reload(final Context context) {
         Intent intent = new Intent();
         intent.setAction(EHService.ACTION_RELOAD);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
@@ -218,7 +218,7 @@ public class EHService extends Service {
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(final Intent intent) {
         return new EHBinder();
     }
 
@@ -230,7 +230,7 @@ public class EHService extends Service {
          * @param status currently {@code false} only
          * @return {@code true} if this event is listening; {@code false} otherwise
          */
-        public boolean setLotusStatus(String eventName, boolean status) {
+        public boolean setLotusStatus(final String eventName, final boolean status) {
             for (Lotus lotus : mLotusArray) {
                 if (setLotusStatus_real(lotus, eventName, status))
                     return true;
@@ -238,7 +238,7 @@ public class EHService extends Service {
             return false;
         }
 
-        private boolean setLotusStatus_real(Lotus lotus, String eventName, boolean status) {
+        private boolean setLotusStatus_real(final Lotus lotus, final String eventName, final boolean status) {
             if (lotus.scriptName().equals(eventName)) {
                 lotus.setStatus(status);
                 return true;
@@ -276,13 +276,13 @@ public class EHService extends Service {
             filter_conditionEvent.addAction(ACTION_UNREGISTER_CONDITION_EVENT);
         }
 
-        public static void registerConditionEventNotifier(@NonNull Context context, @NonNull String conditionName, @NonNull Uri notifyData) {
+        public static void registerConditionEventNotifier(final @NonNull Context context, final @NonNull String conditionName, final @NonNull Uri notifyData) {
             Intent intent = new Intent(ACTION_REGISTER_CONDITION_EVENT);
             intent.putExtra(EXTRA_CONDITION_NAME, conditionName);
             intent.putExtra(EXTRA_NOTIFY_DATA, notifyData);
             LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
         }
-        public static void unregisterConditionEventNotifier(@NonNull Context context, @NonNull String conditionName, @NonNull Uri notifyData) {
+        public static void unregisterConditionEventNotifier(final @NonNull Context context, final @NonNull String conditionName, final @NonNull Uri notifyData) {
             Intent intent = new Intent(ACTION_UNREGISTER_CONDITION_EVENT);
             intent.putExtra(EXTRA_CONDITION_NAME, conditionName);
             intent.putExtra(EXTRA_NOTIFY_DATA, notifyData);
@@ -294,7 +294,7 @@ public class EHService extends Service {
          */
         final BroadcastReceiver mReceiver = new BroadcastReceiver() {
             @Override
-            public void onReceive(Context context, Intent intent) {
+            public void onReceive(final Context context, final Intent intent) {
                 String action = intent.getAction();
                 Logger.d("Broadcast received :: action: <%s>", action);
                 if (ACTION_REGISTER_CONDITION_EVENT.equals(intent.getAction()) || ACTION_UNREGISTER_CONDITION_EVENT.equals(intent.getAction())) {
@@ -310,7 +310,7 @@ public class EHService extends Service {
 
         private final EHService service;
 
-        private CoreSkillHelper(EHService service) {
+        private CoreSkillHelper(final EHService service) {
             this.service = service;
         }
 
@@ -339,18 +339,18 @@ public class EHService extends Service {
              */
             final BroadcastReceiver widgetBroadcastReceiver = new BroadcastReceiver() {
                 @Override
-                public void onReceive(Context context, Intent intent) {
+                public void onReceive(final Context context, final Intent intent) {
                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                 }
             };
 
-            void start(Context context) {
+            void start(final Context context) {
                 IntentFilter intentFilter = new IntentFilter();
                 intentFilter.addAction(UserActionWidget.Companion.getACTION_WIDGET_CLICKED());
                 context.registerReceiver(widgetBroadcastReceiver, intentFilter);
             }
 
-            void stop(Context context) {
+            void stop(final Context context) {
                 context.unregisterReceiver(widgetBroadcastReceiver);
             }
         }

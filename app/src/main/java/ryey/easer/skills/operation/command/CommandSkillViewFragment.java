@@ -38,14 +38,14 @@ public class CommandSkillViewFragment extends SkillViewFragment<CommandOperation
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_operation__command, container, false);
         editText_command = view.findViewById(R.id.command);
         return view;
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull CommandOperationData data) {
+    protected void _fill(final @ValidData @NonNull CommandOperationData data) {
         String command = data.get();
         editText_command.setText(command);
     }

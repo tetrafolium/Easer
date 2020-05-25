@@ -31,9 +31,9 @@ enum RingerMode {
     dnd_priority,
     dnd_none,
     dnd_alarms,
-    ;
+;
 
-    static RingerMode compatible(RingerMode mode) {
+    static RingerMode compatible(final RingerMode mode) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             switch (mode) {
                 case dnd_all:

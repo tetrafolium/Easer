@@ -83,7 +83,7 @@ public class ListDynamicsActivity extends CommonBaseActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_dynamics);
         setFinishOnTouchOutside(true);
@@ -124,7 +124,7 @@ public class ListDynamicsActivity extends CommonBaseActivity {
         Button button_add = findViewById(R.id.button);
         button_add.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 Intent intent = new Intent(ListDynamicsActivity.this, EditDynamicsActivity.class);
                 ArrayList<String> availablePlaceholders = new ArrayList<>(placeholders.size());
                 availablePlaceholders.addAll(placeholders);
@@ -142,7 +142,7 @@ public class ListDynamicsActivity extends CommonBaseActivity {
         Button button_ok = findViewById(R.id.btn_ok);
         button_ok.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 DynamicsLink link = new DynamicsLink();
                 for (LinkItem item : dynamicsLinkList) {
                     link.put(item.placeholder, item.propertyId);
@@ -156,7 +156,7 @@ public class ListDynamicsActivity extends CommonBaseActivity {
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(final ContextMenu menu, final View v, final ContextMenu.ContextMenuInfo menuInfo) {
         if (v == listView) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.list_context, menu);
@@ -165,7 +165,7 @@ public class ListDynamicsActivity extends CommonBaseActivity {
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(final MenuItem item) {
         final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         LinkItem linkItem = (LinkItem) listView.getItemAtPosition(info.position);
         int id = item.getItemId();
@@ -175,13 +175,13 @@ public class ListDynamicsActivity extends CommonBaseActivity {
                         .setMessage(String.format(getString(R.string.prompt_delete), linkItem.placeholder))
                         .setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                            public void onClick(final DialogInterface dialogInterface, final int i) {
                                 dialogInterface.cancel();
                             }
                         })
                         .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                            public void onClick(final DialogInterface dialogInterface, final int i) {
                                 dynamicsLinkList.remove(info.position);
                                 adapter.notifyDataSetChanged();
                                 dialogInterface.dismiss();
@@ -194,7 +194,7 @@ public class ListDynamicsActivity extends CommonBaseActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (requestCode == REQ_CODE) {
             if (resultCode == RESULT_OK) {
                 LinkItem linkItem = data.getParcelableExtra(EditDynamicsActivity.EXTRA_LINK_ITEM);
@@ -210,13 +210,13 @@ public class ListDynamicsActivity extends CommonBaseActivity {
         @NonNull final String propertyId;
         @Nullable final String propertyName;
 
-        LinkItem(@NonNull String placeholder, @NonNull String propertyId, @Nullable String propertyName) {
+        LinkItem(final @NonNull String placeholder, final @NonNull String propertyId, final @Nullable String propertyName) {
             this.placeholder = placeholder;
             this.propertyId = propertyId;
             this.propertyName = propertyName;
         }
 
-        LinkItem(Parcel in) {
+        LinkItem(final Parcel in) {
             placeholder = in.readString();
             propertyId = in.readString();
             propertyName = in.readString();
@@ -224,12 +224,12 @@ public class ListDynamicsActivity extends CommonBaseActivity {
 
         public static final Creator<LinkItem> CREATOR = new Creator<LinkItem>() {
             @Override
-            public LinkItem createFromParcel(Parcel in) {
+            public LinkItem createFromParcel(final Parcel in) {
                 return new LinkItem(in);
             }
 
             @Override
-            public LinkItem[] newArray(int size) {
+            public LinkItem[] newArray(final int size) {
                 return new LinkItem[size];
             }
         };
@@ -240,7 +240,7 @@ public class ListDynamicsActivity extends CommonBaseActivity {
         }
 
         @Override
-        public void writeToParcel(Parcel parcel, int i) {
+        public void writeToParcel(final Parcel parcel, final int i) {
             parcel.writeString(placeholder);
             parcel.writeString(propertyId);
             parcel.writeString(propertyName);
@@ -249,13 +249,13 @@ public class ListDynamicsActivity extends CommonBaseActivity {
 
     private static class DynamicsLinkAdapter extends ArrayAdapter<LinkItem> {
 
-        DynamicsLinkAdapter(@NonNull Context context, @NonNull List<LinkItem> objects) {
+        DynamicsLinkAdapter(final @NonNull Context context, final @NonNull List<LinkItem> objects) {
             super(context, R.layout.item_dynamics_link, objects);
         }
 
         @NonNull
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        public View getView(final int position, final @Nullable View convertView, final @NonNull ViewGroup parent) {
             View view = convertView;
             ViewHolder viewHolder;
             if (convertView == null) {
@@ -299,7 +299,7 @@ public class ListDynamicsActivity extends CommonBaseActivity {
         ArrayAdapter<DynamicsWrapper> adapter_dynamics;
 
         @Override
-        protected void onCreate(Bundle savedInstanceState) {
+        protected void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_edit_dynamics);
             spinner_placeholder = findViewById(R.id.spinner_placeholder);
@@ -329,7 +329,7 @@ public class ListDynamicsActivity extends CommonBaseActivity {
             Button button_ok = findViewById(R.id.btn_ok);
             button_ok.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(final View view) {
                     String placeholder = (String) spinner_placeholder.getSelectedItem();
                     if (placeholder == null) {
                         toastInvalid();
@@ -359,13 +359,13 @@ public class ListDynamicsActivity extends CommonBaseActivity {
             @Nullable
             public final String name;
 
-            DynamicsWrapper(@NonNull String id, @Nullable String name) {
+            DynamicsWrapper(final @NonNull String id, final @Nullable String name) {
                 this.id = id;
                 this.name = name;
             }
 
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (obj == this)
                     return true;
                 if (obj == null || !(obj instanceof DynamicsWrapper))

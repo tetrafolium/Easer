@@ -55,7 +55,7 @@ public class HttpRequestOperationData implements OperationData {
 
     @NonNull
     @Override
-    public OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment) {
+    public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
         return this;
     }
 
@@ -75,7 +75,7 @@ public class HttpRequestOperationData implements OperationData {
     @NonNull
     final String postData;
 
-    HttpRequestOperationData(@NotNull RequestMethod requestMethod, @NotNull String url, @NotNull String requestHeader, @NotNull String contentType, @NotNull String postData) {
+    HttpRequestOperationData(final @NotNull RequestMethod requestMethod, final @NotNull String url, final @NotNull String requestHeader, final @NotNull String contentType, final @NotNull String postData) {
         this.requestMethod = requestMethod;
         this.url = url;
         this.requestHeader = requestHeader;
@@ -83,7 +83,7 @@ public class HttpRequestOperationData implements OperationData {
         this.postData = postData;
     }
 
-    HttpRequestOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    HttpRequestOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
             default:
                 try {
@@ -102,7 +102,7 @@ public class HttpRequestOperationData implements OperationData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put(K_REQUEST_METHOD, requestMethod);
@@ -132,15 +132,15 @@ public class HttpRequestOperationData implements OperationData {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         HttpRequestOperationData that = (HttpRequestOperationData) o;
-        return requestMethod.equals(that.requestMethod) &&
-                url.equals(that.url) &&
-                requestHeader.equals(that.requestHeader) &&
-                contentType.equals(that.contentType) &&
-                postData.equals(that.postData);
+        return requestMethod.equals(that.requestMethod)
+                && url.equals(that.url)
+                && requestHeader.equals(that.requestHeader)
+                && contentType.equals(that.contentType)
+                && postData.equals(that.postData);
     }
 
     @Override
@@ -162,7 +162,7 @@ public class HttpRequestOperationData implements OperationData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeSerializable(requestMethod);
         dest.writeString(url);
         dest.writeString(requestHeader);
@@ -171,16 +171,16 @@ public class HttpRequestOperationData implements OperationData {
     }
 
     public static final Creator<HttpRequestOperationData> CREATOR = new Creator<HttpRequestOperationData>() {
-        public HttpRequestOperationData createFromParcel(Parcel in) {
+        public HttpRequestOperationData createFromParcel(final Parcel in) {
             return new HttpRequestOperationData(in);
         }
 
-        public HttpRequestOperationData[] newArray(int size) {
+        public HttpRequestOperationData[] newArray(final int size) {
             return new HttpRequestOperationData[size];
         }
     };
 
-    private HttpRequestOperationData(Parcel in) {
+    private HttpRequestOperationData(final Parcel in) {
         requestMethod = (RequestMethod) Objects.requireNonNull(in.readSerializable());
         url = Objects.requireNonNull(in.readString());
         requestHeader = Objects.requireNonNull(in.readString());

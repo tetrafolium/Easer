@@ -59,7 +59,7 @@ class BroadcastOperationDataFactory implements OperationDataFactory<BroadcastOpe
     @ValidData
     @NonNull
     @Override
-    public BroadcastOperationData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public BroadcastOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new BroadcastOperationData(data, format, version);
     }
 }

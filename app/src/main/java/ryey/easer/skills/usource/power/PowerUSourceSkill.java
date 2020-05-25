@@ -55,12 +55,12 @@ public class PowerUSourceSkill implements USourceSkill<PowerUSourceData> {
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return null;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
 
     }
 
@@ -83,17 +83,17 @@ public class PowerUSourceSkill implements USourceSkill<PowerUSourceData> {
     }
 
     @Override
-    public AbstractSlot<PowerUSourceData> slot(@NonNull Context context, @ValidData @NonNull PowerUSourceData data) {
+    public AbstractSlot<PowerUSourceData> slot(final @NonNull Context context, final @ValidData @NonNull PowerUSourceData data) {
         return new PowerSlot(context, data);
     }
 
     @Override
-    public AbstractSlot<PowerUSourceData> slot(@NonNull Context context, @NonNull PowerUSourceData data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot<PowerUSourceData> slot(final @NonNull Context context, final @NonNull PowerUSourceData data, final boolean retriggerable, final boolean persistent) {
         return new PowerSlot(context, data, retriggerable, persistent);
     }
 
     @Override
-    public Tracker<PowerUSourceData> tracker(@NonNull Context context, @NonNull PowerUSourceData data, @NonNull PendingIntent event_positive, @NonNull PendingIntent event_negative) {
+    public Tracker<PowerUSourceData> tracker(final @NonNull Context context, final @NonNull PowerUSourceData data, final @NonNull PendingIntent event_positive, final @NonNull PendingIntent event_negative) {
         return new PowerTracker(context, data, event_positive, event_negative);
     }
 

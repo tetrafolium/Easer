@@ -72,12 +72,12 @@ public class SendSmsOperationSkill implements OperationSkill<SmsOperationData> {
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.checkPermission(context, Manifest.permission.SEND_SMS);
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         SkillUtils.requestPermission(activity, requestCode, Manifest.permission.SEND_SMS);
     }
 
@@ -96,7 +96,7 @@ public class SendSmsOperationSkill implements OperationSkill<SmsOperationData> {
 
     @NonNull
     @Override
-    public OperationLoader<SmsOperationData> loader(@NonNull Context context) {
+    public OperationLoader<SmsOperationData> loader(final @NonNull Context context) {
         return new SmsLoader(context);
     }
 

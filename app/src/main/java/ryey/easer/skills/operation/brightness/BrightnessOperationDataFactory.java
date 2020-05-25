@@ -43,7 +43,7 @@ class BrightnessOperationDataFactory implements OperationDataFactory<BrightnessO
     @ValidData
     @NonNull
     @Override
-    public BrightnessOperationData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public BrightnessOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new BrightnessOperationData(data, format, version);
     }
 }

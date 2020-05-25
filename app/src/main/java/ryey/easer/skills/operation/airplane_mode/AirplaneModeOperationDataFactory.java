@@ -43,7 +43,7 @@ class AirplaneModeOperationDataFactory implements OperationDataFactory<AirplaneM
     @ValidData
     @NonNull
     @Override
-    public AirplaneModeOperationData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public AirplaneModeOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new AirplaneModeOperationData(data, format, version);
     }
 }

@@ -40,7 +40,7 @@ public class TcpTripSkillViewFragment extends SkillViewFragment<TcpTripEventData
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.plugin_event__tcp_trip, container, false);
 
         et_rAddr = v.findViewById(R.id.editText_rAddr);
@@ -51,7 +51,7 @@ public class TcpTripSkillViewFragment extends SkillViewFragment<TcpTripEventData
 
         b_check_reply.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean newState) {
+            public void onCheckedChanged(final CompoundButton compoundButton, final boolean newState) {
                 et_reply_data.setEnabled(newState);
             }
         });
@@ -63,7 +63,7 @@ public class TcpTripSkillViewFragment extends SkillViewFragment<TcpTripEventData
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull TcpTripEventData data) {
+    protected void _fill(final @ValidData @NonNull TcpTripEventData data) {
         et_rAddr.setText(data.rAddr);
         et_rPort.setText(String.valueOf(data.rPort));
         et_send_data.setText(data.send_data);

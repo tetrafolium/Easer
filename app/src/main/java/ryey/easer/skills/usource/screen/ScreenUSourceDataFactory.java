@@ -43,7 +43,7 @@ class ScreenUSourceDataFactory implements USourceDataFactory<ScreenUSourceData> 
     @ValidData
     @NonNull
     @Override
-    public ScreenUSourceData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public ScreenUSourceData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new ScreenUSourceData(data, format, version);
     }
 }

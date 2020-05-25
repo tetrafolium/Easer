@@ -30,7 +30,7 @@ class HotspotHelper {
     private static HotspotHelper instance = null;
     private WifiManager wifiManager;
 
-    static synchronized HotspotHelper getInstance(Context context) {
+    static synchronized HotspotHelper getInstance(final Context context) {
         if (instance != null)
             return instance;
         instance = new HotspotHelper();
@@ -60,7 +60,7 @@ class HotspotHelper {
         return netConfig;
     }
 
-    boolean setApStatus(WifiConfiguration netConfig, boolean enable) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    boolean setApStatus(final WifiConfiguration netConfig, final boolean enable) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Method setWifiApMethod = wifiManager.getClass().getMethod("setWifiApEnabled", WifiConfiguration.class, boolean.class);
         boolean apStatus = (boolean) setWifiApMethod.invoke(wifiManager, netConfig, enable);
         return apStatus;

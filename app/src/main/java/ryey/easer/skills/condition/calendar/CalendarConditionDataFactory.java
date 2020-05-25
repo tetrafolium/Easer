@@ -46,7 +46,7 @@ class CalendarConditionDataFactory implements ConditionDataFactory<CalendarCondi
     @ValidData
     @NonNull
     @Override
-    public CalendarConditionData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public CalendarConditionData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new CalendarConditionData(data, format, version);
     }
 }

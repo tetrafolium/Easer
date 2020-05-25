@@ -63,12 +63,12 @@ public class MainActivity extends CommonBaseActivity
     private final LocaleHelperActivityDelegate localeDelegate = new LocaleHelperActivityDelegateImpl();
 
     @Override
-    protected void attachBaseContext(Context newBase) {
+    protected void attachBaseContext(final Context newBase) {
         super.attachBaseContext(localeDelegate.attachBaseContext(newBase));
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         localeDelegate.onCreate(this);
 
@@ -87,7 +87,7 @@ public class MainActivity extends CommonBaseActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             navigationView.setCheckedItem(R.id.nav_outline);
             Fragment fragment = new OutlineFragment();
             getSupportFragmentManager().beginTransaction()
@@ -131,7 +131,7 @@ public class MainActivity extends CommonBaseActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(final @NonNull MenuItem item) {
         int id = item.getItemId();
         changeUIView(id);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -139,7 +139,7 @@ public class MainActivity extends CommonBaseActivity
         return true;
     }
 
-    void changeUIView(@IdRes int id) {
+    void changeUIView(final @IdRes int id) {
         FragmentManager manager = getSupportFragmentManager();
         Fragment fragment;
         String tag = navTag.findTag(id);
@@ -202,14 +202,14 @@ public class MainActivity extends CommonBaseActivity
                 FRAGMENT_LOG,
         };
 
-        private @Nullable Integer findId(String tag) {
+        private @Nullable Integer findId(final String tag) {
             for (int i = 0; i < nav_ids.length; i++) {
                 if (tag.equals(fragment_tags[i]))
                     return nav_ids[i];
             }
             return null;
         }
-        private @Nullable String findTag(int id) {
+        private @Nullable String findTag(final int id) {
             for (int i = 0; i < fragment_tags.length; i++) {
                 if (id == nav_ids[i])
                     return fragment_tags[i];

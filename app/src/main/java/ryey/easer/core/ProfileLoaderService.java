@@ -61,7 +61,7 @@ public class ProfileLoaderService extends Service {
     private IntentFilter intentFilter = new IntentFilter(ACTION_LOAD_PROFILE);
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             final String action = intent.getAction();
             if (ACTION_LOAD_PROFILE.equals(action)) {
                 final String name = intent.getStringExtra(EXTRA_PROFILE_NAME);
@@ -95,18 +95,18 @@ public class ProfileLoaderService extends Service {
 
     @Nullable
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(final Intent intent) {
         return new PLSBinder();
     }
 
     public class PLSBinder extends Binder {
-        public void triggerProfile(String profileName) {
+        public void triggerProfile(final String profileName) {
             Bundle extras = new Bundle();
             extras.putString(ProfileLoaderService.EXTRA_PROFILE_NAME, profileName);
             handleActionLoadProfile(profileName, null, extras);
         }
-        public void triggerProfile(String profileName, String scriptName,
-                                          Bundle dynamicsProperties, DynamicsLink dynamicsLink) {
+        public void triggerProfile(final String profileName, final String scriptName,
+                                          final Bundle dynamicsProperties, final DynamicsLink dynamicsLink) {
             Bundle extras = new Bundle();
             extras.putString(ProfileLoaderService.EXTRA_PROFILE_NAME, profileName);
             extras.putString(ProfileLoaderService.EXTRA_SCRIPT_NAME, scriptName);
@@ -119,7 +119,7 @@ public class ProfileLoaderService extends Service {
         }
     }
 
-    private void handleActionLoadProfile(@NonNull String name, @Nullable String event, @NonNull Bundle extras) {
+    private void handleActionLoadProfile(final @NonNull String name, final @Nullable String event, final @NonNull Bundle extras) {
         Logger.d("Loading profile <%s> by <%s>", name, event);
         ProfileStructure profile;
         ProfileDataStorage storage = new ProfileDataStorage(this);
@@ -163,7 +163,7 @@ public class ProfileLoaderService extends Service {
         private final AtomicInteger taskCount = new AtomicInteger();
         private final AtomicInteger finishedCount = new AtomicInteger();
 
-        ProfileLoadWatcher(Context context, String name, String event) {
+        ProfileLoadWatcher(final Context context, final String name, final String event) {
             this.context = context;
             this.name = name;
             this.event = event;
@@ -187,7 +187,7 @@ public class ProfileLoaderService extends Service {
             }
         }
 
-        void addTaskCount(int count) {
+        void addTaskCount(final int count) {
             this.taskCount.addAndGet(count);
         }
 
@@ -225,7 +225,7 @@ public class ProfileLoaderService extends Service {
         }
 
         @Override
-        public void onResult(String skillId, Boolean success) {
+        public void onResult(final String skillId, final Boolean success) {
             if (success == null) {
                 unknownSkills.add(skillId);
             } else if (!success) {

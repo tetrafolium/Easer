@@ -81,7 +81,7 @@ public class ScriptTreeListFragment extends Fragment implements DataListInterfac
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == R.id.action_plain_list) {
             refContainer.get().switchContent(DataListContainerInterface.ListType.script);
             return true;
@@ -90,20 +90,20 @@ public class ScriptTreeListFragment extends Fragment implements DataListInterfac
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(final Context context) {
         super.onAttach(context);
         scriptDataStorage = new ScriptDataStorage(getContext());
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(final @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_script_tree_list, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView_script);
@@ -111,7 +111,7 @@ public class ScriptTreeListFragment extends Fragment implements DataListInterfac
         registerForContextMenu(recyclerView);
         recyclerView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override
-            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            public void onCreateContextMenu(final ContextMenu menu, final View v, final ContextMenu.ContextMenuInfo menuInfo) {
                 getActivity().getMenuInflater().inflate(R.menu.list_context, menu);
             }
         });
@@ -121,14 +121,14 @@ public class ScriptTreeListFragment extends Fragment implements DataListInterfac
         recyclerView.setAdapter(adapter);
         adapter.setOnLongItemClickListener(new TreeViewAdapterWithContextMenu.onLongItemClickListener() {
             @Override
-            public void ItemLongClicked(View v, EventItem eventItem) {
+            public void ItemLongClicked(final View v, final EventItem eventItem) {
                 mCurrentEventItem = eventItem;
                 v.showContextMenu();
             }
         });
         adapter.setOnTreeNodeListener(new TreeViewAdapter.OnTreeNodeListener() {
             @Override
-            public boolean onClick(TreeNode treeNode, RecyclerView.ViewHolder viewHolder) {
+            public boolean onClick(final TreeNode treeNode, final RecyclerView.ViewHolder viewHolder) {
                 if (!treeNode.isLeaf()) {
                     onToggle(!treeNode.isExpand(), viewHolder);
                 }
@@ -136,7 +136,7 @@ public class ScriptTreeListFragment extends Fragment implements DataListInterfac
             }
 
             @Override
-            public void onToggle(boolean isExpand, RecyclerView.ViewHolder viewHolder) {
+            public void onToggle(final boolean isExpand, final RecyclerView.ViewHolder viewHolder) {
                 TreeViewAdapterWithContextMenu.ViewHolder eventViewHolder = (TreeViewAdapterWithContextMenu.ViewHolder) viewHolder;
                 int rotateDegree = isExpand ? 90 : -90;
                 eventViewHolder.ivArrow
@@ -170,7 +170,7 @@ public class ScriptTreeListFragment extends Fragment implements DataListInterfac
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(final MenuItem item) {
         String name = mCurrentEventItem.eventName;
         int id = item.getItemId();
         switch (id) {
@@ -184,11 +184,11 @@ public class ScriptTreeListFragment extends Fragment implements DataListInterfac
         return super.onContextItemSelected(item);
     }
 
-    private static List<TreeNode> convertScriptTreeToView(List<ScriptTree> scriptTrees) {
+    private static List<TreeNode> convertScriptTreeToView(final List<ScriptTree> scriptTrees) {
         return convertScriptTreeToView(scriptTrees, new ArrayList<TreeNode>(), null);
     }
 
-    private static List<TreeNode> convertScriptTreeToView(List<ScriptTree> scriptTrees, List<TreeNode> nodes, TreeNode parent) {
+    private static List<TreeNode> convertScriptTreeToView(final List<ScriptTree> scriptTrees, final List<TreeNode> nodes, final TreeNode parent) {
         for (ScriptTree scriptTree : scriptTrees) {
             EventItem item = new EventItem(scriptTree.getName(), scriptTree.isActive(), scriptTree.getData().isValid());
             TreeNode<EventItem> node = new TreeNode<>(item);
@@ -201,7 +201,7 @@ public class ScriptTreeListFragment extends Fragment implements DataListInterfac
     }
 
     @Override
-    public void registerContainer(@NonNull DataListContainerInterface container) {
+    public void registerContainer(final @NonNull DataListContainerInterface container) {
         this.refContainer = new WeakReference<>(container);
     }
 
@@ -211,7 +211,7 @@ public class ScriptTreeListFragment extends Fragment implements DataListInterfac
     }
 
     @Override
-    public void onEditDataResultCallback(boolean success) {
+    public void onEditDataResultCallback(final boolean success) {
         if (success) {
             onDataChangedFromEditDataActivity();
         }

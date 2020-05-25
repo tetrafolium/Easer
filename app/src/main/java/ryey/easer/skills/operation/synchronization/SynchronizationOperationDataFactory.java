@@ -43,7 +43,7 @@ class SynchronizationOperationDataFactory implements OperationDataFactory<Synchr
     @ValidData
     @NonNull
     @Override
-    public SynchronizationOperationData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public SynchronizationOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new SynchronizationOperationData(data, format, version);
     }
 }

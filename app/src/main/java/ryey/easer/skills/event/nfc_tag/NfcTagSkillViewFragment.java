@@ -46,7 +46,7 @@ public class NfcTagSkillViewFragment extends SkillViewFragment<NfcTagEventData> 
     private EditText editText;
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (requestCode == REQCODE_WAIT_FOR_TAG && resultCode == Activity.RESULT_OK) {
             Logger.d("got expected result. setting data");
             byte[] tag_id = data.getByteArrayExtra(WaitForNfcActivity.EXTRA_ID);
@@ -56,13 +56,13 @@ public class NfcTagSkillViewFragment extends SkillViewFragment<NfcTagEventData> 
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_event__nfc_tag, container, false);
 
         editText = view.findViewById(R.id.editText_tag_id);
         view.findViewById(R.id.button_wait_for_device).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 enableWaiterActivity();
                 Intent intent = new Intent(getActivity(), WaitForNfcActivity.class);
                 startActivityForResult(intent, REQCODE_WAIT_FOR_TAG);
@@ -73,7 +73,7 @@ public class NfcTagSkillViewFragment extends SkillViewFragment<NfcTagEventData> 
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull NfcTagEventData data) {
+    protected void _fill(final @ValidData @NonNull NfcTagEventData data) {
         editText.setText(data.toString());
     }
 

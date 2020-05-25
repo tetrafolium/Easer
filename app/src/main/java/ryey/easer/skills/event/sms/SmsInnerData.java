@@ -33,7 +33,7 @@ class SmsInnerData implements Parcelable {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (!(obj instanceof SmsInnerData))
@@ -51,23 +51,23 @@ class SmsInnerData implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeString(sender);
         dest.writeString(content);
     }
 
     public static final Parcelable.Creator<SmsInnerData> CREATOR
             = new Parcelable.Creator<SmsInnerData>() {
-        public SmsInnerData createFromParcel(Parcel in) {
+        public SmsInnerData createFromParcel(final Parcel in) {
             return new SmsInnerData(in);
         }
 
-        public SmsInnerData[] newArray(int size) {
+        public SmsInnerData[] newArray(final int size) {
             return new SmsInnerData[size];
         }
     };
 
-    private SmsInnerData(Parcel in) {
+    private SmsInnerData(final Parcel in) {
         sender = in.readString();
         content = in.readString();
     }

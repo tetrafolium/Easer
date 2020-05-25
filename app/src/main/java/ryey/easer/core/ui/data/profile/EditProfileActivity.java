@@ -77,7 +77,7 @@ public class EditProfileActivity extends AbstractEditDataActivity<ProfileStructu
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         helper = new RemotePluginCommunicationHelper(this);
         helper.begin();
@@ -90,7 +90,7 @@ public class EditProfileActivity extends AbstractEditDataActivity<ProfileStructu
         operationSelectorFragment.setSelectedListener(this);
         findViewById(R.id.button_add_operation).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 operationSelectorFragment.show(getSupportFragmentManager(), "add_op");
             }
         });
@@ -110,7 +110,7 @@ public class EditProfileActivity extends AbstractEditDataActivity<ProfileStructu
     }
 
     @Override
-    protected void loadFromData(ProfileStructure profile) {
+    protected void loadFromData(final ProfileStructure profile) {
         editText_profile_name.setText(oldName);
 
         clearPluginView();
@@ -184,7 +184,7 @@ public class EditProfileActivity extends AbstractEditDataActivity<ProfileStructu
         transaction.commit();
     }
 
-    synchronized <T extends OperationData> void addAndFillLocalPluginView(OperationSkill<T> plugin, T data) {
+    synchronized <T extends OperationData> void addAndFillLocalPluginView(final OperationSkill<T> plugin, final T data) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         OperationSkillViewContainerFragment<T> fragment = OperationSkillViewContainerFragment.createInstance(plugin);
         transaction.add(R.id.layout_profiles, fragment, plugin.id());
@@ -194,7 +194,7 @@ public class EditProfileActivity extends AbstractEditDataActivity<ProfileStructu
         fragment.fill(data);
     }
 
-    synchronized void addAndFillRemotePluginView(@NonNull String id, @Nullable RemoteOperationData data) {
+    synchronized void addAndFillRemotePluginView(final @NonNull String id, final @Nullable RemoteOperationData data) {
         RemoteOperationSkillViewContainerFragment fragment = RemoteOperationSkillViewContainerFragment.createInstance(id, data);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.layout_profiles, fragment);
@@ -218,7 +218,7 @@ public class EditProfileActivity extends AbstractEditDataActivity<ProfileStructu
 //    }
 
     @Override
-    public void onSelected(OperationSelectorFragment.OperationPluginItemWrapper operationPluginItemWrapper) {
+    public void onSelected(final OperationSelectorFragment.OperationPluginItemWrapper operationPluginItemWrapper) {
         if (!operationPluginItemWrapper.isRemote()) {
             addAndFillLocalPluginView(operationPluginItemWrapper.plugin, null);
         } else {

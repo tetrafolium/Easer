@@ -41,9 +41,9 @@ public class NfcTagEventData extends AbstractEventData {
 
     byte[] id;
 
-    static String byteArray2hexString(byte[] bytes) {
+    static String byteArray2hexString(final byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
-        for ( int j = 0; j < bytes.length; j++ ) {
+        for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
             hexChars[j * 2] = Character.forDigit(v >>> 4, 16);
             hexChars[j * 2 + 1] = Character.forDigit(v & 0x0F, 16);
@@ -51,23 +51,23 @@ public class NfcTagEventData extends AbstractEventData {
         return new String(hexChars);
     }
 
-    static byte[] hexString2byteArray(String s) {
+    static byte[] hexString2byteArray(final String s) {
         int len = s.length();
         byte[] data = new byte[len / 2];
         for (int i = 0; i < len; i += 2) {
             data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
-                    + Character.digit(s.charAt(i+1), 16));
+                    + Character.digit(s.charAt(i + 1), 16));
         }
         return data;
     }
 
-    NfcTagEventData() {}
+    NfcTagEventData() { }
 
-    NfcTagEventData(String id_str) {
+    NfcTagEventData(final String id_str) {
         id = hexString2byteArray(id_str);
     }
 
-    NfcTagEventData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    NfcTagEventData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         parse(data, format, version);
     }
 
@@ -92,13 +92,13 @@ public class NfcTagEventData extends AbstractEventData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null || !(obj instanceof NfcTagEventData))
             return false;
         return Arrays.equals(id, ((NfcTagEventData) obj).id);
     }
 
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
             default:
                 try {
@@ -114,7 +114,7 @@ public class NfcTagEventData extends AbstractEventData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
             default:
@@ -136,23 +136,23 @@ public class NfcTagEventData extends AbstractEventData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeInt(id.length);
         dest.writeByteArray(id);
     }
 
     public static final Creator<NfcTagEventData> CREATOR
             = new Creator<NfcTagEventData>() {
-        public NfcTagEventData createFromParcel(Parcel in) {
+        public NfcTagEventData createFromParcel(final Parcel in) {
             return new NfcTagEventData(in);
         }
 
-        public NfcTagEventData[] newArray(int size) {
+        public NfcTagEventData[] newArray(final int size) {
             return new NfcTagEventData[size];
         }
     };
 
-    private NfcTagEventData(Parcel in) {
+    private NfcTagEventData(final Parcel in) {
         id = new byte[in.readInt()];
         in.readByteArray(id);
     }

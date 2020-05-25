@@ -42,11 +42,11 @@ public class DayOfWeekUSourceData implements USourceData {
     @NonNull
     final Set<Integer> days = new ArraySet<>(7);
 
-    DayOfWeekUSourceData(Set<Integer> days) {
+    DayOfWeekUSourceData(final Set<Integer> days) {
         this.days.addAll(days);
     }
 
-    DayOfWeekUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    DayOfWeekUSourceData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         parse(data, format, version);
     }
 
@@ -66,7 +66,7 @@ public class DayOfWeekUSourceData implements USourceData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (!(obj instanceof DayOfWeekUSourceData))
             return false;
         if (!days.equals(((DayOfWeekUSourceData) obj).days))
@@ -74,7 +74,7 @@ public class DayOfWeekUSourceData implements USourceData {
         return true;
     }
 
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         days.clear();
         switch (format) {
             default:
@@ -92,7 +92,7 @@ public class DayOfWeekUSourceData implements USourceData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
             default:
@@ -111,22 +111,22 @@ public class DayOfWeekUSourceData implements USourceData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeList(new ArrayList<>(days));
     }
 
     public static final Parcelable.Creator<DayOfWeekUSourceData> CREATOR
             = new Parcelable.Creator<DayOfWeekUSourceData>() {
-        public DayOfWeekUSourceData createFromParcel(Parcel in) {
+        public DayOfWeekUSourceData createFromParcel(final Parcel in) {
             return new DayOfWeekUSourceData(in);
         }
 
-        public DayOfWeekUSourceData[] newArray(int size) {
+        public DayOfWeekUSourceData[] newArray(final int size) {
             return new DayOfWeekUSourceData[size];
         }
     };
 
-    private DayOfWeekUSourceData(Parcel in) {
+    private DayOfWeekUSourceData(final Parcel in) {
         ArrayList<Integer> list = new ArrayList<>();
         in.readList(list, null);
         days.clear();

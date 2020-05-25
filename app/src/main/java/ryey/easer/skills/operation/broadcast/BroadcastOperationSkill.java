@@ -70,12 +70,12 @@ public class BroadcastOperationSkill implements OperationSkill<BroadcastOperatio
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return null;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
 
     }
 
@@ -94,7 +94,7 @@ public class BroadcastOperationSkill implements OperationSkill<BroadcastOperatio
 
     @NonNull
     @Override
-    public OperationLoader<BroadcastOperationData> loader(@NonNull Context context) {
+    public OperationLoader<BroadcastOperationData> loader(final @NonNull Context context) {
         return new BroadcastLoader(context);
     }
 

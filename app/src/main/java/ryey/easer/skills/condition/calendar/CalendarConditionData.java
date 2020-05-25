@@ -42,11 +42,11 @@ public class CalendarConditionData implements ConditionData {
 
     final CalendarData data;
 
-    CalendarConditionData(CalendarData data) {
+    CalendarConditionData(final CalendarData data) {
         this.data = data;
     }
 
-    CalendarConditionData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    CalendarConditionData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         long calendar_id = -1;
         CalendarConditionMatchType matchType = CalendarConditionMatchType.ANY;
         String matchPattern = "%";
@@ -66,7 +66,7 @@ public class CalendarConditionData implements ConditionData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
             default:
@@ -97,12 +97,12 @@ public class CalendarConditionData implements ConditionData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (obj == null || !(obj instanceof CalendarConditionData))
             return false;
-        if (!data.equals(((CalendarConditionData)obj).data))
+        if (!data.equals(((CalendarConditionData) obj).data))
             return false;
         return true;
     }
@@ -113,22 +113,22 @@ public class CalendarConditionData implements ConditionData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeValue(data);
     }
 
     public static final Creator<CalendarConditionData> CREATOR
             = new Creator<CalendarConditionData>() {
-        public CalendarConditionData createFromParcel(Parcel in) {
+        public CalendarConditionData createFromParcel(final Parcel in) {
             return new CalendarConditionData(in);
         }
 
-        public CalendarConditionData[] newArray(int size) {
+        public CalendarConditionData[] newArray(final int size) {
             return new CalendarConditionData[size];
         }
     };
 
-    private CalendarConditionData(Parcel in) {
+    private CalendarConditionData(final Parcel in) {
         data = (CalendarData) in.readValue(getClass().getClassLoader());
     }
 }

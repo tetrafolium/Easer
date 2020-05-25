@@ -41,7 +41,7 @@ import ryey.easer.core.data.WithCreatedVersion;
 
 public class StorageHelper {
 
-    private static boolean dirWithContent(File dir) {
+    private static boolean dirWithContent(final File dir) {
         if (dir.exists() && dir.isDirectory()) {
             if (dir.list().length > 0)
                 return true;
@@ -49,7 +49,7 @@ public class StorageHelper {
         return false;
     }
 
-    public static boolean hasOldData(Context context) {
+    public static boolean hasOldData(final Context context) {
         AbstractDataStorage<?, ?> []dataStorages = {
                 new ProfileDataStorage(context),
                 new ScriptDataStorage(context),
@@ -73,7 +73,7 @@ public class StorageHelper {
         return false;
     }
 
-    public static boolean convertToNewData(Context context) {
+    public static boolean convertToNewData(final Context context) {
         Toast.makeText(context, R.string.message_convert_data_start, Toast.LENGTH_SHORT).show();
 
         File dir_event = new File(context.getFilesDir(), "event");
@@ -88,7 +88,7 @@ public class StorageHelper {
             }
         }
         if (dirWithContent(dir_scenario) && dirWithContent(dir_script)) {
-            if (dir_event.exists() && ! dirWithContent(dir_event))
+            if (dir_event.exists() && !dirWithContent(dir_event))
                 if (!dir_event.delete()) {
                     Logger.e("Failed to delete empty directory \"event\".");
                     Toast.makeText(context, R.string.message_convert_data_abort, Toast.LENGTH_LONG).show();
@@ -128,7 +128,7 @@ public class StorageHelper {
         return true;
     }
 
-    private static <T extends Named & Verifiable & WithCreatedVersion> void _convert(AbstractDataStorage<T, ?> dataStorage) throws ConvertFailedException {
+    private static <T extends Named & Verifiable & WithCreatedVersion> void _convert(final AbstractDataStorage<T, ?> dataStorage) throws ConvertFailedException {
         for (String name : dataStorage.list()) {
             try {
                 dataStorage.edit(name, dataStorage.get(name));
@@ -138,14 +138,14 @@ public class StorageHelper {
         }
     }
 
-    static List<ScriptTree> eventListToTrees(List<ScriptStructure> events) {
+    static List<ScriptTree> eventListToTrees(final List<ScriptStructure> events) {
         Map<String, List<ScriptStructure>> eventIntermediateDataMap = scriptParentMap(events);
         // construct the forest from the map
         // assume no loops
         return mapToTreeList(eventIntermediateDataMap, null);
     }
 
-    static Map<String, List<ScriptStructure>> scriptParentMap(List<ScriptStructure> scripts) {
+    static Map<String, List<ScriptStructure>> scriptParentMap(final List<ScriptStructure> scripts) {
         Map<String, List<ScriptStructure>> scriptIntermediateDataMap = new HashMap<>();
         for (ScriptStructure script : scripts) {
             if (!scriptIntermediateDataMap.containsKey(script.getParentName())) {
@@ -156,7 +156,7 @@ public class StorageHelper {
         return scriptIntermediateDataMap;
     }
 
-    private static List<ScriptTree> mapToTreeList(Map<String, List<ScriptStructure>> eventIntermediateDataMap, String name) {
+    private static List<ScriptTree> mapToTreeList(final Map<String, List<ScriptStructure>> eventIntermediateDataMap, final String name) {
         List<ScriptTree> treeList = new LinkedList<>();
         List<ScriptStructure> scriptStructureList = eventIntermediateDataMap.get(name);
         if (scriptStructureList != null) {
@@ -174,7 +174,7 @@ public class StorageHelper {
 
     private static class ConvertFailedException extends IOException {
         private final String name;
-        private ConvertFailedException(IOException e, String name) {
+        private ConvertFailedException(final IOException e, final String name) {
             super(e);
             this.name = name;
         }

@@ -31,11 +31,11 @@ import ryey.easer.skills.event.SelfNotifiableSlot;
 
 public class NotificationSlot extends SelfNotifiableSlot<NotificationEventData> {
 
-    public NotificationSlot(Context context, NotificationEventData data) {
+    public NotificationSlot(final Context context, final NotificationEventData data) {
         this(context, data, true, PERSISTENT_DEFAULT);
     }
 
-    NotificationSlot(Context context, NotificationEventData data, boolean retriggerable, boolean persistent) {
+    NotificationSlot(final Context context, final NotificationEventData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
     }
 
@@ -52,13 +52,13 @@ public class NotificationSlot extends SelfNotifiableSlot<NotificationEventData> 
     }
 
     @Override
-    protected void onPositiveNotified(Intent intent) {
+    protected void onPositiveNotified(final Intent intent) {
         Logger.v("onPositiveNotified");
         changeSatisfiedState(true, intent.getExtras());
     }
 
     @Override
-    protected void onNegativeNotified(Intent intent) {
+    protected void onNegativeNotified(final Intent intent) {
         Logger.v("onNegativeNotified");
         changeSatisfiedState(false, intent.getExtras());
     }

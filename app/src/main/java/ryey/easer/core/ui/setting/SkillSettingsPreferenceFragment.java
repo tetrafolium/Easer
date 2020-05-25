@@ -50,7 +50,7 @@ public class SkillSettingsPreferenceFragment extends PreferenceFragment implemen
     RemotePluginCommunicationHelper helper;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(final @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.plugins_preference);
 
@@ -90,7 +90,7 @@ public class SkillSettingsPreferenceFragment extends PreferenceFragment implemen
     }
 
     @Override
-    public void onListObtained(Set<RemoteOperationPluginInfo> operationPluginInfos) {
+    public void onListObtained(final Set<RemoteOperationPluginInfo> operationPluginInfos) {
         PreferenceCategory preferenceCategory;
         preferenceCategory = (PreferenceCategory) getPreferenceScreen().findPreference(getString(R.string.key_pref_remote_operation_plugins));
         for (RemotePluginInfo pluginInfo : operationPluginInfos) {
@@ -99,7 +99,7 @@ public class SkillSettingsPreferenceFragment extends PreferenceFragment implemen
         }
     }
 
-    private static Set<String> getEventSkillsInUse(Context context) {
+    private static Set<String> getEventSkillsInUse(final Context context) {
         Set<String> skillSet = new ArraySet<>();
         EventDataStorage eventDataStorage = new EventDataStorage(context);
         for (String event : eventDataStorage.list()) {
@@ -110,7 +110,7 @@ public class SkillSettingsPreferenceFragment extends PreferenceFragment implemen
         return skillSet;
     }
 
-    private static Set<String> getConditionSkillsInUse(Context context) {
+    private static Set<String> getConditionSkillsInUse(final Context context) {
         Set<String> skillSet = new ArraySet<>();
         ConditionDataStorage conditionDataStorage = new ConditionDataStorage(context);
         for (String condition : conditionDataStorage.list()) {
@@ -121,7 +121,7 @@ public class SkillSettingsPreferenceFragment extends PreferenceFragment implemen
         return skillSet;
     }
 
-    private static Set<String> getOperationSkillsInUse(Context context) {
+    private static Set<String> getOperationSkillsInUse(final Context context) {
         Set<String> skillSet = new ArraySet<>();
         ProfileDataStorage profileDataStorage = new ProfileDataStorage(context);
         for (String profile : profileDataStorage.list()) {

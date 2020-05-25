@@ -55,12 +55,12 @@ public class TcpTripEventSkill implements EventSkill<TcpTripEventData> {
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.checkPermission(context, Manifest.permission.INTERNET);
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         SkillUtils.requestPermission(activity, requestCode, Manifest.permission.INTERNET);
     }
 
@@ -84,12 +84,12 @@ public class TcpTripEventSkill implements EventSkill<TcpTripEventData> {
     }
 
     @Override
-    public AbstractSlot<TcpTripEventData> slot(@NonNull Context context, @ValidData @NonNull TcpTripEventData data) {
+    public AbstractSlot<TcpTripEventData> slot(final @NonNull Context context, final @ValidData @NonNull TcpTripEventData data) {
         return new TcpTripSlot(context, data);
     }
 
     @Override
-    public AbstractSlot<TcpTripEventData> slot(@NonNull Context context, @NonNull TcpTripEventData data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot<TcpTripEventData> slot(final @NonNull Context context, final @NonNull TcpTripEventData data, final boolean retriggerable, final boolean persistent) {
         return new TcpTripSlot(context, data, retriggerable, persistent);
     }
 

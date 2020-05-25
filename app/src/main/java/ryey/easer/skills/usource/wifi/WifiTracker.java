@@ -38,7 +38,7 @@ public class WifiTracker extends SkeletonTracker<WifiUSourceData> {
 
     private final BroadcastReceiver connReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             String action = intent.getAction();
             if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(action)) {
                 NetworkInfo networkInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
@@ -84,9 +84,9 @@ public class WifiTracker extends SkeletonTracker<WifiUSourceData> {
         filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
     }
 
-    WifiTracker(Context context, WifiUSourceData data,
-                @NonNull PendingIntent event_positive,
-                @NonNull PendingIntent event_negative) {
+    WifiTracker(final Context context, final WifiUSourceData data,
+                final @NonNull PendingIntent event_positive,
+                final @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
 
         WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -110,7 +110,7 @@ public class WifiTracker extends SkeletonTracker<WifiUSourceData> {
         context.unregisterReceiver(connReceiver);
     }
 
-    private void compareAndSignal(@NonNull WifiInfo wifiInfo) {
+    private void compareAndSignal(final @NonNull WifiInfo wifiInfo) {
         boolean match = Utils.compare(data, wifiInfo);
         newSatisfiedState(match);
     }

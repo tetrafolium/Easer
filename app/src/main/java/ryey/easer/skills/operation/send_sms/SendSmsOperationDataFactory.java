@@ -45,7 +45,7 @@ class SendSmsOperationDataFactory implements OperationDataFactory<SmsOperationDa
     @ValidData
     @NonNull
     @Override
-    public SmsOperationData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public SmsOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new SmsOperationData(data, format, version);
     }
 }

@@ -72,13 +72,13 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
     private static final int PAGE_DEFAULT = -1;
     private static final int PAGE_SKILL = 1;
 
-    public static void callSkillSettings(Activity activity) {
+    public static void callSkillSettings(final Activity activity) {
         Intent intent = new Intent(activity, SettingsActivity.class);
         intent.putExtra(ARG_PAGE, PAGE_SKILL);
         activity.startActivity(intent);
     }
 
-    private static boolean hasPermission(Context context, String permission) {
+    private static boolean hasPermission(final Context context, final String permission) {
         if (ContextCompat.checkSelfPermission(context, permission)
                 != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(context, String.format(
@@ -90,7 +90,7 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.title_setting);
         Bundle args = getIntent().getExtras();
@@ -112,7 +112,7 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
@@ -122,7 +122,7 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
         if (key.equals(getString(R.string.key_pref_autostart))) {
             ComponentName componentName = new ComponentName(this, BootUpReceiver.class);
             PackageManager pm = getPackageManager();
@@ -159,7 +159,7 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
         }
     }
 
-    static void setSkillFragment(FragmentManager fragmentManager, boolean addToBackStack) {
+    static void setSkillFragment(final FragmentManager fragmentManager, final boolean addToBackStack) {
         SkillSettingsPreferenceFragment fragment = new SkillSettingsPreferenceFragment();
         FragmentTransaction transaction = fragmentManager.beginTransaction()
                 .replace(android.R.id.content, fragment);
@@ -180,7 +180,7 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
         private final static String FILETYPE_EXPORT_DATA = "application/zip";
 
         @Override
-        public void onCreate(@Nullable Bundle savedInstanceState) {
+        public void onCreate(final @Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
 
@@ -195,7 +195,7 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
 
             Preference pref_export = findPreference(getString(R.string.key_pref_export));
             pref_export.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
+                public boolean onPreferenceClick(final Preference preference) {
                     if (!hasPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                         ActivityCompat.requestPermissions(getActivity(),
                                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
@@ -218,7 +218,7 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
             Preference pref_import = findPreference(getString(R.string.key_pref_import));
             pref_import.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
-                public boolean onPreferenceClick(Preference preference) {
+                public boolean onPreferenceClick(final Preference preference) {
                     if (!hasPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                             ActivityCompat.requestPermissions(getActivity(),
@@ -238,7 +238,7 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
             Preference pref_logging = findPreference(getString(R.string.key_pref_logging));
             pref_logging.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                     if ((Boolean) newValue) {
                         if (!hasPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                             Logger.i("Permission <%s> not granted. Requesting...",
@@ -256,7 +256,7 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
             findPreference(getString(R.string.key_pref_cooldown))
                     .setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                         @Override
-                        public boolean onPreferenceChange(Preference preference, Object newValue) {
+                        public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                             if (BuildConfig.DEBUG && !(newValue instanceof String))
                                 throw new AssertionError();
                             String interval_str = (String) newValue;
@@ -277,7 +277,7 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
             findPreference(getString(R.string.key_pref_plugins))
                     .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
-                public boolean onPreferenceClick(Preference preference) {
+                public boolean onPreferenceClick(final Preference preference) {
                     setSkillFragment(getFragmentManager(), true);
                     return true;
                 }
@@ -286,7 +286,7 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
             findPreference(getString(R.string.key_pref_convert_data))
                     .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
-                public boolean onPreferenceClick(Preference preference) {
+                public boolean onPreferenceClick(final Preference preference) {
                     if (!StorageHelper.convertToNewData(getActivity())) {
                         Toast.makeText(getActivity(), R.string.message_convert_data_error, Toast.LENGTH_LONG).show();
                     }
@@ -303,7 +303,7 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
             ((ListPreference) findPreference(getString(R.string.key_pref_locale_lang)))
                     .setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                         @Override
-                        public boolean onPreferenceChange(Preference preference, Object newValue) {
+                        public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                             String locale_str = (String) newValue;
                             Locale locale;
                             if ("_".equals(locale_str)) {
@@ -342,7 +342,7 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
         }
 
         @Override
-        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
             if (resultCode == RESULT_OK) {
                 if (requestCode == REQCODE_PICK_FILE) {
                     Uri uri = data.getData();
@@ -372,7 +372,7 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
         }
 
         @Override
-        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        public void onRequestPermissionsResult(final int requestCode, final @NonNull String[] permissions, final @NonNull int[] grantResults) {
             switch (requestCode) {
                 case REQCODE_PERM_STORAGE:
                 case REQCODE_PERM_EXPORT:
@@ -397,7 +397,7 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
             return String.format("Easer.%s.zip", time_str);
         }
 
-        private static void export_data(Context context) {
+        private static void export_data(final Context context) {
             try {
                 File sdCard = Environment.getExternalStorageDirectory();
                 File dest = new File(sdCard, exportFileName());

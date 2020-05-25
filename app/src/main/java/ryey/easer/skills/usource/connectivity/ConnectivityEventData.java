@@ -41,15 +41,15 @@ public class ConnectivityEventData implements USourceData {
 
     Set<Integer> connectivity_type = new ArraySet<>();
 
-    public ConnectivityEventData(Set<Integer> connectivity_type) {
+    public ConnectivityEventData(final Set<Integer> connectivity_type) {
         this.connectivity_type = connectivity_type;
     }
 
-    ConnectivityEventData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    ConnectivityEventData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         parse(data, format, version);
     }
 
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         connectivity_type.clear();
         switch (format) {
             default:
@@ -67,7 +67,7 @@ public class ConnectivityEventData implements USourceData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
             default:
@@ -96,7 +96,7 @@ public class ConnectivityEventData implements USourceData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null || !(obj instanceof ConnectivityEventData))
             return false;
         if (!connectivity_type.equals(((ConnectivityEventData) obj).connectivity_type))
@@ -110,22 +110,22 @@ public class ConnectivityEventData implements USourceData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeList(new ArrayList<>(connectivity_type));
     }
 
     public static final Parcelable.Creator<ConnectivityEventData> CREATOR
             = new Parcelable.Creator<ConnectivityEventData>() {
-        public ConnectivityEventData createFromParcel(Parcel in) {
+        public ConnectivityEventData createFromParcel(final Parcel in) {
             return new ConnectivityEventData(in);
         }
 
-        public ConnectivityEventData[] newArray(int size) {
+        public ConnectivityEventData[] newArray(final int size) {
             return new ConnectivityEventData[size];
         }
     };
 
-    private ConnectivityEventData(Parcel in) {
+    private ConnectivityEventData(final Parcel in) {
         ArrayList<Integer> list = new ArrayList<>();
         in.readList(list, null);
         connectivity_type = new ArraySet<>(list);

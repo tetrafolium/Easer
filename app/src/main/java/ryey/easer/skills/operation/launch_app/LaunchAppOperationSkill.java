@@ -70,12 +70,12 @@ public class LaunchAppOperationSkill implements OperationSkill<LaunchAppOperatio
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return null;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
     }
 
     @NonNull
@@ -93,7 +93,7 @@ public class LaunchAppOperationSkill implements OperationSkill<LaunchAppOperatio
 
     @NonNull
     @Override
-    public OperationLoader<LaunchAppOperationData> loader(@NonNull Context context) {
+    public OperationLoader<LaunchAppOperationData> loader(final @NonNull Context context) {
         return new LaunchAppLoader(context);
     }
 

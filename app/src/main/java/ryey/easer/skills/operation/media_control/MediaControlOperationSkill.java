@@ -75,7 +75,7 @@ public class MediaControlOperationSkill implements OperationSkill<MediaControlOp
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return SkillUtils.isPermissionGrantedForNotificationListenerService(context, MediaControlHelperNotificationListenerService.class);
         } else {
@@ -84,7 +84,7 @@ public class MediaControlOperationSkill implements OperationSkill<MediaControlOp
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (!SkillUtils.isPermissionGrantedForNotificationListenerService(activity, MediaControlHelperNotificationListenerService.class)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -113,7 +113,7 @@ public class MediaControlOperationSkill implements OperationSkill<MediaControlOp
 
     @NonNull
     @Override
-    public OperationLoader<MediaControlOperationData> loader(@NonNull Context context) {
+    public OperationLoader<MediaControlOperationData> loader(final @NonNull Context context) {
         return new MediaControlLoader(context);
     }
 

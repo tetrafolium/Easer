@@ -41,7 +41,7 @@ class ScriptSerializer implements Serializer<ScriptStructure> {
      * {@inheritDoc}
      * This method assumes the scenario has already been serialized, so the name can uniquely identify a scenario
      */
-    public String serialize(ScriptStructure script) throws UnableToSerializeException {
+    public String serialize(final ScriptStructure script) throws UnableToSerializeException {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put(C.NAME, script.getName());
@@ -83,7 +83,7 @@ class ScriptSerializer implements Serializer<ScriptStructure> {
         }
     }
 
-    JSONObject serialize_scenario_trigger(EventStructure scenario) throws JSONException {
+    JSONObject serialize_scenario_trigger(final EventStructure scenario) throws JSONException {
         if (scenario.isTmpEvent())
             return serialize_event(scenario.getEventData());
         else {
@@ -94,21 +94,21 @@ class ScriptSerializer implements Serializer<ScriptStructure> {
         }
     }
 
-    JSONObject serialize_event(EventData event) throws JSONException {
+    JSONObject serialize_event(final EventData event) throws JSONException {
         JSONObject json_trigger_raw = new JSONObject();
         json_trigger_raw.put(C.TYPE, C.TriggerType.T_RAW);
         json_trigger_raw.put(C.SIT, serialize_situation(event));
         return json_trigger_raw;
     }
 
-    JSONObject serialize_situation(EventData event) throws JSONException {
+    JSONObject serialize_situation(final EventData event) throws JSONException {
         JSONObject json_situation = new JSONObject();
         json_situation.put(C.SPEC, LocalSkillRegistry.getInstance().event().findSkill(event).id());
         json_situation.put(C.DATA, event.serialize(PluginDataFormat.JSON));
         return json_situation;
     }
 
-    private JSONObject serialize_condition_trigger(ConditionStructure condition) throws JSONException {
+    private JSONObject serialize_condition_trigger(final ConditionStructure condition) throws JSONException {
         JSONObject json_trigger = new JSONObject();
         json_trigger.put(C.TYPE, C.TriggerType.T_CONDITION);
         json_trigger.put(C.CONDITION, condition.getName());

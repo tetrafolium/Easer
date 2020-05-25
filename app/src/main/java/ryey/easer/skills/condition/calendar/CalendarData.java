@@ -28,14 +28,14 @@ class CalendarData implements Parcelable {
     final String matchPattern;
     final boolean isAllDayEvent;
 
-    CalendarData(long calendar_id, CalendarConditionMatchType matchType, String matchPattern, boolean isAllDayEvent) {
+    CalendarData(final long calendar_id, final CalendarConditionMatchType matchType, final String matchPattern, final boolean isAllDayEvent) {
         this.calendar_id = calendar_id;
         this.matchType = matchType;
         this.matchPattern = matchPattern;
         this.isAllDayEvent = isAllDayEvent;
     }
 
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (obj == null || !(obj instanceof CalendarData))
@@ -57,14 +57,14 @@ class CalendarData implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeLong(calendar_id);
         dest.writeInt(matchType.getId());
         dest.writeString(matchPattern);
         dest.writeByte((byte) (isAllDayEvent ? 1 : 0));
     }
 
-    protected CalendarData(Parcel in) {
+    protected CalendarData(final Parcel in) {
         calendar_id = in.readLong();
         matchType = CalendarConditionMatchType.getById(in.readInt());
         matchPattern = in.readString();
@@ -73,12 +73,12 @@ class CalendarData implements Parcelable {
 
     public static final Creator<CalendarData> CREATOR = new Creator<CalendarData>() {
         @Override
-        public CalendarData createFromParcel(Parcel in) {
+        public CalendarData createFromParcel(final Parcel in) {
             return new CalendarData(in);
         }
 
         @Override
-        public CalendarData[] newArray(int size) {
+        public CalendarData[] newArray(final int size) {
             return new CalendarData[size];
         }
     };

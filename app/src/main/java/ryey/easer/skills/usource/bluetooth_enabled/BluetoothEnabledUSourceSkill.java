@@ -58,13 +58,13 @@ public class BluetoothEnabledUSourceSkill implements USourceSkill<BluetoothEnabl
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.checkPermission(context,
                 Manifest.permission.BLUETOOTH);
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         SkillUtils.requestPermission(activity, requestCode, Manifest.permission.BLUETOOTH);
     }
 
@@ -87,21 +87,21 @@ public class BluetoothEnabledUSourceSkill implements USourceSkill<BluetoothEnabl
     }
 
     @Override
-    public Slot<BluetoothEnabledUSourceData> slot(@NonNull Context context, @NonNull BluetoothEnabledUSourceData data) {
+    public Slot<BluetoothEnabledUSourceData> slot(final @NonNull Context context, final @NonNull BluetoothEnabledUSourceData data) {
         return new BluetoothEnabledSlot(context, data);
     }
 
     @Override
-    public Slot<BluetoothEnabledUSourceData> slot(@NonNull Context context, @NonNull BluetoothEnabledUSourceData data, boolean retriggerable, boolean persistent) {
+    public Slot<BluetoothEnabledUSourceData> slot(final @NonNull Context context, final @NonNull BluetoothEnabledUSourceData data, final boolean retriggerable, final boolean persistent) {
         return new BluetoothEnabledSlot(context, data, retriggerable, persistent);
     }
 
     @NonNull
     @Override
-    public Tracker<BluetoothEnabledUSourceData> tracker(@NonNull Context context,
-                                                        @ValidData @NonNull BluetoothEnabledUSourceData data,
-                                                        @NonNull PendingIntent event_positive,
-                                                        @NonNull PendingIntent event_negative) {
+    public Tracker<BluetoothEnabledUSourceData> tracker(final @NonNull Context context,
+                                                        final @ValidData @NonNull BluetoothEnabledUSourceData data,
+                                                        final @NonNull PendingIntent event_positive,
+                                                        final @NonNull PendingIntent event_negative) {
         return new BluetoothEnabledTracker(context, data, event_positive, event_negative);
     }
 

@@ -39,7 +39,7 @@ public class WidgetSkillViewFragment extends SkillViewFragment<WidgetEventData> 
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.skill_event__widget, container, false);
 
         et_id = view.findViewById(R.id.editText_tag);
@@ -48,7 +48,7 @@ public class WidgetSkillViewFragment extends SkillViewFragment<WidgetEventData> 
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull WidgetEventData data) {
+    protected void _fill(final @ValidData @NonNull WidgetEventData data) {
         et_id.setText(data.widgetTag);
     }
 

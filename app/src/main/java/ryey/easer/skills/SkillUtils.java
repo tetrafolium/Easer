@@ -40,31 +40,31 @@ import ryey.easer.R;
 
 public class SkillUtils {
 
-    public static boolean useRootFeature(@NonNull Context context) {
+    public static boolean useRootFeature(final @NonNull Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getBoolean(
                 context.getString(R.string.key_pref_use_root), false);
     }
 
-    public static Process executeCommandAsRoot(Context context, String command) throws IOException {
-        return Runtime.getRuntime().exec(new String[] { "su", "-c", command});
+    public static Process executeCommandAsRoot(final Context context, final String command) throws IOException {
+        return Runtime.getRuntime().exec(new String[] {"su", "-c", command});
     }
 
-    public static Process executeCommandsAsRoot(String... commands) throws IOException {
-        String[] all_commands = new String[commands.length+1];
+    public static Process executeCommandsAsRoot(final String... commands) throws IOException {
+        String[] all_commands = new String[commands.length + 1];
         all_commands[0] = "su";
         System.arraycopy(commands, 0, all_commands, 1, commands.length);
         return executeCommands(all_commands);
     }
 
-    public static Process executeCommandsContinuously(String... commands) throws IOException {
-        String[] all_commands = new String[commands.length+1];
+    public static Process executeCommandsContinuously(final String... commands) throws IOException {
+        String[] all_commands = new String[commands.length + 1];
         all_commands[0] = "sh";
         System.arraycopy(commands, 0, all_commands, 1, commands.length);
         return executeCommands(all_commands);
     }
 
-    public static Process executeCommands(String... command) throws IOException {
+    public static Process executeCommands(final String... command) throws IOException {
         Process process = Runtime.getRuntime().exec(command[0]);
         DataOutputStream out = new DataOutputStream(process.getOutputStream());
         for (int i = 1; i < command.length; i++) {
@@ -77,7 +77,7 @@ public class SkillUtils {
         return process;
     }
 
-    public static boolean checkPermission(Context context, String... permissions) {
+    public static boolean checkPermission(final Context context, final String... permissions) {
         for (String permission : permissions) {
             if (ContextCompat.checkSelfPermission(context, permission)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -87,11 +87,11 @@ public class SkillUtils {
         return true;
     }
 
-    public static void requestPermission(Activity activity, int requestCode, String... permissions) {
+    public static void requestPermission(final Activity activity, final int requestCode, final String... permissions) {
         ActivityCompat.requestPermissions(activity, permissions, requestCode);
     }
 
-    public static void reenableComponent(Context context, Class cls) {
+    public static void reenableComponent(final Context context, final Class cls) {
         PackageManager pm = context.getPackageManager();
         ComponentName componentName = new ComponentName(context, cls);
 
@@ -102,14 +102,14 @@ public class SkillUtils {
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
     }
 
-    public static boolean isServiceEnabled(Context context, Class<? extends Service> serviceClass) {
+    public static boolean isServiceEnabled(final Context context, final Class<? extends Service> serviceClass) {
         PackageManager pm = context.getPackageManager();
         ComponentName componentName = new ComponentName(context, serviceClass);
         return pm.getComponentEnabledSetting(componentName) == PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
     }
 
     public static boolean isPermissionGrantedForNotificationListenerService(
-            Context context, Class<? extends NotificationListenerService> serviceClass) {
+            final Context context, final Class<? extends NotificationListenerService> serviceClass) {
         ComponentName serviceComponentName = new ComponentName(context, serviceClass);
         String list = Settings.Secure.getString(context.getContentResolver(), "enabled_notification_listeners");
         return list != null && list.contains(serviceComponentName.flattenToString());

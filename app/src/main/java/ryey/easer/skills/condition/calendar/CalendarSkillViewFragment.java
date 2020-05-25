@@ -67,7 +67,7 @@ public class CalendarSkillViewFragment extends SkillViewFragment<CalendarConditi
     private final IntentFilter mFilter = new IntentFilter(ACTION_RETURN);
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             if (intent.getAction().equals(ACTION_RETURN)) {
                 calendar_id = intent.getLongExtra(EXTRA_CALENDAR_ID, -1);
                 tv_calendar_name.setText(intent.getStringExtra(EXTRA_CALENDAR_NAME));
@@ -76,14 +76,14 @@ public class CalendarSkillViewFragment extends SkillViewFragment<CalendarConditi
     };
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(final Context context) {
         super.onAttach(context);
         context.registerReceiver(mReceiver, mFilter);
     }
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_condition__calendar, container, false);
         tv_calendar_name = view.findViewById(R.id.text_calendar_name);
         rg_event_title = view.findViewById(R.id.radioGroup_event_title);
@@ -94,7 +94,7 @@ public class CalendarSkillViewFragment extends SkillViewFragment<CalendarConditi
 
         view.findViewById(R.id.calendar_picker).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 if (!SkillUtils.checkPermission(getContext(), Manifest.permission.READ_CALENDAR))
                     return;
                 AlertDialog.Builder builderSingle = new AlertDialog.Builder(getContext());
@@ -117,14 +117,15 @@ public class CalendarSkillViewFragment extends SkillViewFragment<CalendarConditi
                         },
                         new int[]{android.R.id.text1, android.R.id.text2}, 0) {
                     @Override
-                    public void setViewText(TextView v, String text) {
+                    public void setViewText(final TextView v, final String text) {
                         if (v.getId() == android.R.id.text2)
                             text = "(" + text + ")";
                         super.setViewText(v, text);
                     }
                 };
 
-                cursorLoader.registerListener(0, (loader, data) -> { simpleCursorAdapter.swapCursor(data); });
+                cursorLoader.registerListener(0, (loader, data) -> {
+                    simpleCursorAdapter.swapCursor(data); });
 
                 builderSingle.setAdapter(simpleCursorAdapter, (dialog, which) -> {
                         Cursor cursor = (Cursor) simpleCursorAdapter.getItem(which);
@@ -152,7 +153,7 @@ public class CalendarSkillViewFragment extends SkillViewFragment<CalendarConditi
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull CalendarConditionData data) {
+    protected void _fill(final @ValidData @NonNull CalendarConditionData data) {
         CalendarData calendarData = data.data;
         calendar_id = calendarData.calendar_id;
         tv_calendar_name.setText(CalendarHelper.getCalendarName(

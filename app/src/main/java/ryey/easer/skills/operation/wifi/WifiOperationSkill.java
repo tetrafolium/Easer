@@ -72,14 +72,14 @@ public class WifiOperationSkill implements OperationSkill<WifiOperationData> {
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.checkPermission(context,
                 Manifest.permission.ACCESS_WIFI_STATE,
                 Manifest.permission.CHANGE_WIFI_STATE);
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         boolean can_access_wifi = SkillUtils.checkPermission(activity, Manifest.permission.ACCESS_WIFI_STATE);
         boolean can_change_wifi = SkillUtils.checkPermission(activity, Manifest.permission.CHANGE_WIFI_STATE);
         if (!can_access_wifi && !can_change_wifi) {
@@ -110,7 +110,7 @@ public class WifiOperationSkill implements OperationSkill<WifiOperationData> {
 
     @NonNull
     @Override
-    public OperationLoader<WifiOperationData> loader(@NonNull Context context) {
+    public OperationLoader<WifiOperationData> loader(final @NonNull Context context) {
         return new WifiLoader(context);
     }
 

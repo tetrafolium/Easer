@@ -28,9 +28,9 @@ import ryey.easer.commons.local_skill.StorageData;
 public abstract class StringData implements StorageData {
     protected String text = null;
 
-    protected StringData() {}
+    protected StringData() { }
 
-    protected StringData(@NonNull String text) {
+    protected StringData(final @NonNull String text) {
         this.text = text;
     }
 
@@ -39,7 +39,7 @@ public abstract class StringData implements StorageData {
         return text;
     }
 
-    public void set(@NonNull String text) {
+    public void set(final @NonNull String text) {
         this.text = text;
     }
 
@@ -53,7 +53,7 @@ public abstract class StringData implements StorageData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(final @Nullable Object obj) {
         if (obj == null)
             return false;
         if (!getClass().equals(obj.getClass()))

@@ -29,9 +29,9 @@ public abstract class IntegerData implements StorageData {
     protected Integer lbound = null;
     protected Integer rbound = null;
 
-    protected IntegerData() {}
+    protected IntegerData() { }
 
-    protected IntegerData(@NonNull Integer level) {
+    protected IntegerData(final @NonNull Integer level) {
         this.level = level;
     }
 
@@ -40,7 +40,7 @@ public abstract class IntegerData implements StorageData {
         return level;
     }
 
-    public void set(int level) {
+    public void set(final int level) {
         this.level = level;
     }
 
@@ -60,7 +60,7 @@ public abstract class IntegerData implements StorageData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(final @Nullable Object obj) {
         if (obj == null)
             return false;
         if (!getClass().equals(obj.getClass()))

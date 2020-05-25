@@ -37,12 +37,12 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class NetworkTransmissionLoader extends OperationLoader<NetworkTransmissionOperationData> {
-    public NetworkTransmissionLoader(Context context) {
+    public NetworkTransmissionLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull NetworkTransmissionOperationData data) {
+    public boolean load(final @ValidData @NonNull NetworkTransmissionOperationData data) {
         //TODO: Async and correctly report
         NetworkTask task = new NetworkTask();
         task.execute(data);
@@ -52,7 +52,7 @@ public class NetworkTransmissionLoader extends OperationLoader<NetworkTransmissi
     private static class NetworkTask extends AsyncTask<NetworkTransmissionOperationData, Void, Boolean> {
 
         @Override
-        protected Boolean doInBackground(NetworkTransmissionOperationData... networkTransmissionOperationData) {
+        protected Boolean doInBackground(final NetworkTransmissionOperationData... networkTransmissionOperationData) {
             NetworkTransmissionOperationData data = networkTransmissionOperationData[0];
             try {
                 InetAddress remote_address = InetAddress.getByName(data.remote_address);

@@ -44,7 +44,7 @@ class SkillEnabledPreference extends CheckBoxPreference implements Preference.On
 
     private ImageButton btnPermission;
 
-    SkillEnabledPreference(Context context, Skill skill, boolean in_use) {
+    SkillEnabledPreference(final Context context, final Skill skill, final boolean in_use) {
         super(context);
         this.skill = skill;
         this.in_use = in_use;
@@ -63,7 +63,7 @@ class SkillEnabledPreference extends CheckBoxPreference implements Preference.On
     }
 
     @Override
-    public boolean onPreferenceChange(Preference preference, Object newValue) {
+    public boolean onPreferenceChange(final Preference preference, final Object newValue) {
         if (BuildConfig.DEBUG && !(newValue instanceof Boolean)) throw new AssertionError();
         if ((Boolean) newValue) {
             if (skill.checkPermissions(getContext()) == Boolean.FALSE) {
@@ -78,7 +78,7 @@ class SkillEnabledPreference extends CheckBoxPreference implements Preference.On
     }
 
     @Override
-    protected void onBindView(View view) {
+    protected void onBindView(final View view) {
         super.onBindView(view);
         ImageView img_root = view.findViewById(R.id.img_root);
         if (skill instanceof OperationSkill) {
@@ -95,7 +95,7 @@ class SkillEnabledPreference extends CheckBoxPreference implements Preference.On
         if (requiresPermission) {
             btnPermission.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     redrawPermissionButton();
                     skill.requestPermissions((Activity) getContext(), REQCODE);
                 }
@@ -103,7 +103,7 @@ class SkillEnabledPreference extends CheckBoxPreference implements Preference.On
         }
     }
 
-    private static void recSetEnabled(View view, boolean enabled) {
+    private static void recSetEnabled(final View view, final boolean enabled) {
         view.setEnabled(enabled);
         if (view instanceof ViewGroup) {
             for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {

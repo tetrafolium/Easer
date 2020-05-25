@@ -40,13 +40,13 @@ public class JsonEventDataStorageBackend implements EventDataStorageBackendInter
     private final Context context;
     private static File dir;
 
-    public JsonEventDataStorageBackend(Context context) {
+    public JsonEventDataStorageBackend(final Context context) {
         this.context = context;
         dir = IOUtils.mustGetSubDir(context.getFilesDir(), "event");
     }
 
     @Override
-    public boolean has(String name) {
+    public boolean has(final String name) {
         return IOUtils.fileExists(dir, name + NC.SUFFIX);
     }
 
@@ -60,25 +60,25 @@ public class JsonEventDataStorageBackend implements EventDataStorageBackendInter
     }
 
     @Override
-    public EventStructure get(String name) throws FileNotFoundException, IllegalStorageDataException {
+    public EventStructure get(final String name) throws FileNotFoundException, IllegalStorageDataException {
         File file = new File(dir, name + NC.SUFFIX);
         return get(file);
     }
 
-    private EventStructure get(File file) throws FileNotFoundException, IllegalStorageDataException {
+    private EventStructure get(final File file) throws FileNotFoundException, IllegalStorageDataException {
         EventParser parser = new EventParser();
         return FileDataStorageBackendHelper.get(parser, file);
     }
 
     @Override
-    public void write(EventStructure profile) throws IOException {
+    public void write(final EventStructure profile) throws IOException {
         File file = new File(dir, profile.getName() + NC.SUFFIX);
         EventSerializer serializer = new EventSerializer();
         FileDataStorageBackendHelper.write(serializer, file, profile);
     }
 
     @Override
-    public void delete(String name) {
+    public void delete(final String name) {
         File file = new File(dir, name + NC.SUFFIX);
         if (!file.delete())
             throw new IllegalStateException("Unable to delete " + file);
@@ -89,7 +89,7 @@ public class JsonEventDataStorageBackend implements EventDataStorageBackendInter
         List<EventStructure> list = new ArrayList<>();
         File[] files = dir.listFiles(new FileFilter() {
             @Override
-            public boolean accept(File pathname) {
+            public boolean accept(final File pathname) {
                 if (pathname.isFile()) {
                     if (pathname.getName().endsWith(NC.SUFFIX)) {
                         return true;

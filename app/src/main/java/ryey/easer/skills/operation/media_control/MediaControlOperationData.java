@@ -42,7 +42,7 @@ public class MediaControlOperationData implements OperationData {
 
     @NonNull
     @Override
-    public OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment) {
+    public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
         return this;
     }
 
@@ -56,15 +56,15 @@ public class MediaControlOperationData implements OperationData {
 
     ControlChoice choice = null;
 
-    MediaControlOperationData(ControlChoice choice) {
+    MediaControlOperationData(final ControlChoice choice) {
         this.choice = choice;
     }
 
-    MediaControlOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    MediaControlOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         parse(data, format, version);
     }
 
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
             default:
                 try {
@@ -77,7 +77,7 @@ public class MediaControlOperationData implements OperationData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
             default:
@@ -96,7 +96,7 @@ public class MediaControlOperationData implements OperationData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (!(obj instanceof MediaControlOperationData))
@@ -111,22 +111,22 @@ public class MediaControlOperationData implements OperationData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeSerializable(choice);
     }
 
     public static final Parcelable.Creator<MediaControlOperationData> CREATOR
             = new Parcelable.Creator<MediaControlOperationData>() {
-        public MediaControlOperationData createFromParcel(Parcel in) {
+        public MediaControlOperationData createFromParcel(final Parcel in) {
             return new MediaControlOperationData(in);
         }
 
-        public MediaControlOperationData[] newArray(int size) {
+        public MediaControlOperationData[] newArray(final int size) {
             return new MediaControlOperationData[size];
         }
     };
 
-    private MediaControlOperationData(Parcel in) {
+    private MediaControlOperationData(final Parcel in) {
         choice = (ControlChoice) in.readSerializable();
     }
 }

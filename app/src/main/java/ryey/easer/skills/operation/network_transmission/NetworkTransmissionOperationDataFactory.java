@@ -47,7 +47,7 @@ class NetworkTransmissionOperationDataFactory implements OperationDataFactory<Ne
     @ValidData
     @NonNull
     @Override
-    public NetworkTransmissionOperationData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public NetworkTransmissionOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new NetworkTransmissionOperationData(data, format, version);
     }
 }

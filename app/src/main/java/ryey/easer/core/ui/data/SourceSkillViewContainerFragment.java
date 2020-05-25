@@ -39,22 +39,22 @@ public abstract class SourceSkillViewContainerFragment<D extends StorageData, S 
     private static final String EXTRA_SKILL = "skill";
 
     protected static <D extends StorageData, S extends Skill<D>, F extends SourceSkillViewContainerFragment<D, S>> F createInstance(
-            @NonNull S skill,
-            @NonNull F fragment) {
+            final @NonNull S skill,
+            final @NonNull F fragment) {
         return createInstance(skill, fragment, null);
     }
 
     protected static <D extends StorageData, S extends Skill<D>, F extends SourceSkillViewContainerFragment<D, S>> F createInstance(
-            @NonNull S skill,
-            @NonNull F fragment,
-            @Nullable Bundle bundle) {
+            final @NonNull S skill,
+            final @NonNull F fragment,
+            final @Nullable Bundle bundle) {
         return createInstance(skill.id(), fragment, bundle);
     }
 
     protected static <D extends StorageData, S extends Skill<D>, F extends SourceSkillViewContainerFragment<D, S>> F createInstance(
-            @NonNull String skillId,
-            @NonNull F fragment,
-            @Nullable Bundle bundle) {
+            final @NonNull String skillId,
+            final @NonNull F fragment,
+            final @Nullable Bundle bundle) {
         if (bundle == null)
             bundle = new Bundle();
         bundle.putString(EXTRA_SKILL, skillId);
@@ -67,7 +67,7 @@ public abstract class SourceSkillViewContainerFragment<D extends StorageData, S 
     protected abstract S findSkill(String skillID);
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(final @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         skillID = getArguments().getString(EXTRA_SKILL);
         S skill = findSkill(skillID);
@@ -76,7 +76,7 @@ public abstract class SourceSkillViewContainerFragment<D extends StorageData, S 
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_skillview_container_source, container, false);
         getChildFragmentManager().beginTransaction()
                 .replace(R.id.content_pluginview, pluginViewFragment)
@@ -97,7 +97,7 @@ public abstract class SourceSkillViewContainerFragment<D extends StorageData, S 
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(final int requestCode, final @NonNull String[] permissions, final @NonNull int[] grantResults) {
         if (requestCode == 1) {
             for (int i = 0; i < grantResults.length; i++) {
                 if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
@@ -118,7 +118,7 @@ public abstract class SourceSkillViewContainerFragment<D extends StorageData, S 
         return super.getData();
     }
 
-    private void setEnabled(boolean enabled) {
+    private void setEnabled(final boolean enabled) {
         pluginViewFragment.setEnabled(enabled);
     }
 }

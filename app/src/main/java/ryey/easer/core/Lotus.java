@@ -58,10 +58,10 @@ public abstract class Lotus {
     public static final String EXTRA_DYNAMICS_PROPERTIES = "ryey.easer.core.lotus.extras.DYNAMICS_PROPERTIES";
     static final String EXTRA_DYNAMICS_LINK = "ryey.easer.core.lotus.extras.DYNAMICS_LINK";
 
-    static Lotus createLotus(@NonNull Context context, @NonNull ScriptTree scriptTree,
-                             @NonNull ExecutorService executorService,
-                             @NonNull EHService.DelayedConditionHolderBinderJobs jobCH,
-                             @NonNull AsyncHelper.DelayedLoadProfileJobs jobLP) {
+    static Lotus createLotus(final @NonNull Context context, final @NonNull ScriptTree scriptTree,
+                             final @NonNull ExecutorService executorService,
+                             final @NonNull EHService.DelayedConditionHolderBinderJobs jobCH,
+                             final @NonNull AsyncHelper.DelayedLoadProfileJobs jobLP) {
         if (scriptTree.isEvent())
             return new EventLotus(context, scriptTree, executorService, jobCH, jobLP);
         else
@@ -82,7 +82,7 @@ public abstract class Lotus {
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             final String action = intent.getAction();
             if (ACTION_SLOT_SATISFIED.equals(action) || ACTION_SLOT_UNSATISFIED.equals(action)) {
                 onStateSignal(ACTION_SLOT_SATISFIED.equals(action), intent.getExtras());
@@ -101,10 +101,10 @@ public abstract class Lotus {
         filter.addDataPath(uri.getPath(), PatternMatcher.PATTERN_LITERAL);
     }
 
-    protected Lotus(@NonNull Context context, @NonNull ScriptTree scriptTree,
-                    @NonNull ExecutorService executorService,
-                    @NonNull EHService.DelayedConditionHolderBinderJobs jobCH,
-                    @NonNull AsyncHelper.DelayedLoadProfileJobs jobLP) {
+    protected Lotus(final @NonNull Context context, final @NonNull ScriptTree scriptTree,
+                    final @NonNull ExecutorService executorService,
+                    final @NonNull EHService.DelayedConditionHolderBinderJobs jobCH,
+                    final @NonNull AsyncHelper.DelayedLoadProfileJobs jobLP) {
         this.context = context;
         this.scriptTree = scriptTree;
         this.executorService = executorService;
@@ -139,7 +139,7 @@ public abstract class Lotus {
      * TODO: cleaner solution
      * @param status new status for the top level slot of this lotus
      */
-    synchronized void setStatus(boolean status) {
+    synchronized void setStatus(final boolean status) {
         if (status) {
             onSatisfied(null);
         } else {
@@ -147,18 +147,18 @@ public abstract class Lotus {
         }
     }
 
-    protected void sendSatisfactionChangeBroadcast(boolean satisfied) {
+    protected void sendSatisfactionChangeBroadcast(final boolean satisfied) {
         Intent intent = new Intent(ACTION_LOTUS_SATISFACTION_CHANGED);
         intent.putExtra(EXTRA_SATISFACTION, satisfied);
         intent.putExtra(EXTRA_SCRIPT_ID, scriptTree.getName());
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
-    protected void onStateSignal(boolean state) {
+    protected void onStateSignal(final boolean state) {
         onStateSignal(state, null);
     }
 
-    protected void onStateSignal(boolean state, @Nullable Bundle extras) {
+    protected void onStateSignal(final boolean state, final @Nullable Bundle extras) {
         if (state != scriptTree.isReversed()) {
             onSatisfied(extras);
         } else {
@@ -166,7 +166,7 @@ public abstract class Lotus {
         }
     }
 
-    protected void onSatisfied(@Nullable Bundle extras) {
+    protected void onSatisfied(final @Nullable Bundle extras) {
         Logger.i("Lotus for <%s> satisfied", scriptTree.getName());
         satisfied = true;
         sendSatisfactionChangeBroadcast(true);
@@ -222,11 +222,11 @@ public abstract class Lotus {
     public static class NotifyIntentPrototype {
         //TODO: Extract interface to ryey.easer.commons
 
-        public static Intent obtainPositiveIntent(Uri data) {
+        public static Intent obtainPositiveIntent(final Uri data) {
             return obtainPositiveIntent(data, null);
         }
 
-        public static Intent obtainPositiveIntent(Uri data, @Nullable Bundle dynamics) {
+        public static Intent obtainPositiveIntent(final Uri data, final @Nullable Bundle dynamics) {
             Intent intent = new Intent(ACTION_SLOT_SATISFIED);
             intent.addCategory(CATEGORY_NOTIFY_LOTUS);
             intent.setData(data);
@@ -234,11 +234,11 @@ public abstract class Lotus {
             return intent;
         }
 
-        public static Intent obtainNegativeIntent(Uri data) {
+        public static Intent obtainNegativeIntent(final Uri data) {
             return obtainNegativeIntent(data, null);
         }
 
-        public static Intent obtainNegativeIntent(Uri data, @Nullable Bundle dynamics) {
+        public static Intent obtainNegativeIntent(final Uri data, final @Nullable Bundle dynamics) {
             Intent intent = new Intent(ACTION_SLOT_UNSATISFIED);
             intent.addCategory(CATEGORY_NOTIFY_LOTUS);
             intent.setData(data);
@@ -250,7 +250,7 @@ public abstract class Lotus {
     public static class Status {
         public final String id;
         public final boolean satisfied;
-        public Status(String id, boolean satisfied) {
+        public Status(final String id, final boolean satisfied) {
             this.id = id;
             this.satisfied = satisfied;
         }

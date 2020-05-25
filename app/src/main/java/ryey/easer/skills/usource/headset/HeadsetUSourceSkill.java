@@ -55,12 +55,12 @@ public class HeadsetUSourceSkill implements USourceSkill<HeadsetUSourceData> {
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return null;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
 
     }
 
@@ -83,17 +83,17 @@ public class HeadsetUSourceSkill implements USourceSkill<HeadsetUSourceData> {
     }
 
     @Override
-    public AbstractSlot<HeadsetUSourceData> slot(@NonNull Context context, @ValidData @NonNull HeadsetUSourceData data) {
+    public AbstractSlot<HeadsetUSourceData> slot(final @NonNull Context context, final @ValidData @NonNull HeadsetUSourceData data) {
         return new HeadsetSlot(context, data);
     }
 
     @Override
-    public AbstractSlot<HeadsetUSourceData> slot(@NonNull Context context, @NonNull HeadsetUSourceData data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot<HeadsetUSourceData> slot(final @NonNull Context context, final @NonNull HeadsetUSourceData data, final boolean retriggerable, final boolean persistent) {
         return new HeadsetSlot(context, data, retriggerable, persistent);
     }
 
     @Override
-    public Tracker<HeadsetUSourceData> tracker(@NonNull Context context, @NonNull HeadsetUSourceData data, @NonNull PendingIntent event_positive, @NonNull PendingIntent event_negative) {
+    public Tracker<HeadsetUSourceData> tracker(final @NonNull Context context, final @NonNull HeadsetUSourceData data, final @NonNull PendingIntent event_positive, final @NonNull PendingIntent event_negative) {
         return new HeadsetTracker(context, data, event_positive, event_negative);
     }
 

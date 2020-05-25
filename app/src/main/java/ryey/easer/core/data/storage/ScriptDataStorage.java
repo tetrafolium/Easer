@@ -38,14 +38,14 @@ import ryey.easer.skills.operation.state_control.StateControlOperationSkill;
 
 public class ScriptDataStorage extends AbstractDataStorage<ScriptStructure, ScriptDataStorageBackendInterface> {
 
-    public ScriptDataStorage(Context context) {
+    public ScriptDataStorage(final Context context) {
         super(context, new ScriptDataStorageBackendInterface[] {
             new JsonScriptDataStorageBackend(context),
         });
     }
 
     @Override
-    boolean isSafeToDelete(String name) {
+    boolean isSafeToDelete(final String name) {
         for (ScriptStructure scriptStructure : allScripts()) {
             if (name.equals(scriptStructure.getParentName()))
                 return false;
@@ -85,7 +85,7 @@ public class ScriptDataStorage extends AbstractDataStorage<ScriptStructure, Scri
     }
 
     @Override
-    protected void handleRename(String oldName, ScriptStructure script) throws IOException {
+    protected void handleRename(final String oldName, final ScriptStructure script) throws IOException {
         String name = script.getName();
         // alter subnodes to point to the new name
         List<ScriptStructure> subs = StorageHelper.scriptParentMap(allScripts()).get(oldName);

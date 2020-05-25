@@ -80,7 +80,7 @@ public final class AsyncHelper {
             satisfied.set(false);
         }
 
-        public void doAfter(Callable<Void> task) {
+        public void doAfter(final Callable<Void> task) {
             lck_tasks.lock();
             try {
                 if (satisfied.get()) {
@@ -102,7 +102,7 @@ public final class AsyncHelper {
 
         protected B binder;
 
-        public void onBind(B binder) {
+        public void onBind(final B binder) {
             lck_tasks.lock();
             try {
                 this.binder = binder;
@@ -122,7 +122,7 @@ public final class AsyncHelper {
             }
         }
 
-        public void doAfter(Job<B> job) {
+        public void doAfter(final Job<B> job) {
             doAfter(() -> {
                 job.run(binder);
                 return null;
@@ -136,7 +136,7 @@ public final class AsyncHelper {
 
     public static class DelayedLoadProfileJobs extends DelayedServiceBinderJobs<ProfileLoaderService.PLSBinder> {
 
-        private void doAfterSatisfied(TaskSpec taskSpec) {
+        private void doAfterSatisfied(final TaskSpec taskSpec) {
             doAfter(() -> {
                 if (taskSpec.scriptName == null) {
                     binder.triggerProfile(taskSpec.profileName);
@@ -148,11 +148,11 @@ public final class AsyncHelper {
             });
         }
 
-        public void triggerProfile(String profileName) {
+        public void triggerProfile(final String profileName) {
             doAfterSatisfied(new TaskSpec(profileName, null, null, null));
         }
-        public void triggerProfile(String profileName, String scriptName,
-                                   Bundle dynamicsProperties, DynamicsLink dynamicsLink) {
+        public void triggerProfile(final String profileName, final String scriptName,
+                                   final Bundle dynamicsProperties, final DynamicsLink dynamicsLink) {
             doAfterSatisfied(new TaskSpec(profileName, scriptName, dynamicsProperties, dynamicsLink));
         }
 
@@ -162,7 +162,7 @@ public final class AsyncHelper {
             @Nullable public final Bundle dynamicsProperties;
             @Nullable public final DynamicsLink dynamicsLink;
 
-            public TaskSpec(@NonNull String profileName, @Nullable String scriptName, @Nullable Bundle dynamicsProperties, @Nullable DynamicsLink dynamicsLink) {
+            public TaskSpec(final @NonNull String profileName, final @Nullable String scriptName, final @Nullable Bundle dynamicsProperties, final @Nullable DynamicsLink dynamicsLink) {
                 this.profileName = profileName;
                 this.scriptName = scriptName;
                 this.dynamicsProperties = dynamicsProperties;
@@ -178,34 +178,34 @@ public final class AsyncHelper {
         public DelayedLoadProfileJobsWrapper() {
             connection = new ServiceConnection() {
                 @Override
-                public void onServiceConnected(ComponentName name, IBinder service) {
+                public void onServiceConnected(final ComponentName name, final IBinder service) {
                     jobLoadProfile.onBind((ProfileLoaderService.PLSBinder) service);
                 }
 
                 @Override
-                public void onServiceDisconnected(ComponentName name) {
+                public void onServiceDisconnected(final ComponentName name) {
                     jobLoadProfile.onUnbind();
                 }
             };
         }
 
-        public DelayedLoadProfileJobsWrapper(ServiceConnection connection) {
+        public DelayedLoadProfileJobsWrapper(final ServiceConnection connection) {
             this.connection = connection;
         }
 
-        public void bindService(Context context) {
+        public void bindService(final Context context) {
             context.bindService(new Intent(context, ProfileLoaderService.class), connection, Context.BIND_AUTO_CREATE);
         }
 
-        public void unbindService(Context context) {
+        public void unbindService(final Context context) {
             context.unbindService(connection);
         }
 
-        public void triggerProfile(String profileName) {
+        public void triggerProfile(final String profileName) {
             jobLoadProfile.triggerProfile(profileName);
         }
 
-        public void triggerProfile(String profileName, String scriptName, Bundle dynamicsProperties, DynamicsLink dynamicsLink) {
+        public void triggerProfile(final String profileName, final String scriptName, final Bundle dynamicsProperties, final DynamicsLink dynamicsLink) {
             jobLoadProfile.triggerProfile(profileName, scriptName, dynamicsProperties, dynamicsLink);
         }
     }

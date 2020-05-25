@@ -30,7 +30,7 @@ public class ScreenSlot extends AbstractSlot<ScreenUSourceData> {
 
     BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
                 changeSatisfiedState(eventData.screenEvent == ScreenUSourceData.ScreenEvent.on);
             } else if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
@@ -43,11 +43,11 @@ public class ScreenSlot extends AbstractSlot<ScreenUSourceData> {
 
     IntentFilter intentFilter;
 
-    ScreenSlot(Context context, ScreenUSourceData data) {
+    ScreenSlot(final Context context, final ScreenUSourceData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    ScreenSlot(Context context, ScreenUSourceData data, boolean retriggerable, boolean persistent) {
+    ScreenSlot(final Context context, final ScreenUSourceData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
     }
 

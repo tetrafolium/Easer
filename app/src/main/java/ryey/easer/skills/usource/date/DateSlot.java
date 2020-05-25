@@ -35,11 +35,11 @@ public class DateSlot extends SelfNotifiableSlot<DateUSourceData> {
 
     private Calendar calendar = null;
 
-    public DateSlot(Context context, DateUSourceData data) {
+    public DateSlot(final Context context, final DateUSourceData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    DateSlot(Context context, DateUSourceData data, boolean retriggerable, boolean persistent) {
+    DateSlot(final Context context, final DateUSourceData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
         setDate(data.date);
 
@@ -47,7 +47,7 @@ public class DateSlot extends SelfNotifiableSlot<DateUSourceData> {
             mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     }
 
-    private void setDate(Calendar date) {
+    private void setDate(final Calendar date) {
         if (date == null)
             return;
         if (calendar == null) {
@@ -76,7 +76,7 @@ public class DateSlot extends SelfNotifiableSlot<DateUSourceData> {
     }
 
     @Override
-    protected void onPositiveNotified(Intent intent) {
+    protected void onPositiveNotified(final Intent intent) {
         changeSatisfiedState(true);
     }
 }

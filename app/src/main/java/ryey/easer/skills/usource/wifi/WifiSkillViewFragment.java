@@ -65,7 +65,7 @@ public class WifiSkillViewFragment extends SkillViewFragment<WifiUSourceData> {
     private ReentrantLock wait_lock = new ReentrantLock();
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             if (WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(intent.getAction())) {
                 onResultsAvailable();
             }
@@ -74,7 +74,7 @@ public class WifiSkillViewFragment extends SkillViewFragment<WifiUSourceData> {
     ProgressDialog progressDialog;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(final Context context) {
         super.onAttach(context);
         wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         context.registerReceiver(mReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
@@ -82,7 +82,7 @@ public class WifiSkillViewFragment extends SkillViewFragment<WifiUSourceData> {
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.plugin_usource__wifi_connection, container, false);
         editText_ssid = view.findViewById(R.id.wifi_name);
 
@@ -91,7 +91,7 @@ public class WifiSkillViewFragment extends SkillViewFragment<WifiUSourceData> {
 
         view.findViewById(R.id.connection_picker).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 if (!SkillUtils.checkPermission(getContext(), Manifest.permission.ACCESS_WIFI_STATE))
                     return;
                 wait_lock.lock();
@@ -138,7 +138,7 @@ public class WifiSkillViewFragment extends SkillViewFragment<WifiUSourceData> {
         builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             @SuppressWarnings("ConstantConditions")
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(final DialogInterface dialog, final int which) {
                 onWifiSelected(arrayAdapter.getItem(which));
             }
         });
@@ -157,7 +157,7 @@ public class WifiSkillViewFragment extends SkillViewFragment<WifiUSourceData> {
         return list;
     }
 
-    private void onWifiSelected(WifiConfigurationWrapper wrapper) {
+    private void onWifiSelected(final WifiConfigurationWrapper wrapper) {
         if (rb_match_essid.isChecked()) {
             String essid = wrapper.SSID;
             addESSID(essid);
@@ -167,7 +167,7 @@ public class WifiSkillViewFragment extends SkillViewFragment<WifiUSourceData> {
         }
     }
 
-    private void addESSID(String essid) {
+    private void addESSID(final String essid) {
         Editable text = editText_ssid.getText();
         if (!Utils.isBlank(text.toString()))
             text.append("\n");
@@ -177,7 +177,7 @@ public class WifiSkillViewFragment extends SkillViewFragment<WifiUSourceData> {
         text.append(essid);
     }
 
-    private void addBSSID(String bssid) {
+    private void addBSSID(final String bssid) {
         Editable text = editText_ssid.getText();
         if (!Utils.isBlank(text.toString()))
             text.append("\n");
@@ -185,7 +185,7 @@ public class WifiSkillViewFragment extends SkillViewFragment<WifiUSourceData> {
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull WifiUSourceData data) {
+    protected void _fill(final @ValidData @NonNull WifiUSourceData data) {
         rb_match_essid.setChecked(data.mode_essid);
         editText_ssid.setText(Utils.StringCollectionToString(data.ssids, false));
     }
@@ -201,24 +201,24 @@ public class WifiSkillViewFragment extends SkillViewFragment<WifiUSourceData> {
         final String SSID;
         final String BSSID;
 
-        WifiConfigurationWrapper(String SSID, String BSSID) {
+        WifiConfigurationWrapper(final String SSID, final String BSSID) {
             this.SSID = SSID;
             this.BSSID = BSSID;
         }
 
-        private WifiConfigurationWrapper(Parcel in) {
+        private WifiConfigurationWrapper(final Parcel in) {
             SSID = in.readString();
             BSSID = in.readString();
         }
 
         public static final Creator<WifiConfigurationWrapper> CREATOR = new Creator<WifiConfigurationWrapper>() {
             @Override
-            public WifiConfigurationWrapper createFromParcel(Parcel in) {
+            public WifiConfigurationWrapper createFromParcel(final Parcel in) {
                 return new WifiConfigurationWrapper(in);
             }
 
             @Override
-            public WifiConfigurationWrapper[] newArray(int size) {
+            public WifiConfigurationWrapper[] newArray(final int size) {
                 return new WifiConfigurationWrapper[size];
             }
         };
@@ -229,7 +229,7 @@ public class WifiSkillViewFragment extends SkillViewFragment<WifiUSourceData> {
         }
 
         @Override
-        public void writeToParcel(Parcel parcel, int i) {
+        public void writeToParcel(final Parcel parcel, final int i) {
             parcel.writeString(SSID);
             parcel.writeString(BSSID);
         }

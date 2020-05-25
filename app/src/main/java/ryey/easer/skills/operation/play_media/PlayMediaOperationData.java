@@ -39,11 +39,11 @@ public class PlayMediaOperationData implements OperationData {
 
     final @NonNull String filePath; //TODO: Change to Uri by DocumentsProvider
 
-    PlayMediaOperationData(@NonNull String filePath) {
+    PlayMediaOperationData(final @NonNull String filePath) {
         this.filePath = filePath;
     }
 
-    PlayMediaOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    PlayMediaOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
             default:
                 try {
@@ -57,7 +57,7 @@ public class PlayMediaOperationData implements OperationData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res = "";
         switch (format) {
             default:
@@ -81,7 +81,7 @@ public class PlayMediaOperationData implements OperationData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (obj == null || !(obj instanceof PlayMediaOperationData))
@@ -99,7 +99,7 @@ public class PlayMediaOperationData implements OperationData {
 
     @NonNull
     @Override
-    public OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment) {
+    public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
         return this;
     }
 
@@ -109,22 +109,22 @@ public class PlayMediaOperationData implements OperationData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeString(filePath);
     }
 
     public static final Creator<PlayMediaOperationData> CREATOR
             = new Creator<PlayMediaOperationData>() {
-        public PlayMediaOperationData createFromParcel(Parcel in) {
+        public PlayMediaOperationData createFromParcel(final Parcel in) {
             return new PlayMediaOperationData(in);
         }
 
-        public PlayMediaOperationData[] newArray(int size) {
+        public PlayMediaOperationData[] newArray(final int size) {
             return new PlayMediaOperationData[size];
         }
     };
 
-    private PlayMediaOperationData(Parcel in) {
+    private PlayMediaOperationData(final Parcel in) {
         filePath = in.readString();
     }
 }

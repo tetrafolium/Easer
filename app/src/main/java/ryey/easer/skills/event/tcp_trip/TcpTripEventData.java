@@ -47,11 +47,11 @@ public class TcpTripEventData extends AbstractEventData {
     boolean check_reply;
     String reply_data;
 
-    TcpTripEventData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    TcpTripEventData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         parse(data, format, version);
     }
 
-    TcpTripEventData(String rAddr, int rPort, String send_data, boolean check_reply, String reply_data) {
+    TcpTripEventData(final String rAddr, final int rPort, final String send_data, final boolean check_reply, final String reply_data) {
         this.rAddr = rAddr;
         this.rPort = rPort;
         this.send_data = send_data;
@@ -77,7 +77,7 @@ public class TcpTripEventData extends AbstractEventData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null || !(obj instanceof TcpTripEventData))
             return false;
         if (!Utils.nullableEqual(rAddr, ((TcpTripEventData) obj).rAddr))
@@ -93,7 +93,7 @@ public class TcpTripEventData extends AbstractEventData {
         return true;
     }
 
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
             default:
                 try {
@@ -114,7 +114,7 @@ public class TcpTripEventData extends AbstractEventData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
             default:
@@ -145,7 +145,7 @@ public class TcpTripEventData extends AbstractEventData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeString(rAddr);
         dest.writeInt(rPort);
         dest.writeString(send_data);
@@ -157,16 +157,16 @@ public class TcpTripEventData extends AbstractEventData {
 
     public static final Creator<TcpTripEventData> CREATOR
             = new Creator<TcpTripEventData>() {
-        public TcpTripEventData createFromParcel(Parcel in) {
+        public TcpTripEventData createFromParcel(final Parcel in) {
             return new TcpTripEventData(in);
         }
 
-        public TcpTripEventData[] newArray(int size) {
+        public TcpTripEventData[] newArray(final int size) {
             return new TcpTripEventData[size];
         }
     };
 
-    private TcpTripEventData(Parcel in) {
+    private TcpTripEventData(final Parcel in) {
         rAddr = in.readString();
         rPort = in.readInt();
         send_data = in.readString();

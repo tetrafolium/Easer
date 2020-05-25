@@ -51,12 +51,12 @@ public class WidgetEventSkill implements EventSkill<WidgetEventData> {
     }
 
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return null;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
     }
 
     @NonNull
@@ -78,12 +78,12 @@ public class WidgetEventSkill implements EventSkill<WidgetEventData> {
     }
 
     @Override
-    public AbstractSlot<WidgetEventData> slot(@NonNull Context context, @ValidData @NonNull WidgetEventData data) {
+    public AbstractSlot<WidgetEventData> slot(final @NonNull Context context, final @ValidData @NonNull WidgetEventData data) {
         return new WidgetSlot(context, data);
     }
 
     @Override
-    public AbstractSlot<WidgetEventData> slot(@NonNull Context context, @NonNull WidgetEventData data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot<WidgetEventData> slot(final @NonNull Context context, final @NonNull WidgetEventData data, final boolean retriggerable, final boolean persistent) {
         return new WidgetSlot(context, data, retriggerable, persistent);
     }
 

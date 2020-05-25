@@ -75,7 +75,7 @@ public class RingerModeOperationSkill implements OperationSkill<RingerModeOperat
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             return SkillUtils.checkPermission(context, Manifest.permission.MODIFY_AUDIO_SETTINGS);
         } else {
@@ -86,7 +86,7 @@ public class RingerModeOperationSkill implements OperationSkill<RingerModeOperat
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         if (!SkillUtils.checkPermission(activity, Manifest.permission.MODIFY_AUDIO_SETTINGS))
             SkillUtils.requestPermission(activity, requestCode, Manifest.permission.MODIFY_AUDIO_SETTINGS);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -117,7 +117,7 @@ public class RingerModeOperationSkill implements OperationSkill<RingerModeOperat
 
     @NonNull
     @Override
-    public OperationLoader<RingerModeOperationData> loader(@NonNull Context context) {
+    public OperationLoader<RingerModeOperationData> loader(final @NonNull Context context) {
         return new RingerModeLoader(context);
     }
 

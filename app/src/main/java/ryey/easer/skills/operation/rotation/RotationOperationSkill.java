@@ -73,7 +73,7 @@ public class RotationOperationSkill implements OperationSkill<RotationOperationD
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return Settings.System.canWrite(context);
         } else {
@@ -82,7 +82,7 @@ public class RotationOperationSkill implements OperationSkill<RotationOperationD
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             activity.startActivity(new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS));
         }
@@ -103,7 +103,7 @@ public class RotationOperationSkill implements OperationSkill<RotationOperationD
 
     @NonNull
     @Override
-    public OperationLoader<RotationOperationData> loader(@NonNull Context context) {
+    public OperationLoader<RotationOperationData> loader(final @NonNull Context context) {
         return new RotationLoader(context);
     }
 

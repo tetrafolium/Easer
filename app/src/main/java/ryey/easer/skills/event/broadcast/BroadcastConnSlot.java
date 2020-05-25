@@ -31,7 +31,7 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class BroadcastConnSlot extends AbstractSlot<BroadcastEventData> {
 
-    private static Bundle dynamicsForCurrent(@NonNull Intent intent) {
+    private static Bundle dynamicsForCurrent(final @NonNull Intent intent) {
         Bundle bundle = new Bundle();
         bundle.putString(BroadcastEventData.ActionDynamics.id, intent.getAction());
         if (intent.getCategories() != null)
@@ -47,7 +47,7 @@ public class BroadcastConnSlot extends AbstractSlot<BroadcastEventData> {
 
     private final BroadcastReceiver connReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             changeSatisfiedState(true, dynamicsForCurrent(intent));
         }
     };
@@ -58,11 +58,11 @@ public class BroadcastConnSlot extends AbstractSlot<BroadcastEventData> {
         filter = new IntentFilter();
     }
 
-    public BroadcastConnSlot(Context context, BroadcastEventData data) {
+    public BroadcastConnSlot(final Context context, final BroadcastEventData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    BroadcastConnSlot(Context context, BroadcastEventData data, boolean retriggerable, boolean persistent) {
+    BroadcastConnSlot(final Context context, final BroadcastEventData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
         intentData = data.intentData;
         filter = new IntentFilter();

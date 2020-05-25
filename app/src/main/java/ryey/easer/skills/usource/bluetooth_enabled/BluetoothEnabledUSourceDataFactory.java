@@ -43,7 +43,7 @@ class BluetoothEnabledUSourceDataFactory implements USourceDataFactory<Bluetooth
     @ValidData
     @NonNull
     @Override
-    public BluetoothEnabledUSourceData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public BluetoothEnabledUSourceData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new BluetoothEnabledUSourceData(data, format, version);
     }
 }

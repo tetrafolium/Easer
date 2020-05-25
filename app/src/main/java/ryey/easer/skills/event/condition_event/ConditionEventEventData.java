@@ -46,7 +46,7 @@ public class ConditionEventEventData extends AbstractEventData {
     public final String conditionName;
     final ConditionEvent conditionEvent;
 
-    ConditionEventEventData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    ConditionEventEventData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
             default:
                 try {
@@ -59,19 +59,19 @@ public class ConditionEventEventData extends AbstractEventData {
         }
     }
 
-    ConditionEventEventData(String conditionName, ConditionEvent conditionEvent) {
+    ConditionEventEventData(final String conditionName, final ConditionEvent conditionEvent) {
         this.conditionName = conditionName;
         this.conditionEvent = conditionEvent;
     }
 
-    public ConditionEventEventData(ConditionEventEventData ref, String newConditionName) {
+    public ConditionEventEventData(final ConditionEventEventData ref, final String newConditionName) {
         conditionName = newConditionName;
         conditionEvent = ref.conditionEvent;
     }
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
             default:
@@ -102,7 +102,7 @@ public class ConditionEventEventData extends AbstractEventData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null || !(obj instanceof ConditionEventEventData))
             return false;
         return conditionEvent.equals(((ConditionEventEventData) obj).conditionEvent);
@@ -114,23 +114,23 @@ public class ConditionEventEventData extends AbstractEventData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeString(conditionName);
         dest.writeInt(conditionEvent.ordinal());
     }
 
     public static final Creator<ConditionEventEventData> CREATOR
             = new Creator<ConditionEventEventData>() {
-        public ConditionEventEventData createFromParcel(Parcel in) {
+        public ConditionEventEventData createFromParcel(final Parcel in) {
             return new ConditionEventEventData(in);
         }
 
-        public ConditionEventEventData[] newArray(int size) {
+        public ConditionEventEventData[] newArray(final int size) {
             return new ConditionEventEventData[size];
         }
     };
 
-    private ConditionEventEventData(Parcel in) {
+    private ConditionEventEventData(final Parcel in) {
         conditionName = in.readString();
         conditionEvent = ConditionEvent.values()[in.readInt()];
     }

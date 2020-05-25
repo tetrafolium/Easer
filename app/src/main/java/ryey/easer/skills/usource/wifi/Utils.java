@@ -24,7 +24,7 @@ import android.net.wifi.WifiInfo;
 import androidx.annotation.NonNull;
 
 final class Utils {
-    static boolean compare(WifiUSourceData data, @NonNull WifiInfo wifiInfo) {
+    static boolean compare(final WifiUSourceData data, final @NonNull WifiInfo wifiInfo) {
         String ssid;
         if (data.mode_essid) {
             ssid = wifiInfo.getSSID();

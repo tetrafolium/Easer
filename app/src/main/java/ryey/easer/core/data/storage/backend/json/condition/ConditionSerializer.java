@@ -32,7 +32,7 @@ import ryey.easer.skills.LocalSkillRegistry;
 
 public class ConditionSerializer implements Serializer<ConditionStructure> {
     @Override
-    public String serialize(ConditionStructure data) throws UnableToSerializeException {
+    public String serialize(final ConditionStructure data) throws UnableToSerializeException {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put(C.NAME, data.getName());
@@ -44,7 +44,7 @@ public class ConditionSerializer implements Serializer<ConditionStructure> {
         }
     }
 
-    private JSONObject serialize_condition(ConditionData condition) throws JSONException {
+    private JSONObject serialize_condition(final ConditionData condition) throws JSONException {
         JSONObject json_situation = new JSONObject();
         json_situation.put(C.SPEC, LocalSkillRegistry.getInstance().condition().findSkill(condition).id());
         json_situation.put(C.DATA, condition.serialize(PluginDataFormat.JSON));

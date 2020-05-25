@@ -46,7 +46,7 @@ class TimeDynamics implements CoreDynamicsInterface {
     }
 
     @Override
-    public String invoke(@NonNull Context context, @NonNull Bundle extras) {
+    public String invoke(final @NonNull Context context, final @NonNull Bundle extras) {
         Date now = Calendar.getInstance().getTime();
         return sdf_time.format(now);
     }

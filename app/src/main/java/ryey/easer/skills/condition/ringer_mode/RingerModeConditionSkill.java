@@ -54,12 +54,12 @@ public class RingerModeConditionSkill implements ConditionSkill<RingerModeCondit
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return null;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
     }
 
     @NonNull
@@ -82,10 +82,10 @@ public class RingerModeConditionSkill implements ConditionSkill<RingerModeCondit
 
     @NonNull
     @Override
-    public Tracker<RingerModeConditionData> tracker(@NonNull Context context,
-                                                 @ValidData @NonNull RingerModeConditionData data,
-                                                 @NonNull PendingIntent event_positive,
-                                                 @NonNull PendingIntent event_negative) {
+    public Tracker<RingerModeConditionData> tracker(final @NonNull Context context,
+                                                 final @ValidData @NonNull RingerModeConditionData data,
+                                                 final @NonNull PendingIntent event_positive,
+                                                 final @NonNull PendingIntent event_negative) {
         return new RingerModeTracker(context, data, event_positive, event_negative);
     }
 

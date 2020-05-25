@@ -44,11 +44,11 @@ public class SmsEventData extends AbstractEventData {
 
     SmsInnerData innerData;
 
-    public SmsEventData(SmsInnerData innerData) {
+    public SmsEventData(final SmsInnerData innerData) {
         this.innerData = innerData;
     }
 
-    SmsEventData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    SmsEventData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         parse(data, format, version);
     }
 
@@ -60,7 +60,7 @@ public class SmsEventData extends AbstractEventData {
         return true;
     }
 
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         innerData = new SmsInnerData();
         switch (format) {
             default:
@@ -77,7 +77,7 @@ public class SmsEventData extends AbstractEventData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
             default:
@@ -104,7 +104,7 @@ public class SmsEventData extends AbstractEventData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (!(obj instanceof SmsEventData))
@@ -118,22 +118,22 @@ public class SmsEventData extends AbstractEventData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeParcelable(innerData, flags);
     }
 
     public static final Parcelable.Creator<SmsEventData> CREATOR
             = new Parcelable.Creator<SmsEventData>() {
-        public SmsEventData createFromParcel(Parcel in) {
+        public SmsEventData createFromParcel(final Parcel in) {
             return new SmsEventData(in);
         }
 
-        public SmsEventData[] newArray(int size) {
+        public SmsEventData[] newArray(final int size) {
             return new SmsEventData[size];
         }
     };
 
-    private SmsEventData(Parcel in) {
+    private SmsEventData(final Parcel in) {
         innerData = in.readParcelable(SmsInnerData.class.getClassLoader());
     }
 

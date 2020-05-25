@@ -41,12 +41,12 @@ public class SendNotificationLoader extends OperationLoader<SendNotificationOper
         }
     }
 
-    public SendNotificationLoader(Context context) {
+    public SendNotificationLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull SendNotificationOperationData data) {
+    public boolean load(final @ValidData @NonNull SendNotificationOperationData data) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);

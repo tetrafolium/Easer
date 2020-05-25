@@ -29,17 +29,17 @@ import ryey.easer.skills.operation.OperationLoader;
 
 public class VolumeLoader extends OperationLoader<VolumeOperationData> {
 
-    VolumeLoader(Context context) {
+    VolumeLoader(final Context context) {
         super(context);
     }
 
-    private static void setVolume(AudioManager audioManager, int stream, Integer value) {
+    private static void setVolume(final AudioManager audioManager, final int stream, final Integer value) {
         if (value != null)
             audioManager.setStreamVolume(stream, value, 0);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull VolumeOperationData data) {
+    public boolean load(final @ValidData @NonNull VolumeOperationData data) {
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         setVolume(audioManager, AudioManager.STREAM_RING, data.vol_ring);
         setVolume(audioManager, AudioManager.STREAM_MUSIC, data.vol_media);

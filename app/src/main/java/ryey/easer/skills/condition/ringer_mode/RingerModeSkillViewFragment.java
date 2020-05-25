@@ -62,7 +62,7 @@ public class RingerModeSkillViewFragment extends SkillViewFragment<RingerModeCon
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_condition__ringer_mode, container, false);
         rg_ringer_mode = view.findViewById(R.id.rg_ringer_mode);
         rb_ringer_mode_silent = view.findViewById(R.id.rb_ringer_mode_silent);
@@ -87,22 +87,22 @@ public class RingerModeSkillViewFragment extends SkillViewFragment<RingerModeCon
         sb_volume_match_value.setMax(maxVol);
         sb_volume_match_value.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
                 tv_volume_match_value.setText(String.valueOf(progress));
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
+            public void onStartTrackingTouch(final SeekBar seekBar) { }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
+            public void onStopTrackingTouch(final SeekBar seekBar) { }
         });
         tv_volume_match_value.setText(String.valueOf(sb_volume_match_value.getProgress()));
         return view;
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull RingerModeConditionData data) {
+    protected void _fill(final @ValidData @NonNull RingerModeConditionData data) {
         switch (data.ringerMode) {
             case AudioManager.RINGER_MODE_VIBRATE:
                 rg_ringer_mode.check(R.id.rb_ringer_mode_vibrate);

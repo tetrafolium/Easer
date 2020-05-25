@@ -35,17 +35,18 @@ import ryey.easer.skills.reusable.BooleanData;
 
 public abstract class BooleanOperationData extends BooleanData implements OperationData {
 
-    protected BooleanOperationData() {super();}
+    protected BooleanOperationData() {
+        super(); }
 
-    protected BooleanOperationData(@NonNull Boolean state) {
+    protected BooleanOperationData(final @NonNull Boolean state) {
         super(state);
     }
 
-    public BooleanOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public BooleanOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         parse(data, format, version);
     }
 
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
             default:
                 switch (data) {
@@ -63,7 +64,7 @@ public abstract class BooleanOperationData extends BooleanData implements Operat
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
             default:
@@ -82,11 +83,11 @@ public abstract class BooleanOperationData extends BooleanData implements Operat
     }
 
     @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
+    public void writeToParcel(final @NonNull Parcel dest, final int flags) {
         dest.writeByte((byte) (state ? 1 : 0));
     }
 
-    protected BooleanOperationData(@NonNull Parcel in) {
+    protected BooleanOperationData(final @NonNull Parcel in) {
         state = in.readByte() != 0;
     }
 
@@ -98,7 +99,7 @@ public abstract class BooleanOperationData extends BooleanData implements Operat
 
     @NonNull
     @Override
-    public OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment) {
+    public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
         return this;
     }
 }

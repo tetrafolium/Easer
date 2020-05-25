@@ -30,12 +30,12 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class PlayMediaLoader extends OperationLoader<PlayMediaOperationData> {
-    PlayMediaLoader(Context context) {
+    PlayMediaLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull PlayMediaOperationData data) {
+    public boolean load(final @ValidData @NonNull PlayMediaOperationData data) {
         MediaPlayer mp = new MediaPlayer();
         try {
             mp.setDataSource(data.filePath);

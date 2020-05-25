@@ -48,13 +48,14 @@ final public class ScriptStructure implements Renameable, Verifiable, WithCreate
     @Nullable protected String profileName;
     @Nullable protected String parentName;
 
-    public ScriptStructure(int createdVersion) {this.createdVersion = createdVersion;}
+    public ScriptStructure(final int createdVersion) {
+        this.createdVersion = createdVersion; }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -66,7 +67,7 @@ final public class ScriptStructure implements Renameable, Verifiable, WithCreate
         return event;
     }
 
-    public void setEvent(EventStructure event) {
+    public void setEvent(final EventStructure event) {
         this.event = event;
     }
 
@@ -78,7 +79,7 @@ final public class ScriptStructure implements Renameable, Verifiable, WithCreate
         return condition;
     }
 
-    public void setCondition(ConditionStructure condition) {
+    public void setCondition(final ConditionStructure condition) {
         this.condition = condition;
     }
 
@@ -88,7 +89,7 @@ final public class ScriptStructure implements Renameable, Verifiable, WithCreate
     }
 
     @Deprecated
-    public void setEventData(EventData eventData) {
+    public void setEventData(final EventData eventData) {
         this.event = EventStructure.createTmpScenario(eventData);
     }
 
@@ -96,7 +97,7 @@ final public class ScriptStructure implements Renameable, Verifiable, WithCreate
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(final boolean active) {
         this.active = active;
     }
 
@@ -105,7 +106,7 @@ final public class ScriptStructure implements Renameable, Verifiable, WithCreate
         return profileName;
     }
 
-    public void setProfileName(@Nullable String profileName) {
+    public void setProfileName(final @Nullable String profileName) {
         this.profileName = profileName;
     }
 
@@ -114,7 +115,7 @@ final public class ScriptStructure implements Renameable, Verifiable, WithCreate
         return parentName;
     }
 
-    public void setParentName(@Nullable String parentName) {
+    public void setParentName(final @Nullable String parentName) {
         this.parentName = parentName;
     }
 
@@ -134,7 +135,7 @@ final public class ScriptStructure implements Renameable, Verifiable, WithCreate
         return repeatable;
     }
 
-    public void setRepeatable(boolean repeatable) {
+    public void setRepeatable(final boolean repeatable) {
         this.repeatable = repeatable;
     }
 
@@ -142,7 +143,7 @@ final public class ScriptStructure implements Renameable, Verifiable, WithCreate
         return persistent;
     }
 
-    public void setPersistent(boolean persistent) {
+    public void setPersistent(final boolean persistent) {
         this.persistent = persistent;
     }
 
@@ -150,7 +151,7 @@ final public class ScriptStructure implements Renameable, Verifiable, WithCreate
         return reverse;
     }
 
-    public void setReverse(boolean reverse) {
+    public void setReverse(final boolean reverse) {
         this.reverse = reverse;
     }
 
@@ -159,7 +160,7 @@ final public class ScriptStructure implements Renameable, Verifiable, WithCreate
         return createdVersion;
     }
 
-    public void setDynamicsLink(@Nullable DynamicsLink dynamicsLink) {
+    public void setDynamicsLink(final @Nullable DynamicsLink dynamicsLink) {
         this.dynamicsLink = dynamicsLink;
     }
 

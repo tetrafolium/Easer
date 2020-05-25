@@ -29,12 +29,12 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class BroadcastLoader extends OperationLoader<BroadcastOperationData> {
-    public BroadcastLoader(Context context) {
+    public BroadcastLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull BroadcastOperationData data) {
+    public boolean load(final @ValidData @NonNull BroadcastOperationData data) {
         IntentData iData = data.data;
         Intent intent = new Intent();
         intent.setAction(iData.action);

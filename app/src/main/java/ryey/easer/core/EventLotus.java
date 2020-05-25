@@ -56,10 +56,10 @@ class EventLotus extends Lotus {
     private final boolean repeatable;
     private final boolean persistent;
 
-    EventLotus(@NonNull Context context, @NonNull ScriptTree scriptTree,
-               @NonNull ExecutorService executorService,
-               @NonNull EHService.DelayedConditionHolderBinderJobs jobCH,
-               @NonNull AsyncHelper.DelayedLoadProfileJobs jobLP) {
+    EventLotus(final @NonNull Context context, final @NonNull ScriptTree scriptTree,
+               final @NonNull ExecutorService executorService,
+               final @NonNull EHService.DelayedConditionHolderBinderJobs jobCH,
+               final @NonNull AsyncHelper.DelayedLoadProfileJobs jobLP) {
         super(context, scriptTree, executorService, jobCH, jobLP);
 
         repeatable = scriptTree.isRepeatable();
@@ -70,7 +70,7 @@ class EventLotus extends Lotus {
         cooldownInMillisecond = SettingsUtils.coolDownInterval(context) * 1000;
     }
 
-    private <T extends EventData> Slot<T> nodeToSlot(ScriptTree node) {
+    private <T extends EventData> Slot<T> nodeToSlot(final ScriptTree node) {
         EventStructure scenario = node.getEvent();
         Slot<T> slot;
         //noinspection unchecked
@@ -103,7 +103,7 @@ class EventLotus extends Lotus {
         });
     }
 
-    private boolean checkAndSetCooldown(String eventName) {
+    private boolean checkAndSetCooldown(final String eventName) {
         if (cooldownInMillisecond > 0) {
             Calendar now = Calendar.getInstance();
             if (lastSatisfied != null) {
@@ -119,7 +119,7 @@ class EventLotus extends Lotus {
         return true;
     }
 
-    protected synchronized void onSatisfied(Bundle extras) {
+    protected synchronized void onSatisfied(final Bundle extras) {
         if (!repeatable && satisfied)
             return;
         if (checkAndSetCooldown(scriptTree.getName())) {

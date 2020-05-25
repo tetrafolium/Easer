@@ -29,26 +29,26 @@ import ryey.easer.plugin.PluginDataFormat;
 import ryey.easer.skills.operation.BooleanOperationData;
 
 public class BluetoothOperationData extends BooleanOperationData {
-    public BluetoothOperationData(Boolean state) {
+    public BluetoothOperationData(final Boolean state) {
         super(state);
     }
 
-    BluetoothOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    BluetoothOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         super(data, format, version);
     }
 
     public static final Parcelable.Creator<BluetoothOperationData> CREATOR
             = new Parcelable.Creator<BluetoothOperationData>() {
-        public BluetoothOperationData createFromParcel(Parcel in) {
+        public BluetoothOperationData createFromParcel(final Parcel in) {
             return new BluetoothOperationData(in);
         }
 
-        public BluetoothOperationData[] newArray(int size) {
+        public BluetoothOperationData[] newArray(final int size) {
             return new BluetoothOperationData[size];
         }
     };
 
-    private BluetoothOperationData(Parcel in) {
+    private BluetoothOperationData(final Parcel in) {
         super(in);
     }
 

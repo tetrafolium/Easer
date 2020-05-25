@@ -70,12 +70,12 @@ public class AirplaneModeOperationSkill implements OperationSkill<AirplaneModeOp
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return null;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
 
     }
 
@@ -94,7 +94,7 @@ public class AirplaneModeOperationSkill implements OperationSkill<AirplaneModeOp
 
     @NonNull
     @Override
-    public OperationLoader<AirplaneModeOperationData> loader(@NonNull Context context) {
+    public OperationLoader<AirplaneModeOperationData> loader(final @NonNull Context context) {
         return new AirplaneModeLoader(context);
     }
 

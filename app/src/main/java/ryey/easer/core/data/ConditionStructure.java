@@ -31,11 +31,11 @@ public final class ConditionStructure implements Named, Verifiable, WithCreatedV
     @NonNull final String name;
     @NonNull final ConditionData data;
 
-    public ConditionStructure(@NonNull String name, @NonNull ConditionData data) {
+    public ConditionStructure(final @NonNull String name, final @NonNull ConditionData data) {
         this(C.VERSION_CREATED_IN_RUNTIME, name, data);
     }
 
-    public ConditionStructure(int createdVersion, @NonNull String name, @NonNull ConditionData data) {
+    public ConditionStructure(final int createdVersion, final @NonNull String name, final @NonNull ConditionData data) {
         this.createdVersion = createdVersion;
         this.name = name;
         this.data = data;

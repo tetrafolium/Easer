@@ -43,14 +43,14 @@ import ryey.easer.commons.local_skill.dynamics.SolidDynamicsAssignment;
 
 public class Utils {
 
-    private Utils() {}
+    private Utils() { }
 
-    public static void panic(String message, Object... objs) {
+    public static void panic(final String message, final Object... objs) {
         Logger.e(message, objs);
         throw new IllegalStateException(String.format(message, objs));
     }
 
-    public static boolean isBlank(@Nullable String str) {
+    public static boolean isBlank(final @Nullable String str) {
         if (str == null)
             return true;
         if (str.isEmpty())
@@ -60,7 +60,7 @@ public class Utils {
         return false;
     }
 
-    public static boolean nullableEqual(@Nullable Object obj1, @Nullable Object obj2) {
+    public static boolean nullableEqual(final @Nullable Object obj1, final @Nullable Object obj2) {
         if (obj1 == null && obj2 == null)
             return true;
         if (obj1 == null || obj2 == null)
@@ -68,7 +68,7 @@ public class Utils {
         return obj1.equals(obj2);
     }
 
-    public static Set<Integer> str2set(String text) throws ParseException {
+    public static Set<Integer> str2set(final String text) throws ParseException {
         Set<Integer> days = new HashSet<>();
         for (String str : text.split("\n")) {
             if (isBlank(str))
@@ -78,7 +78,7 @@ public class Utils {
         return days;
     }
 
-    public static String set2str(Set<Integer> days) {
+    public static String set2str(final Set<Integer> days) {
         StringBuilder str = new StringBuilder();
         for (int day : days) {
             str.append(String.format(Locale.US, "%d\n", day));
@@ -86,7 +86,7 @@ public class Utils {
         return str.toString();
     }
 
-    public static <T> List<String> set2strlist(Set<T> set) {
+    public static <T> List<String> set2strlist(final Set<T> set) {
         List<String> list = new ArrayList<>(set.size());
         for (T num : set) {
             list.add(num.toString());
@@ -95,7 +95,7 @@ public class Utils {
     }
 
     @NonNull
-    public static String StringCollectionToString(@Nullable Collection<String> collection, boolean trailing) {
+    public static String StringCollectionToString(final @Nullable Collection<String> collection, final boolean trailing) {
         if (collection == null)
             return "";
         StringBuilder text = new StringBuilder();
@@ -114,7 +114,7 @@ public class Utils {
         return text.toString();
     }
 
-    public static List<String> stringToStringList(String text) {
+    public static List<String> stringToStringList(final String text) {
         List<String> list = new ArrayList<>();
         for (String str : text.split("\n")) {
             String trimmed = str.trim();
@@ -124,7 +124,7 @@ public class Utils {
         return list;
     }
 
-    public static int checkedIndexFirst(CompoundButton[] buttons) {
+    public static int checkedIndexFirst(final CompoundButton[] buttons) {
         for (int i = 0; i < buttons.length; i++) {
             if (buttons[i].isChecked())
                 return i;
@@ -139,7 +139,7 @@ public class Utils {
     private static final Pattern pattern_placeholder = Pattern.compile(regex_placeholder);
 
     @NonNull
-    public static Set<String> extractPlaceholder(@NonNull String str) {
+    public static Set<String> extractPlaceholder(final @NonNull String str) {
         Set<String> set = new ArraySet<>();
         Matcher matcher = pattern_placeholder.matcher(str);
         while (matcher.find()) {
@@ -150,7 +150,7 @@ public class Utils {
     }
 
     @NonNull
-    public static String applyDynamics(@NonNull String str, @NonNull SolidDynamicsAssignment dynamicsAssignment) {
+    public static String applyDynamics(final @NonNull String str, final @NonNull SolidDynamicsAssignment dynamicsAssignment) {
         Set<String> placeholders = extractPlaceholder(str);
         for (String placeholder : placeholders) {
             String property = dynamicsAssignment.getAssignment(placeholder);

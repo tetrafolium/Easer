@@ -96,12 +96,12 @@ public interface USourceSkill<D extends USourceData> extends Skill<D> {
             }
 
             @Override
-            public Slot<D> slot(@NonNull Context context, @NonNull D data) {
+            public Slot<D> slot(final @NonNull Context context, final @NonNull D data) {
                 return USourceSkill.this.slot(context, data);
             }
 
             @Override
-            public Slot<D> slot(@NonNull Context context, @NonNull D data, boolean retriggerable, boolean persistent) {
+            public Slot<D> slot(final @NonNull Context context, final @NonNull D data, final boolean retriggerable, final boolean persistent) {
                 return USourceSkill.this.slot(context, data, retriggerable, persistent);
             }
 
@@ -117,18 +117,18 @@ public interface USourceSkill<D extends USourceData> extends Skill<D> {
             }
 
             @Override
-            public boolean isCompatible(@NonNull Context context) {
+            public boolean isCompatible(final @NonNull Context context) {
                 return USourceSkill.this.isCompatible(context);
             }
 
             @Nullable
             @Override
-            public Boolean checkPermissions(@NonNull Context context) {
+            public Boolean checkPermissions(final @NonNull Context context) {
                 return USourceSkill.this.checkPermissions(context);
             }
 
             @Override
-            public void requestPermissions(@NonNull Activity activity, int requestCode) {
+            public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
                 USourceSkill.this.requestPermissions(activity, requestCode);
             }
 
@@ -156,7 +156,7 @@ public interface USourceSkill<D extends USourceData> extends Skill<D> {
 
             @NonNull
             @Override
-            public Tracker<D> tracker(@NonNull Context context, @NonNull D data, @NonNull PendingIntent event_positive, @NonNull PendingIntent event_negative) {
+            public Tracker<D> tracker(final @NonNull Context context, final @NonNull D data, final @NonNull PendingIntent event_positive, final @NonNull PendingIntent event_negative) {
                 return USourceSkill.this.tracker(context, data, event_positive, event_negative);
             }
 
@@ -172,18 +172,18 @@ public interface USourceSkill<D extends USourceData> extends Skill<D> {
             }
 
             @Override
-            public boolean isCompatible(@NonNull Context context) {
+            public boolean isCompatible(final @NonNull Context context) {
                 return USourceSkill.this.isCompatible(context);
             }
 
             @Nullable
             @Override
-            public Boolean checkPermissions(@NonNull Context context) {
+            public Boolean checkPermissions(final @NonNull Context context) {
                 return USourceSkill.this.checkPermissions(context);
             }
 
             @Override
-            public void requestPermissions(@NonNull Activity activity, int requestCode) {
+            public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
                 USourceSkill.this.requestPermissions(activity, requestCode);
             }
 

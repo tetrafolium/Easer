@@ -24,13 +24,13 @@ import androidx.annotation.NonNull;
 
 public enum PluginDataFormat {
     JSON,
-    ;
+;
 
-    public static void toParcel(@NonNull Parcel dest, @NonNull PluginDataFormat format) {
+    public static void toParcel(final @NonNull Parcel dest, final @NonNull PluginDataFormat format) {
         dest.writeInt(format.ordinal());
     }
 
-    public static @NonNull PluginDataFormat fromParcel(@NonNull Parcel in) {
+    public static @NonNull PluginDataFormat fromParcel(final @NonNull Parcel in) {
         return PluginDataFormat.values()[in.readInt()];
     }
 }

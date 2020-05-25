@@ -56,12 +56,12 @@ public class ConditionEventEventSkill implements EventSkill<ConditionEventEventD
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return null;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
     }
 
     @NonNull
@@ -83,12 +83,12 @@ public class ConditionEventEventSkill implements EventSkill<ConditionEventEventD
     }
 
     @Override
-    public AbstractSlot<ConditionEventEventData> slot(@NonNull Context context, @ValidData @NonNull ConditionEventEventData data) {
+    public AbstractSlot<ConditionEventEventData> slot(final @NonNull Context context, final @ValidData @NonNull ConditionEventEventData data) {
         return new ConditionEventSlot(context, data);
     }
 
     @Override
-    public AbstractSlot<ConditionEventEventData> slot(@NonNull Context context, @NonNull ConditionEventEventData data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot<ConditionEventEventData> slot(final @NonNull Context context, final @NonNull ConditionEventEventData data, final boolean retriggerable, final boolean persistent) {
         return new ConditionEventSlot(context, data, retriggerable, persistent);
     }
 

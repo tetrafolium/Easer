@@ -30,7 +30,7 @@ public class PowerSlot extends AbstractSlot<PowerUSourceData> {
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             switch (intent.getAction()) {
                 case Intent.ACTION_POWER_CONNECTED:
                     determineAndNotify(true);
@@ -52,11 +52,11 @@ public class PowerSlot extends AbstractSlot<PowerUSourceData> {
         filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
     }
 
-    public PowerSlot(Context context, PowerUSourceData data) {
+    public PowerSlot(final Context context, final PowerUSourceData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    PowerSlot(Context context, PowerUSourceData data, boolean retriggerable, boolean persistent) {
+    PowerSlot(final Context context, final PowerUSourceData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
     }
 
@@ -70,7 +70,7 @@ public class PowerSlot extends AbstractSlot<PowerUSourceData> {
         context.unregisterReceiver(receiver);
     }
 
-    private void determineAndNotify(boolean isCharging) {
+    private void determineAndNotify(final boolean isCharging) {
         changeSatisfiedState(Utils.determine(isCharging, eventData, context));
     }
 

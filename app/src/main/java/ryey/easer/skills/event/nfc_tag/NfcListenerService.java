@@ -40,7 +40,7 @@ public class NfcListenerService extends Service {
     private final IntentFilter mFilter = new IntentFilter(ACTION_NFC_SCANNED);
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             if (ACTION_NFC_SCANNED.equals(intent.getAction())) {
                 Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
                 for (NfcTagSlot slot : registeredSlots) {
@@ -68,16 +68,16 @@ public class NfcListenerService extends Service {
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(final Intent intent) {
         return new NLSBinder();
     }
 
     class NLSBinder extends Binder {
-        void registerSlot(NfcTagSlot slot) {
+        void registerSlot(final NfcTagSlot slot) {
             registeredSlots.add(slot);
         }
 
-        void unregisterSlot(NfcTagSlot slot) {
+        void unregisterSlot(final NfcTagSlot slot) {
             registeredSlots.remove(slot);
         }
     }

@@ -47,7 +47,7 @@ class DateUSourceDataFactory implements USourceDataFactory<DateUSourceData> {
     @ValidData
     @NonNull
     @Override
-    public DateUSourceData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public DateUSourceData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new DateUSourceData(data, format, version);
     }
 }

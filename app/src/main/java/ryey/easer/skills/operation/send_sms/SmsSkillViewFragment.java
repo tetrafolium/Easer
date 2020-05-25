@@ -39,7 +39,7 @@ public class SmsSkillViewFragment extends SkillViewFragment<SmsOperationData> {
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_operation__send_sms, container, false);
         et_destination = view.findViewById(R.id.editText_destination);
         et_content = view.findViewById(R.id.editText_content);
@@ -47,7 +47,7 @@ public class SmsSkillViewFragment extends SkillViewFragment<SmsOperationData> {
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull SmsOperationData data) {
+    protected void _fill(final @ValidData @NonNull SmsOperationData data) {
         et_destination.setText(data.destination);
         et_content.setText(data.content);
     }

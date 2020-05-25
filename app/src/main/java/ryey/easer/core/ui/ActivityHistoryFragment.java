@@ -83,7 +83,7 @@ public class ActivityHistoryFragment extends Fragment {
 
     final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             switch (intent.getAction()) {
                 case EHService.ACTION_PROFILE_UPDATED:
                     refreshHistoryDisplay();
@@ -100,7 +100,7 @@ public class ActivityHistoryFragment extends Fragment {
     ActivityLogService.ActivityLogServiceBinder serviceBinder;
     ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
+        public void onServiceConnected(final ComponentName name, final IBinder service) {
             serviceBinder = (ActivityLogService.ActivityLogServiceBinder) service;
             if (clearHistoryAfterBind) {
                 clearHistory();
@@ -109,14 +109,14 @@ public class ActivityHistoryFragment extends Fragment {
         }
 
         @Override
-        public void onServiceDisconnected(ComponentName name) {
+        public void onServiceDisconnected(final ComponentName name) {
             serviceBinder = null;
         }
     };
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         Bundle args = getArguments();
         if (args != null && COMPACT == args.getInt(ARG_SIZE))
             size = COMPACT;
@@ -142,7 +142,7 @@ public class ActivityHistoryFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final @NonNull View view, final @Nullable Bundle savedInstanceState) {
         IntentFilter filter = new IntentFilter();
         filter.addAction(EHService.ACTION_PROFILE_UPDATED);
         getContext().registerReceiver(mReceiver, filter);
@@ -168,13 +168,13 @@ public class ActivityHistoryFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.activity_history, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == R.id.action_clear) {
             if (serviceBinder == null)
                 clearHistoryAfterBind = true;
@@ -207,14 +207,14 @@ public class ActivityHistoryFragment extends Fragment {
 
         @NonNull
         @Override
-        public HistoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public HistoryViewHolder onCreateViewHolder(final @NonNull ViewGroup parent, final int viewType) {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_activity_log, parent, false);
             return new HistoryViewHolder(v, new WeakReference<>(parent.getContext()));
         }
 
         @Override
-        public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position) {
+        public void onBindViewHolder(final @NonNull HistoryViewHolder holder, final int position) {
             ActivityLog log = getItem(position);
             holder.bindTo(log);
         }
@@ -223,12 +223,12 @@ public class ActivityHistoryFragment extends Fragment {
                 new DiffUtil.ItemCallback<ActivityLog>() {
                     @Override
                     public boolean areItemsTheSame(
-                            @NonNull ActivityLog oldActivityLog, @NonNull ActivityLog newActivityLog) {
+                            final @NonNull ActivityLog oldActivityLog, final @NonNull ActivityLog newActivityLog) {
                         return oldActivityLog.equals(newActivityLog);
                     }
                     @Override
                     public boolean areContentsTheSame(
-                            @NonNull ActivityLog oldActivityLog, @NonNull ActivityLog newActivityLog) {
+                            final @NonNull ActivityLog oldActivityLog, final @NonNull ActivityLog newActivityLog) {
                         return oldActivityLog.equals(newActivityLog);
                     }
                 };
@@ -238,14 +238,14 @@ public class ActivityHistoryFragment extends Fragment {
     static class HistoryViewHolder extends RecyclerView.ViewHolder {
         final ItemActivityLogBinding binding;
         final WeakReference<Context> context;
-        HistoryViewHolder(View itemView, WeakReference<Context> context) {
+        HistoryViewHolder(final View itemView, final WeakReference<Context> context) {
             super(itemView);
             binding = DataBindingUtil.bind(itemView);
             this.context = context;
         }
 
         @Nullable
-        private static String tLong2Text(long time, Context context) {
+        private static String tLong2Text(final long time, final Context context) {
             if (time < 0) {
                 return null;
             }
@@ -260,7 +260,7 @@ public class ActivityHistoryFragment extends Fragment {
             return df.format(calendar.getTime());
         }
 
-        void bindTo(@Nullable ActivityLog activityLog) {
+        void bindTo(final @Nullable ActivityLog activityLog) {
             binding.cScript.setVisibility(View.GONE);
             binding.cStatus.setVisibility(View.GONE);
             binding.cProfile.setVisibility(View.GONE);

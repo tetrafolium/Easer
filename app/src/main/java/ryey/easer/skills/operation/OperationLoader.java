@@ -33,7 +33,7 @@ import ryey.easer.commons.local_skill.operationskill.OperationData;
 public abstract class OperationLoader<T extends OperationData> implements Loader<T> {
     protected final Context context;
 
-    public OperationLoader(@NonNull Context context) {
+    public OperationLoader(final @NonNull Context context) {
         this.context = context;
     }
 

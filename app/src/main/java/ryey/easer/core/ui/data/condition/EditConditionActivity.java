@@ -56,7 +56,7 @@ public class EditConditionActivity extends AbstractEditDataActivity<ConditionStr
     }
 
     @Override
-    protected void loadFromData(ConditionStructure condition) {
+    protected void loadFromData(final ConditionStructure condition) {
         oldName = condition.getName();
         mEditText_name.setText(condition.getName());
         editConditionDataFragment.loadFromData(condition.getData());

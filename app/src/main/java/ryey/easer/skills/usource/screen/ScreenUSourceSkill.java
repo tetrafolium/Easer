@@ -55,12 +55,12 @@ public class ScreenUSourceSkill implements USourceSkill<ScreenUSourceData> {
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return null;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
     }
 
     @NonNull
@@ -82,17 +82,17 @@ public class ScreenUSourceSkill implements USourceSkill<ScreenUSourceData> {
     }
 
     @Override
-    public AbstractSlot<ScreenUSourceData> slot(@NonNull Context context, @ValidData @NonNull ScreenUSourceData data) {
+    public AbstractSlot<ScreenUSourceData> slot(final @NonNull Context context, final @ValidData @NonNull ScreenUSourceData data) {
         return new ScreenSlot(context, data);
     }
 
     @Override
-    public AbstractSlot<ScreenUSourceData> slot(@NonNull Context context, @NonNull ScreenUSourceData data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot<ScreenUSourceData> slot(final @NonNull Context context, final @NonNull ScreenUSourceData data, final boolean retriggerable, final boolean persistent) {
         return new ScreenSlot(context, data, retriggerable, persistent);
     }
 
     @Override
-    public Tracker<ScreenUSourceData> tracker(@NonNull Context context, @NonNull ScreenUSourceData data, @NonNull PendingIntent event_positive, @NonNull PendingIntent event_negative) {
+    public Tracker<ScreenUSourceData> tracker(final @NonNull Context context, final @NonNull ScreenUSourceData data, final @NonNull PendingIntent event_positive, final @NonNull PendingIntent event_negative) {
         return new ScreenTracker(context, data, event_positive, event_negative);
     }
 

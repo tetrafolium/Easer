@@ -25,11 +25,11 @@ public class SolidDynamicsAssignment {
 
     private HashMap<String, String> assignments;
 
-    SolidDynamicsAssignment(HashMap<String, String> assignments) {
+    SolidDynamicsAssignment(final HashMap<String, String> assignments) {
         this.assignments = assignments;
     }
 
-    public String getAssignment(String placeholder) {
+    public String getAssignment(final String placeholder) {
         if (assignments.containsKey(placeholder))
             return assignments.get(placeholder);
         return placeholder;

@@ -55,7 +55,7 @@ public abstract class SourceSelectorDialogFragment<S extends Skill & SourceCateg
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dialog_select_skill, container, false);
         {
             TextView tvTitle = view.findViewById(android.R.id.title);
@@ -75,7 +75,7 @@ public abstract class SourceSelectorDialogFragment<S extends Skill & SourceCateg
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 SkillItemWrapper<S> skillItemWrapper = (SkillItemWrapper<S>) parent.getItemAtPosition(position);
                 if (!skillItemWrapper.isRemote()) {
                     S plugin = skillItemWrapper.skill;
@@ -94,7 +94,7 @@ public abstract class SourceSelectorDialogFragment<S extends Skill & SourceCateg
         return view;
     }
 
-    public void setSelectedListener(SelectedListener<S> listener) {
+    public void setSelectedListener(final SelectedListener<S> listener) {
         this.selectedListener = listener;
     }
 
@@ -107,7 +107,7 @@ public abstract class SourceSelectorDialogFragment<S extends Skill & SourceCateg
         @NonNull public final String name;
         @NonNull public final SourceCategory category;
         @Nullable public final S skill;
-        SkillItemWrapper(@NonNull String id, @NonNull String name, @NonNull SourceCategory category, @Nullable S skill) {
+        SkillItemWrapper(final @NonNull String id, final @NonNull String name, final @NonNull SourceCategory category, final @Nullable S skill) {
             this.id = id;
             this.name = name;
             this.category = category;
@@ -126,12 +126,12 @@ public abstract class SourceSelectorDialogFragment<S extends Skill & SourceCateg
         private final List<SkillItemWrapper<S>> operationList = new ArrayList<>();
         private LayoutInflater inflater;
 
-        PluginListAdapter(Context context, List<SkillItemWrapper<S>> originalList) {
+        PluginListAdapter(final Context context, final List<SkillItemWrapper<S>> originalList) {
             inflater = LayoutInflater.from(context);
             this.operationList.addAll(originalList);
             Collections.sort(operationList, new Comparator<SkillItemWrapper<S>>() {
                 @Override
-                public int compare(SkillItemWrapper<S> skillItemWrapper, SkillItemWrapper<S> t1) {
+                public int compare(final SkillItemWrapper<S> skillItemWrapper, final SkillItemWrapper<S> t1) {
                     return skillItemWrapper.category.ordinal() - t1.category.ordinal();
                 }
             });
@@ -143,17 +143,17 @@ public abstract class SourceSelectorDialogFragment<S extends Skill & SourceCateg
         }
 
         @Override
-        public Object getItem(int position) {
+        public Object getItem(final int position) {
             return operationList.get(position);
         }
 
         @Override
-        public long getItemId(int position) {
+        public long getItemId(final int position) {
             return position;
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, final View convertView, final ViewGroup parent) {
             ViewHolder holder;
 
             if (convertView == null) {
@@ -171,7 +171,7 @@ public abstract class SourceSelectorDialogFragment<S extends Skill & SourceCateg
         }
 
         @Override
-        public View getHeaderView(int position, View convertView, ViewGroup parent) {
+        public View getHeaderView(final int position, final View convertView, final ViewGroup parent) {
             HeaderViewHolder holder;
             if (convertView == null) {
                 holder = new HeaderViewHolder();
@@ -188,7 +188,7 @@ public abstract class SourceSelectorDialogFragment<S extends Skill & SourceCateg
         }
 
         @Override
-        public long getHeaderId(int position) {
+        public long getHeaderId(final int position) {
             //return the first character of the country as ID because this is what headers are based upon
             return operationList.get(position).category.ordinal();
         }

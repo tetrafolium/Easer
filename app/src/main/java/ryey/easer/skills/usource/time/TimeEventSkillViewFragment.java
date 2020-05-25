@@ -42,14 +42,14 @@ public class TimeEventSkillViewFragment extends SkillViewFragment<TimeUSourceDat
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         timePicker = new TimePicker(getContext());
         timePicker.setIs24HourView(!SettingsUtils.use12HourClock(getContext()));
 
         return timePicker;
     }
 
-    private static void setTimePicker(TimePicker timePicker, Calendar calendar) {
+    private static void setTimePicker(final TimePicker timePicker, final Calendar calendar) {
         int hour, minute;
         hour = calendar.get(Calendar.HOUR_OF_DAY);
         minute = calendar.get(Calendar.MINUTE);
@@ -62,7 +62,7 @@ public class TimeEventSkillViewFragment extends SkillViewFragment<TimeUSourceDat
         }
     }
 
-    private static Calendar fromTimePicker(TimePicker timePicker) {
+    private static Calendar fromTimePicker(final TimePicker timePicker) {
         Calendar calendar = Calendar.getInstance();
         if (Build.VERSION.SDK_INT >= 23) {
             calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
@@ -75,7 +75,7 @@ public class TimeEventSkillViewFragment extends SkillViewFragment<TimeUSourceDat
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull TimeUSourceData data) {
+    protected void _fill(final @ValidData @NonNull TimeUSourceData data) {
         setTimePicker(timePicker, data.time);
     }
 

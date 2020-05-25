@@ -39,7 +39,7 @@ public class BluetoothEnabledSkillViewFragment extends SkillViewFragment<Bluetoo
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_usource__bluetooth_enabled, container, false);
 
         radioButton_enabled = view.findViewById(R.id.radioButton_yes);
@@ -49,7 +49,7 @@ public class BluetoothEnabledSkillViewFragment extends SkillViewFragment<Bluetoo
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull BluetoothEnabledUSourceData data) {
+    protected void _fill(final @ValidData @NonNull BluetoothEnabledUSourceData data) {
         if (data.enabled) {
             radioButton_enabled.setChecked(true);
         } else {

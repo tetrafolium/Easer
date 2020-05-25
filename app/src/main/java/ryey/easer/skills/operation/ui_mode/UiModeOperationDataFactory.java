@@ -43,7 +43,7 @@ class UiModeOperationDataFactory implements OperationDataFactory<UiModeOperation
     @ValidData
     @NonNull
     @Override
-    public UiModeOperationData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public UiModeOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new UiModeOperationData(data, format, version);
     }
 }

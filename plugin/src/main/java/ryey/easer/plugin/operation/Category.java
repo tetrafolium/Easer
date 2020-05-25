@@ -33,7 +33,7 @@ public enum Category {
     unknown;
 
     @NonNull
-    public String toString(Resources resources) {
+    public String toString(final Resources resources) {
         switch (this) {
             case android:
                 return resources.getString(R.string.category_operation_android);

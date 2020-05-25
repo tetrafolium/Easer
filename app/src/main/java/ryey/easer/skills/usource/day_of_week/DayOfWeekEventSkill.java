@@ -55,12 +55,12 @@ public class DayOfWeekEventSkill implements USourceSkill<DayOfWeekUSourceData> {
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return null;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
 
     }
 
@@ -84,17 +84,17 @@ public class DayOfWeekEventSkill implements USourceSkill<DayOfWeekUSourceData> {
     }
 
     @Override
-    public AbstractSlot<DayOfWeekUSourceData> slot(@NonNull Context context, @ValidData @NonNull DayOfWeekUSourceData data) {
+    public AbstractSlot<DayOfWeekUSourceData> slot(final @NonNull Context context, final @ValidData @NonNull DayOfWeekUSourceData data) {
         return new DayOfWeekSlot(context, data);
     }
 
     @Override
-    public AbstractSlot<DayOfWeekUSourceData> slot(@NonNull Context context, @NonNull DayOfWeekUSourceData data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot<DayOfWeekUSourceData> slot(final @NonNull Context context, final @NonNull DayOfWeekUSourceData data, final boolean retriggerable, final boolean persistent) {
         return new DayOfWeekSlot(context, data, retriggerable, persistent);
     }
 
     @Override
-    public Tracker<DayOfWeekUSourceData> tracker(@NonNull Context context, @NonNull DayOfWeekUSourceData data, @NonNull PendingIntent event_positive, @NonNull PendingIntent event_negative) {
+    public Tracker<DayOfWeekUSourceData> tracker(final @NonNull Context context, final @NonNull DayOfWeekUSourceData data, final @NonNull PendingIntent event_positive, final @NonNull PendingIntent event_negative) {
         return new DayOfWeekTracker(context, data, event_positive, event_negative);
     }
 

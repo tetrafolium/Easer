@@ -38,7 +38,7 @@ public class BTDeviceTracker extends SkeletonTracker<BTDeviceUSourceData> {
 
     private final BroadcastReceiver connReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             String action = intent.getAction();
             if (action.equals(BluetoothDevice.ACTION_ACL_CONNECTED)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
@@ -64,9 +64,9 @@ public class BTDeviceTracker extends SkeletonTracker<BTDeviceUSourceData> {
         filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
     }
 
-    BTDeviceTracker(Context context, BTDeviceUSourceData data,
-                    @NonNull PendingIntent event_positive,
-                    @NonNull PendingIntent event_negative) {
+    BTDeviceTracker(final Context context, final BTDeviceUSourceData data,
+                    final @NonNull PendingIntent event_positive,
+                    final @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
             BluetoothManager bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
@@ -91,7 +91,7 @@ public class BTDeviceTracker extends SkeletonTracker<BTDeviceUSourceData> {
         context.unregisterReceiver(connReceiver);
     }
 
-    private boolean is_target(BluetoothDevice device) {
+    private boolean is_target(final BluetoothDevice device) {
         return data.hwAddresses.contains(device.getAddress());
     }
 

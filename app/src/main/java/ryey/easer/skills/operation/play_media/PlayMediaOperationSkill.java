@@ -73,7 +73,7 @@ public class PlayMediaOperationSkill implements OperationSkill<PlayMediaOperatio
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             return SkillUtils.checkPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
@@ -81,7 +81,7 @@ public class PlayMediaOperationSkill implements OperationSkill<PlayMediaOperatio
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             SkillUtils.requestPermission(activity, requestCode, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
@@ -102,7 +102,7 @@ public class PlayMediaOperationSkill implements OperationSkill<PlayMediaOperatio
 
     @NonNull
     @Override
-    public OperationLoader<PlayMediaOperationData> loader(@NonNull Context context) {
+    public OperationLoader<PlayMediaOperationData> loader(final @NonNull Context context) {
         return new PlayMediaLoader(context);
     }
 

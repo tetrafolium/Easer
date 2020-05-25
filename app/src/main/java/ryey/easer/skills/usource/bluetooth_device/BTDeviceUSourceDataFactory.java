@@ -43,7 +43,7 @@ class BTDeviceUSourceDataFactory implements USourceDataFactory<BTDeviceUSourceDa
     @ValidData
     @NonNull
     @Override
-    public BTDeviceUSourceData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public BTDeviceUSourceData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new BTDeviceUSourceData(data, format, version);
     }
 }

@@ -32,7 +32,7 @@ import ryey.easer.skills.LocalSkillRegistry;
 
 public class EventSerializer implements Serializer<EventStructure> {
     @Override
-    public String serialize(EventStructure data) throws UnableToSerializeException {
+    public String serialize(final EventStructure data) throws UnableToSerializeException {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put(C.NAME, data.getName());
@@ -46,7 +46,7 @@ public class EventSerializer implements Serializer<EventStructure> {
         }
     }
 
-    private static JSONObject serialize_situation(EventData event) throws JSONException {
+    private static JSONObject serialize_situation(final EventData event) throws JSONException {
         JSONObject json_situation = new JSONObject();
         json_situation.put(C.SPEC, LocalSkillRegistry.getInstance().event().findSkill(event).id());
         json_situation.put(C.DATA, event.serialize(PluginDataFormat.JSON));

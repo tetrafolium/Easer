@@ -39,11 +39,11 @@ import ryey.easer.plugin.PluginDataFormat;
 public class CellLocationUSourceData implements USourceData {
     final List<CellLocationSingleData> data = new ArrayList<>();
 
-    CellLocationUSourceData(String[] locations) {
+    CellLocationUSourceData(final String[] locations) {
         setFromMultiple(locations);
     }
 
-    CellLocationUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    CellLocationUSourceData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
             default:
                 try {
@@ -60,7 +60,7 @@ public class CellLocationUSourceData implements USourceData {
         }
     }
 
-    private void setFromMultiple(String[] locations) {
+    private void setFromMultiple(final String[] locations) {
         data.clear();
         for (String location : locations) {
             CellLocationSingleData singleData = new CellLocationSingleData();
@@ -72,7 +72,7 @@ public class CellLocationUSourceData implements USourceData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
             default:
@@ -101,7 +101,7 @@ public class CellLocationUSourceData implements USourceData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (obj == null || !(obj instanceof CellLocationUSourceData))
@@ -129,22 +129,22 @@ public class CellLocationUSourceData implements USourceData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeList(data);
     }
 
     public static final Creator<CellLocationUSourceData> CREATOR
             = new Creator<CellLocationUSourceData>() {
-        public CellLocationUSourceData createFromParcel(Parcel in) {
+        public CellLocationUSourceData createFromParcel(final Parcel in) {
             return new CellLocationUSourceData(in);
         }
 
-        public CellLocationUSourceData[] newArray(int size) {
+        public CellLocationUSourceData[] newArray(final int size) {
             return new CellLocationUSourceData[size];
         }
     };
 
-    private CellLocationUSourceData(Parcel in) {
+    private CellLocationUSourceData(final Parcel in) {
         in.readList(data, CellLocationSingleData.class.getClassLoader());
     }
 

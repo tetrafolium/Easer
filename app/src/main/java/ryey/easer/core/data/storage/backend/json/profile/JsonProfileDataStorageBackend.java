@@ -40,13 +40,13 @@ public class JsonProfileDataStorageBackend implements ProfileDataStorageBackendI
     private final Context context;
     private static File dir;
 
-    public JsonProfileDataStorageBackend(Context context) {
+    public JsonProfileDataStorageBackend(final Context context) {
         this.context = context;
         dir = IOUtils.mustGetSubDir(context.getFilesDir(), "profile");
     }
 
     @Override
-    public boolean has(String name) {
+    public boolean has(final String name) {
         return IOUtils.fileExists(dir, name + NC.SUFFIX);
     }
 
@@ -60,26 +60,26 @@ public class JsonProfileDataStorageBackend implements ProfileDataStorageBackendI
     }
 
     @Override
-    public ProfileStructure get(String name) throws FileNotFoundException, IllegalStorageDataException {
+    public ProfileStructure get(final String name) throws FileNotFoundException, IllegalStorageDataException {
         File file = new File(dir, name + NC.SUFFIX);
         return get(file);
     }
 
-    private ProfileStructure get(File file) throws FileNotFoundException, IllegalStorageDataException {
+    private ProfileStructure get(final File file) throws FileNotFoundException, IllegalStorageDataException {
         ProfileParser parser = new ProfileParser();
         ProfileStructure profileStructure = FileDataStorageBackendHelper.get(parser, file);
         return profileStructure;
     }
 
     @Override
-    public void write(ProfileStructure profile) throws IOException {
+    public void write(final ProfileStructure profile) throws IOException {
         File file = new File(dir, profile.getName() + NC.SUFFIX);
         ProfileSerializer serializer = new ProfileSerializer();
         FileDataStorageBackendHelper.write(serializer, file, profile);
     }
 
     @Override
-    public void delete(String name) {
+    public void delete(final String name) {
         File file = new File(dir, name + NC.SUFFIX);
         if (!file.delete())
             throw new IllegalStateException("Unable to delete " + file);
@@ -90,7 +90,7 @@ public class JsonProfileDataStorageBackend implements ProfileDataStorageBackendI
         List<ProfileStructure> list = new ArrayList<>();
         File[] files = dir.listFiles(new FileFilter() {
             @Override
-            public boolean accept(File pathname) {
+            public boolean accept(final File pathname) {
                 if (pathname.isFile()) {
                     if (pathname.getName().endsWith(NC.SUFFIX)) {
                         return true;

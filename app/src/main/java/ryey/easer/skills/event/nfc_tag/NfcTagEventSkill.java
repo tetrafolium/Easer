@@ -57,13 +57,13 @@ public class NfcTagEventSkill implements EventSkill<NfcTagEventData> {
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.checkPermission(context,
                 Manifest.permission.NFC);
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         SkillUtils.requestPermission(activity, requestCode, Manifest.permission.NFC);
     }
 
@@ -87,12 +87,12 @@ public class NfcTagEventSkill implements EventSkill<NfcTagEventData> {
     }
 
     @Override
-    public AbstractSlot<NfcTagEventData> slot(@NonNull Context context, @ValidData @NonNull NfcTagEventData data) {
+    public AbstractSlot<NfcTagEventData> slot(final @NonNull Context context, final @ValidData @NonNull NfcTagEventData data) {
         return new NfcTagSlot(context, data);
     }
 
     @Override
-    public AbstractSlot<NfcTagEventData> slot(@NonNull Context context, @NonNull NfcTagEventData data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot<NfcTagEventData> slot(final @NonNull Context context, final @NonNull NfcTagEventData data, final boolean retriggerable, final boolean persistent) {
         return new NfcTagSlot(context, data, retriggerable, persistent);
     }
 

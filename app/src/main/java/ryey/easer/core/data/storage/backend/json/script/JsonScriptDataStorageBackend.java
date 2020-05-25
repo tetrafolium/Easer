@@ -40,13 +40,13 @@ public class JsonScriptDataStorageBackend implements ScriptDataStorageBackendInt
     private final Context context;
     private static File dir;
 
-    public JsonScriptDataStorageBackend(Context context) {
+    public JsonScriptDataStorageBackend(final Context context) {
         this.context = context;
         dir = IOUtils.mustGetSubDir(context.getFilesDir(), "script");
     }
 
     @Override
-    public boolean has(String name) {
+    public boolean has(final String name) {
         return IOUtils.fileExists(dir, name + NC.SUFFIX);
     }
 
@@ -60,32 +60,32 @@ public class JsonScriptDataStorageBackend implements ScriptDataStorageBackendInt
     }
 
     @Override
-    public ScriptStructure get(String name) throws FileNotFoundException, IllegalStorageDataException {
+    public ScriptStructure get(final String name) throws FileNotFoundException, IllegalStorageDataException {
         File file = new File(dir, name + NC.SUFFIX);
         return get(file);
     }
 
-    private ScriptStructure get(File file) throws FileNotFoundException, IllegalStorageDataException {
+    private ScriptStructure get(final File file) throws FileNotFoundException, IllegalStorageDataException {
         ScriptParser parser = new ScriptParser(context);
         return FileDataStorageBackendHelper.get(parser, file);
     }
 
     @Override
-    public void write(ScriptStructure event) throws IOException {
+    public void write(final ScriptStructure event) throws IOException {
         File file = new File(dir, event.getName() + NC.SUFFIX);
         ScriptSerializer serializer = new ScriptSerializer();
         FileDataStorageBackendHelper.write(serializer, file, event);
     }
 
     @Override
-    public void delete(String name) {
+    public void delete(final String name) {
         File file = new File(dir, name + NC.SUFFIX);
         if (!file.delete())
             throw new IllegalStateException("Unable to delete file " + file);
     }
 
     @Override
-    public void update(ScriptStructure event) throws IOException {
+    public void update(final ScriptStructure event) throws IOException {
         delete(event.getName());
         write(event);
     }
@@ -95,7 +95,7 @@ public class JsonScriptDataStorageBackend implements ScriptDataStorageBackendInt
         List<ScriptStructure> list = new ArrayList<>();
         File[] files = dir.listFiles(new FileFilter() {
             @Override
-            public boolean accept(File pathname) {
+            public boolean accept(final File pathname) {
                 if (pathname.isFile()) {
                     if (pathname.getName().endsWith(NC.SUFFIX)) {
                         return true;

@@ -41,7 +41,7 @@ public class DataSelectSpinnerWrapper {
 
     private List<String> augmentedList = new ArrayList<>();
 
-    public DataSelectSpinnerWrapper(Context context, Spinner spinner) {
+    public DataSelectSpinnerWrapper(final Context context, final Spinner spinner) {
         this.context = context;
         this.spinner = spinner;
     }
@@ -51,12 +51,12 @@ public class DataSelectSpinnerWrapper {
         return this;
     }
 
-    public DataSelectSpinnerWrapper setAllowEmpty(boolean state) {
+    public DataSelectSpinnerWrapper setAllowEmpty(final boolean state) {
         this.allowEmpty = state;
         return this;
     }
 
-    public DataSelectSpinnerWrapper fillData(List<String> dataList) {
+    public DataSelectSpinnerWrapper fillData(final List<String> dataList) {
         augmentedList.addAll(dataList);
         return this;
     }
@@ -69,16 +69,16 @@ public class DataSelectSpinnerWrapper {
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(final AdapterView<?> adapterView, final View view, final int i, final long l) {
                 adapterView.setSelection(i);
             }
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            public void onNothingSelected(final AdapterView<?> adapterView) {
             }
         });
     }
 
-    public void setSelection(String selection) {
+    public void setSelection(final String selection) {
         if (allowEmpty && selection == null)
             spinner.setSelection(0);
         else

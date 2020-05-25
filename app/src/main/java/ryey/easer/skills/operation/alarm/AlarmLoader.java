@@ -32,12 +32,12 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class AlarmLoader extends OperationLoader<AlarmOperationData> {
-    public AlarmLoader(Context context) {
+    public AlarmLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull AlarmOperationData data) {
+    public boolean load(final @ValidData @NonNull AlarmOperationData data) {
         Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM);
         int hour = data.time.get(Calendar.HOUR_OF_DAY);
         int minute = data.time.get(Calendar.MINUTE);

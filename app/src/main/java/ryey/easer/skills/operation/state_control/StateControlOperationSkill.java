@@ -70,12 +70,12 @@ public class StateControlOperationSkill implements OperationSkill<StateControlOp
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return null;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
 
     }
 
@@ -94,7 +94,7 @@ public class StateControlOperationSkill implements OperationSkill<StateControlOp
 
     @NonNull
     @Override
-    public OperationLoader<StateControlOperationData> loader(@NonNull Context context) {
+    public OperationLoader<StateControlOperationData> loader(final @NonNull Context context) {
         return new StateControlLoader(context);
     }
 

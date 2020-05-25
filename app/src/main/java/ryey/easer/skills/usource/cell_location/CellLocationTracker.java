@@ -36,9 +36,9 @@ public class CellLocationTracker extends SkeletonTracker<CellLocationUSourceData
 
     private CellLocationListener cellLocationListener = new CellLocationListener();
 
-    CellLocationTracker(Context context, CellLocationUSourceData data,
-                   @NonNull PendingIntent event_positive,
-                   @NonNull PendingIntent event_negative) {
+    CellLocationTracker(final Context context, final CellLocationUSourceData data,
+                   final @NonNull PendingIntent event_positive,
+                   final @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
 
         if (telephonyManager == null) {
@@ -62,7 +62,7 @@ public class CellLocationTracker extends SkeletonTracker<CellLocationUSourceData
         return match(telephonyManager.getCellLocation());
     }
 
-    private Boolean match(CellLocation location) {
+    private Boolean match(final CellLocation location) {
         CellLocationSingleData curr = CellLocationSingleData.fromCellLocation(location);
         if (curr == null)
             return null;
@@ -71,7 +71,7 @@ public class CellLocationTracker extends SkeletonTracker<CellLocationUSourceData
 
     class CellLocationListener extends PhoneStateListener {
         @Override
-        synchronized public void onCellLocationChanged(CellLocation location) {
+        synchronized public void onCellLocationChanged(final CellLocation location) {
             super.onCellLocationChanged(location);
             newSatisfiedState(match(location));
         }

@@ -24,7 +24,7 @@ public class InvalidDataInputException extends Exception {
 
     }
 
-    public InvalidDataInputException(String s) {
+    public InvalidDataInputException(final String s) {
         super(s);
     }
 }

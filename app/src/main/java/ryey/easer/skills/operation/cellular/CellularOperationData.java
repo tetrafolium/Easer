@@ -29,26 +29,26 @@ import ryey.easer.plugin.PluginDataFormat;
 import ryey.easer.skills.operation.BooleanOperationData;
 
 public class CellularOperationData extends BooleanOperationData {
-    CellularOperationData(Boolean state) {
+    CellularOperationData(final Boolean state) {
         super(state);
     }
 
-    CellularOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    CellularOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         super(data, format, version);
     }
 
     public static final Parcelable.Creator<CellularOperationData> CREATOR
             = new Parcelable.Creator<CellularOperationData>() {
-        public CellularOperationData createFromParcel(Parcel in) {
+        public CellularOperationData createFromParcel(final Parcel in) {
             return new CellularOperationData(in);
         }
 
-        public CellularOperationData[] newArray(int size) {
+        public CellularOperationData[] newArray(final int size) {
             return new CellularOperationData[size];
         }
     };
 
-    private CellularOperationData(Parcel in) {
+    private CellularOperationData(final Parcel in) {
         super(in);
     }
 

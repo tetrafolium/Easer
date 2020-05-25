@@ -30,12 +30,12 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class LaunchAppLoader extends OperationLoader<LaunchAppOperationData> {
-    LaunchAppLoader(Context context) {
+    LaunchAppLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull LaunchAppOperationData data) {
+    public boolean load(final @ValidData @NonNull LaunchAppOperationData data) {
         Intent intent;
         if (Utils.isBlank(data.app_class)) {
             intent = context.getPackageManager().getLaunchIntentForPackage(data.app_package);

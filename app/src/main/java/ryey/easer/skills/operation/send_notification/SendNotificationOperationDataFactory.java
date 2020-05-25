@@ -45,7 +45,7 @@ class SendNotificationOperationDataFactory implements OperationDataFactory<SendN
     @ValidData
     @NonNull
     @Override
-    public SendNotificationOperationData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public SendNotificationOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new SendNotificationOperationData(data, format, version);
     }
 }

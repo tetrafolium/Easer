@@ -72,12 +72,12 @@ public class NetworkTransmissionOperationSkill implements OperationSkill<Network
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.checkPermission(context, Manifest.permission.INTERNET);
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         SkillUtils.requestPermission(activity, requestCode, Manifest.permission.INTERNET);
     }
 
@@ -96,7 +96,7 @@ public class NetworkTransmissionOperationSkill implements OperationSkill<Network
 
     @NonNull
     @Override
-    public OperationLoader<NetworkTransmissionOperationData> loader(@NonNull Context context) {
+    public OperationLoader<NetworkTransmissionOperationData> loader(final @NonNull Context context) {
         return new NetworkTransmissionLoader(context);
     }
 

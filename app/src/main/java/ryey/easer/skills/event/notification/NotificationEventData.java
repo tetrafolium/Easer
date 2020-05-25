@@ -43,13 +43,13 @@ public class NotificationEventData extends AbstractEventData {
     String title;
     String content;
 
-    NotificationEventData(String app, String title, String content) {
+    NotificationEventData(final String app, final String title, final String content) {
         this.app = app;
         this.title = title;
         this.content = content;
     }
 
-    NotificationEventData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    NotificationEventData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         parse(data, format, version);
     }
 
@@ -77,7 +77,7 @@ public class NotificationEventData extends AbstractEventData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null)
             return false;
         if (!(obj instanceof NotificationEventData))
@@ -93,7 +93,7 @@ public class NotificationEventData extends AbstractEventData {
         return true;
     }
 
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
             default:
                 try {
@@ -109,7 +109,7 @@ public class NotificationEventData extends AbstractEventData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
             default:
@@ -135,7 +135,7 @@ public class NotificationEventData extends AbstractEventData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeString(app);
         dest.writeString(title);
         dest.writeString(content);
@@ -143,16 +143,16 @@ public class NotificationEventData extends AbstractEventData {
 
     public static final Creator<NotificationEventData> CREATOR
             = new Creator<NotificationEventData>() {
-        public NotificationEventData createFromParcel(Parcel in) {
+        public NotificationEventData createFromParcel(final Parcel in) {
             return new NotificationEventData(in);
         }
 
-        public NotificationEventData[] newArray(int size) {
+        public NotificationEventData[] newArray(final int size) {
             return new NotificationEventData[size];
         }
     };
 
-    private NotificationEventData(Parcel in) {
+    private NotificationEventData(final Parcel in) {
         app = in.readString();
         title = in.readString();
         content = in.readString();

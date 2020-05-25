@@ -45,22 +45,22 @@ public class TimerEventData extends AbstractEventData {
     final Boolean exact;
     final boolean repeat;
 
-    TimerEventData(boolean shortTime, int time, Boolean exact, boolean repeat) {
+    TimerEventData(final boolean shortTime, final int time, final Boolean exact, final boolean repeat) {
         this.shortTime = shortTime;
         this.time = time;
         this.exact = exact;
         this.repeat = repeat;
     }
 
-    TimerEventData(int seconds, boolean repeat) {
+    TimerEventData(final int seconds, final boolean repeat) {
         this(true, seconds, null, repeat);
     }
 
-    TimerEventData(int minutes, boolean exact, boolean repeat) {
+    TimerEventData(final int minutes, final boolean exact, final boolean repeat) {
         this(false, minutes, exact, repeat);
     }
 
-    TimerEventData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    TimerEventData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
             default:
                 try {
@@ -96,7 +96,7 @@ public class TimerEventData extends AbstractEventData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null || !(obj instanceof TimerEventData))
             return false;
         if (shortTime != ((TimerEventData) obj).shortTime)
@@ -112,7 +112,7 @@ public class TimerEventData extends AbstractEventData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
             default:
@@ -141,7 +141,7 @@ public class TimerEventData extends AbstractEventData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeByte((byte) (shortTime ? 1 : 0));
         dest.writeInt(time);
         if (!shortTime) {
@@ -152,16 +152,16 @@ public class TimerEventData extends AbstractEventData {
 
     public static final Creator<TimerEventData> CREATOR
             = new Creator<TimerEventData>() {
-        public TimerEventData createFromParcel(Parcel in) {
+        public TimerEventData createFromParcel(final Parcel in) {
             return new TimerEventData(in);
         }
 
-        public TimerEventData[] newArray(int size) {
+        public TimerEventData[] newArray(final int size) {
             return new TimerEventData[size];
         }
     };
 
-    private TimerEventData(Parcel in) {
+    private TimerEventData(final Parcel in) {
         shortTime = in.readByte() != 0;
         time = in.readInt();
         if (shortTime) {

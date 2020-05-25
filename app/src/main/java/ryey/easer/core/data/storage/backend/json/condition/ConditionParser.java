@@ -37,7 +37,7 @@ import ryey.easer.skills.LocalSkillRegistry;
 
 public class ConditionParser implements Parser<ConditionStructure> {
     @Override
-    public ConditionStructure parse(InputStream in) throws IOException, IllegalStorageDataException {
+    public ConditionStructure parse(final InputStream in) throws IOException, IllegalStorageDataException {
         try {
             JSONObject jsonObject = new JSONObject(IOUtils.inputStreamToString(in));
             int version = jsonObject.optInt(C.VERSION, C.VERSION_USE_SCENARIO);
@@ -50,7 +50,7 @@ public class ConditionParser implements Parser<ConditionStructure> {
         }
     }
 
-    private static ConditionData parse_condition(JSONObject json_condition, int version) throws JSONException, IllegalStorageDataException {
+    private static ConditionData parse_condition(final JSONObject json_condition, final int version) throws JSONException, IllegalStorageDataException {
         String spec = json_condition.getString(C.SPEC);
         ConditionSkill<?> plugin = LocalSkillRegistry.getInstance().condition().findSkill(spec);
         if (plugin == null)

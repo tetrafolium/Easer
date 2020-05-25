@@ -36,7 +36,7 @@ public class PowerTracker extends SkeletonTracker<PowerUSourceData> {
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             switch (intent.getAction()) {
                 case Intent.ACTION_POWER_CONNECTED:
                     determineAndNotify(true);
@@ -58,9 +58,9 @@ public class PowerTracker extends SkeletonTracker<PowerUSourceData> {
         filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
     }
 
-    PowerTracker(Context context, PowerUSourceData data,
-                 @NonNull PendingIntent event_positive,
-                 @NonNull PendingIntent event_negative) {
+    PowerTracker(final Context context, final PowerUSourceData data,
+                 final @NonNull PendingIntent event_positive,
+                 final @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
         Logger.d("PowerTracker constructed");
     }
@@ -80,12 +80,12 @@ public class PowerTracker extends SkeletonTracker<PowerUSourceData> {
         Logger.d("PowerTracker.state()");
         Intent batteryStickyIntent = Utils.getBatteryStickyIntent(context);
         int status = batteryStickyIntent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
-                status == BatteryManager.BATTERY_STATUS_FULL;
+        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING
+                || status == BatteryManager.BATTERY_STATUS_FULL;
         return Utils.determine(isCharging, data, batteryStickyIntent);
     }
 
-    private void determineAndNotify(boolean isCharging) {
+    private void determineAndNotify(final boolean isCharging) {
         newSatisfiedState(Utils.determine(isCharging, data, context));
     }
 }

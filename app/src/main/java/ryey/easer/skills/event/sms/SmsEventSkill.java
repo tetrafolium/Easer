@@ -55,14 +55,14 @@ public class SmsEventSkill implements EventSkill<SmsEventData> {
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.checkPermission(context,
                 Manifest.permission.READ_SMS,
                 Manifest.permission.RECEIVE_SMS);
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         boolean can_read_sms = SkillUtils.checkPermission(activity, Manifest.permission.READ_SMS);
         boolean can_receive_sms = SkillUtils.checkPermission(activity, Manifest.permission.RECEIVE_SMS);
         if (!can_read_sms && !can_receive_sms) {
@@ -96,12 +96,12 @@ public class SmsEventSkill implements EventSkill<SmsEventData> {
     }
 
     @Override
-    public AbstractSlot<SmsEventData> slot(@NonNull Context context, @ValidData @NonNull SmsEventData data) {
+    public AbstractSlot<SmsEventData> slot(final @NonNull Context context, final @ValidData @NonNull SmsEventData data) {
         return new SmsConnSlot(context, data);
     }
 
     @Override
-    public AbstractSlot<SmsEventData> slot(@NonNull Context context, @NonNull SmsEventData data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot<SmsEventData> slot(final @NonNull Context context, final @NonNull SmsEventData data, final boolean retriggerable, final boolean persistent) {
         return new SmsConnSlot(context, data, retriggerable, persistent);
     }
 

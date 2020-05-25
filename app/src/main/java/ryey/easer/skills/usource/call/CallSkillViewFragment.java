@@ -56,7 +56,7 @@ public class CallSkillViewFragment extends SkillViewFragment<CallUSourceData> {
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.skill_usource__call, container, false);
 
         for (int i = 0; i < checkBoxIds.length; i++) {
@@ -68,7 +68,7 @@ public class CallSkillViewFragment extends SkillViewFragment<CallUSourceData> {
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull CallUSourceData data) {
+    protected void _fill(final @ValidData @NonNull CallUSourceData data) {
         for (int i = 0; i < callStates.length; i++) {
             stateCheckBoxes[i].setChecked(data.callStates.contains(callStates[i]));
         }

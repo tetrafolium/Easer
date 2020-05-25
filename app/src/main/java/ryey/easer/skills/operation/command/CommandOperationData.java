@@ -33,32 +33,32 @@ import ryey.easer.skills.operation.StringOperationData;
 
 public class CommandOperationData extends StringOperationData {
 
-    CommandOperationData(String command) {
+    CommandOperationData(final String command) {
         super(command);
     }
 
-    CommandOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    CommandOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         super(data, format, version);
     }
 
     public static final Parcelable.Creator<CommandOperationData> CREATOR
             = new Parcelable.Creator<CommandOperationData>() {
-        public CommandOperationData createFromParcel(Parcel in) {
+        public CommandOperationData createFromParcel(final Parcel in) {
             return new CommandOperationData(in);
         }
 
-        public CommandOperationData[] newArray(int size) {
+        public CommandOperationData[] newArray(final int size) {
             return new CommandOperationData[size];
         }
     };
 
-    private CommandOperationData(Parcel in) {
+    private CommandOperationData(final Parcel in) {
         super(in);
     }
 
     @NonNull
     @Override
-    public OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment) {
+    public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
         return new CommandOperationData(Utils.applyDynamics(text, dynamicsAssignment));
     }
 }

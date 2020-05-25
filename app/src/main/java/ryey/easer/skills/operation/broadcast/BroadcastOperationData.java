@@ -54,15 +54,15 @@ public class BroadcastOperationData implements OperationData {
 
     IntentData data = new IntentData();
 
-    BroadcastOperationData(IntentData data) {
+    BroadcastOperationData(final IntentData data) {
         this.data = data;
     }
 
-    BroadcastOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    BroadcastOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         parse(data, format, version);
     }
 
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
             default:
                 try {
@@ -99,7 +99,7 @@ public class BroadcastOperationData implements OperationData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res = "";
         switch (format) {
             default:
@@ -150,7 +150,7 @@ public class BroadcastOperationData implements OperationData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (!(obj instanceof BroadcastOperationData))
@@ -164,22 +164,22 @@ public class BroadcastOperationData implements OperationData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeParcelable(data, 0);
     }
 
     public static final Parcelable.Creator<BroadcastOperationData> CREATOR
             = new Parcelable.Creator<BroadcastOperationData>() {
-        public BroadcastOperationData createFromParcel(Parcel in) {
+        public BroadcastOperationData createFromParcel(final Parcel in) {
             return new BroadcastOperationData(in);
         }
 
-        public BroadcastOperationData[] newArray(int size) {
+        public BroadcastOperationData[] newArray(final int size) {
             return new BroadcastOperationData[size];
         }
     };
 
-    private BroadcastOperationData(Parcel in) {
+    private BroadcastOperationData(final Parcel in) {
         data = in.readParcelable(IntentData.class.getClassLoader());
     }
 
@@ -208,7 +208,7 @@ public class BroadcastOperationData implements OperationData {
 
     @NonNull
     @Override
-    public OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment) {
+    public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
         IntentData intentData = new IntentData();
         if (data.action != null)
             intentData.action = Utils.applyDynamics(data.action, dynamicsAssignment);

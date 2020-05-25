@@ -43,7 +43,7 @@ class VolumeOperationDataFactory implements OperationDataFactory<VolumeOperation
     @ValidData
     @NonNull
     @Override
-    public VolumeOperationData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public VolumeOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new VolumeOperationData(data, format, version);
     }
 }

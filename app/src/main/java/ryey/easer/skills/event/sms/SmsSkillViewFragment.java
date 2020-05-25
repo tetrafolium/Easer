@@ -39,7 +39,7 @@ public class SmsSkillViewFragment extends SkillViewFragment<SmsEventData> {
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_event__sms, container, false);
         editText_sender = view.findViewById(R.id.editText_sender);
         editText_content = view.findViewById(R.id.editText_content);
@@ -48,7 +48,7 @@ public class SmsSkillViewFragment extends SkillViewFragment<SmsEventData> {
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull SmsEventData data) {
+    protected void _fill(final @ValidData @NonNull SmsEventData data) {
         SmsInnerData intentData = data.innerData;
         editText_sender.setText(intentData.sender);
         editText_content.setText(intentData.content);

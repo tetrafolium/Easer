@@ -61,13 +61,13 @@ public class CallUSourceSkill implements USourceSkill<CallUSourceData> {
     }
 
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.checkPermission(context,
-                Manifest.permission.READ_CALL_LOG );
+                Manifest.permission.READ_CALL_LOG);
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         SkillUtils.requestPermission(activity, requestCode, Manifest.permission.READ_CALL_LOG);
     }
 
@@ -84,21 +84,21 @@ public class CallUSourceSkill implements USourceSkill<CallUSourceData> {
     }
 
     @Override
-    public Slot<CallUSourceData> slot(@NonNull Context context, @NonNull CallUSourceData data) {
+    public Slot<CallUSourceData> slot(final @NonNull Context context, final @NonNull CallUSourceData data) {
         return new CallSlot(context, data);
     }
 
     @Override
-    public Slot<CallUSourceData> slot(@NonNull Context context, @NonNull CallUSourceData data, boolean retriggerable, boolean persistent) {
+    public Slot<CallUSourceData> slot(final @NonNull Context context, final @NonNull CallUSourceData data, final boolean retriggerable, final boolean persistent) {
         return new CallSlot(context, data, retriggerable, persistent);
     }
 
     @NonNull
     @Override
-    public Tracker<CallUSourceData> tracker(@NonNull Context context,
-                                            @ValidData @NonNull CallUSourceData data,
-                                            @NonNull PendingIntent event_positive,
-                                            @NonNull PendingIntent event_negative) {
+    public Tracker<CallUSourceData> tracker(final @NonNull Context context,
+                                            final @ValidData @NonNull CallUSourceData data,
+                                            final @NonNull PendingIntent event_positive,
+                                            final @NonNull PendingIntent event_negative) {
         return new CallTracker(context, data, event_positive, event_negative);
     }
 

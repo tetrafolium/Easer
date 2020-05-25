@@ -43,7 +43,7 @@ class ConnectivitySlot extends AbstractSlot<ConnectivityEventData> {
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             switch (intent.getAction()) {
                 case ConnectivityManager.CONNECTIVITY_ACTION:
                     checkConnectivity();
@@ -58,11 +58,11 @@ class ConnectivitySlot extends AbstractSlot<ConnectivityEventData> {
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
     }
 
-    public ConnectivitySlot(Context context, ConnectivityEventData data) {
+    public ConnectivitySlot(final Context context, final ConnectivityEventData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    ConnectivitySlot(Context context, ConnectivityEventData data, boolean retriggerable, boolean persistent) {
+    ConnectivitySlot(final Context context, final ConnectivityEventData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
         connectivity_types = data.connectivity_type;
     }
@@ -84,7 +84,7 @@ class ConnectivitySlot extends AbstractSlot<ConnectivityEventData> {
         determineAndNotify(convertType(activeNetworkInfo));
     }
 
-    private int convertType(NetworkInfo activeNetworkInfo) {
+    private int convertType(final NetworkInfo activeNetworkInfo) {
         if (activeNetworkInfo == null) {
             return TYPE_NOT_CONNECTED;
         }
@@ -103,7 +103,7 @@ class ConnectivitySlot extends AbstractSlot<ConnectivityEventData> {
         return -1;
     }
 
-    private void determineAndNotify(int networkType) {
+    private void determineAndNotify(final int networkType) {
         if (connectivity_types.contains(networkType))
             changeSatisfiedState(true);
         else

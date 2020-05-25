@@ -44,7 +44,7 @@ class MediaControlOperationDataFactory implements OperationDataFactory<MediaCont
     @ValidData
     @NonNull
     @Override
-    public MediaControlOperationData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public MediaControlOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new MediaControlOperationData(data, format, version);
     }
 }

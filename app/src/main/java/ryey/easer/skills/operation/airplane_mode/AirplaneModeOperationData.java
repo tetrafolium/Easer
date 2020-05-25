@@ -30,26 +30,26 @@ import ryey.easer.skills.operation.BooleanOperationData;
 
 public class AirplaneModeOperationData extends BooleanOperationData {
 
-    AirplaneModeOperationData(Boolean state) {
+    AirplaneModeOperationData(final Boolean state) {
         super(state);
     }
 
-    AirplaneModeOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    AirplaneModeOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         super(data, format, version);
     }
 
     public static final Parcelable.Creator<AirplaneModeOperationData> CREATOR
             = new Parcelable.Creator<AirplaneModeOperationData>() {
-        public AirplaneModeOperationData createFromParcel(Parcel in) {
+        public AirplaneModeOperationData createFromParcel(final Parcel in) {
             return new AirplaneModeOperationData(in);
         }
 
-        public AirplaneModeOperationData[] newArray(int size) {
+        public AirplaneModeOperationData[] newArray(final int size) {
             return new AirplaneModeOperationData[size];
         }
     };
 
-    private AirplaneModeOperationData(Parcel in) {
+    private AirplaneModeOperationData(final Parcel in) {
         super(in);
     }
 

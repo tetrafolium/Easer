@@ -51,7 +51,7 @@ public class NetworkTransmissionOperationData implements OperationData {
 
     @NonNull
     @Override
-    public OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment) {
+    public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
         return this;
     }
 
@@ -65,18 +65,18 @@ public class NetworkTransmissionOperationData implements OperationData {
     int remote_port;
     String data; //TODO: change to byte array to support arbitrary data
 
-    NetworkTransmissionOperationData(Protocol protocol, String remote_address, int remote_port, String data) {
+    NetworkTransmissionOperationData(final Protocol protocol, final String remote_address, final int remote_port, final String data) {
         this.protocol = protocol;
         this.remote_address = remote_address;
         this.remote_port = remote_port;
         this.data = data;
     }
 
-    NetworkTransmissionOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    NetworkTransmissionOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         parse(data, format, version);
     }
 
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
             default:
                 try {
@@ -94,7 +94,7 @@ public class NetworkTransmissionOperationData implements OperationData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
             default:
@@ -127,7 +127,7 @@ public class NetworkTransmissionOperationData implements OperationData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (!(obj instanceof NetworkTransmissionOperationData))
@@ -149,7 +149,7 @@ public class NetworkTransmissionOperationData implements OperationData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeSerializable(protocol);
         dest.writeString(remote_address);
         dest.writeInt(remote_port);
@@ -158,16 +158,16 @@ public class NetworkTransmissionOperationData implements OperationData {
 
     public static final Parcelable.Creator<NetworkTransmissionOperationData> CREATOR
             = new Parcelable.Creator<NetworkTransmissionOperationData>() {
-        public NetworkTransmissionOperationData createFromParcel(Parcel in) {
+        public NetworkTransmissionOperationData createFromParcel(final Parcel in) {
             return new NetworkTransmissionOperationData(in);
         }
 
-        public NetworkTransmissionOperationData[] newArray(int size) {
+        public NetworkTransmissionOperationData[] newArray(final int size) {
             return new NetworkTransmissionOperationData[size];
         }
     };
 
-    private NetworkTransmissionOperationData(Parcel in) {
+    private NetworkTransmissionOperationData(final Parcel in) {
         protocol = (Protocol) in.readSerializable();
         remote_address = in.readString();
         remote_port = in.readInt();

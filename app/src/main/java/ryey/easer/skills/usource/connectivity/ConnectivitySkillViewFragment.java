@@ -50,14 +50,14 @@ public class ConnectivitySkillViewFragment extends SkillViewFragment<Connectivit
     final CheckBox[] checkBoxes = new CheckBox[values.length];
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(final @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mode_names = getResources().getStringArray(R.array.usource_connectivity_type);
     }
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         for (int i = 0; i < checkBoxes.length; i++) {
@@ -69,7 +69,7 @@ public class ConnectivitySkillViewFragment extends SkillViewFragment<Connectivit
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull ConnectivityEventData data) {
+    protected void _fill(final @ValidData @NonNull ConnectivityEventData data) {
         Set<Integer> checked_values = data.connectivity_type;
         for (int checked_value : checked_values) {
             for (int i = 0; i < values.length; i++) {

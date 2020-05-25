@@ -44,7 +44,7 @@ public class RingerModeSkillViewFragment extends SkillViewFragment<RingerModeOpe
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_operation__ringer_mode, container, false);
 
         rb_normal = view.findViewById(R.id.radioButton_normal);
@@ -55,7 +55,7 @@ public class RingerModeSkillViewFragment extends SkillViewFragment<RingerModeOpe
             container_dnd = view.findViewById(R.id.container_dnd);
             rb_silent_dnd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                public void onCheckedChanged(final CompoundButton compoundButton, final boolean b) {
                     container_dnd.setVisibility(b ? View.VISIBLE : View.GONE);
                 }
             });
@@ -71,7 +71,7 @@ public class RingerModeSkillViewFragment extends SkillViewFragment<RingerModeOpe
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull RingerModeOperationData data) {
+    protected void _fill(final @ValidData @NonNull RingerModeOperationData data) {
         RingerMode mode = RingerMode.compatible(data.ringerMode);
         if (mode == RingerMode.normal)
             rb_normal.setChecked(true);

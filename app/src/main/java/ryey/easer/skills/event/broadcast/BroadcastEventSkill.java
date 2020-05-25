@@ -53,12 +53,12 @@ public class BroadcastEventSkill implements EventSkill<BroadcastEventData> {
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return null;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
 
     }
 
@@ -81,12 +81,12 @@ public class BroadcastEventSkill implements EventSkill<BroadcastEventData> {
     }
 
     @Override
-    public AbstractSlot<BroadcastEventData> slot(@NonNull Context context, @ValidData @NonNull BroadcastEventData data) {
+    public AbstractSlot<BroadcastEventData> slot(final @NonNull Context context, final @ValidData @NonNull BroadcastEventData data) {
         return new BroadcastConnSlot(context, data);
     }
 
     @Override
-    public AbstractSlot<BroadcastEventData> slot(@NonNull Context context, @NonNull BroadcastEventData data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot<BroadcastEventData> slot(final @NonNull Context context, final @NonNull BroadcastEventData data, final boolean retriggerable, final boolean persistent) {
         return new BroadcastConnSlot(context, data, retriggerable, persistent);
     }
 
