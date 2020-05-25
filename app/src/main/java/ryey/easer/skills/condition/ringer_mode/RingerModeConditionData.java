@@ -112,10 +112,8 @@ public class RingerModeConditionData implements ConditionData {
         if (((RingerModeConditionData) obj).ringerMode == ringerMode) {
             if (ringerMode == AudioManager.RINGER_MODE_SILENT || ringerMode == AudioManager.RINGER_MODE_VIBRATE) {
                 return true;
-            } else if (ringerMode == AudioManager.RINGER_MODE_NORMAL) {
-                if (((RingerModeConditionData) obj).ringerLevel == ringerLevel && ((RingerModeConditionData) obj).compareMode == compareMode) {
-                    return true;
-                }
+            } else if ((ringerMode == AudioManager.RINGER_MODE_NORMAL) && (((RingerModeConditionData) obj).ringerLevel == ringerLevel && ((RingerModeConditionData) obj).compareMode == compareMode)) {
+                return true;
             }
         }
         return false;

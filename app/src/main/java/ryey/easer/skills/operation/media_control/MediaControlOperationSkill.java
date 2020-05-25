@@ -85,16 +85,14 @@ public class MediaControlOperationSkill implements OperationSkill<MediaControlOp
 
     @Override
     public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (!SkillUtils.isPermissionGrantedForNotificationListenerService(activity, MediaControlHelperNotificationListenerService.class)) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    activity.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-                } else {
-                    SkillUtils.requestPermission(activity, requestCode,
-                            Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE);
-                }
-                SkillUtils.reenableComponent(activity, MediaControlHelperNotificationListenerService.class);
+        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) && (!SkillUtils.isPermissionGrantedForNotificationListenerService(activity, MediaControlHelperNotificationListenerService.class))) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                activity.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
+            } else {
+                SkillUtils.requestPermission(activity, requestCode,
+                        Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE);
             }
+            SkillUtils.reenableComponent(activity, MediaControlHelperNotificationListenerService.class);
         }
     }
 

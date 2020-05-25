@@ -89,16 +89,14 @@ public class RingerModeOperationSkill implements OperationSkill<RingerModeOperat
     public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         if (!SkillUtils.checkPermission(activity, Manifest.permission.MODIFY_AUDIO_SETTINGS))
             SkillUtils.requestPermission(activity, requestCode, Manifest.permission.MODIFY_AUDIO_SETTINGS);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (!SkillUtils.isPermissionGrantedForNotificationListenerService(activity, InterruptionFilterSwitcherService.class)) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    activity.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    SkillUtils.requestPermission(activity, requestCode,
-                            Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE);
-                }
-                SkillUtils.reenableComponent(activity, InterruptionFilterSwitcherService.class);
+        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) && (!SkillUtils.isPermissionGrantedForNotificationListenerService(activity, InterruptionFilterSwitcherService.class))) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                activity.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                SkillUtils.requestPermission(activity, requestCode,
+                        Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE);
             }
+            SkillUtils.reenableComponent(activity, InterruptionFilterSwitcherService.class);
         }
     }
 

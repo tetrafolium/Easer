@@ -70,10 +70,8 @@ public class Helper {
                 if (!name.matches(re_any_of_valid_dirs)) {
                     return false;
                 }
-                if (name.matches(re_top_level)) {
-                    if (!entry.isDirectory())
-                        return false;
-                }
+                if ((name.matches(re_top_level)) && (!entry.isDirectory()))
+                    return false;
             }
         } finally {
             zip.closeEntry();

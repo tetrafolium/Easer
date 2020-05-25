@@ -42,10 +42,8 @@ import ryey.easer.core.data.WithCreatedVersion;
 public class StorageHelper {
 
     private static boolean dirWithContent(final File dir) {
-        if (dir.exists() && dir.isDirectory()) {
-            if (dir.list().length > 0)
-                return true;
-        }
+        if ((dir.exists() && dir.isDirectory()) && (dir.list().length > 0))
+            return true;
         return false;
     }
 
@@ -80,20 +78,17 @@ public class StorageHelper {
         File dir_scenario = new File(context.getFilesDir(), "scenario");
         File dir_script = new File(context.getFilesDir(), "script");
 
-        if (dirWithContent(dir_event) && dirWithContent(dir_scenario)) {
-            if (!dir_event.renameTo(dir_script)) {
-                Logger.e("Failed to rename \"event\" directory to \"script\".");
+        if ((dirWithContent(dir_event) && dirWithContent(dir_scenario)) && (!dir_event.renameTo(dir_script))) {
+            Logger.e("Failed to rename \"event\" directory to \"script\".");
+            Toast.makeText(context, R.string.message_convert_data_abort, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (dirWithContent(dir_scenario) && dirWithContent(dir_script)) {
+            if ((dir_event.exists() && !dirWithContent(dir_event)) && (!dir_event.delete())) {
+                Logger.e("Failed to delete empty directory \"event\".");
                 Toast.makeText(context, R.string.message_convert_data_abort, Toast.LENGTH_LONG).show();
                 return false;
             }
-        }
-        if (dirWithContent(dir_scenario) && dirWithContent(dir_script)) {
-            if (dir_event.exists() && !dirWithContent(dir_event))
-                if (!dir_event.delete()) {
-                    Logger.e("Failed to delete empty directory \"event\".");
-                    Toast.makeText(context, R.string.message_convert_data_abort, Toast.LENGTH_LONG).show();
-                    return false;
-                }
             if (!dir_scenario.renameTo(dir_event)) {
                 Logger.e("Failed to rename \"scenario\" directory to \"event\".");
                 Toast.makeText(context, R.string.message_convert_data_abort, Toast.LENGTH_LONG).show();

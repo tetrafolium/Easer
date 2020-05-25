@@ -79,12 +79,8 @@ public class OperationSelectorFragment extends DialogFragment {
         List<OperationSkill> localOperationSkillList = LocalSkillRegistry.getInstance().operation().getEnabledSkills(getContext());
         availableLocalPluginList = new ArrayList<>(localOperationSkillList.size());
         for (OperationSkill operationSkill : localOperationSkillList) {
-            if (addedPlugins.containsKey(operationSkill.getClass())) {
-                if (operationSkill.maxExistence() > 0) {
-                    if (addedPlugins.get(operationSkill.getClass()) >= operationSkill.maxExistence())
-                        continue;
-                }
-            }
+            if (((addedPlugins.containsKey(operationSkill.getClass())) && (operationSkill.maxExistence() > 0)) && (addedPlugins.get(operationSkill.getClass()) >= operationSkill.maxExistence()))
+                continue;
             availableLocalPluginList.add(new OperationPluginItemWrapper(operationSkill.id(),
                     operationSkill.view().desc(getResources()),
                     operationSkill.category(),

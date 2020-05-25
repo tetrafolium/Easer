@@ -108,11 +108,9 @@ public class ScannerDialogFragment extends DialogFragment {
     private static void addData(final @NonNull List<CellLocationSingleData> singleDataList,
                                 final @NonNull ArrayAdapter<CellLocationSingleData> cellLocationDataListAdapter,
                                 final @Nullable CellLocationSingleData data) {
-        if (data != null) {
-            if (!singleDataList.contains(data)) {
-                singleDataList.add(data);
-                cellLocationDataListAdapter.notifyDataSetChanged();
-            }
+        if ((data != null) && (!singleDataList.contains(data))) {
+            singleDataList.add(data);
+            cellLocationDataListAdapter.notifyDataSetChanged();
         }
     }
 

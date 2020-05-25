@@ -49,12 +49,10 @@ public abstract class IntegerData implements StorageData {
     public boolean isValid() {
         if (level == null)
             return false;
-        if (lbound != null)
-            if (level < lbound)
-                return false;
-        if (rbound != null)
-            if (level > rbound)
-                return false;
+        if ((lbound != null) && (level < lbound))
+            return false;
+        if ((rbound != null) && (level > rbound))
+            return false;
         return true;
     }
 

@@ -49,15 +49,11 @@ public class SmsConnSlot extends AbstractSlot<SmsEventData> {
                         msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
                         String msg_from = msgs[i].getOriginatingAddress();
                         String msgBody = msgs[i].getMessageBody();
-                        if (!Utils.isBlank(smsInnerData.sender)) {
-                            if (!PhoneNumberUtils.compare(context, msg_from, smsInnerData.sender)) {
-                                continue;
-                            }
+                        if ((!Utils.isBlank(smsInnerData.sender)) && (!PhoneNumberUtils.compare(context, msg_from, smsInnerData.sender))) {
+                            continue;
                         }
-                        if (!Utils.isBlank(smsInnerData.content)) {
-                            if (!msgBody.contains(smsInnerData.content)) {
-                                continue;
-                            }
+                        if ((!Utils.isBlank(smsInnerData.content)) && (!msgBody.contains(smsInnerData.content))) {
+                            continue;
                         }
                         Bundle dynamics = new Bundle();
                         dynamics.putString(SmsEventData.SenderDynamics.id, msg_from);

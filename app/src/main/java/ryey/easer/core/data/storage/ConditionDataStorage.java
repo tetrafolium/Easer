@@ -44,20 +44,16 @@ public class ConditionDataStorage extends AbstractDataStorage<ConditionStructure
         ScriptDataStorage scriptDataStorage = new ScriptDataStorage(context);
         for (String scriptName : scriptDataStorage.list()) {
             ScriptStructure script = scriptDataStorage.get(scriptName);
-            if (script.isCondition()) {
-                if (script.getCondition().getName().equals(name)) {
-                    return false;
-                }
+            if ((script.isCondition()) && (script.getCondition().getName().equals(name))) {
+                return false;
             }
         }
         EventDataStorage eventDataStorage = new EventDataStorage(context);
         for (String scenarioName : eventDataStorage.list()) {
             EventStructure scenario = eventDataStorage.get(scenarioName);
             EventData eventData = scenario.getEventData();
-            if (eventData instanceof ConditionEventEventData) {
-                if (name.equals(((ConditionEventEventData) eventData).conditionName)) {
-                    return false;
-                }
+            if ((eventData instanceof ConditionEventEventData) && (name.equals(((ConditionEventEventData) eventData).conditionName))) {
+                return false;
             }
         }
         return true;
@@ -75,11 +71,9 @@ public class ConditionDataStorage extends AbstractDataStorage<ConditionStructure
     private static void updateScriptsForNewName(final ScriptDataStorage scriptDataStorage, final String oldName, final ConditionStructure condition) throws IOException {
         for (String name : scriptDataStorage.list()) {
             ScriptStructure script = scriptDataStorage.get(name);
-            if (script.isCondition()) {
-                if (script.getCondition().getName().equals(oldName)) {
-                    script.setCondition(condition);
-                    scriptDataStorage.update(script);
-                }
+            if ((script.isCondition()) && (script.getCondition().getName().equals(oldName))) {
+                script.setCondition(condition);
+                scriptDataStorage.update(script);
             }
         }
     }
@@ -88,13 +82,11 @@ public class ConditionDataStorage extends AbstractDataStorage<ConditionStructure
         for (String name : eventDataStorage.list()) {
             EventStructure event = eventDataStorage.get(name);
             EventData eventData = event.getEventData();
-            if (eventData instanceof ConditionEventEventData) {
-                if (oldName.equals(((ConditionEventEventData) eventData).conditionName)) {
-                    ConditionEventEventData newEventData =
-                            new ConditionEventEventData((ConditionEventEventData) eventData, newName);
-                    event.setEventData(newEventData);
-                    eventDataStorage.update(event);
-                }
+            if ((eventData instanceof ConditionEventEventData) && (oldName.equals(((ConditionEventEventData) eventData).conditionName))) {
+                ConditionEventEventData newEventData =
+                        new ConditionEventEventData((ConditionEventEventData) eventData, newName);
+                event.setEventData(newEventData);
+                eventDataStorage.update(event);
             }
         }
     }
