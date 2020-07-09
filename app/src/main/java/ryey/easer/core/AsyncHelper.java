@@ -37,185 +37,187 @@ import ryey.easer.commons.local_skill.dynamics.DynamicsLink;
 
 public final class AsyncHelper {
 
-  public static class DelayedWhenSatisfied {
+public static class DelayedWhenSatisfied {
 
-    private interface OnSatisfiedProcessQueue { void process(); }
+private interface OnSatisfiedProcessQueue { void process(); }
 
-    protected AtomicBoolean satisfied = new AtomicBoolean(false);
+protected AtomicBoolean satisfied = new AtomicBoolean(false);
 
-    protected Lock lck_tasks = new ReentrantLock();
-    protected List<Callable<Void>> tasksAfterConnect = new ArrayList<>();
+protected Lock lck_tasks = new ReentrantLock();
+protected List<Callable<Void> > tasksAfterConnect = new ArrayList<>();
 
-    private OnSatisfiedProcessQueue onSatisfiedProcessQueue =
-        new OnSatisfiedProcessQueue() {
-          @Override
-          public void process() {
-            lck_tasks.lock();
-            try {
-              for (int i = tasksAfterConnect.size() - 1; i >= 0; i--) {
-                Callable<Void> task = tasksAfterConnect.get(i);
-                try {
-                  task.call();
-                } catch (Exception e) {
-                  e.printStackTrace();
-                }
-                tasksAfterConnect.remove(i);
-              }
-            } finally {
-              lck_tasks.unlock();
-            }
-          }
-        };
+private OnSatisfiedProcessQueue onSatisfiedProcessQueue =
+	new OnSatisfiedProcessQueue() {
+	@Override
+	public void process() {
+		lck_tasks.lock();
+		try {
+			for (int i = tasksAfterConnect.size() - 1; i >= 0; i--) {
+				Callable<Void> task = tasksAfterConnect.get(i);
+				try {
+					task.call();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				tasksAfterConnect.remove(i);
+			}
+		} finally {
+			lck_tasks.unlock();
+		}
+	}
+};
 
-    public void onSatisfied() {
-      satisfied.set(true);
-      onSatisfiedProcessQueue.process();
-    }
+public void onSatisfied() {
+	satisfied.set(true);
+	onSatisfiedProcessQueue.process();
+}
 
-    public void onUnsatisfied() { satisfied.set(false); }
+public void onUnsatisfied() {
+	satisfied.set(false);
+}
 
-    public void doAfter(final Callable<Void> task) {
-      lck_tasks.lock();
-      try {
-        if (satisfied.get()) {
-          try {
-            task.call();
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        } else {
-          tasksAfterConnect.add(task);
-        }
-      } finally {
-        lck_tasks.unlock();
-      }
-    }
-  }
+public void doAfter(final Callable<Void> task) {
+	lck_tasks.lock();
+	try {
+		if (satisfied.get()) {
+			try {
+				task.call();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			tasksAfterConnect.add(task);
+		}
+	} finally {
+		lck_tasks.unlock();
+	}
+}
+}
 
-  public static class DelayedServiceBinderJobs<B> extends DelayedWhenSatisfied {
+public static class DelayedServiceBinderJobs<B> extends DelayedWhenSatisfied {
 
-    protected B binder;
+protected B binder;
 
-    public void onBind(final B binder) {
-      lck_tasks.lock();
-      try {
-        this.binder = binder;
-        super.onSatisfied();
-      } finally {
-        lck_tasks.unlock();
-      }
-    }
+public void onBind(final B binder) {
+	lck_tasks.lock();
+	try {
+		this.binder = binder;
+		super.onSatisfied();
+	} finally {
+		lck_tasks.unlock();
+	}
+}
 
-    public void onUnbind() {
-      lck_tasks.lock();
-      try {
-        super.onUnsatisfied();
-        this.binder = null;
-      } finally {
-        lck_tasks.unlock();
-      }
-    }
+public void onUnbind() {
+	lck_tasks.lock();
+	try {
+		super.onUnsatisfied();
+		this.binder = null;
+	} finally {
+		lck_tasks.unlock();
+	}
+}
 
-    public void doAfter(final Job<B> job) {
-      doAfter(() -> {
-        job.run(binder);
-        return null;
-      });
-    }
+public void doAfter(final Job<B> job) {
+	doAfter(()->{
+				job.run(binder);
+				return null;
+			});
+}
 
-    interface Job<B> {
-      void run(B binder);
-    }
-  }
+interface Job<B> {
+void run(B binder);
+}
+}
 
-  public static class DelayedLoadProfileJobs
-      extends DelayedServiceBinderJobs<ProfileLoaderService.PLSBinder> {
+public static class DelayedLoadProfileJobs
+	extends DelayedServiceBinderJobs<ProfileLoaderService.PLSBinder> {
 
-    private void doAfterSatisfied(final TaskSpec taskSpec) {
-      doAfter(() -> {
-        if (taskSpec.scriptName == null) {
-          binder.triggerProfile(taskSpec.profileName);
-        } else {
-          binder.triggerProfile(taskSpec.profileName, taskSpec.scriptName,
-                                taskSpec.dynamicsProperties,
-                                taskSpec.dynamicsLink);
-        }
-        return null;
-      });
-    }
+private void doAfterSatisfied(final TaskSpec taskSpec) {
+	doAfter(()->{
+				if (taskSpec.scriptName == null) {
+				        binder.triggerProfile(taskSpec.profileName);
+				} else {
+				        binder.triggerProfile(taskSpec.profileName, taskSpec.scriptName,
+				                              taskSpec.dynamicsProperties,
+				                              taskSpec.dynamicsLink);
+				}
+				return null;
+			});
+}
 
-    public void triggerProfile(final String profileName) {
-      doAfterSatisfied(new TaskSpec(profileName, null, null, null));
-    }
-    public void triggerProfile(final String profileName,
-                               final String scriptName,
-                               final Bundle dynamicsProperties,
-                               final DynamicsLink dynamicsLink) {
-      doAfterSatisfied(new TaskSpec(profileName, scriptName, dynamicsProperties,
-                                    dynamicsLink));
-    }
+public void triggerProfile(final String profileName) {
+	doAfterSatisfied(new TaskSpec(profileName, null, null, null));
+}
+public void triggerProfile(final String profileName,
+                           final String scriptName,
+                           final Bundle dynamicsProperties,
+                           final DynamicsLink dynamicsLink) {
+	doAfterSatisfied(new TaskSpec(profileName, scriptName, dynamicsProperties,
+	                              dynamicsLink));
+}
 
-    private static class TaskSpec {
-      @NonNull public final String profileName;
-      @Nullable public final String scriptName;
-      @Nullable public final Bundle dynamicsProperties;
-      @Nullable public final DynamicsLink dynamicsLink;
+private static class TaskSpec {
+@NonNull public final String profileName;
+@Nullable public final String scriptName;
+@Nullable public final Bundle dynamicsProperties;
+@Nullable public final DynamicsLink dynamicsLink;
 
-      public TaskSpec(final @NonNull String profileName,
-                      final @Nullable String scriptName,
-                      final @Nullable Bundle dynamicsProperties,
-                      final @Nullable DynamicsLink dynamicsLink) {
-        this.profileName = profileName;
-        this.scriptName = scriptName;
-        this.dynamicsProperties = dynamicsProperties;
-        this.dynamicsLink = dynamicsLink;
-      }
-    }
-  }
+public TaskSpec(final @NonNull String profileName,
+                final @Nullable String scriptName,
+                final @Nullable Bundle dynamicsProperties,
+                final @Nullable DynamicsLink dynamicsLink) {
+	this.profileName = profileName;
+	this.scriptName = scriptName;
+	this.dynamicsProperties = dynamicsProperties;
+	this.dynamicsLink = dynamicsLink;
+}
+}
+}
 
-  public static class DelayedLoadProfileJobsWrapper {
-    private final DelayedLoadProfileJobs jobLoadProfile =
-        new DelayedLoadProfileJobs();
-    private final ServiceConnection connection;
+public static class DelayedLoadProfileJobsWrapper {
+private final DelayedLoadProfileJobs jobLoadProfile =
+	new DelayedLoadProfileJobs();
+private final ServiceConnection connection;
 
-    public DelayedLoadProfileJobsWrapper() {
-      connection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(final ComponentName name,
-                                       final IBinder service) {
-          jobLoadProfile.onBind((ProfileLoaderService.PLSBinder)service);
-        }
+public DelayedLoadProfileJobsWrapper() {
+	connection = new ServiceConnection() {
+		@Override
+		public void onServiceConnected(final ComponentName name,
+		                               final IBinder service) {
+			jobLoadProfile.onBind((ProfileLoaderService.PLSBinder)service);
+		}
 
-        @Override
-        public void onServiceDisconnected(final ComponentName name) {
-          jobLoadProfile.onUnbind();
-        }
-      };
-    }
+		@Override
+		public void onServiceDisconnected(final ComponentName name) {
+			jobLoadProfile.onUnbind();
+		}
+	};
+}
 
-    public DelayedLoadProfileJobsWrapper(final ServiceConnection connection) {
-      this.connection = connection;
-    }
+public DelayedLoadProfileJobsWrapper(final ServiceConnection connection) {
+	this.connection = connection;
+}
 
-    public void bindService(final Context context) {
-      context.bindService(new Intent(context, ProfileLoaderService.class),
-                          connection, Context.BIND_AUTO_CREATE);
-    }
+public void bindService(final Context context) {
+	context.bindService(new Intent(context, ProfileLoaderService.class),
+	                    connection, Context.BIND_AUTO_CREATE);
+}
 
-    public void unbindService(final Context context) {
-      context.unbindService(connection);
-    }
+public void unbindService(final Context context) {
+	context.unbindService(connection);
+}
 
-    public void triggerProfile(final String profileName) {
-      jobLoadProfile.triggerProfile(profileName);
-    }
+public void triggerProfile(final String profileName) {
+	jobLoadProfile.triggerProfile(profileName);
+}
 
-    public void triggerProfile(final String profileName,
-                               final String scriptName,
-                               final Bundle dynamicsProperties,
-                               final DynamicsLink dynamicsLink) {
-      jobLoadProfile.triggerProfile(profileName, scriptName, dynamicsProperties,
-                                    dynamicsLink);
-    }
-  }
+public void triggerProfile(final String profileName,
+                           final String scriptName,
+                           final Bundle dynamicsProperties,
+                           final DynamicsLink dynamicsLink) {
+	jobLoadProfile.triggerProfile(profileName, scriptName, dynamicsProperties,
+	                              dynamicsLink);
+}
+}
 }

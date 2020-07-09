@@ -29,72 +29,72 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class BTDeviceSlot extends AbstractSlot<BTDeviceUSourceData> {
 
-  private static Bundle
-  dynamicsForCurrentDevice(final BluetoothDevice bluetoothDevice) {
-    Bundle bundle = new Bundle();
-    bundle.putString(BTDeviceUSourceData.DeviceNameDynamics.id,
-                     bluetoothDevice.getName());
-    bundle.putString(BTDeviceUSourceData.DeviceAddressDynamics.id,
-                     bluetoothDevice.getAddress());
-    return bundle;
-  }
+private static Bundle
+dynamicsForCurrentDevice(final BluetoothDevice bluetoothDevice) {
+	Bundle bundle = new Bundle();
+	bundle.putString(BTDeviceUSourceData.DeviceNameDynamics.id,
+	                 bluetoothDevice.getName());
+	bundle.putString(BTDeviceUSourceData.DeviceAddressDynamics.id,
+	                 bluetoothDevice.getAddress());
+	return bundle;
+}
 
-  private int matched_devices = 0;
+private int matched_devices = 0;
 
-  private final BroadcastReceiver connReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      String action = intent.getAction();
-      if (action.equals(BluetoothDevice.ACTION_ACL_CONNECTED)) {
-        BluetoothDevice device =
-            intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-        if (is_target(device)) {
-          matched_devices++;
-          determine_satisfied(dynamicsForCurrentDevice(device));
-        }
-      } else if (action.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
-        BluetoothDevice device =
-            intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-        if (is_target(device)) {
-          matched_devices--;
-          determine_satisfied(dynamicsForCurrentDevice(device));
-        }
-      }
-    }
-  };
+private final BroadcastReceiver connReceiver = new BroadcastReceiver() {
+	@Override
+	public void onReceive(final Context context, final Intent intent) {
+		String action = intent.getAction();
+		if (action.equals(BluetoothDevice.ACTION_ACL_CONNECTED)) {
+			BluetoothDevice device =
+				intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+			if (is_target(device)) {
+				matched_devices++;
+				determine_satisfied(dynamicsForCurrentDevice(device));
+			}
+		} else if (action.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
+			BluetoothDevice device =
+				intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+			if (is_target(device)) {
+				matched_devices--;
+				determine_satisfied(dynamicsForCurrentDevice(device));
+			}
+		}
+	}
+};
 
-  private final IntentFilter filter;
+private final IntentFilter filter;
 
-  {
-    filter = new IntentFilter();
-    filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
-    filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-  }
+{
+	filter = new IntentFilter();
+	filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+	filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+}
 
-  public BTDeviceSlot(final Context context, final BTDeviceUSourceData data) {
-    this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
-  }
+public BTDeviceSlot(final Context context, final BTDeviceUSourceData data) {
+	this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+}
 
-  BTDeviceSlot(final Context context, final BTDeviceUSourceData data,
-               final boolean retriggerable, final boolean persistent) {
-    super(context, data, retriggerable, persistent);
-  }
+BTDeviceSlot(final Context context, final BTDeviceUSourceData data,
+             final boolean retriggerable, final boolean persistent) {
+	super(context, data, retriggerable, persistent);
+}
 
-  @Override
-  public void listen() {
-    context.registerReceiver(connReceiver, filter);
-  }
+@Override
+public void listen() {
+	context.registerReceiver(connReceiver, filter);
+}
 
-  @Override
-  public void cancel() {
-    context.unregisterReceiver(connReceiver);
-  }
+@Override
+public void cancel() {
+	context.unregisterReceiver(connReceiver);
+}
 
-  private boolean is_target(final BluetoothDevice device) {
-    return eventData.match(device.getAddress());
-  }
+private boolean is_target(final BluetoothDevice device) {
+	return eventData.match(device.getAddress());
+}
 
-  private void determine_satisfied(final Bundle dynamics) {
-    changeSatisfiedState(matched_devices > 0, dynamics);
-  }
+private void determine_satisfied(final Bundle dynamics) {
+	changeSatisfiedState(matched_devices > 0, dynamics);
+}
 }

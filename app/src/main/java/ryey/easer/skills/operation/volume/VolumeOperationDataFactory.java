@@ -26,27 +26,27 @@ import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class VolumeOperationDataFactory
-    implements OperationDataFactory<VolumeOperationData> {
-  @NonNull
-  @Override
-  public Class<VolumeOperationData> dataClass() {
-    return VolumeOperationData.class;
-  }
+	implements OperationDataFactory<VolumeOperationData> {
+@NonNull
+@Override
+public Class<VolumeOperationData> dataClass() {
+	return VolumeOperationData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public VolumeOperationData dummyData() {
-    return new VolumeOperationData(1, 2, null, 0, null, null);
-  }
+@ValidData
+@NonNull
+@Override
+public VolumeOperationData dummyData() {
+	return new VolumeOperationData(1, 2, null, 0, null, null);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public VolumeOperationData parse(final @NonNull String data,
-                                   final @NonNull PluginDataFormat format,
-                                   final int version)
-      throws IllegalStorageDataException {
-    return new VolumeOperationData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public VolumeOperationData parse(final @NonNull String data,
+                                 final @NonNull PluginDataFormat format,
+                                 final int version)
+throws IllegalStorageDataException {
+	return new VolumeOperationData(data, format, version);
+}
 }

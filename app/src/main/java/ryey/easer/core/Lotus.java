@@ -43,226 +43,232 @@ import ryey.easer.skills.operation.state_control.StateControlOperationSkill;
  * Each Lotus holds one ScriptTree.
  */
 public abstract class Lotus {
-  public static final String ACTION_LOTUS_SATISFACTION_CHANGED =
-      "ryey.easer.lotus.action.LOTUS_SATISFACTION_CHANGED";
-  public static final String EXTRA_SATISFACTION =
-      "ryey.easer.lotus.extra.LOTUS_SATISFACTION";
-  public static final String EXTRA_SCRIPT_ID =
-      "ryey.easer.lotus.extra.SCRIPT_ID";
+public static final String ACTION_LOTUS_SATISFACTION_CHANGED =
+	"ryey.easer.lotus.action.LOTUS_SATISFACTION_CHANGED";
+public static final String EXTRA_SATISFACTION =
+	"ryey.easer.lotus.extra.LOTUS_SATISFACTION";
+public static final String EXTRA_SCRIPT_ID =
+	"ryey.easer.lotus.extra.SCRIPT_ID";
 
-  private static final String ACTION_SLOT_SATISFIED =
-      "ryey.easer.triggerlotus.action.SLOT_SATISFIED";
-  private static final String ACTION_SLOT_UNSATISFIED =
-      "ryey.easer.triggerlotus.action.SLOT_UNSATISFIED";
-  private static final String CATEGORY_NOTIFY_LOTUS =
-      "ryey.easer.triggerlotus.category.NOTIFY_LOTUS";
+private static final String ACTION_SLOT_SATISFIED =
+	"ryey.easer.triggerlotus.action.SLOT_SATISFIED";
+private static final String ACTION_SLOT_UNSATISFIED =
+	"ryey.easer.triggerlotus.action.SLOT_UNSATISFIED";
+private static final String CATEGORY_NOTIFY_LOTUS =
+	"ryey.easer.triggerlotus.category.NOTIFY_LOTUS";
 
-  public static final String EXTRA_DYNAMICS_PROPERTIES =
-      "ryey.easer.core.lotus.extras.DYNAMICS_PROPERTIES";
-  static final String EXTRA_DYNAMICS_LINK =
-      "ryey.easer.core.lotus.extras.DYNAMICS_LINK";
+public static final String EXTRA_DYNAMICS_PROPERTIES =
+	"ryey.easer.core.lotus.extras.DYNAMICS_PROPERTIES";
+static final String EXTRA_DYNAMICS_LINK =
+	"ryey.easer.core.lotus.extras.DYNAMICS_LINK";
 
-  static Lotus
-  createLotus(final @NonNull Context context,
-              final @NonNull ScriptTree scriptTree,
-              final @NonNull ExecutorService executorService,
-              final @NonNull EHService.DelayedConditionHolderBinderJobs jobCH,
-              final @NonNull AsyncHelper.DelayedLoadProfileJobs jobLP) {
-    if (scriptTree.isEvent())
-      return new EventLotus(context, scriptTree, executorService, jobCH, jobLP);
-    else
-      return new ConditionLotus(context, scriptTree, executorService, jobCH,
-                                jobLP);
-  }
+static Lotus
+createLotus(final @NonNull Context context,
+            final @NonNull ScriptTree scriptTree,
+            final @NonNull ExecutorService executorService,
+            final @NonNull EHService.DelayedConditionHolderBinderJobs jobCH,
+            final @NonNull AsyncHelper.DelayedLoadProfileJobs jobLP) {
+	if (scriptTree.isEvent())
+		return new EventLotus(context, scriptTree, executorService, jobCH, jobLP);
+	else
+		return new ConditionLotus(context, scriptTree, executorService, jobCH,
+		                          jobLP);
+}
 
-  @NonNull protected final Context context;
-  @NonNull protected final ScriptTree scriptTree;
-  @NonNull protected final ExecutorService executorService;
-  @NonNull protected final EHService.DelayedConditionHolderBinderJobs jobCH;
-  @NonNull protected final AsyncHelper.DelayedLoadProfileJobs jobLP;
+@NonNull protected final Context context;
+@NonNull protected final ScriptTree scriptTree;
+@NonNull protected final ExecutorService executorService;
+@NonNull protected final EHService.DelayedConditionHolderBinderJobs jobCH;
+@NonNull protected final AsyncHelper.DelayedLoadProfileJobs jobLP;
 
-  protected List<Lotus> subs = new ArrayList<>();
+protected List<Lotus> subs = new ArrayList<>();
 
-  protected boolean satisfied = false;
+protected boolean satisfied = false;
 
-  protected final Uri uri =
-      Uri.parse(String.format(Locale.US, "lotus://%d", hashCode()));
+protected final Uri uri =
+	Uri.parse(String.format(Locale.US, "lotus://%d", hashCode()));
 
-  private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      final String action = intent.getAction();
-      if (ACTION_SLOT_SATISFIED.equals(action) ||
-          ACTION_SLOT_UNSATISFIED.equals(action)) {
-        onStateSignal(ACTION_SLOT_SATISFIED.equals(action), intent.getExtras());
-      }
-    }
-  };
-  private final IntentFilter filter;
+private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+	@Override
+	public void onReceive(final Context context, final Intent intent) {
+		final String action = intent.getAction();
+		if (ACTION_SLOT_SATISFIED.equals(action) ||
+		    ACTION_SLOT_UNSATISFIED.equals(action)) {
+			onStateSignal(ACTION_SLOT_SATISFIED.equals(action), intent.getExtras());
+		}
+	}
+};
+private final IntentFilter filter;
 
-  {
-    filter = new IntentFilter();
-    filter.addAction(ACTION_SLOT_SATISFIED);
-    filter.addAction(ACTION_SLOT_UNSATISFIED);
-    filter.addCategory(CATEGORY_NOTIFY_LOTUS);
-    filter.addDataScheme(uri.getScheme());
-    filter.addDataAuthority(uri.getAuthority(), null);
-    filter.addDataPath(uri.getPath(), PatternMatcher.PATTERN_LITERAL);
-  }
+{
+	filter = new IntentFilter();
+	filter.addAction(ACTION_SLOT_SATISFIED);
+	filter.addAction(ACTION_SLOT_UNSATISFIED);
+	filter.addCategory(CATEGORY_NOTIFY_LOTUS);
+	filter.addDataScheme(uri.getScheme());
+	filter.addDataAuthority(uri.getAuthority(), null);
+	filter.addDataPath(uri.getPath(), PatternMatcher.PATTERN_LITERAL);
+}
 
-  protected Lotus(final @NonNull Context context,
-                  final @NonNull ScriptTree scriptTree,
-                  final @NonNull ExecutorService executorService,
-                  final
-                  @NonNull EHService.DelayedConditionHolderBinderJobs jobCH,
-                  final @NonNull AsyncHelper.DelayedLoadProfileJobs jobLP) {
-    this.context = context;
-    this.scriptTree = scriptTree;
-    this.executorService = executorService;
-    this.jobCH = jobCH;
-    this.jobLP = jobLP;
-  }
+protected Lotus(final @NonNull Context context,
+                final @NonNull ScriptTree scriptTree,
+                final @NonNull ExecutorService executorService,
+                final
+                @NonNull EHService.DelayedConditionHolderBinderJobs jobCH,
+                final @NonNull AsyncHelper.DelayedLoadProfileJobs jobLP) {
+	this.context = context;
+	this.scriptTree = scriptTree;
+	this.executorService = executorService;
+	this.jobCH = jobCH;
+	this.jobLP = jobLP;
+}
 
-  final @NonNull String scriptName() { return scriptTree.getName(); }
+final @NonNull String scriptName() {
+	return scriptTree.getName();
+}
 
-  final synchronized void listen() {
-    context.registerReceiver(mReceiver, filter);
-    onListen();
-  }
-  protected void onListen() {}
+final synchronized void listen() {
+	context.registerReceiver(mReceiver, filter);
+	onListen();
+}
+protected void onListen() {
+}
 
-  final synchronized void cancel() {
-    context.unregisterReceiver(mReceiver);
-    onCancel();
-    for (Lotus sub : subs) {
-      sub.cancel();
-    }
-    subs.clear();
-  }
-  protected void onCancel() {}
+final synchronized void cancel() {
+	context.unregisterReceiver(mReceiver);
+	onCancel();
+	for (Lotus sub : subs) {
+		sub.cancel();
+	}
+	subs.clear();
+}
+protected void onCancel() {
+}
 
-  /**
-   * Dirty hack for {@link StateControlOperationSkill}
-   * TODO: cleaner solution
-   * @param status new status for the top level slot of this lotus
-   */
-  synchronized void setStatus(final boolean status) {
-    if (status) {
-      onSatisfied(null);
-    } else {
-      onUnsatisfied();
-    }
-  }
+/**
+ * Dirty hack for {@link StateControlOperationSkill}
+ * TODO: cleaner solution
+ * @param status new status for the top level slot of this lotus
+ */
+synchronized void setStatus(final boolean status) {
+	if (status) {
+		onSatisfied(null);
+	} else {
+		onUnsatisfied();
+	}
+}
 
-  protected void sendSatisfactionChangeBroadcast(final boolean satisfied) {
-    Intent intent = new Intent(ACTION_LOTUS_SATISFACTION_CHANGED);
-    intent.putExtra(EXTRA_SATISFACTION, satisfied);
-    intent.putExtra(EXTRA_SCRIPT_ID, scriptTree.getName());
-    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-  }
+protected void sendSatisfactionChangeBroadcast(final boolean satisfied) {
+	Intent intent = new Intent(ACTION_LOTUS_SATISFACTION_CHANGED);
+	intent.putExtra(EXTRA_SATISFACTION, satisfied);
+	intent.putExtra(EXTRA_SCRIPT_ID, scriptTree.getName());
+	LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+}
 
-  protected void onStateSignal(final boolean state) {
-    onStateSignal(state, null);
-  }
+protected void onStateSignal(final boolean state) {
+	onStateSignal(state, null);
+}
 
-  protected void onStateSignal(final boolean state,
-                               final @Nullable Bundle extras) {
-    if (state != scriptTree.isReversed()) {
-      onSatisfied(extras);
-    } else {
-      onUnsatisfied();
-    }
-  }
+protected void onStateSignal(final boolean state,
+                             final @Nullable Bundle extras) {
+	if (state != scriptTree.isReversed()) {
+		onSatisfied(extras);
+	} else {
+		onUnsatisfied();
+	}
+}
 
-  protected void onSatisfied(final @Nullable Bundle extras) {
-    Logger.i("Lotus for <%s> satisfied", scriptTree.getName());
-    satisfied = true;
-    sendSatisfactionChangeBroadcast(true);
+protected void onSatisfied(final @Nullable Bundle extras) {
+	Logger.i("Lotus for <%s> satisfied", scriptTree.getName());
+	satisfied = true;
+	sendSatisfactionChangeBroadcast(true);
 
-    String profileName = scriptTree.getProfile();
-    if (profileName != null) {
-      if (extras == null)
-        extras = new Bundle();
-      jobLP.triggerProfile(profileName, scriptTree.getName(), extras,
-                           scriptTree.getData().getDynamicsLink());
-    }
+	String profileName = scriptTree.getProfile();
+	if (profileName != null) {
+		if (extras == null)
+			extras = new Bundle();
+		jobLP.triggerProfile(profileName, scriptTree.getName(), extras,
+		                     scriptTree.getData().getDynamicsLink());
+	}
 
-    triggerAndPromote();
-  }
+	triggerAndPromote();
+}
 
-  protected void onUnsatisfied() {
-    Logger.i("Lotus for <%s> unsatisfied", scriptTree.getName());
-    satisfied = false;
-    sendSatisfactionChangeBroadcast(false);
+protected void onUnsatisfied() {
+	Logger.i("Lotus for <%s> unsatisfied", scriptTree.getName());
+	satisfied = false;
+	sendSatisfactionChangeBroadcast(false);
 
-    ActivityLogService.Companion.notifyScriptUnsatisfied(
-        context, scriptTree.getName(), null);
+	ActivityLogService.Companion.notifyScriptUnsatisfied(
+		context, scriptTree.getName(), null);
 
-    for (Lotus sub : subs) {
-      sub.cancel();
-    }
-    subs.clear();
-  }
+	for (Lotus sub : subs) {
+		sub.cancel();
+	}
+	subs.clear();
+}
 
-  synchronized protected void triggerAndPromote() {
-    Logger.v(" <%s> start children's listening", scriptTree.getName());
-    for (ScriptTree sub : scriptTree.getSubs()) {
-      if (sub.isActive()) {
-        Lotus subLotus =
-            Lotus.createLotus(context, sub, executorService, jobCH, jobLP);
-        subs.add(subLotus);
-        subLotus.listen();
-      }
-    }
-  }
+synchronized protected void triggerAndPromote() {
+	Logger.v(" <%s> start children's listening", scriptTree.getName());
+	for (ScriptTree sub : scriptTree.getSubs()) {
+		if (sub.isActive()) {
+			Lotus subLotus =
+				Lotus.createLotus(context, sub, executorService, jobCH, jobLP);
+			subs.add(subLotus);
+			subLotus.listen();
+		}
+	}
+}
 
-  protected Status status() { return new Status(scriptName(), satisfied); }
+protected Status status() {
+	return new Status(scriptName(), satisfied);
+}
 
-  protected List<Status> statusRec() {
-    List<Status> list = new LinkedList<>();
-    list.add(status());
-    for (Lotus sub : subs) {
-      list.addAll(sub.statusRec());
-    }
-    return list;
-  }
+protected List<Status> statusRec() {
+	List<Status> list = new LinkedList<>();
+	list.add(status());
+	for (Lotus sub : subs) {
+		list.addAll(sub.statusRec());
+	}
+	return list;
+}
 
-  public static class NotifyIntentPrototype {
-    // TODO: Extract interface to ryey.easer.commons
+public static class NotifyIntentPrototype {
+// TODO: Extract interface to ryey.easer.commons
 
-    public static Intent obtainPositiveIntent(final Uri data) {
-      return obtainPositiveIntent(data, null);
-    }
+public static Intent obtainPositiveIntent(final Uri data) {
+	return obtainPositiveIntent(data, null);
+}
 
-    public static Intent obtainPositiveIntent(final Uri data,
-                                              final @Nullable Bundle dynamics) {
-      Intent intent = new Intent(ACTION_SLOT_SATISFIED);
-      intent.addCategory(CATEGORY_NOTIFY_LOTUS);
-      intent.setData(data);
-      intent.putExtra(Lotus.EXTRA_DYNAMICS_PROPERTIES, dynamics);
-      return intent;
-    }
+public static Intent obtainPositiveIntent(final Uri data,
+                                          final @Nullable Bundle dynamics) {
+	Intent intent = new Intent(ACTION_SLOT_SATISFIED);
+	intent.addCategory(CATEGORY_NOTIFY_LOTUS);
+	intent.setData(data);
+	intent.putExtra(Lotus.EXTRA_DYNAMICS_PROPERTIES, dynamics);
+	return intent;
+}
 
-    public static Intent obtainNegativeIntent(final Uri data) {
-      return obtainNegativeIntent(data, null);
-    }
+public static Intent obtainNegativeIntent(final Uri data) {
+	return obtainNegativeIntent(data, null);
+}
 
-    public static Intent obtainNegativeIntent(final Uri data,
-                                              final @Nullable Bundle dynamics) {
-      Intent intent = new Intent(ACTION_SLOT_UNSATISFIED);
-      intent.addCategory(CATEGORY_NOTIFY_LOTUS);
-      intent.setData(data);
-      intent.putExtra(Lotus.EXTRA_DYNAMICS_PROPERTIES, dynamics);
-      return intent;
-    }
-  }
+public static Intent obtainNegativeIntent(final Uri data,
+                                          final @Nullable Bundle dynamics) {
+	Intent intent = new Intent(ACTION_SLOT_UNSATISFIED);
+	intent.addCategory(CATEGORY_NOTIFY_LOTUS);
+	intent.setData(data);
+	intent.putExtra(Lotus.EXTRA_DYNAMICS_PROPERTIES, dynamics);
+	return intent;
+}
+}
 
-  public static class Status {
-    public final String id;
-    public final boolean satisfied;
-    public Status(final String id, final boolean satisfied) {
-      this.id = id;
-      this.satisfied = satisfied;
-    }
-  }
+public static class Status {
+public final String id;
+public final boolean satisfied;
+public Status(final String id, final boolean satisfied) {
+	this.id = id;
+	this.satisfied = satisfied;
+}
+}
 }

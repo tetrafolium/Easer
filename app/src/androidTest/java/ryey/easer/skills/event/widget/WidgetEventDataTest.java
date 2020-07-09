@@ -27,12 +27,12 @@ import ryey.easer.skills.TestHelper;
 
 public class WidgetEventDataTest {
 
-  @Test
-  public void testParcel() {
-    WidgetEventData dummyData = new WidgetEventDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    WidgetEventData parceledData =
-        WidgetEventData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	WidgetEventData dummyData = new WidgetEventDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	WidgetEventData parceledData =
+		WidgetEventData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

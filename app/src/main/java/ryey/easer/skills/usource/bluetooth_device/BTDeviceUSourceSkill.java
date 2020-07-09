@@ -38,74 +38,74 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class BTDeviceUSourceSkill implements USourceSkill<BTDeviceUSourceData> {
 
-  @NonNull
-  @Override
-  public String id() {
-    return "bluetooth device";
-  }
+@NonNull
+@Override
+public String id() {
+	return "bluetooth device";
+}
 
-  @Override
-  public int name() {
-    return R.string.usource_bluetooth_device;
-  }
+@Override
+public int name() {
+	return R.string.usource_bluetooth_device;
+}
 
-  @Override
-  public boolean isCompatible(@NonNull final Context context) {
-    BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-    return adapter != null;
-  }
+@Override
+public boolean isCompatible(@NonNull final Context context) {
+	BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+	return adapter != null;
+}
 
-  @Nullable
-  @Override
-  public Boolean checkPermissions(final @NonNull Context context) {
-    return SkillUtils.checkPermission(context, Manifest.permission.BLUETOOTH);
-  }
+@Nullable
+@Override
+public Boolean checkPermissions(final @NonNull Context context) {
+	return SkillUtils.checkPermission(context, Manifest.permission.BLUETOOTH);
+}
 
-  @Override
-  public void requestPermissions(final @NonNull Activity activity,
-                                 final int requestCode) {
-    SkillUtils.requestPermission(activity, requestCode,
-                                 Manifest.permission.BLUETOOTH);
-  }
+@Override
+public void requestPermissions(final @NonNull Activity activity,
+                               final int requestCode) {
+	SkillUtils.requestPermission(activity, requestCode,
+	                             Manifest.permission.BLUETOOTH);
+}
 
-  @NonNull
-  @Override
-  public USourceDataFactory<BTDeviceUSourceData> dataFactory() {
-    return new BTDeviceUSourceDataFactory();
-  }
+@NonNull
+@Override
+public USourceDataFactory<BTDeviceUSourceData> dataFactory() {
+	return new BTDeviceUSourceDataFactory();
+}
 
-  @NonNull
-  @Override
-  public SourceCategory category() {
-    return SourceCategory.device;
-  }
+@NonNull
+@Override
+public SourceCategory category() {
+	return SourceCategory.device;
+}
 
-  @NonNull
-  @Override
-  public SkillView<BTDeviceUSourceData> view() {
-    return new BTDeviceSkillViewFragment();
-  }
+@NonNull
+@Override
+public SkillView<BTDeviceUSourceData> view() {
+	return new BTDeviceSkillViewFragment();
+}
 
-  @Override
-  public AbstractSlot<BTDeviceUSourceData>
-  slot(final @NonNull Context context,
-       final @ValidData @NonNull BTDeviceUSourceData data) {
-    return new BTDeviceSlot(context, data);
-  }
+@Override
+public AbstractSlot<BTDeviceUSourceData>
+slot(final @NonNull Context context,
+     final @ValidData @NonNull BTDeviceUSourceData data) {
+	return new BTDeviceSlot(context, data);
+}
 
-  @Override
-  public AbstractSlot<BTDeviceUSourceData>
-  slot(final @NonNull Context context, final @NonNull BTDeviceUSourceData data,
-       final boolean retriggerable, final boolean persistent) {
-    return new BTDeviceSlot(context, data, retriggerable, persistent);
-  }
+@Override
+public AbstractSlot<BTDeviceUSourceData>
+slot(final @NonNull Context context, final @NonNull BTDeviceUSourceData data,
+     final boolean retriggerable, final boolean persistent) {
+	return new BTDeviceSlot(context, data, retriggerable, persistent);
+}
 
-  @Override
-  public Tracker<BTDeviceUSourceData>
-  tracker(final @NonNull Context context,
-          final @NonNull BTDeviceUSourceData data,
-          final @NonNull PendingIntent event_positive,
-          final @NonNull PendingIntent event_negative) {
-    return new BTDeviceTracker(context, data, event_positive, event_negative);
-  }
+@Override
+public Tracker<BTDeviceUSourceData>
+tracker(final @NonNull Context context,
+        final @NonNull BTDeviceUSourceData data,
+        final @NonNull PendingIntent event_positive,
+        final @NonNull PendingIntent event_negative) {
+	return new BTDeviceTracker(context, data, event_positive, event_negative);
+}
 }

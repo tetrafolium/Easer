@@ -32,29 +32,29 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillViewFragment;
 
 public class PlayMediaSkillViewFragment
-    extends SkillViewFragment<PlayMediaOperationData> {
-  private EditText et_file;
+	extends SkillViewFragment<PlayMediaOperationData> {
+private EditText et_file;
 
-  @NonNull
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final @Nullable ViewGroup container,
-                           final @Nullable Bundle savedInstanceState) {
-    View v = inflater.inflate(R.layout.plugin_operation__play_media, container,
-                              false);
-    et_file = v.findViewById(R.id.editText_file);
-    return v;
-  }
+@NonNull
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final @Nullable ViewGroup container,
+                         final @Nullable Bundle savedInstanceState) {
+	View v = inflater.inflate(R.layout.plugin_operation__play_media, container,
+	                          false);
+	et_file = v.findViewById(R.id.editText_file);
+	return v;
+}
 
-  @Override
-  protected void _fill(final @ValidData @NonNull PlayMediaOperationData data) {
-    et_file.setText(data.filePath);
-  }
+@Override
+protected void _fill(final @ValidData @NonNull PlayMediaOperationData data) {
+	et_file.setText(data.filePath);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public PlayMediaOperationData getData() throws InvalidDataInputException {
-    return new PlayMediaOperationData(et_file.getText().toString());
-  }
+@ValidData
+@NonNull
+@Override
+public PlayMediaOperationData getData() throws InvalidDataInputException {
+	return new PlayMediaOperationData(et_file.getText().toString());
+}
 }

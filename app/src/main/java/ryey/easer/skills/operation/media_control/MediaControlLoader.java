@@ -34,78 +34,80 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class MediaControlLoader
-    extends OperationLoader<MediaControlOperationData> {
-  public MediaControlLoader(final Context context) { super(context); }
+	extends OperationLoader<MediaControlOperationData> {
+public MediaControlLoader(final Context context) {
+	super(context);
+}
 
-  @Override
-  public boolean load(final
-                      @ValidData @NonNull MediaControlOperationData data) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      return handleOnApi21(data);
-    } else {
-      return fallback(data);
-    }
-  }
+@Override
+public boolean load(final
+                    @ValidData @NonNull MediaControlOperationData data) {
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+		return handleOnApi21(data);
+	} else {
+		return fallback(data);
+	}
+}
 
-  private boolean fallback(final
-                           @ValidData @NonNull MediaControlOperationData data) {
-    MediaControlOperationData.ControlChoice choice = data.choice;
-    emitMediaButton(toKeyCode(choice));
-    return true;
-  }
+private boolean fallback(final
+                         @ValidData @NonNull MediaControlOperationData data) {
+	MediaControlOperationData.ControlChoice choice = data.choice;
+	emitMediaButton(toKeyCode(choice));
+	return true;
+}
 
-  private void emitMediaButton(final int keyCode) {
-    KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, keyCode);
-    Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
-    intent.putExtra(Intent.EXTRA_KEY_EVENT, keyEvent);
-    context.sendOrderedBroadcast(intent, null);
+private void emitMediaButton(final int keyCode) {
+	KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, keyCode);
+	Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+	intent.putExtra(Intent.EXTRA_KEY_EVENT, keyEvent);
+	context.sendOrderedBroadcast(intent, null);
 
-    keyEvent = new KeyEvent(KeyEvent.ACTION_UP, keyCode);
-    intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
-    intent.putExtra(Intent.EXTRA_KEY_EVENT, keyEvent);
-    context.sendOrderedBroadcast(intent, null);
-  }
+	keyEvent = new KeyEvent(KeyEvent.ACTION_UP, keyCode);
+	intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+	intent.putExtra(Intent.EXTRA_KEY_EVENT, keyEvent);
+	context.sendOrderedBroadcast(intent, null);
+}
 
-  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-  private boolean
-  handleOnApi21(final @ValidData @NonNull MediaControlOperationData data) {
-    int keyCode = toKeyCode(data.choice);
-    KeyEvent keyEvent_down = new KeyEvent(KeyEvent.ACTION_DOWN, keyCode);
-    KeyEvent keyEvent_up = new KeyEvent(KeyEvent.ACTION_UP, keyCode);
-    ComponentName myNotificationListenerComponent = new ComponentName(
-        context, MediaControlHelperNotificationListenerService.class);
-    MediaSessionManager mediaSessionManager =
-        ((MediaSessionManager)context.getSystemService(
-            Context.MEDIA_SESSION_SERVICE));
-    if (mediaSessionManager == null) {
-      Logger.e("MediaSessionManager is null.");
-      return false;
-    }
-    List<MediaController> activeSessions =
-        mediaSessionManager.getActiveSessions(myNotificationListenerComponent);
-    if (activeSessions.size() > 0) {
-      MediaController mediaController = activeSessions.get(0);
-      mediaController.dispatchMediaButtonEvent(keyEvent_down);
-      mediaController.dispatchMediaButtonEvent(keyEvent_up);
-    }
-    return true;
-  }
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+private boolean
+handleOnApi21(final @ValidData @NonNull MediaControlOperationData data) {
+	int keyCode = toKeyCode(data.choice);
+	KeyEvent keyEvent_down = new KeyEvent(KeyEvent.ACTION_DOWN, keyCode);
+	KeyEvent keyEvent_up = new KeyEvent(KeyEvent.ACTION_UP, keyCode);
+	ComponentName myNotificationListenerComponent = new ComponentName(
+		context, MediaControlHelperNotificationListenerService.class);
+	MediaSessionManager mediaSessionManager =
+		((MediaSessionManager)context.getSystemService(
+			 Context.MEDIA_SESSION_SERVICE));
+	if (mediaSessionManager == null) {
+		Logger.e("MediaSessionManager is null.");
+		return false;
+	}
+	List<MediaController> activeSessions =
+		mediaSessionManager.getActiveSessions(myNotificationListenerComponent);
+	if (activeSessions.size() > 0) {
+		MediaController mediaController = activeSessions.get(0);
+		mediaController.dispatchMediaButtonEvent(keyEvent_down);
+		mediaController.dispatchMediaButtonEvent(keyEvent_up);
+	}
+	return true;
+}
 
-  private static int
-  toKeyCode(final MediaControlOperationData.ControlChoice choice) {
-    switch (choice) {
-    case play_pause:
-      return KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE;
-    case play:
-      return KeyEvent.KEYCODE_MEDIA_PLAY;
-    case pause:
-      return KeyEvent.KEYCODE_MEDIA_PAUSE;
-    case previous:
-      return KeyEvent.KEYCODE_MEDIA_PREVIOUS;
-    case next:
-      return KeyEvent.KEYCODE_MEDIA_NEXT;
-    default:
-      throw new IllegalAccessError();
-    }
-  }
+private static int
+toKeyCode(final MediaControlOperationData.ControlChoice choice) {
+	switch (choice) {
+	case play_pause:
+		return KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE;
+	case play:
+		return KeyEvent.KEYCODE_MEDIA_PLAY;
+	case pause:
+		return KeyEvent.KEYCODE_MEDIA_PAUSE;
+	case previous:
+		return KeyEvent.KEYCODE_MEDIA_PREVIOUS;
+	case next:
+		return KeyEvent.KEYCODE_MEDIA_NEXT;
+	default:
+		throw new IllegalAccessError();
+	}
+}
 }

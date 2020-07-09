@@ -26,27 +26,27 @@ import ryey.easer.commons.local_skill.usource.USourceDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class CellLocationUSourceDataFactory
-    implements USourceDataFactory<CellLocationUSourceData> {
-  @NonNull
-  @Override
-  public Class<CellLocationUSourceData> dataClass() {
-    return CellLocationUSourceData.class;
-  }
+	implements USourceDataFactory<CellLocationUSourceData> {
+@NonNull
+@Override
+public Class<CellLocationUSourceData> dataClass() {
+	return CellLocationUSourceData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public CellLocationUSourceData dummyData() {
-    return new CellLocationUSourceData(new String[] {"1-2", "2-3"});
-  }
+@ValidData
+@NonNull
+@Override
+public CellLocationUSourceData dummyData() {
+	return new CellLocationUSourceData(new String[] {"1-2", "2-3"});
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public CellLocationUSourceData parse(final @NonNull String data,
-                                       final @NonNull PluginDataFormat format,
-                                       final int version)
-      throws IllegalStorageDataException {
-    return new CellLocationUSourceData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public CellLocationUSourceData parse(final @NonNull String data,
+                                     final @NonNull PluginDataFormat format,
+                                     final int version)
+throws IllegalStorageDataException {
+	return new CellLocationUSourceData(data, format, version);
+}
 }

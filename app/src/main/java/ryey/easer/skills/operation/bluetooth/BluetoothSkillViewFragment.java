@@ -25,12 +25,12 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.SwitchSkillViewFragment;
 
 public class BluetoothSkillViewFragment
-    extends SwitchSkillViewFragment<BluetoothOperationData> {
+	extends SwitchSkillViewFragment<BluetoothOperationData> {
 
-  @ValidData
-  @NonNull
-  @Override
-  public BluetoothOperationData getData() throws InvalidDataInputException {
-    return new BluetoothOperationData(state());
-  }
+@ValidData
+@NonNull
+@Override
+public BluetoothOperationData getData() throws InvalidDataInputException {
+	return new BluetoothOperationData(state());
+}
 }

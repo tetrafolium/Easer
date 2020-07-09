@@ -28,40 +28,48 @@ import ryey.easer.skills.operation.IntegerOperationData;
 
 public class BrightnessOperationData extends IntegerOperationData {
 
-  {
-    lbound = -1;
-    rbound = 255;
-  }
+{
+	lbound = -1;
+	rbound = 255;
+}
 
-  public BrightnessOperationData(final boolean auto) { super(-1); }
+public BrightnessOperationData(final boolean auto) {
+	super(-1);
+}
 
-  public BrightnessOperationData(final Integer level) { super(level); }
+public BrightnessOperationData(final Integer level) {
+	super(level);
+}
 
-  BrightnessOperationData(final @NonNull String data,
-                          final @NonNull PluginDataFormat format,
-                          final int version)
-      throws IllegalStorageDataException {
-    super(data, format, version);
-  }
+BrightnessOperationData(final @NonNull String data,
+                        final @NonNull PluginDataFormat format,
+                        final int version)
+throws IllegalStorageDataException {
+	super(data, format, version);
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean isValid() {
-    return super.isValid();
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean isValid() {
+	return super.isValid();
+}
 
-  boolean isAuto() { return get().equals(-1); }
+boolean isAuto() {
+	return get().equals(-1);
+}
 
-  public static final Parcelable.Creator<BrightnessOperationData> CREATOR =
-      new Parcelable.Creator<BrightnessOperationData>() {
-        public BrightnessOperationData createFromParcel(final Parcel in) {
-          return new BrightnessOperationData(in);
-        }
+public static final Parcelable.Creator<BrightnessOperationData> CREATOR =
+	new Parcelable.Creator<BrightnessOperationData>() {
+	public BrightnessOperationData createFromParcel(final Parcel in) {
+		return new BrightnessOperationData(in);
+	}
 
-        public BrightnessOperationData[] newArray(final int size) {
-          return new BrightnessOperationData[size];
-        }
-      };
+	public BrightnessOperationData[] newArray(final int size) {
+		return new BrightnessOperationData[size];
+	}
+};
 
-  private BrightnessOperationData(final Parcel in) { super(in); }
+private BrightnessOperationData(final Parcel in) {
+	super(in);
+}
 }

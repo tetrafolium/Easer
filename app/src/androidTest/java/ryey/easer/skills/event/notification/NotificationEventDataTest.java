@@ -27,13 +27,13 @@ import ryey.easer.skills.TestHelper;
 
 public class NotificationEventDataTest {
 
-  @Test
-  public void testParcel() {
-    NotificationEventData dummyData =
-        new NotificationEventDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    NotificationEventData parceledData =
-        NotificationEventData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	NotificationEventData dummyData =
+		new NotificationEventDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	NotificationEventData parceledData =
+		NotificationEventData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

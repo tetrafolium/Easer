@@ -24,27 +24,27 @@ import androidx.annotation.NonNull;
 import ryey.easer.plugin.R;
 
 public enum Category {
-  android,
-  system_config,
-  easer,
-  misc,
-  unknown;
+	android,
+	system_config,
+	easer,
+	misc,
+	unknown;
 
-  @NonNull
-  public String toString(final Resources resources) {
-    switch (this) {
-    case android:
-      return resources.getString(R.string.category_operation_android);
-    case system_config:
-      return resources.getString(R.string.category_operation_system_config);
-    case easer:
-      return resources.getString(R.string.category_operation_easer);
-    case misc:
-      return resources.getString(R.string.category_operation_misc);
-    case unknown:
-      return resources.getString(R.string.category_operation_unknown);
-    }
-    throw new IllegalStateException(
-        "Category isn't caught in switch statement");
-  }
+	@NonNull
+	public String toString(final Resources resources) {
+		switch (this) {
+		case android:
+			return resources.getString(R.string.category_operation_android);
+		case system_config:
+			return resources.getString(R.string.category_operation_system_config);
+		case easer:
+			return resources.getString(R.string.category_operation_easer);
+		case misc:
+			return resources.getString(R.string.category_operation_misc);
+		case unknown:
+			return resources.getString(R.string.category_operation_unknown);
+		}
+		throw new IllegalStateException(
+			      "Category isn't caught in switch statement");
+	}
 }

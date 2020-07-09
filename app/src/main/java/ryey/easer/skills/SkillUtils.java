@@ -37,96 +37,96 @@ import ryey.easer.R;
 
 public class SkillUtils {
 
-  public static boolean useRootFeature(final @NonNull Context context) {
-    SharedPreferences sharedPreferences =
-        PreferenceManager.getDefaultSharedPreferences(context);
-    return sharedPreferences.getBoolean(
-        context.getString(R.string.key_pref_use_root), false);
-  }
+public static boolean useRootFeature(final @NonNull Context context) {
+	SharedPreferences sharedPreferences =
+		PreferenceManager.getDefaultSharedPreferences(context);
+	return sharedPreferences.getBoolean(
+		context.getString(R.string.key_pref_use_root), false);
+}
 
-  public static Process executeCommandAsRoot(final Context context,
-                                             final String command)
-      throws IOException {
-    return Runtime.getRuntime().exec(new String[] {"su", "-c", command});
-  }
+public static Process executeCommandAsRoot(final Context context,
+                                           final String command)
+throws IOException {
+	return Runtime.getRuntime().exec(new String[] {"su", "-c", command});
+}
 
-  public static Process executeCommandsAsRoot(final String... commands)
-      throws IOException {
-    String[] all_commands = new String[commands.length + 1];
-    all_commands[0] = "su";
-    System.arraycopy(commands, 0, all_commands, 1, commands.length);
-    return executeCommands(all_commands);
-  }
+public static Process executeCommandsAsRoot(final String... commands)
+throws IOException {
+	String[] all_commands = new String[commands.length + 1];
+	all_commands[0] = "su";
+	System.arraycopy(commands, 0, all_commands, 1, commands.length);
+	return executeCommands(all_commands);
+}
 
-  public static Process executeCommandsContinuously(final String... commands)
-      throws IOException {
-    String[] all_commands = new String[commands.length + 1];
-    all_commands[0] = "sh";
-    System.arraycopy(commands, 0, all_commands, 1, commands.length);
-    return executeCommands(all_commands);
-  }
+public static Process executeCommandsContinuously(final String... commands)
+throws IOException {
+	String[] all_commands = new String[commands.length + 1];
+	all_commands[0] = "sh";
+	System.arraycopy(commands, 0, all_commands, 1, commands.length);
+	return executeCommands(all_commands);
+}
 
-  public static Process executeCommands(final String... command)
-      throws IOException {
-    Process process = Runtime.getRuntime().exec(command[0]);
-    DataOutputStream out = new DataOutputStream(process.getOutputStream());
-    for (int i = 1; i < command.length; i++) {
-      String cmd = command[i];
-      if (!cmd.endsWith("\n"))
-        cmd += "\n";
-      out.write(cmd.getBytes());
-      out.flush();
-    }
-    return process;
-  }
+public static Process executeCommands(final String... command)
+throws IOException {
+	Process process = Runtime.getRuntime().exec(command[0]);
+	DataOutputStream out = new DataOutputStream(process.getOutputStream());
+	for (int i = 1; i < command.length; i++) {
+		String cmd = command[i];
+		if (!cmd.endsWith("\n"))
+			cmd += "\n";
+		out.write(cmd.getBytes());
+		out.flush();
+	}
+	return process;
+}
 
-  public static boolean checkPermission(final Context context,
-                                        final String... permissions) {
-    for (String permission : permissions) {
-      if (ContextCompat.checkSelfPermission(context, permission) !=
-          PackageManager.PERMISSION_GRANTED) {
-        return false;
-      }
-    }
-    return true;
-  }
+public static boolean checkPermission(final Context context,
+                                      final String... permissions) {
+	for (String permission : permissions) {
+		if (ContextCompat.checkSelfPermission(context, permission) !=
+		    PackageManager.PERMISSION_GRANTED) {
+			return false;
+		}
+	}
+	return true;
+}
 
-  public static void requestPermission(final Activity activity,
-                                       final int requestCode,
-                                       final String... permissions) {
-    ActivityCompat.requestPermissions(activity, permissions, requestCode);
-  }
+public static void requestPermission(final Activity activity,
+                                     final int requestCode,
+                                     final String... permissions) {
+	ActivityCompat.requestPermissions(activity, permissions, requestCode);
+}
 
-  public static void reenableComponent(final Context context, final Class cls) {
-    PackageManager pm = context.getPackageManager();
-    ComponentName componentName = new ComponentName(context, cls);
+public static void reenableComponent(final Context context, final Class cls) {
+	PackageManager pm = context.getPackageManager();
+	ComponentName componentName = new ComponentName(context, cls);
 
-    pm.setComponentEnabledSetting(
-        componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-        PackageManager.DONT_KILL_APP);
+	pm.setComponentEnabledSetting(
+		componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+		PackageManager.DONT_KILL_APP);
 
-    pm.setComponentEnabledSetting(
-        componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-        PackageManager.DONT_KILL_APP);
-  }
+	pm.setComponentEnabledSetting(
+		componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+		PackageManager.DONT_KILL_APP);
+}
 
-  public static boolean
-  isServiceEnabled(final Context context,
-                   final Class<? extends Service> serviceClass) {
-    PackageManager pm = context.getPackageManager();
-    ComponentName componentName = new ComponentName(context, serviceClass);
-    return pm.getComponentEnabledSetting(componentName) ==
-        PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
-  }
+public static boolean
+isServiceEnabled(final Context context,
+                 final Class<? extends Service> serviceClass) {
+	PackageManager pm = context.getPackageManager();
+	ComponentName componentName = new ComponentName(context, serviceClass);
+	return pm.getComponentEnabledSetting(componentName) ==
+	       PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
+}
 
-  public static boolean isPermissionGrantedForNotificationListenerService(
-      final Context context,
-      final Class<? extends NotificationListenerService> serviceClass) {
-    ComponentName serviceComponentName =
-        new ComponentName(context, serviceClass);
-    String list = Settings.Secure.getString(context.getContentResolver(),
-                                            "enabled_notification_listeners");
-    return list != null &&
-        list.contains(serviceComponentName.flattenToString());
-  }
+public static boolean isPermissionGrantedForNotificationListenerService(
+	final Context context,
+	final Class<? extends NotificationListenerService> serviceClass) {
+	ComponentName serviceComponentName =
+		new ComponentName(context, serviceClass);
+	String list = Settings.Secure.getString(context.getContentResolver(),
+	                                        "enabled_notification_listeners");
+	return list != null &&
+	       list.contains(serviceComponentName.flattenToString());
+}
 }

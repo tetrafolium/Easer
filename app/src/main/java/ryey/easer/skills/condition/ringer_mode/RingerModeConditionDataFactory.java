@@ -27,29 +27,29 @@ import ryey.easer.commons.local_skill.conditionskill.ConditionDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class RingerModeConditionDataFactory
-    implements ConditionDataFactory<RingerModeConditionData> {
-  @NonNull
-  @Override
-  public Class<RingerModeConditionData> dataClass() {
-    return RingerModeConditionData.class;
-  }
+	implements ConditionDataFactory<RingerModeConditionData> {
+@NonNull
+@Override
+public Class<RingerModeConditionData> dataClass() {
+	return RingerModeConditionData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public RingerModeConditionData dummyData() {
-    return new RingerModeConditionData(
-        AudioManager.RINGER_MODE_NORMAL, 5,
-        RingerModeConditionData.COMPARE_MODE_HIGHER_OR_EQUAL);
-  }
+@ValidData
+@NonNull
+@Override
+public RingerModeConditionData dummyData() {
+	return new RingerModeConditionData(
+		AudioManager.RINGER_MODE_NORMAL, 5,
+		RingerModeConditionData.COMPARE_MODE_HIGHER_OR_EQUAL);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public RingerModeConditionData parse(final @NonNull String data,
-                                       final @NonNull PluginDataFormat format,
-                                       final int version)
-      throws IllegalStorageDataException {
-    return new RingerModeConditionData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public RingerModeConditionData parse(final @NonNull String data,
+                                     final @NonNull PluginDataFormat format,
+                                     final int version)
+throws IllegalStorageDataException {
+	return new RingerModeConditionData(data, format, version);
+}
 }

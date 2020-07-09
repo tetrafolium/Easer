@@ -27,13 +27,13 @@ import ryey.easer.skills.TestHelper;
 
 public class CellLocationUSourceDataTest {
 
-  @Test
-  public void testParcel() {
-    CellLocationUSourceData dummyData =
-        new CellLocationUSourceDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    CellLocationUSourceData parceledData =
-        CellLocationUSourceData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	CellLocationUSourceData dummyData =
+		new CellLocationUSourceDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	CellLocationUSourceData parceledData =
+		CellLocationUSourceData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

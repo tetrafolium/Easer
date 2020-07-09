@@ -30,143 +30,143 @@ import ryey.easer.commons.local_skill.conditionskill.ConditionData;
 import ryey.easer.plugin.PluginDataFormat;
 
 public class RingerModeConditionData implements ConditionData {
-  public static final int COMPARE_MODE_LOWER_OR_EQUAL = 0;
-  public static final int COMPARE_MODE_HIGHER_OR_EQUAL = 1;
-  public static final int COMPARE_MODE_EQUALS = 2;
+public static final int COMPARE_MODE_LOWER_OR_EQUAL = 0;
+public static final int COMPARE_MODE_HIGHER_OR_EQUAL = 1;
+public static final int COMPARE_MODE_EQUALS = 2;
 
-  int ringerMode;
-  int ringerLevel;
-  int compareMode;
+int ringerMode;
+int ringerLevel;
+int compareMode;
 
-  private static final String T_ringerMode = "ringerMode";
-  private static final String T_ringerLevel = "ringerLevel";
-  private static final String T_compareMode = "compareMode";
+private static final String T_ringerMode = "ringerMode";
+private static final String T_ringerLevel = "ringerLevel";
+private static final String T_compareMode = "compareMode";
 
-  RingerModeConditionData(final @NonNull String data,
-                          final @NonNull PluginDataFormat format,
-                          final int version)
-      throws IllegalStorageDataException {
-    switch (format) {
-    default:
-      try {
-        JSONObject jsonObject = new JSONObject(data);
-        this.ringerMode = jsonObject.optInt(T_ringerMode);
-        this.ringerLevel = jsonObject.optInt(T_ringerLevel);
-        this.compareMode = jsonObject.optInt(T_compareMode);
-      } catch (JSONException e) {
-        e.printStackTrace();
-        throw new IllegalStorageDataException(e);
-      }
-    }
-  }
+RingerModeConditionData(final @NonNull String data,
+                        final @NonNull PluginDataFormat format,
+                        final int version)
+throws IllegalStorageDataException {
+	switch (format) {
+	default:
+		try {
+			JSONObject jsonObject = new JSONObject(data);
+			this.ringerMode = jsonObject.optInt(T_ringerMode);
+			this.ringerLevel = jsonObject.optInt(T_ringerLevel);
+			this.compareMode = jsonObject.optInt(T_compareMode);
+		} catch (JSONException e) {
+			e.printStackTrace();
+			throw new IllegalStorageDataException(e);
+		}
+	}
+}
 
-  RingerModeConditionData(final int ringerMode, final int ringerLevel,
-                          final int compareMode) {
-    this.ringerMode = ringerMode;
-    this.ringerLevel = ringerLevel;
-    this.compareMode = compareMode;
-  }
+RingerModeConditionData(final int ringerMode, final int ringerLevel,
+                        final int compareMode) {
+	this.ringerMode = ringerMode;
+	this.ringerLevel = ringerLevel;
+	this.compareMode = compareMode;
+}
 
-  @NonNull
-  @Override
-  public String serialize(final @NonNull PluginDataFormat format) {
-    String res;
-    switch (format) {
-    default:
-      JSONObject jsonObject = new JSONObject();
-      try {
-        jsonObject.put(T_ringerMode, ringerMode);
-        jsonObject.put(T_ringerLevel, ringerLevel);
-        jsonObject.put(T_compareMode, compareMode);
-      } catch (JSONException e) {
-        Logger.e(e, "Error putting %s data", getClass().getSimpleName());
-        e.printStackTrace();
-      }
-      res = jsonObject.toString();
-    }
-    return res;
-  }
+@NonNull
+@Override
+public String serialize(final @NonNull PluginDataFormat format) {
+	String res;
+	switch (format) {
+	default:
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put(T_ringerMode, ringerMode);
+			jsonObject.put(T_ringerLevel, ringerLevel);
+			jsonObject.put(T_compareMode, compareMode);
+		} catch (JSONException e) {
+			Logger.e(e, "Error putting %s data", getClass().getSimpleName());
+			e.printStackTrace();
+		}
+		res = jsonObject.toString();
+	}
+	return res;
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean isValid() {
-    if (ringerMode == AudioManager.RINGER_MODE_SILENT ||
-        ringerMode == AudioManager.RINGER_MODE_VIBRATE) {
-      return true;
-    }
-    if (ringerMode == AudioManager.RINGER_MODE_NORMAL &&
-        (compareMode == COMPARE_MODE_LOWER_OR_EQUAL ||
-         compareMode == COMPARE_MODE_HIGHER_OR_EQUAL ||
-         compareMode == COMPARE_MODE_EQUALS)) {
-      return true;
-    }
-    return false;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean isValid() {
+	if (ringerMode == AudioManager.RINGER_MODE_SILENT ||
+	    ringerMode == AudioManager.RINGER_MODE_VIBRATE) {
+		return true;
+	}
+	if (ringerMode == AudioManager.RINGER_MODE_NORMAL &&
+	    (compareMode == COMPARE_MODE_LOWER_OR_EQUAL ||
+	     compareMode == COMPARE_MODE_HIGHER_OR_EQUAL ||
+	     compareMode == COMPARE_MODE_EQUALS)) {
+		return true;
+	}
+	return false;
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean equals(final Object obj) {
-    if (obj == this)
-      return true;
-    if (obj == null || !(obj instanceof RingerModeConditionData))
-      return false;
-    if (((RingerModeConditionData)obj).ringerMode == ringerMode) {
-      if (ringerMode == AudioManager.RINGER_MODE_SILENT ||
-          ringerMode == AudioManager.RINGER_MODE_VIBRATE) {
-        return true;
-      } else if ((ringerMode == AudioManager.RINGER_MODE_NORMAL) && (((RingerModeConditionData)obj).ringerLevel == ringerLevel &&
-            ((RingerModeConditionData)obj).compareMode == compareMode)) {
-        return true;
-      }
-    }
-    return false;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean equals(final Object obj) {
+	if (obj == this)
+		return true;
+	if (obj == null || !(obj instanceof RingerModeConditionData))
+		return false;
+	if (((RingerModeConditionData)obj).ringerMode == ringerMode) {
+		if (ringerMode == AudioManager.RINGER_MODE_SILENT ||
+		    ringerMode == AudioManager.RINGER_MODE_VIBRATE) {
+			return true;
+		} else if ((ringerMode == AudioManager.RINGER_MODE_NORMAL) && (((RingerModeConditionData)obj).ringerLevel == ringerLevel &&
+		                                                               ((RingerModeConditionData)obj).compareMode == compareMode)) {
+			return true;
+		}
+	}
+	return false;
+}
 
-  public boolean match(final int ringerMode, final int ringerLevel) {
-    if (ringerMode == this.ringerMode) {
-      if (ringerMode == AudioManager.RINGER_MODE_SILENT ||
-          ringerMode == AudioManager.RINGER_MODE_VIBRATE) {
-        return true;
-      } else {
-        switch (compareMode) {
-        case COMPARE_MODE_LOWER_OR_EQUAL:
-          return ringerLevel <= this.ringerLevel;
-        case COMPARE_MODE_HIGHER_OR_EQUAL:
-          return ringerLevel >= this.ringerLevel;
-        case COMPARE_MODE_EQUALS:
-          return ringerLevel == this.ringerLevel;
-        }
-      }
-    }
-    return false;
-  }
+public boolean match(final int ringerMode, final int ringerLevel) {
+	if (ringerMode == this.ringerMode) {
+		if (ringerMode == AudioManager.RINGER_MODE_SILENT ||
+		    ringerMode == AudioManager.RINGER_MODE_VIBRATE) {
+			return true;
+		} else {
+			switch (compareMode) {
+			case COMPARE_MODE_LOWER_OR_EQUAL:
+				return ringerLevel <= this.ringerLevel;
+			case COMPARE_MODE_HIGHER_OR_EQUAL:
+				return ringerLevel >= this.ringerLevel;
+			case COMPARE_MODE_EQUALS:
+				return ringerLevel == this.ringerLevel;
+			}
+		}
+	}
+	return false;
+}
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-  @Override
-  public void writeToParcel(final Parcel dest, final int flags) {
-    dest.writeInt(ringerMode);
-    dest.writeInt(ringerLevel);
-    dest.writeInt(compareMode);
-  }
+@Override
+public void writeToParcel(final Parcel dest, final int flags) {
+	dest.writeInt(ringerMode);
+	dest.writeInt(ringerLevel);
+	dest.writeInt(compareMode);
+}
 
-  public static final Creator<RingerModeConditionData> CREATOR =
-      new Creator<RingerModeConditionData>() {
-        public RingerModeConditionData createFromParcel(final Parcel in) {
-          return new RingerModeConditionData(in);
-        }
+public static final Creator<RingerModeConditionData> CREATOR =
+	new Creator<RingerModeConditionData>() {
+	public RingerModeConditionData createFromParcel(final Parcel in) {
+		return new RingerModeConditionData(in);
+	}
 
-        public RingerModeConditionData[] newArray(final int size) {
-          return new RingerModeConditionData[size];
-        }
-      };
+	public RingerModeConditionData[] newArray(final int size) {
+		return new RingerModeConditionData[size];
+	}
+};
 
-  private RingerModeConditionData(final Parcel in) {
-    this.ringerMode = in.readInt();
-    this.ringerLevel = in.readInt();
-    this.compareMode = in.readInt();
-  }
+private RingerModeConditionData(final Parcel in) {
+	this.ringerMode = in.readInt();
+	this.ringerLevel = in.readInt();
+	this.compareMode = in.readInt();
+}
 }

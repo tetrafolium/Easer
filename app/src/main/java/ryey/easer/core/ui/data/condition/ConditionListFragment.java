@@ -36,56 +36,56 @@ import ryey.easer.skills.LocalSkillRegistry;
 
 public class ConditionListFragment extends AbstractDataListFragment {
 
-  static { TAG = "[ConditionListFragment] "; }
+static { TAG = "[ConditionListFragment] "; }
 
-  @NonNull
-  @Override
-  public String title() {
-    return getString(R.string.title_condition);
-  }
+@NonNull
+@Override
+public String title() {
+	return getString(R.string.title_condition);
+}
 
-  @Override
-  public int helpTextRes() {
-    return R.string.help_condition;
-  }
+@Override
+public int helpTextRes() {
+	return R.string.help_condition;
+}
 
-  @Override
-  protected List<ListDataWrapper> queryDataList() {
-    ConditionDataStorage dataStorage = new ConditionDataStorage(getContext());
-    List<ListDataWrapper> dataWrapperList = new ArrayList<>();
-    for (String name : dataStorage.list()) {
-      ConditionStructure condition = dataStorage.get(name);
-      if (condition.isValid()) {
-        dataWrapperList.add(new ListDataWrapper(name));
-      } else {
-        dataWrapperList.add(
-            new ListDataWrapper(name, R.color.colorText_invalid));
-      }
-    }
-    return dataWrapperList;
-  }
+@Override
+protected List<ListDataWrapper> queryDataList() {
+	ConditionDataStorage dataStorage = new ConditionDataStorage(getContext());
+	List<ListDataWrapper> dataWrapperList = new ArrayList<>();
+	for (String name : dataStorage.list()) {
+		ConditionStructure condition = dataStorage.get(name);
+		if (condition.isValid()) {
+			dataWrapperList.add(new ListDataWrapper(name));
+		} else {
+			dataWrapperList.add(
+				new ListDataWrapper(name, R.color.colorText_invalid));
+		}
+	}
+	return dataWrapperList;
+}
 
-  @Override
-  protected void onDataChangedFromEditDataActivity() {
-    super.onDataChangedFromEditDataActivity();
-    EHService.reload(getContext());
-  }
+@Override
+protected void onDataChangedFromEditDataActivity() {
+	super.onDataChangedFromEditDataActivity();
+	EHService.reload(getContext());
+}
 
-  @Override
-  public Intent intentForEditDataActivity() {
-    return new Intent(getContext(), EditConditionActivity.class);
-  }
+@Override
+public Intent intentForEditDataActivity() {
+	return new Intent(getContext(), EditConditionActivity.class);
+}
 
-  @Override
-  public void onViewCreated(final @NonNull View view,
-                            final @Nullable Bundle savedInstanceState) {
-    // noinspection ConstantConditions
-    if (LocalSkillRegistry.getInstance()
-            .condition()
-            .getEnabledSkills(getContext())
-            .size() == 0) {
-      FloatingActionButton fab = view.findViewById(R.id.fab);
-      fab.hide();
-    }
-  }
+@Override
+public void onViewCreated(final @NonNull View view,
+                          final @Nullable Bundle savedInstanceState) {
+	// noinspection ConstantConditions
+	if (LocalSkillRegistry.getInstance()
+	    .condition()
+	    .getEnabledSkills(getContext())
+	    .size() == 0) {
+		FloatingActionButton fab = view.findViewById(R.id.fab);
+		fab.hide();
+	}
+}
 }

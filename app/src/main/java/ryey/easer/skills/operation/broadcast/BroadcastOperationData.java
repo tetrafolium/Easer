@@ -40,198 +40,200 @@ import ryey.easer.skills.operation.ExtraItem;
 import ryey.easer.skills.operation.Extras;
 
 public class BroadcastOperationData implements OperationData {
-  private static final String ns = null;
+private static final String ns = null;
 
-  private static final String ACTION = "action";
-  private static final String CATEGORY = "category";
-  private static final String TYPE = "type";
-  private static final String DATA = "data";
-  private static final String EXTRAS = "extras";
+private static final String ACTION = "action";
+private static final String CATEGORY = "category";
+private static final String TYPE = "type";
+private static final String DATA = "data";
+private static final String EXTRAS = "extras";
 
-  IntentData data = new IntentData();
+IntentData data = new IntentData();
 
-  BroadcastOperationData(final IntentData data) { this.data = data; }
+BroadcastOperationData(final IntentData data) {
+	this.data = data;
+}
 
-  BroadcastOperationData(final @NonNull String data,
-                         final @NonNull PluginDataFormat format,
-                         final int version) throws IllegalStorageDataException {
-    parse(data, format, version);
-  }
+BroadcastOperationData(final @NonNull String data,
+                       final @NonNull PluginDataFormat format,
+                       final int version) throws IllegalStorageDataException {
+	parse(data, format, version);
+}
 
-  public void parse(final @NonNull String data,
-                    final @NonNull PluginDataFormat format, final int version)
-      throws IllegalStorageDataException {
-    switch (format) {
-    default:
-      try {
-        JSONObject jsonObject = new JSONObject(data);
-        IntentData intentData = new IntentData();
-        intentData.action = jsonObject.optString(ACTION, null);
+public void parse(final @NonNull String data,
+                  final @NonNull PluginDataFormat format, final int version)
+throws IllegalStorageDataException {
+	switch (format) {
+	default:
+		try {
+			JSONObject jsonObject = new JSONObject(data);
+			IntentData intentData = new IntentData();
+			intentData.action = jsonObject.optString(ACTION, null);
 
-        JSONArray jsonArray = jsonObject.optJSONArray(CATEGORY);
-        if ((jsonArray != null) && (jsonArray.length() > 0)) {
-          intentData.category = new ArrayList<>(jsonArray.length());
-          for (int i = 0; i < jsonArray.length(); i++) {
-            intentData.category.add(jsonArray.getString(i));
-          }
-        }
+			JSONArray jsonArray = jsonObject.optJSONArray(CATEGORY);
+			if ((jsonArray != null) && (jsonArray.length() > 0)) {
+				intentData.category = new ArrayList<>(jsonArray.length());
+				for (int i = 0; i < jsonArray.length(); i++) {
+					intentData.category.add(jsonArray.getString(i));
+				}
+			}
 
-        intentData.type = jsonObject.optString(TYPE, null);
+			intentData.type = jsonObject.optString(TYPE, null);
 
-        String uri = jsonObject.optString(DATA, null);
-        if (uri != null)
-          intentData.data = Uri.parse(uri);
+			String uri = jsonObject.optString(DATA, null);
+			if (uri != null)
+				intentData.data = Uri.parse(uri);
 
-        String strExtras = jsonObject.optString(EXTRAS);
-        if (strExtras != null) {
-          intentData.extras = new Extras(strExtras, format, version);
-        }
+			String strExtras = jsonObject.optString(EXTRAS);
+			if (strExtras != null) {
+				intentData.extras = new Extras(strExtras, format, version);
+			}
 
-        this.data = intentData;
-      } catch (JSONException e) {
-        e.printStackTrace();
-        throw new IllegalStorageDataException(e);
-      }
-    }
-  }
+			this.data = intentData;
+		} catch (JSONException e) {
+			e.printStackTrace();
+			throw new IllegalStorageDataException(e);
+		}
+	}
+}
 
-  @NonNull
-  @Override
-  public String serialize(final @NonNull PluginDataFormat format) {
-    String res = "";
-    switch (format) {
-    default:
-      JSONObject jsonObject = new JSONObject();
-      try {
-        jsonObject.put(ACTION, data.action);
+@NonNull
+@Override
+public String serialize(final @NonNull PluginDataFormat format) {
+	String res = "";
+	switch (format) {
+	default:
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put(ACTION, data.action);
 
-        if (data.category != null && data.category.size() > 0) {
-          JSONArray jsonArray_category = new JSONArray();
-          for (String category : data.category) {
-            jsonArray_category.put(category);
-          }
-          jsonObject.put(CATEGORY, jsonArray_category);
-        }
+			if (data.category != null && data.category.size() > 0) {
+				JSONArray jsonArray_category = new JSONArray();
+				for (String category : data.category) {
+					jsonArray_category.put(category);
+				}
+				jsonObject.put(CATEGORY, jsonArray_category);
+			}
 
-        if (!Utils.isBlank(data.type))
-          jsonObject.put(TYPE, data.type);
-        if (data.data != null)
-          jsonObject.put(DATA, data.data.toString());
+			if (!Utils.isBlank(data.type))
+				jsonObject.put(TYPE, data.type);
+			if (data.data != null)
+				jsonObject.put(DATA, data.data.toString());
 
-        if ((data.extras != null) && (data.extras.extras.size() >
-              0)) { // Safety check, because old versions may serialise null
-                 // extras. Should be removed in future.
-          jsonObject.put(EXTRAS, data.extras.serialize(format));
-        }
+			if ((data.extras != null) && (data.extras.extras.size() >
+			                              0)) { // Safety check, because old versions may serialise null
+				                            // extras. Should be removed in future.
+				jsonObject.put(EXTRAS, data.extras.serialize(format));
+			}
 
-        res = jsonObject.toString();
-      } catch (JSONException e) {
-        e.printStackTrace();
-      }
-    }
-    return res;
-  }
+			res = jsonObject.toString();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+	return res;
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean isValid() {
-    if (!Utils.isBlank(data.action))
-      return true;
-    if (data.category != null && !data.category.isEmpty())
-      return true;
-    if (!Utils.isBlank(data.type))
-      return true;
-    if (data.data != null && !Utils.isBlank(data.data.toString()))
-      return true;
-    return false;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean isValid() {
+	if (!Utils.isBlank(data.action))
+		return true;
+	if (data.category != null && !data.category.isEmpty())
+		return true;
+	if (!Utils.isBlank(data.type))
+		return true;
+	if (data.data != null && !Utils.isBlank(data.data.toString()))
+		return true;
+	return false;
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean equals(final Object obj) {
-    if (obj == this)
-      return true;
-    if (!(obj instanceof BroadcastOperationData))
-      return false;
-    return data.equals(((BroadcastOperationData)obj).data);
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean equals(final Object obj) {
+	if (obj == this)
+		return true;
+	if (!(obj instanceof BroadcastOperationData))
+		return false;
+	return data.equals(((BroadcastOperationData)obj).data);
+}
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-  @Override
-  public void writeToParcel(final Parcel dest, final int flags) {
-    dest.writeParcelable(data, 0);
-  }
+@Override
+public void writeToParcel(final Parcel dest, final int flags) {
+	dest.writeParcelable(data, 0);
+}
 
-  public static final Parcelable.Creator<BroadcastOperationData> CREATOR =
-      new Parcelable.Creator<BroadcastOperationData>() {
-        public BroadcastOperationData createFromParcel(final Parcel in) {
-          return new BroadcastOperationData(in);
-        }
+public static final Parcelable.Creator<BroadcastOperationData> CREATOR =
+	new Parcelable.Creator<BroadcastOperationData>() {
+	public BroadcastOperationData createFromParcel(final Parcel in) {
+		return new BroadcastOperationData(in);
+	}
 
-        public BroadcastOperationData[] newArray(final int size) {
-          return new BroadcastOperationData[size];
-        }
-      };
+	public BroadcastOperationData[] newArray(final int size) {
+		return new BroadcastOperationData[size];
+	}
+};
 
-  private BroadcastOperationData(final Parcel in) {
-    data = in.readParcelable(IntentData.class.getClassLoader());
-  }
+private BroadcastOperationData(final Parcel in) {
+	data = in.readParcelable(IntentData.class.getClassLoader());
+}
 
-  @Nullable
-  @Override
-  public Set<String> placeholders() {
-    Set<String> placeholders = new ArraySet<>();
-    if (data.action != null)
-      placeholders.addAll(Utils.extractPlaceholder(data.action));
-    if (data.category != null) {
-      for (String category : data.category)
-        placeholders.addAll(Utils.extractPlaceholder(category));
-    }
-    if (data.type != null)
-      placeholders.addAll(Utils.extractPlaceholder(data.type));
-    if (data.data != null)
-      placeholders.addAll(Utils.extractPlaceholder(data.data.getPath()));
-    if (data.extras != null) {
-      for (ExtraItem extra : data.extras.extras) {
-        placeholders.addAll(Utils.extractPlaceholder(extra.key));
-        placeholders.addAll(Utils.extractPlaceholder(extra.value));
-      }
-    }
-    return placeholders;
-  }
+@Nullable
+@Override
+public Set<String> placeholders() {
+	Set<String> placeholders = new ArraySet<>();
+	if (data.action != null)
+		placeholders.addAll(Utils.extractPlaceholder(data.action));
+	if (data.category != null) {
+		for (String category : data.category)
+			placeholders.addAll(Utils.extractPlaceholder(category));
+	}
+	if (data.type != null)
+		placeholders.addAll(Utils.extractPlaceholder(data.type));
+	if (data.data != null)
+		placeholders.addAll(Utils.extractPlaceholder(data.data.getPath()));
+	if (data.extras != null) {
+		for (ExtraItem extra : data.extras.extras) {
+			placeholders.addAll(Utils.extractPlaceholder(extra.key));
+			placeholders.addAll(Utils.extractPlaceholder(extra.value));
+		}
+	}
+	return placeholders;
+}
 
-  @NonNull
-  @Override
-  public OperationData
-  applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
-    IntentData intentData = new IntentData();
-    if (data.action != null)
-      intentData.action = Utils.applyDynamics(data.action, dynamicsAssignment);
-    if (data.category != null) {
-      intentData.category = new ArrayList<>(data.category.size());
-      for (String category : data.category)
-        intentData.category.add(
-            Utils.applyDynamics(category, dynamicsAssignment));
-    }
-    if (data.type != null)
-      intentData.type = Utils.applyDynamics(data.type, dynamicsAssignment);
-    if (data.data != null)
-      intentData.data = Uri.parse(
-          Utils.applyDynamics(data.data.getPath(), dynamicsAssignment));
-    if (data.extras != null) {
-      List<ExtraItem> extras = new ArrayList<>();
-      for (ExtraItem extra : data.extras.extras) {
-        String key = Utils.applyDynamics(extra.key, dynamicsAssignment);
-        String value = Utils.applyDynamics(extra.value, dynamicsAssignment);
-        String type = extra.type;
-        extras.add(new ExtraItem(key, value, type));
-      }
-      data.extras = new Extras(extras);
-    }
-    return new BroadcastOperationData(intentData);
-  }
+@NonNull
+@Override
+public OperationData
+applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
+	IntentData intentData = new IntentData();
+	if (data.action != null)
+		intentData.action = Utils.applyDynamics(data.action, dynamicsAssignment);
+	if (data.category != null) {
+		intentData.category = new ArrayList<>(data.category.size());
+		for (String category : data.category)
+			intentData.category.add(
+				Utils.applyDynamics(category, dynamicsAssignment));
+	}
+	if (data.type != null)
+		intentData.type = Utils.applyDynamics(data.type, dynamicsAssignment);
+	if (data.data != null)
+		intentData.data = Uri.parse(
+			Utils.applyDynamics(data.data.getPath(), dynamicsAssignment));
+	if (data.extras != null) {
+		List<ExtraItem> extras = new ArrayList<>();
+		for (ExtraItem extra : data.extras.extras) {
+			String key = Utils.applyDynamics(extra.key, dynamicsAssignment);
+			String value = Utils.applyDynamics(extra.value, dynamicsAssignment);
+			String type = extra.type;
+			extras.add(new ExtraItem(key, value, type));
+		}
+		data.extras = new Extras(extras);
+	}
+	return new BroadcastOperationData(intentData);
+}
 }

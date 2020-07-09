@@ -34,24 +34,24 @@ import ryey.easer.plugin.operation.Category;
  */
 public interface OperationSkill<T extends OperationData> extends Skill<T> {
 
-  /**
-   * Returns the privilege preference of this plugin.
-   */
-  @NonNull PrivilegeUsage privilege();
+/**
+ * Returns the privilege preference of this plugin.
+ */
+@NonNull PrivilegeUsage privilege();
 
-  /**
-   * Returns the max number of concurrent existence of this plugin in a profile
-   * 0 means infinite
-   */
-  @IntRange(from = 0) int maxExistence();
+/**
+ * Returns the max number of concurrent existence of this plugin in a profile
+ * 0 means infinite
+ */
+@IntRange(from = 0) int maxExistence();
 
-  @NonNull Category category();
+@NonNull Category category();
 
-  @NonNull OperationDataFactory<T> dataFactory();
+@NonNull OperationDataFactory<T> dataFactory();
 
-  /**
-   * Returns a dummy loader of this plugin.
-   * See `OperationLoader` for more information
-   */
-  @NonNull Loader<T> loader(@NonNull Context context);
+/**
+ * Returns a dummy loader of this plugin.
+ * See `OperationLoader` for more information
+ */
+@NonNull Loader<T> loader(@NonNull Context context);
 }

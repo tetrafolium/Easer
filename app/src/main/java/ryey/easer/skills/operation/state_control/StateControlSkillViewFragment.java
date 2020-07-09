@@ -34,37 +34,37 @@ import ryey.easer.core.data.storage.ScriptDataStorage;
 import ryey.easer.skills.SkillViewFragment;
 
 public class StateControlSkillViewFragment
-    extends SkillViewFragment<StateControlOperationData> {
+	extends SkillViewFragment<StateControlOperationData> {
 
-  private DataSelectSpinnerWrapper sw_script;
+private DataSelectSpinnerWrapper sw_script;
 
-  @NonNull
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final @Nullable ViewGroup container,
-                           final @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.plugin_operation__event_control,
-                                 container, false);
-    sw_script = new DataSelectSpinnerWrapper(
-        getContext(), (Spinner)view.findViewById(R.id.spinner_event));
-    sw_script.beginInit()
-        .setAllowEmpty(false)
-        .fillData(new ScriptDataStorage(getContext()).list())
-        .finalizeInit();
-    return view;
-  }
+@NonNull
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final @Nullable ViewGroup container,
+                         final @Nullable Bundle savedInstanceState) {
+	View view = inflater.inflate(R.layout.plugin_operation__event_control,
+	                             container, false);
+	sw_script = new DataSelectSpinnerWrapper(
+		getContext(), (Spinner)view.findViewById(R.id.spinner_event));
+	sw_script.beginInit()
+	.setAllowEmpty(false)
+	.fillData(new ScriptDataStorage(getContext()).list())
+	.finalizeInit();
+	return view;
+}
 
-  @Override
-  protected void _fill(final
-                       @ValidData @NonNull StateControlOperationData data) {
-    sw_script.setSelection(data.scriptName);
-  }
+@Override
+protected void _fill(final
+                     @ValidData @NonNull StateControlOperationData data) {
+	sw_script.setSelection(data.scriptName);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public StateControlOperationData getData() throws InvalidDataInputException {
-    String eventName = sw_script.getSelection();
-    return new StateControlOperationData(eventName, false);
-  }
+@ValidData
+@NonNull
+@Override
+public StateControlOperationData getData() throws InvalidDataInputException {
+	String eventName = sw_script.getSelection();
+	return new StateControlOperationData(eventName, false);
+}
 }

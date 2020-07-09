@@ -33,15 +33,15 @@ import ryey.easer.core.data.Named;
  */
 public interface DataStorageBackendCommonInterface<T extends Named> {
 
-  boolean has(String name);
+boolean has(String name);
 
-  List<String> list();
+List<String> list();
 
-  T get(String name) throws FileNotFoundException, IllegalStorageDataException;
+T get(String name) throws FileNotFoundException, IllegalStorageDataException;
 
-  void write(T data) throws IOException;
+void write(T data) throws IOException;
 
-  void delete(String name);
+void delete(String name);
 
-  List<T> all();
+List<T> all();
 }

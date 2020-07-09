@@ -28,24 +28,28 @@ import ryey.easer.skills.operation.BooleanOperationData;
 
 public class HotspotOperationData extends BooleanOperationData {
 
-  HotspotOperationData(final Boolean state) { super(state); }
+HotspotOperationData(final Boolean state) {
+	super(state);
+}
 
-  HotspotOperationData(final @NonNull String data,
-                       final @NonNull PluginDataFormat format,
-                       final int version) throws IllegalStorageDataException {
-    super(data, format, version);
-  }
+HotspotOperationData(final @NonNull String data,
+                     final @NonNull PluginDataFormat format,
+                     final int version) throws IllegalStorageDataException {
+	super(data, format, version);
+}
 
-  public static final Parcelable.Creator<HotspotOperationData> CREATOR =
-      new Parcelable.Creator<HotspotOperationData>() {
-        public HotspotOperationData createFromParcel(final Parcel in) {
-          return new HotspotOperationData(in);
-        }
+public static final Parcelable.Creator<HotspotOperationData> CREATOR =
+	new Parcelable.Creator<HotspotOperationData>() {
+	public HotspotOperationData createFromParcel(final Parcel in) {
+		return new HotspotOperationData(in);
+	}
 
-        public HotspotOperationData[] newArray(final int size) {
-          return new HotspotOperationData[size];
-        }
-      };
+	public HotspotOperationData[] newArray(final int size) {
+		return new HotspotOperationData[size];
+	}
+};
 
-  private HotspotOperationData(final Parcel in) { super(in); }
+private HotspotOperationData(final Parcel in) {
+	super(in);
+}
 }

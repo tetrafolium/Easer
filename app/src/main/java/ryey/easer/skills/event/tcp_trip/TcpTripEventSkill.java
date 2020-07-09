@@ -35,64 +35,64 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class TcpTripEventSkill implements EventSkill<TcpTripEventData> {
 
-  @NonNull
-  @Override
-  public String id() {
-    return "tcp trip";
-  }
+@NonNull
+@Override
+public String id() {
+	return "tcp trip";
+}
 
-  @Override
-  public int name() {
-    return R.string.event_tcp_trip;
-  }
+@Override
+public int name() {
+	return R.string.event_tcp_trip;
+}
 
-  @Override
-  public boolean isCompatible(@NonNull final Context context) {
-    return true;
-  }
+@Override
+public boolean isCompatible(@NonNull final Context context) {
+	return true;
+}
 
-  @Nullable
-  @Override
-  public Boolean checkPermissions(final @NonNull Context context) {
-    return SkillUtils.checkPermission(context, Manifest.permission.INTERNET);
-  }
+@Nullable
+@Override
+public Boolean checkPermissions(final @NonNull Context context) {
+	return SkillUtils.checkPermission(context, Manifest.permission.INTERNET);
+}
 
-  @Override
-  public void requestPermissions(final @NonNull Activity activity,
-                                 final int requestCode) {
-    SkillUtils.requestPermission(activity, requestCode,
-                                 Manifest.permission.INTERNET);
-  }
+@Override
+public void requestPermissions(final @NonNull Activity activity,
+                               final int requestCode) {
+	SkillUtils.requestPermission(activity, requestCode,
+	                             Manifest.permission.INTERNET);
+}
 
-  @NonNull
-  @Override
-  public EventDataFactory<TcpTripEventData> dataFactory() {
-    return new TcpTripEventDataFactory();
-  }
+@NonNull
+@Override
+public EventDataFactory<TcpTripEventData> dataFactory() {
+	return new TcpTripEventDataFactory();
+}
 
-  @NonNull
-  @Override
-  public SourceCategory category() {
-    return SourceCategory.data_communication;
-  }
+@NonNull
+@Override
+public SourceCategory category() {
+	return SourceCategory.data_communication;
+}
 
-  @NonNull
-  @Override
-  public SkillView<TcpTripEventData> view() {
-    return new TcpTripSkillViewFragment();
-  }
+@NonNull
+@Override
+public SkillView<TcpTripEventData> view() {
+	return new TcpTripSkillViewFragment();
+}
 
-  @Override
-  public AbstractSlot<TcpTripEventData>
-  slot(final @NonNull Context context,
-       final @ValidData @NonNull TcpTripEventData data) {
-    return new TcpTripSlot(context, data);
-  }
+@Override
+public AbstractSlot<TcpTripEventData>
+slot(final @NonNull Context context,
+     final @ValidData @NonNull TcpTripEventData data) {
+	return new TcpTripSlot(context, data);
+}
 
-  @Override
-  public AbstractSlot<TcpTripEventData>
-  slot(final @NonNull Context context, final @NonNull TcpTripEventData data,
-       final boolean retriggerable, final boolean persistent) {
-    return new TcpTripSlot(context, data, retriggerable, persistent);
-  }
+@Override
+public AbstractSlot<TcpTripEventData>
+slot(final @NonNull Context context, final @NonNull TcpTripEventData data,
+     final boolean retriggerable, final boolean persistent) {
+	return new TcpTripSlot(context, data, retriggerable, persistent);
+}
 }

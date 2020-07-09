@@ -28,26 +28,26 @@ import ryey.easer.core.ui.data.SourceSkillViewContainerFragment;
 import ryey.easer.skills.LocalSkillRegistry;
 
 public class EditConditionDataFragment
-    extends EditSourceDataFragment<ConditionData, ConditionSkill> {
-  @Override
-  protected int buttonText() {
-    return R.string.title_select_condition;
-  }
+	extends EditSourceDataFragment<ConditionData, ConditionSkill> {
+@Override
+protected int buttonText() {
+	return R.string.title_select_condition;
+}
 
-  @Override
-  protected SourceSelectorDialogFragment<ConditionSkill>
-  selectorDialogFragment() {
-    return new ConditionSelectorDialogFragment();
-  }
+@Override
+protected SourceSelectorDialogFragment<ConditionSkill>
+selectorDialogFragment() {
+	return new ConditionSelectorDialogFragment();
+}
 
-  @Override
-  protected ConditionSkill findSkill(final ConditionData data) {
-    return LocalSkillRegistry.getInstance().condition().findSkill(data);
-  }
+@Override
+protected ConditionSkill findSkill(final ConditionData data) {
+	return LocalSkillRegistry.getInstance().condition().findSkill(data);
+}
 
-  @Override
-  protected SourceSkillViewContainerFragment<ConditionData, ConditionSkill>
-  skillViewContainerFragment(final ConditionSkill skill) {
-    return ConditionSkillViewContainerFragment.createInstance(skill);
-  }
+@Override
+protected SourceSkillViewContainerFragment<ConditionData, ConditionSkill>
+skillViewContainerFragment(final ConditionSkill skill) {
+	return ConditionSkillViewContainerFragment.createInstance(skill);
+}
 }

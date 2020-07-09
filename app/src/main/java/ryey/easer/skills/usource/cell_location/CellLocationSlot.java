@@ -27,58 +27,58 @@ import android.telephony.TelephonyManager;
 import ryey.easer.skills.event.AbstractSlot;
 
 public class CellLocationSlot extends AbstractSlot<CellLocationUSourceData> {
-  private static TelephonyManager telephonyManager = null;
+private static TelephonyManager telephonyManager = null;
 
-  private CellLocationListener cellLocationListener =
-      new CellLocationListener();
+private CellLocationListener cellLocationListener =
+	new CellLocationListener();
 
-  private CellLocationSingleData curr = null;
+private CellLocationSingleData curr = null;
 
-  public CellLocationSlot(final Context context,
-                          final CellLocationUSourceData data) {
-    this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
-  }
+public CellLocationSlot(final Context context,
+                        final CellLocationUSourceData data) {
+	this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+}
 
-  CellLocationSlot(final Context context, final CellLocationUSourceData data,
-                   final boolean retriggerable, final boolean persistent) {
-    super(context, data, retriggerable, persistent);
+CellLocationSlot(final Context context, final CellLocationUSourceData data,
+                 final boolean retriggerable, final boolean persistent) {
+	super(context, data, retriggerable, persistent);
 
-    if (telephonyManager == null) {
-      telephonyManager =
-          (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-    }
-  }
+	if (telephonyManager == null) {
+		telephonyManager =
+			(TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+	}
+}
 
-  @Override
-  public void listen() {
-    if (telephonyManager != null)
-      telephonyManager.listen(cellLocationListener,
-                              PhoneStateListener.LISTEN_CELL_LOCATION);
-  }
+@Override
+public void listen() {
+	if (telephonyManager != null)
+		telephonyManager.listen(cellLocationListener,
+		                        PhoneStateListener.LISTEN_CELL_LOCATION);
+}
 
-  @Override
-  public void cancel() {
-    if (telephonyManager != null)
-      telephonyManager.listen(cellLocationListener,
-                              PhoneStateListener.LISTEN_NONE);
-  }
+@Override
+public void cancel() {
+	if (telephonyManager != null)
+		telephonyManager.listen(cellLocationListener,
+		                        PhoneStateListener.LISTEN_NONE);
+}
 
-  private static Bundle dynamicsForCurrent(final CellLocation location) {
-    Bundle dynamics = new Bundle();
-    dynamics.putString(CellLocationUSourceData.CellLocationDynamics.id,
-                       location.toString());
-    return dynamics;
-  }
+private static Bundle dynamicsForCurrent(final CellLocation location) {
+	Bundle dynamics = new Bundle();
+	dynamics.putString(CellLocationUSourceData.CellLocationDynamics.id,
+	                   location.toString());
+	return dynamics;
+}
 
-  class CellLocationListener extends PhoneStateListener {
-    @Override
-    synchronized public void
-    onCellLocationChanged(final CellLocation location) {
-      super.onCellLocationChanged(location);
-      curr = CellLocationSingleData.fromCellLocation(location);
-      if (curr != null)
-        changeSatisfiedState(eventData.data.contains(curr),
-                             dynamicsForCurrent(location));
-    }
-  }
+class CellLocationListener extends PhoneStateListener {
+@Override
+synchronized public void
+onCellLocationChanged(final CellLocation location) {
+	super.onCellLocationChanged(location);
+	curr = CellLocationSingleData.fromCellLocation(location);
+	if (curr != null)
+		changeSatisfiedState(eventData.data.contains(curr),
+		                     dynamicsForCurrent(location));
+}
+}
 }

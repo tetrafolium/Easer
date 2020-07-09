@@ -24,5 +24,5 @@ import java.io.InputStream;
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 
 public interface Parser<T> {
-  T parse(InputStream in) throws IOException, IllegalStorageDataException;
+T parse(InputStream in) throws IOException, IllegalStorageDataException;
 }

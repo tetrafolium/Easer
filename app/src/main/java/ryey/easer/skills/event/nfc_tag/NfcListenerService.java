@@ -33,48 +33,53 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import java.util.Set;
 
 public class NfcListenerService extends Service {
-  static final String ACTION_NFC_SCANNED =
-      "ryey.easer.skills.event.nfc_tag.action.NFC_SCANNED";
+static final String ACTION_NFC_SCANNED =
+	"ryey.easer.skills.event.nfc_tag.action.NFC_SCANNED";
 
-  private final IntentFilter mFilter = new IntentFilter(ACTION_NFC_SCANNED);
-  private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      if (ACTION_NFC_SCANNED.equals(intent.getAction())) {
-        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-        for (NfcTagSlot slot : registeredSlots) {
-          slot.checkAndTrigger(tag);
-        }
-      }
-    }
-  };
+private final IntentFilter mFilter = new IntentFilter(ACTION_NFC_SCANNED);
+private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+	@Override
+	public void onReceive(final Context context, final Intent intent) {
+		if (ACTION_NFC_SCANNED.equals(intent.getAction())) {
+			Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+			for (NfcTagSlot slot : registeredSlots) {
+				slot.checkAndTrigger(tag);
+			}
+		}
+	}
+};
 
-  private Set<NfcTagSlot> registeredSlots = new ArraySet<>();
+private Set<NfcTagSlot> registeredSlots = new ArraySet<>();
 
-  public NfcListenerService() {}
+public NfcListenerService() {
+}
 
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    LocalBroadcastManager.getInstance(getApplicationContext())
-        .registerReceiver(mReceiver, mFilter);
-  }
+@Override
+public void onCreate() {
+	super.onCreate();
+	LocalBroadcastManager.getInstance(getApplicationContext())
+	.registerReceiver(mReceiver, mFilter);
+}
 
-  @Override
-  public void onDestroy() {
-    super.onDestroy();
-    LocalBroadcastManager.getInstance(getApplicationContext())
-        .unregisterReceiver(mReceiver);
-  }
+@Override
+public void onDestroy() {
+	super.onDestroy();
+	LocalBroadcastManager.getInstance(getApplicationContext())
+	.unregisterReceiver(mReceiver);
+}
 
-  @Override
-  public IBinder onBind(final Intent intent) {
-    return new NLSBinder();
-  }
+@Override
+public IBinder onBind(final Intent intent) {
+	return new NLSBinder();
+}
 
-  class NLSBinder extends Binder {
-    void registerSlot(final NfcTagSlot slot) { registeredSlots.add(slot); }
+class NLSBinder extends Binder {
+void registerSlot(final NfcTagSlot slot) {
+	registeredSlots.add(slot);
+}
 
-    void unregisterSlot(final NfcTagSlot slot) { registeredSlots.remove(slot); }
-  }
+void unregisterSlot(final NfcTagSlot slot) {
+	registeredSlots.remove(slot);
+}
+}
 }

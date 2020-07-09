@@ -26,26 +26,26 @@ import ryey.easer.commons.local_skill.eventskill.EventDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class WidgetEventDataFactory implements EventDataFactory<WidgetEventData> {
-  @NonNull
-  @Override
-  public Class<WidgetEventData> dataClass() {
-    return WidgetEventData.class;
-  }
+@NonNull
+@Override
+public Class<WidgetEventData> dataClass() {
+	return WidgetEventData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public WidgetEventData dummyData() {
-    return new WidgetEventData("random action");
-  }
+@ValidData
+@NonNull
+@Override
+public WidgetEventData dummyData() {
+	return new WidgetEventData("random action");
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public WidgetEventData parse(final @NonNull String data,
-                               final @NonNull PluginDataFormat format,
-                               final int version)
-      throws IllegalStorageDataException {
-    return new WidgetEventData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public WidgetEventData parse(final @NonNull String data,
+                             final @NonNull PluginDataFormat format,
+                             final int version)
+throws IllegalStorageDataException {
+	return new WidgetEventData(data, format, version);
+}
 }

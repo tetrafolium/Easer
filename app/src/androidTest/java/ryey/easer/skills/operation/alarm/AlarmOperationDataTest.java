@@ -27,12 +27,12 @@ import ryey.easer.skills.TestHelper;
 
 public class AlarmOperationDataTest {
 
-  @Test
-  public void testParcel() {
-    AlarmOperationData dummyData = new AlarmOperationDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    AlarmOperationData parceledData =
-        AlarmOperationData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	AlarmOperationData dummyData = new AlarmOperationDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	AlarmOperationData parceledData =
+		AlarmOperationData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

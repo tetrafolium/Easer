@@ -26,27 +26,27 @@ import ryey.easer.commons.local_skill.usource.USourceDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class BTDeviceUSourceDataFactory
-    implements USourceDataFactory<BTDeviceUSourceData> {
-  @NonNull
-  @Override
-  public Class<BTDeviceUSourceData> dataClass() {
-    return BTDeviceUSourceData.class;
-  }
+	implements USourceDataFactory<BTDeviceUSourceData> {
+@NonNull
+@Override
+public Class<BTDeviceUSourceData> dataClass() {
+	return BTDeviceUSourceData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public BTDeviceUSourceData dummyData() {
-    return new BTDeviceUSourceData(new String[] {"device1", "dev2"});
-  }
+@ValidData
+@NonNull
+@Override
+public BTDeviceUSourceData dummyData() {
+	return new BTDeviceUSourceData(new String[] {"device1", "dev2"});
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public BTDeviceUSourceData parse(final @NonNull String data,
-                                   final @NonNull PluginDataFormat format,
-                                   final int version)
-      throws IllegalStorageDataException {
-    return new BTDeviceUSourceData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public BTDeviceUSourceData parse(final @NonNull String data,
+                                 final @NonNull PluginDataFormat format,
+                                 final int version)
+throws IllegalStorageDataException {
+	return new BTDeviceUSourceData(data, format, version);
+}
 }

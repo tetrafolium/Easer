@@ -20,5 +20,7 @@
 package ryey.easer.core.data.storage.backend;
 
 public class UnableToSerializeException extends Exception {
-  public UnableToSerializeException(final String message) { super(message); }
+public UnableToSerializeException(final String message) {
+	super(message);
+}
 }

@@ -26,26 +26,26 @@ import ryey.easer.commons.local_skill.eventskill.EventDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class TimerEventDataFactory implements EventDataFactory<TimerEventData> {
-  @NonNull
-  @Override
-  public Class<TimerEventData> dataClass() {
-    return TimerEventData.class;
-  }
+@NonNull
+@Override
+public Class<TimerEventData> dataClass() {
+	return TimerEventData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public TimerEventData dummyData() {
-    return new TimerEventData(false, 102, true, true);
-  }
+@ValidData
+@NonNull
+@Override
+public TimerEventData dummyData() {
+	return new TimerEventData(false, 102, true, true);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public TimerEventData parse(final @NonNull String data,
-                              final @NonNull PluginDataFormat format,
-                              final int version)
-      throws IllegalStorageDataException {
-    return new TimerEventData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public TimerEventData parse(final @NonNull String data,
+                            final @NonNull PluginDataFormat format,
+                            final int version)
+throws IllegalStorageDataException {
+	return new TimerEventData(data, format, version);
+}
 }

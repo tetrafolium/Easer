@@ -24,27 +24,27 @@ import ryey.easer.core.EHService;
 import ryey.easer.skills.event.SelfNotifiableSlot;
 
 public class ConditionEventSlot
-    extends SelfNotifiableSlot<ConditionEventEventData> {
+	extends SelfNotifiableSlot<ConditionEventEventData> {
 
-  ConditionEventSlot(final Context context,
-                     final ConditionEventEventData data) {
-    this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
-  }
+ConditionEventSlot(final Context context,
+                   final ConditionEventEventData data) {
+	this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+}
 
-  ConditionEventSlot(final Context context, final ConditionEventEventData data,
-                     final boolean retriggerable, final boolean persistent) {
-    super(context, data, retriggerable, persistent);
-  }
+ConditionEventSlot(final Context context, final ConditionEventEventData data,
+                   final boolean retriggerable, final boolean persistent) {
+	super(context, data, retriggerable, persistent);
+}
 
-  @Override
-  public void listen() {
-    EHService.registerConditionEventNotifier(context, eventData.conditionName,
-                                             notifyLotusData);
-  }
+@Override
+public void listen() {
+	EHService.registerConditionEventNotifier(context, eventData.conditionName,
+	                                         notifyLotusData);
+}
 
-  @Override
-  public void cancel() {
-    EHService.unregisterConditionEventNotifier(context, eventData.conditionName,
-                                               notifyLotusData);
-  }
+@Override
+public void cancel() {
+	EHService.unregisterConditionEventNotifier(context, eventData.conditionName,
+	                                           notifyLotusData);
+}
 }

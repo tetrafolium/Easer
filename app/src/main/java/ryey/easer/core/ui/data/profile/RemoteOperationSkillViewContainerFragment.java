@@ -39,126 +39,130 @@ import ryey.easer.remote_plugin.RemoteOperationData;
 import ryey.easer.remote_plugin.RemotePlugin;
 
 public class RemoteOperationSkillViewContainerFragment
-    extends AbstractSkillDataFragment<RemoteOperationData> {
+	extends AbstractSkillDataFragment<RemoteOperationData> {
 
-  public static final String ARG_ID =
-      "ryey.easer.core.ui.data.profile.RemoteOperationSkillViewContainerFragment.args.ID";
-  public static final String ARG_DATA =
-      "ryey.easer.core.ui.data.profile.RemoteOperationSkillViewContainerFragment.args.TYPE";
+public static final String ARG_ID =
+	"ryey.easer.core.ui.data.profile.RemoteOperationSkillViewContainerFragment.args.ID";
+public static final String ARG_DATA =
+	"ryey.easer.core.ui.data.profile.RemoteOperationSkillViewContainerFragment.args.TYPE";
 
-  public static RemoteOperationSkillViewContainerFragment
-  createInstance(final String pluginId,
-                 final @Nullable RemoteOperationData data) {
-    RemoteOperationSkillViewContainerFragment fragment =
-        new RemoteOperationSkillViewContainerFragment();
-    Bundle bundle = new Bundle();
-    bundle.putString(ARG_ID, pluginId);
-    bundle.putParcelable(ARG_DATA, data);
-    fragment.setArguments(bundle);
-    return fragment;
-  }
+public static RemoteOperationSkillViewContainerFragment
+createInstance(final String pluginId,
+               final @Nullable RemoteOperationData data) {
+	RemoteOperationSkillViewContainerFragment fragment =
+		new RemoteOperationSkillViewContainerFragment();
+	Bundle bundle = new Bundle();
+	bundle.putString(ARG_ID, pluginId);
+	bundle.putParcelable(ARG_DATA, data);
+	fragment.setArguments(bundle);
+	return fragment;
+}
 
-  private static final int REQCODE_EDIT_DATA = 10;
+private static final int REQCODE_EDIT_DATA = 10;
 
-  private CheckBox mCheckBox;
+private CheckBox mCheckBox;
 
-  RemotePluginCommunicationHelper helper;
+RemotePluginCommunicationHelper helper;
 
-  @Override
-  public void onActivityResult(final int requestCode, final int resultCode,
-                               final Intent data) {
-    if (requestCode == REQCODE_EDIT_DATA) {
-      if (resultCode == Activity.RESULT_OK) {
-        data.setExtrasClassLoader(RemoteOperationData.class.getClassLoader());
-        passed_data = data.getParcelableExtra(RemotePlugin.EXTRA_DATA);
-      }
-    } else
-      super.onActivityResult(requestCode, resultCode, data);
-  }
+@Override
+public void onActivityResult(final int requestCode, final int resultCode,
+                             final Intent data) {
+	if (requestCode == REQCODE_EDIT_DATA) {
+		if (resultCode == Activity.RESULT_OK) {
+			data.setExtrasClassLoader(RemoteOperationData.class.getClassLoader());
+			passed_data = data.getParcelableExtra(RemotePlugin.EXTRA_DATA);
+		}
+	} else
+		super.onActivityResult(requestCode, resultCode, data);
+}
 
-  @Override
-  public void onCreate(final @Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    // noinspection ConstantConditions
-    helper = new RemotePluginCommunicationHelper(getContext());
-    helper.begin();
-  }
+@Override
+public void onCreate(final @Nullable Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	// noinspection ConstantConditions
+	helper = new RemotePluginCommunicationHelper(getContext());
+	helper.begin();
+}
 
-  @NonNull
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final @Nullable ViewGroup container,
-                           final @Nullable Bundle savedInstanceState) {
-    View view =
-        inflater.inflate(R.layout.fragment_remote_plugin, container, false);
+@NonNull
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final @Nullable ViewGroup container,
+                         final @Nullable Bundle savedInstanceState) {
+	View view =
+		inflater.inflate(R.layout.fragment_remote_plugin, container, false);
 
-    mCheckBox = view.findViewById(R.id.checkbox_pluginview_enabled);
-    Button button = view.findViewById(R.id.button_edit);
-    assert getArguments() != null;
-    passed_data = getArguments().getParcelable(ARG_DATA);
-    final String id = getArguments().getString(ARG_ID);
-    button.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(final View view) {
-        helper.asyncRemoteEditOperationData(
-            id, new RemotePluginCommunicationHelper
-                    .OnEditDataIntentObtainedCallback() {
-                      @Override
-                      public void onEditDataIntentObtained(
-                          final @NonNull Intent editDataIntent) {
-                        editDataIntent.putExtra(RemotePlugin.EXTRA_DATA,
-                                                passed_data);
-                        startActivityForResult(editDataIntent,
-                                               REQCODE_EDIT_DATA);
-                      }
-                    });
-      }
-    });
+	mCheckBox = view.findViewById(R.id.checkbox_pluginview_enabled);
+	Button button = view.findViewById(R.id.button_edit);
+	assert getArguments() != null;
+	passed_data = getArguments().getParcelable(ARG_DATA);
+	final String id = getArguments().getString(ARG_ID);
+	button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View view) {
+			        helper.asyncRemoteEditOperationData(
+					id, new RemotePluginCommunicationHelper
+					.OnEditDataIntentObtainedCallback() {
+					@Override
+					public void onEditDataIntentObtained(
+						final @NonNull Intent editDataIntent) {
+					        editDataIntent.putExtra(RemotePlugin.EXTRA_DATA,
+					                                passed_data);
+					        startActivityForResult(editDataIntent,
+					                               REQCODE_EDIT_DATA);
+					}
+				});
+			}
+		});
 
-    return view;
-  }
+	return view;
+}
 
-  @Override
-  public void onViewCreated(final @NonNull View view,
-                            final @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-    final TextView tv_name = view.findViewById(R.id.tv_plugin_name);
-    final String id = getArguments().getString(ARG_ID);
-    helper.asyncFindPlugin(
-        id, new RemotePluginCommunicationHelper.OnPluginFoundCallback() {
-          @Override
-          public void onPluginFound(final @Nullable RemotePluginInfo info) {
-            tv_name.setText(info.getPluginName());
-          }
-        });
-  }
+@Override
+public void onViewCreated(final @NonNull View view,
+                          final @Nullable Bundle savedInstanceState) {
+	super.onViewCreated(view, savedInstanceState);
+	final TextView tv_name = view.findViewById(R.id.tv_plugin_name);
+	final String id = getArguments().getString(ARG_ID);
+	helper.asyncFindPlugin(
+		id, new RemotePluginCommunicationHelper.OnPluginFoundCallback() {
+			@Override
+			public void onPluginFound(final @Nullable RemotePluginInfo info) {
+			        tv_name.setText(info.getPluginName());
+			}
+		});
+}
 
-  @Override
-  protected void _fill(final @NonNull RemoteOperationData data) {
-    mCheckBox.setChecked(true);
-    passed_data = data;
-  }
+@Override
+protected void _fill(final @NonNull RemoteOperationData data) {
+	mCheckBox.setChecked(true);
+	passed_data = data;
+}
 
-  @NonNull
-  @Override
-  public RemoteOperationData getData() throws InvalidDataInputException {
-    if (mCheckBox.isChecked()) {
-      if (passed_data != null)
-        return passed_data;
-      throw new InvalidDataInputException();
-    } else {
-      throw new IllegalStateException(
-          "The view should be checked as \"enabled\" before getting its data");
-    }
-  }
+@NonNull
+@Override
+public RemoteOperationData getData() throws InvalidDataInputException {
+	if (mCheckBox.isChecked()) {
+		if (passed_data != null)
+			return passed_data;
+		throw new InvalidDataInputException();
+	} else {
+		throw new IllegalStateException(
+			      "The view should be checked as \"enabled\" before getting its data");
+	}
+}
 
-  @Override
-  public void onDestroy() {
-    super.onDestroy();
-    helper.end();
-  }
+@Override
+public void onDestroy() {
+	super.onDestroy();
+	helper.end();
+}
 
-  String id() { return getArguments().getString(ARG_ID); }
+String id() {
+	return getArguments().getString(ARG_ID);
+}
 
-  boolean isEnabled() { return mCheckBox.isChecked(); }
+boolean isEnabled() {
+	return mCheckBox.isChecked();
+}
 }

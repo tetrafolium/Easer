@@ -26,35 +26,35 @@ import android.preference.PreferenceManager;
 
 public class SettingsUtils {
 
-  private static SharedPreferences pref(final Context context) {
-    return PreferenceManager.getDefaultSharedPreferences(context);
-  }
+private static SharedPreferences pref(final Context context) {
+	return PreferenceManager.getDefaultSharedPreferences(context);
+}
 
-  public static int coolDownInterval(final Context context) {
-    String interval_pref = pref(context).getString(
-        context.getString(R.string.key_pref_cooldown), "3");
-    return Integer.parseInt(interval_pref);
-  }
+public static int coolDownInterval(final Context context) {
+	String interval_pref = pref(context).getString(
+		context.getString(R.string.key_pref_cooldown), "3");
+	return Integer.parseInt(interval_pref);
+}
 
-  public static boolean logging(final Context context) {
-    return pref(context).getBoolean(
-        context.getString(R.string.key_pref_logging), false);
-  }
+public static boolean logging(final Context context) {
+	return pref(context).getBoolean(
+		context.getString(R.string.key_pref_logging), false);
+}
 
-  public static boolean use12HourClock(final Context context) {
-    return pref(context).getBoolean(
-        context.getString(R.string.key_pref_use_12_hour_clock), false);
-  }
+public static boolean use12HourClock(final Context context) {
+	return pref(context).getBoolean(
+		context.getString(R.string.key_pref_use_12_hour_clock), false);
+}
 
-  public static boolean showNotification(final Context context) {
-    return pref(context).getBoolean(
-        context.getString(R.string.key_pref_show_notification), true);
-  }
+public static boolean showNotification(final Context context) {
+	return pref(context).getBoolean(
+		context.getString(R.string.key_pref_show_notification), true);
+}
 
-  public static boolean runInForeground(final Context context) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-      return true;
-    return pref(context).getBoolean(
-        context.getString(R.string.key_pref_foreground), true);
-  }
+public static boolean runInForeground(final Context context) {
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+		return true;
+	return pref(context).getBoolean(
+		context.getString(R.string.key_pref_foreground), true);
+}
 }

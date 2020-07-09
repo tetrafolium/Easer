@@ -27,12 +27,12 @@ import ryey.easer.skills.TestHelper;
 
 public class SmsOperationDataTest {
 
-  @Test
-  public void testParcel() {
-    SmsOperationData dummyData = new SendSmsOperationDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    SmsOperationData parceledData =
-        SmsOperationData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	SmsOperationData dummyData = new SendSmsOperationDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	SmsOperationData parceledData =
+		SmsOperationData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

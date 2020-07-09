@@ -31,98 +31,98 @@ import ryey.easer.commons.local_skill.operationskill.OperationData;
 import ryey.easer.plugin.PluginDataFormat;
 
 public class PlayMediaOperationData implements OperationData {
-  private static final String K_TARGET = "target";
+private static final String K_TARGET = "target";
 
-  final @NonNull String filePath; // TODO: Change to Uri by DocumentsProvider
+final @NonNull String filePath;   // TODO: Change to Uri by DocumentsProvider
 
-  PlayMediaOperationData(final @NonNull String filePath) {
-    this.filePath = filePath;
-  }
+PlayMediaOperationData(final @NonNull String filePath) {
+	this.filePath = filePath;
+}
 
-  PlayMediaOperationData(final @NonNull String data,
-                         final @NonNull PluginDataFormat format,
-                         final int version) throws IllegalStorageDataException {
-    switch (format) {
-    default:
-      try {
-        JSONObject jsonObject = new JSONObject(data);
-        filePath = jsonObject.getString(K_TARGET);
-      } catch (JSONException e) {
-        throw new IllegalStorageDataException(e);
-      }
-    }
-  }
+PlayMediaOperationData(final @NonNull String data,
+                       final @NonNull PluginDataFormat format,
+                       final int version) throws IllegalStorageDataException {
+	switch (format) {
+	default:
+		try {
+			JSONObject jsonObject = new JSONObject(data);
+			filePath = jsonObject.getString(K_TARGET);
+		} catch (JSONException e) {
+			throw new IllegalStorageDataException(e);
+		}
+	}
+}
 
-  @NonNull
-  @Override
-  public String serialize(final @NonNull PluginDataFormat format) {
-    String res = "";
-    switch (format) {
-    default:
-      try {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put(K_TARGET, filePath);
-        res = jsonObject.toString();
-      } catch (JSONException e) {
-        e.printStackTrace();
-      }
-    }
-    return res;
-  }
+@NonNull
+@Override
+public String serialize(final @NonNull PluginDataFormat format) {
+	String res = "";
+	switch (format) {
+	default:
+		try {
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put(K_TARGET, filePath);
+			res = jsonObject.toString();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+	return res;
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean isValid() {
-    return !filePath.isEmpty();
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean isValid() {
+	return !filePath.isEmpty();
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean equals(final Object obj) {
-    if (obj == this)
-      return true;
-    if (obj == null || !(obj instanceof PlayMediaOperationData))
-      return false;
-    if (!filePath.equals(((PlayMediaOperationData)obj).filePath))
-      return false;
-    return true;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean equals(final Object obj) {
+	if (obj == this)
+		return true;
+	if (obj == null || !(obj instanceof PlayMediaOperationData))
+		return false;
+	if (!filePath.equals(((PlayMediaOperationData)obj).filePath))
+		return false;
+	return true;
+}
 
-  @Nullable
-  @Override
-  public Set<String> placeholders() {
-    return null;
-  }
+@Nullable
+@Override
+public Set<String> placeholders() {
+	return null;
+}
 
-  @NonNull
-  @Override
-  public OperationData
-  applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
-    return this;
-  }
+@NonNull
+@Override
+public OperationData
+applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
+	return this;
+}
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-  @Override
-  public void writeToParcel(final Parcel dest, final int flags) {
-    dest.writeString(filePath);
-  }
+@Override
+public void writeToParcel(final Parcel dest, final int flags) {
+	dest.writeString(filePath);
+}
 
-  public static final Creator<PlayMediaOperationData> CREATOR =
-      new Creator<PlayMediaOperationData>() {
-        public PlayMediaOperationData createFromParcel(final Parcel in) {
-          return new PlayMediaOperationData(in);
-        }
+public static final Creator<PlayMediaOperationData> CREATOR =
+	new Creator<PlayMediaOperationData>() {
+	public PlayMediaOperationData createFromParcel(final Parcel in) {
+		return new PlayMediaOperationData(in);
+	}
 
-        public PlayMediaOperationData[] newArray(final int size) {
-          return new PlayMediaOperationData[size];
-        }
-      };
+	public PlayMediaOperationData[] newArray(final int size) {
+		return new PlayMediaOperationData[size];
+	}
+};
 
-  private PlayMediaOperationData(final Parcel in) {
-    filePath = in.readString();
-  }
+private PlayMediaOperationData(final Parcel in) {
+	filePath = in.readString();
+}
 }

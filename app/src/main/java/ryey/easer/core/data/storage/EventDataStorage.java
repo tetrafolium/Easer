@@ -27,37 +27,37 @@ import ryey.easer.core.data.storage.backend.EventDataStorageBackendInterface;
 import ryey.easer.core.data.storage.backend.json.event.JsonEventDataStorageBackend;
 
 public class EventDataStorage
-    extends AbstractDataStorage<EventStructure,
-                                EventDataStorageBackendInterface> {
+	extends AbstractDataStorage<EventStructure,
+	                            EventDataStorageBackendInterface> {
 
-  public EventDataStorage(final Context context) {
-    super(context, new EventDataStorageBackendInterface[] {
-                       new JsonEventDataStorageBackend(context),
-                   });
-  }
+public EventDataStorage(final Context context) {
+	super(context, new EventDataStorageBackendInterface[] {
+			new JsonEventDataStorageBackend(context),
+		});
+}
 
-  @Override
-  boolean isSafeToDelete(final String name) {
-    ScriptDataStorage scriptDataStorage = new ScriptDataStorage(context);
-    for (ScriptStructure scriptStructure : scriptDataStorage.allScripts()) {
-      if (scriptStructure.isEvent() &&
-          name.equals(scriptStructure.getEvent().getName()))
-        return false;
-    }
-    return true;
-  }
+@Override
+boolean isSafeToDelete(final String name) {
+	ScriptDataStorage scriptDataStorage = new ScriptDataStorage(context);
+	for (ScriptStructure scriptStructure : scriptDataStorage.allScripts()) {
+		if (scriptStructure.isEvent() &&
+		    name.equals(scriptStructure.getEvent().getName()))
+			return false;
+	}
+	return true;
+}
 
-  protected void handleRename(final String oldName,
-                              final EventStructure newEvent)
-      throws IOException {
-    ScriptDataStorage scriptDataStorage = new ScriptDataStorage(context);
-    for (ScriptStructure scriptStructure : scriptDataStorage.allScripts()) {
-      if (scriptStructure.isEvent() &&
-          !scriptStructure.getEvent().isTmpEvent() &&
-          oldName.equals(scriptStructure.getEvent().getName())) {
-        scriptStructure.setEvent(newEvent);
-        scriptDataStorage.update(scriptStructure);
-      }
-    }
-  }
+protected void handleRename(final String oldName,
+                            final EventStructure newEvent)
+throws IOException {
+	ScriptDataStorage scriptDataStorage = new ScriptDataStorage(context);
+	for (ScriptStructure scriptStructure : scriptDataStorage.allScripts()) {
+		if (scriptStructure.isEvent() &&
+		    !scriptStructure.getEvent().isTmpEvent() &&
+		    oldName.equals(scriptStructure.getEvent().getName())) {
+			scriptStructure.setEvent(newEvent);
+			scriptDataStorage.update(scriptStructure);
+		}
+	}
+}
 }

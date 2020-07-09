@@ -26,32 +26,32 @@ import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class NetworkTransmissionOperationDataFactory
-    implements OperationDataFactory<NetworkTransmissionOperationData> {
-  @NonNull
-  @Override
-  public Class<NetworkTransmissionOperationData> dataClass() {
-    return NetworkTransmissionOperationData.class;
-  }
+	implements OperationDataFactory<NetworkTransmissionOperationData> {
+@NonNull
+@Override
+public Class<NetworkTransmissionOperationData> dataClass() {
+	return NetworkTransmissionOperationData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public NetworkTransmissionOperationData dummyData() {
-    NetworkTransmissionOperationData.Protocol protocol =
-        NetworkTransmissionOperationData.Protocol.tcp;
-    int remote_port = 146;
-    String remote_address = "192.168.0.143";
-    String data = "aaaData";
-    return new NetworkTransmissionOperationData(protocol, remote_address,
-                                                remote_port, data);
-  }
+@ValidData
+@NonNull
+@Override
+public NetworkTransmissionOperationData dummyData() {
+	NetworkTransmissionOperationData.Protocol protocol =
+		NetworkTransmissionOperationData.Protocol.tcp;
+	int remote_port = 146;
+	String remote_address = "192.168.0.143";
+	String data = "aaaData";
+	return new NetworkTransmissionOperationData(protocol, remote_address,
+	                                            remote_port, data);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public NetworkTransmissionOperationData
-  parse(final @NonNull String data, final @NonNull PluginDataFormat format,
-        final int version) throws IllegalStorageDataException {
-    return new NetworkTransmissionOperationData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public NetworkTransmissionOperationData
+parse(final @NonNull String data, final @NonNull PluginDataFormat format,
+      final int version) throws IllegalStorageDataException {
+	return new NetworkTransmissionOperationData(data, format, version);
+}
 }

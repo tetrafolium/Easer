@@ -32,67 +32,68 @@ import ryey.easer.plugin.operation.Category;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class CommandOperationSkill
-    implements OperationSkill<CommandOperationData> {
+	implements OperationSkill<CommandOperationData> {
 
-  @NonNull
-  @Override
-  public String id() {
-    return "command";
-  }
+@NonNull
+@Override
+public String id() {
+	return "command";
+}
 
-  @Override
-  public int name() {
-    return R.string.operation_command;
-  }
+@Override
+public int name() {
+	return R.string.operation_command;
+}
 
-  @Override
-  public boolean isCompatible(@NonNull final Context context) {
-    return true;
-  }
+@Override
+public boolean isCompatible(@NonNull final Context context) {
+	return true;
+}
 
-  @NonNull
-  @Override
-  public PrivilegeUsage privilege() {
-    return PrivilegeUsage.prefer_root;
-  }
+@NonNull
+@Override
+public PrivilegeUsage privilege() {
+	return PrivilegeUsage.prefer_root;
+}
 
-  @Override
-  public int maxExistence() {
-    return 0;
-  }
+@Override
+public int maxExistence() {
+	return 0;
+}
 
-  @NonNull
-  @Override
-  public Category category() {
-    return Category.misc;
-  }
+@NonNull
+@Override
+public Category category() {
+	return Category.misc;
+}
 
-  @Nullable
-  @Override
-  public Boolean checkPermissions(final @NonNull Context context) {
-    return null;
-  }
+@Nullable
+@Override
+public Boolean checkPermissions(final @NonNull Context context) {
+	return null;
+}
 
-  @Override
-  public void requestPermissions(final @NonNull Activity activity,
-                                 final int requestCode) {}
+@Override
+public void requestPermissions(final @NonNull Activity activity,
+                               final int requestCode) {
+}
 
-  @NonNull
-  @Override
-  public OperationDataFactory<CommandOperationData> dataFactory() {
-    return new CommandOperationDataFactory();
-  }
+@NonNull
+@Override
+public OperationDataFactory<CommandOperationData> dataFactory() {
+	return new CommandOperationDataFactory();
+}
 
-  @NonNull
-  @Override
-  public SkillView<CommandOperationData> view() {
-    return new CommandSkillViewFragment();
-  }
+@NonNull
+@Override
+public SkillView<CommandOperationData> view() {
+	return new CommandSkillViewFragment();
+}
 
-  @NonNull
-  @Override
-  public OperationLoader<CommandOperationData>
-  loader(final @NonNull Context context) {
-    return new CommandLoader(context);
-  }
+@NonNull
+@Override
+public OperationLoader<CommandOperationData>
+loader(final @NonNull Context context) {
+	return new CommandLoader(context);
+}
 }

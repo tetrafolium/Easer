@@ -35,62 +35,62 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillViewFragment;
 
 public class ConnectivitySkillViewFragment
-    extends SkillViewFragment<ConnectivityEventData> {
-  String[] mode_names;
-  final int[] values = {
-      ConnectivityType.TYPE_NOT_CONNECTED, ConnectivityType.TYPE_WIFI,
-      ConnectivityType.TYPE_MOBILE,        ConnectivityType.TYPE_ETHERNET,
-      ConnectivityType.TYPE_BLUETOOTH,     ConnectivityType.TYPE_VPN,
-  };
-  final CheckBox[] checkBoxes = new CheckBox[values.length];
+	extends SkillViewFragment<ConnectivityEventData> {
+String[] mode_names;
+final int[] values = {
+	ConnectivityType.TYPE_NOT_CONNECTED, ConnectivityType.TYPE_WIFI,
+	ConnectivityType.TYPE_MOBILE,        ConnectivityType.TYPE_ETHERNET,
+	ConnectivityType.TYPE_BLUETOOTH,     ConnectivityType.TYPE_VPN,
+};
+final CheckBox[] checkBoxes = new CheckBox[values.length];
 
-  @Override
-  public void onCreate(final @Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    mode_names =
-        getResources().getStringArray(R.array.usource_connectivity_type);
-  }
+@Override
+public void onCreate(final @Nullable Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	mode_names =
+		getResources().getStringArray(R.array.usource_connectivity_type);
+}
 
-  @NonNull
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final @Nullable ViewGroup container,
-                           final @Nullable Bundle savedInstanceState) {
-    LinearLayout linearLayout = new LinearLayout(getContext());
-    linearLayout.setOrientation(LinearLayout.VERTICAL);
-    for (int i = 0; i < checkBoxes.length; i++) {
-      checkBoxes[i] = new CheckBox(getContext());
-      checkBoxes[i].setText(mode_names[i]);
-      linearLayout.addView(checkBoxes[i]);
-    }
-    return linearLayout;
-  }
+@NonNull
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final @Nullable ViewGroup container,
+                         final @Nullable Bundle savedInstanceState) {
+	LinearLayout linearLayout = new LinearLayout(getContext());
+	linearLayout.setOrientation(LinearLayout.VERTICAL);
+	for (int i = 0; i < checkBoxes.length; i++) {
+		checkBoxes[i] = new CheckBox(getContext());
+		checkBoxes[i].setText(mode_names[i]);
+		linearLayout.addView(checkBoxes[i]);
+	}
+	return linearLayout;
+}
 
-  @Override
-  protected void _fill(final @ValidData @NonNull ConnectivityEventData data) {
-    Set<Integer> checked_values = data.connectivity_type;
-    for (int checked_value : checked_values) {
-      for (int i = 0; i < values.length; i++) {
-        if (values[i] == checked_value) {
-          checkBoxes[i].setChecked(true);
-          break;
-        }
-      }
-    }
-  }
+@Override
+protected void _fill(final @ValidData @NonNull ConnectivityEventData data) {
+	Set<Integer> checked_values = data.connectivity_type;
+	for (int checked_value : checked_values) {
+		for (int i = 0; i < values.length; i++) {
+			if (values[i] == checked_value) {
+				checkBoxes[i].setChecked(true);
+				break;
+			}
+		}
+	}
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public ConnectivityEventData getData() throws InvalidDataInputException {
-    Set<Integer> checked = new ArraySet<>();
-    for (int i = 0; i < checkBoxes.length; i++) {
-      if (checkBoxes[i].isChecked()) {
-        checked.add(values[i]);
-      }
-    }
-    if (checked.size() == 0)
-      throw new InvalidDataInputException();
-    return new ConnectivityEventData(checked);
-  }
+@ValidData
+@NonNull
+@Override
+public ConnectivityEventData getData() throws InvalidDataInputException {
+	Set<Integer> checked = new ArraySet<>();
+	for (int i = 0; i < checkBoxes.length; i++) {
+		if (checkBoxes[i].isChecked()) {
+			checked.add(values[i]);
+		}
+	}
+	if (checked.size() == 0)
+		throw new InvalidDataInputException();
+	return new ConnectivityEventData(checked);
+}
 }

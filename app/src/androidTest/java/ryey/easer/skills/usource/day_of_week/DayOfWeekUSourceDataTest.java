@@ -27,13 +27,13 @@ import ryey.easer.skills.TestHelper;
 
 public class DayOfWeekUSourceDataTest {
 
-  @Test
-  public void testParcel() {
-    DayOfWeekUSourceData dummyData =
-        new DayOfWeekUSourceDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    DayOfWeekUSourceData parceledData =
-        DayOfWeekUSourceData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	DayOfWeekUSourceData dummyData =
+		new DayOfWeekUSourceDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	DayOfWeekUSourceData parceledData =
+		DayOfWeekUSourceData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

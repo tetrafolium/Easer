@@ -26,57 +26,57 @@ import android.os.BatteryManager;
 
 final class Utils {
 
-  static final int[] pair1 = {
-      BatteryManager.BATTERY_PLUGGED_AC,
-      BatteryManager.BATTERY_PLUGGED_USB,
-  };
-  static final ChargingMethod[] pair2 = {
-      ChargingMethod.ac,
-      ChargingMethod.usb,
-  };
+static final int[] pair1 = {
+	BatteryManager.BATTERY_PLUGGED_AC,
+	BatteryManager.BATTERY_PLUGGED_USB,
+};
+static final ChargingMethod[] pair2 = {
+	ChargingMethod.ac,
+	ChargingMethod.usb,
+};
 
-  static Intent getBatteryStickyIntent(Context context) {
-    return context.registerReceiver(
-        null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-  }
+static Intent getBatteryStickyIntent(Context context) {
+	return context.registerReceiver(
+		null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+}
 
-  static boolean determine(boolean isCharging, PowerUSourceData data,
-                           Context context) {
-    if (isCharging == (data.batteryStatus == BatteryStatus.charging)) {
-      if (data.batteryStatus == BatteryStatus.charging) {
-        return determineCharging(data, getBatteryStickyIntent(context));
-      } else {
-        return true;
-      }
-    } else {
-      return false;
-    }
-  }
+static boolean determine(boolean isCharging, PowerUSourceData data,
+                         Context context) {
+	if (isCharging == (data.batteryStatus == BatteryStatus.charging)) {
+		if (data.batteryStatus == BatteryStatus.charging) {
+			return determineCharging(data, getBatteryStickyIntent(context));
+		} else {
+			return true;
+		}
+	} else {
+		return false;
+	}
+}
 
-  static boolean determine(boolean isCharging, PowerUSourceData data,
-                           Intent batteryStickyIntent) {
-    if (isCharging == (data.batteryStatus == BatteryStatus.charging)) {
-      if (data.batteryStatus == BatteryStatus.charging) {
-        return determineCharging(data, batteryStickyIntent);
-      } else {
-        return true;
-      }
-    } else {
-      return false;
-    }
-  }
+static boolean determine(boolean isCharging, PowerUSourceData data,
+                         Intent batteryStickyIntent) {
+	if (isCharging == (data.batteryStatus == BatteryStatus.charging)) {
+		if (data.batteryStatus == BatteryStatus.charging) {
+			return determineCharging(data, batteryStickyIntent);
+		} else {
+			return true;
+		}
+	} else {
+		return false;
+	}
+}
 
-  static boolean determineCharging(PowerUSourceData data,
-                                   Intent batteryStickyIntent) {
-    if (data.chargingMethods.contains(ChargingMethod.any))
-      return true;
-    int plugged =
-        batteryStickyIntent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-    for (int i = 0; i < pair1.length; i++) {
-      if (plugged == pair1[i]) {
-        return data.chargingMethods.contains(pair2[i]);
-      }
-    }
-    return false;
-  }
+static boolean determineCharging(PowerUSourceData data,
+                                 Intent batteryStickyIntent) {
+	if (data.chargingMethods.contains(ChargingMethod.any))
+		return true;
+	int plugged =
+		batteryStickyIntent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+	for (int i = 0; i < pair1.length; i++) {
+		if (plugged == pair1[i]) {
+			return data.chargingMethods.contains(pair2[i]);
+		}
+	}
+	return false;
+}
 }

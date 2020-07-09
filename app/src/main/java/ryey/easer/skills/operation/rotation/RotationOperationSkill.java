@@ -35,75 +35,75 @@ import ryey.easer.plugin.operation.Category;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class RotationOperationSkill
-    implements OperationSkill<RotationOperationData> {
+	implements OperationSkill<RotationOperationData> {
 
-  @NonNull
-  @Override
-  public String id() {
-    return "auto_rotation";
-  }
+@NonNull
+@Override
+public String id() {
+	return "auto_rotation";
+}
 
-  @Override
-  public int name() {
-    return R.string.operation_rotation;
-  }
+@Override
+public int name() {
+	return R.string.operation_rotation;
+}
 
-  @Override
-  public boolean isCompatible(@NonNull final Context context) {
-    return true;
-  }
+@Override
+public boolean isCompatible(@NonNull final Context context) {
+	return true;
+}
 
-  @NonNull
-  @Override
-  public PrivilegeUsage privilege() {
-    return PrivilegeUsage.no_root;
-  }
+@NonNull
+@Override
+public PrivilegeUsage privilege() {
+	return PrivilegeUsage.no_root;
+}
 
-  @Override
-  public int maxExistence() {
-    return 1;
-  }
+@Override
+public int maxExistence() {
+	return 1;
+}
 
-  @NonNull
-  @Override
-  public Category category() {
-    return Category.system_config;
-  }
+@NonNull
+@Override
+public Category category() {
+	return Category.system_config;
+}
 
-  @Nullable
-  @Override
-  public Boolean checkPermissions(final @NonNull Context context) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      return Settings.System.canWrite(context);
-    } else {
-      return true;
-    }
-  }
+@Nullable
+@Override
+public Boolean checkPermissions(final @NonNull Context context) {
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+		return Settings.System.canWrite(context);
+	} else {
+		return true;
+	}
+}
 
-  @Override
-  public void requestPermissions(final @NonNull Activity activity,
-                                 final int requestCode) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      activity.startActivity(new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS));
-    }
-  }
+@Override
+public void requestPermissions(final @NonNull Activity activity,
+                               final int requestCode) {
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+		activity.startActivity(new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS));
+	}
+}
 
-  @NonNull
-  @Override
-  public OperationDataFactory<RotationOperationData> dataFactory() {
-    return new RotationOperationDataFactory();
-  }
+@NonNull
+@Override
+public OperationDataFactory<RotationOperationData> dataFactory() {
+	return new RotationOperationDataFactory();
+}
 
-  @NonNull
-  @Override
-  public SkillView<RotationOperationData> view() {
-    return new RotationSkillViewFragment();
-  }
+@NonNull
+@Override
+public SkillView<RotationOperationData> view() {
+	return new RotationSkillViewFragment();
+}
 
-  @NonNull
-  @Override
-  public OperationLoader<RotationOperationData>
-  loader(final @NonNull Context context) {
-    return new RotationLoader(context);
-  }
+@NonNull
+@Override
+public OperationLoader<RotationOperationData>
+loader(final @NonNull Context context) {
+	return new RotationLoader(context);
+}
 }

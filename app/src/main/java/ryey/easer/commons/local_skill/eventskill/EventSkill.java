@@ -33,25 +33,25 @@ import ryey.easer.commons.local_skill.ValidData;
  * methods).
  */
 public interface EventSkill<T extends EventData>
-    extends Skill<T>, SourceCategory.Categorized {
+	extends Skill<T>, SourceCategory.Categorized {
 
-  @NonNull EventDataFactory<T> dataFactory();
+@NonNull EventDataFactory<T> dataFactory();
 
-  @NonNull
-  default SourceCategory category() {
-    return SourceCategory.unknown;
-  }
+@NonNull
+default SourceCategory category() {
+	return SourceCategory.unknown;
+}
 
-  /**
-   * Returns a Slot (reflecting a inline Scenario) of this plugin.
-   * See {@link Slot} for more information
-   */
-  Slot<T> slot(@NonNull Context context, @ValidData @NonNull T data);
+/**
+ * Returns a Slot (reflecting a inline Scenario) of this plugin.
+ * See {@link Slot} for more information
+ */
+Slot<T> slot(@NonNull Context context, @ValidData @NonNull T data);
 
-  /**
-   * Returns a Slot (reflecting an existing Scenario) of this plugin.
-   * See {@link Slot} for more information
-   */
-  Slot<T> slot(@NonNull Context context, @ValidData @NonNull T data,
-               boolean retriggerable, boolean persistent);
+/**
+ * Returns a Slot (reflecting an existing Scenario) of this plugin.
+ * See {@link Slot} for more information
+ */
+Slot<T> slot(@NonNull Context context, @ValidData @NonNull T data,
+             boolean retriggerable, boolean persistent);
 }

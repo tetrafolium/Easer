@@ -33,44 +33,44 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillViewFragment;
 
 public class DateSkillViewFragment extends SkillViewFragment<DateUSourceData> {
-  private DatePicker datePicker;
+private DatePicker datePicker;
 
-  @NonNull
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final @Nullable ViewGroup container,
-                           final @Nullable Bundle savedInstanceState) {
-    View view =
-        inflater.inflate(R.layout.plugin_condition__date, container, false);
+@NonNull
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final @Nullable ViewGroup container,
+                         final @Nullable Bundle savedInstanceState) {
+	View view =
+		inflater.inflate(R.layout.plugin_condition__date, container, false);
 
-    datePicker = view.findViewById(R.id.date_picker);
+	datePicker = view.findViewById(R.id.date_picker);
 
-    return view;
-  }
+	return view;
+}
 
-  private static Calendar fromDatePicker(final DatePicker datePicker) {
-    Calendar calendar = Calendar.getInstance();
-    calendar.set(datePicker.getYear(), datePicker.getMonth(),
-                 datePicker.getDayOfMonth());
-    return calendar;
-  }
+private static Calendar fromDatePicker(final DatePicker datePicker) {
+	Calendar calendar = Calendar.getInstance();
+	calendar.set(datePicker.getYear(), datePicker.getMonth(),
+	             datePicker.getDayOfMonth());
+	return calendar;
+}
 
-  private static void setDatePicker(final DatePicker datePicker,
-                                    final Calendar calendar) {
-    datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH), null);
-  }
+private static void setDatePicker(final DatePicker datePicker,
+                                  final Calendar calendar) {
+	datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+	                calendar.get(Calendar.DAY_OF_MONTH), null);
+}
 
-  @Override
-  protected void _fill(final @ValidData @NonNull DateUSourceData data) {
-    setDatePicker(datePicker, data.date);
-  }
+@Override
+protected void _fill(final @ValidData @NonNull DateUSourceData data) {
+	setDatePicker(datePicker, data.date);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public DateUSourceData getData() throws InvalidDataInputException {
-    return new DateUSourceData(fromDatePicker(datePicker),
-                               DateUSourceData.Rel.after);
-  }
+@ValidData
+@NonNull
+@Override
+public DateUSourceData getData() throws InvalidDataInputException {
+	return new DateUSourceData(fromDatePicker(datePicker),
+	                           DateUSourceData.Rel.after);
+}
 }

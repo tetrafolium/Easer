@@ -34,142 +34,142 @@ import ryey.easer.commons.local_skill.usource.USourceData;
 import ryey.easer.plugin.PluginDataFormat;
 
 public class BTDeviceUSourceData implements USourceData {
-  final List<String> hwAddresses = new ArrayList<>();
+final List<String> hwAddresses = new ArrayList<>();
 
-  BTDeviceUSourceData(final String[] hardware_addresses) {
-    setMultiple(hardware_addresses);
-  }
+BTDeviceUSourceData(final String[] hardware_addresses) {
+	setMultiple(hardware_addresses);
+}
 
-  BTDeviceUSourceData(final @NonNull String data,
-                      final @NonNull PluginDataFormat format, final int version)
-      throws IllegalStorageDataException {
-    switch (format) {
-    default:
-      hwAddresses.clear();
-      switch (format) {
-      default:
-        try {
-          JSONArray jsonArray = new JSONArray(data);
-          for (int i = 0; i < jsonArray.length(); i++) {
-            String hwAddr = jsonArray.getString(i);
-            hwAddresses.add(hwAddr);
-          }
-        } catch (JSONException e) {
-          e.printStackTrace();
-          throw new IllegalStorageDataException(e);
-        }
-      }
-    }
-  }
+BTDeviceUSourceData(final @NonNull String data,
+                    final @NonNull PluginDataFormat format, final int version)
+throws IllegalStorageDataException {
+	switch (format) {
+	default:
+		hwAddresses.clear();
+		switch (format) {
+		default:
+			try {
+				JSONArray jsonArray = new JSONArray(data);
+				for (int i = 0; i < jsonArray.length(); i++) {
+					String hwAddr = jsonArray.getString(i);
+					hwAddresses.add(hwAddr);
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+				throw new IllegalStorageDataException(e);
+			}
+		}
+	}
+}
 
-  private void setMultiple(final String[] hardware_addresses) {
-    for (String hardware_address : hardware_addresses) {
-      if (!Utils.isBlank(hardware_address))
-        this.hwAddresses.add(hardware_address.trim());
-    }
-  }
+private void setMultiple(final String[] hardware_addresses) {
+	for (String hardware_address : hardware_addresses) {
+		if (!Utils.isBlank(hardware_address))
+			this.hwAddresses.add(hardware_address.trim());
+	}
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean isValid() {
-    if (hwAddresses.size() == 0)
-      return false;
-    return true;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean isValid() {
+	if (hwAddresses.size() == 0)
+		return false;
+	return true;
+}
 
-  @Nullable
-  @Override
-  public Dynamics[] dynamics() {
-    return new Dynamics[] {new DeviceNameDynamics(),
-                           new DeviceAddressDynamics()};
-  }
+@Nullable
+@Override
+public Dynamics[] dynamics() {
+	return new Dynamics[] {new DeviceNameDynamics(),
+		               new DeviceAddressDynamics()};
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean equals(final Object obj) {
-    if (obj == null || !(obj instanceof BTDeviceUSourceData))
-      return false;
-    if (!hwAddresses.equals(((BTDeviceUSourceData)obj).hwAddresses))
-      return false;
-    return true;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean equals(final Object obj) {
+	if (obj == null || !(obj instanceof BTDeviceUSourceData))
+		return false;
+	if (!hwAddresses.equals(((BTDeviceUSourceData)obj).hwAddresses))
+		return false;
+	return true;
+}
 
-  @NonNull
-  @Override
-  public String serialize(final @NonNull PluginDataFormat format) {
-    String res;
-    switch (format) {
-    default:
-      JSONArray jsonArray = new JSONArray();
-      for (String hwaddr : hwAddresses) {
-        jsonArray.put(hwaddr);
-      }
-      res = jsonArray.toString();
-    }
-    return res;
-  }
+@NonNull
+@Override
+public String serialize(final @NonNull PluginDataFormat format) {
+	String res;
+	switch (format) {
+	default:
+		JSONArray jsonArray = new JSONArray();
+		for (String hwaddr : hwAddresses) {
+			jsonArray.put(hwaddr);
+		}
+		res = jsonArray.toString();
+	}
+	return res;
+}
 
-  public boolean match(final @NonNull Object obj) {
-    if (obj instanceof String) {
-      return hwAddresses.contains(((String)obj).trim());
-    }
-    return equals(obj);
-  }
+public boolean match(final @NonNull Object obj) {
+	if (obj instanceof String) {
+		return hwAddresses.contains(((String)obj).trim());
+	}
+	return equals(obj);
+}
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-  @Override
-  public void writeToParcel(final Parcel dest, final int flags) {
-    dest.writeStringList(hwAddresses);
-  }
+@Override
+public void writeToParcel(final Parcel dest, final int flags) {
+	dest.writeStringList(hwAddresses);
+}
 
-  public static final Creator<BTDeviceUSourceData> CREATOR =
-      new Creator<BTDeviceUSourceData>() {
-        public BTDeviceUSourceData createFromParcel(final Parcel in) {
-          return new BTDeviceUSourceData(in);
-        }
+public static final Creator<BTDeviceUSourceData> CREATOR =
+	new Creator<BTDeviceUSourceData>() {
+	public BTDeviceUSourceData createFromParcel(final Parcel in) {
+		return new BTDeviceUSourceData(in);
+	}
 
-        public BTDeviceUSourceData[] newArray(final int size) {
-          return new BTDeviceUSourceData[size];
-        }
-      };
+	public BTDeviceUSourceData[] newArray(final int size) {
+		return new BTDeviceUSourceData[size];
+	}
+};
 
-  private BTDeviceUSourceData(final Parcel in) {
-    in.readStringList(hwAddresses);
-  }
+private BTDeviceUSourceData(final Parcel in) {
+	in.readStringList(hwAddresses);
+}
 
-  static class DeviceNameDynamics implements Dynamics {
+static class DeviceNameDynamics implements Dynamics {
 
-    static final String id =
-        "ryey.easer.skills.combined.bluetooth_device.device_name";
+static final String id =
+	"ryey.easer.skills.combined.bluetooth_device.device_name";
 
-    @Override
-    public String id() {
-      return id;
-    }
+@Override
+public String id() {
+	return id;
+}
 
-    @Override
-    public int nameRes() {
-      return R.string.usource_bt_device_dynamics_device_name;
-    }
-  }
+@Override
+public int nameRes() {
+	return R.string.usource_bt_device_dynamics_device_name;
+}
+}
 
-  static class DeviceAddressDynamics implements Dynamics {
+static class DeviceAddressDynamics implements Dynamics {
 
-    static final String id =
-        "ryey.easer.skills.combined.bluetooth_device.device_address";
+static final String id =
+	"ryey.easer.skills.combined.bluetooth_device.device_address";
 
-    @Override
-    public String id() {
-      return id;
-    }
+@Override
+public String id() {
+	return id;
+}
 
-    @Override
-    public int nameRes() {
-      return R.string.usource_bt_device_dynamics_device_address;
-    }
-  }
+@Override
+public int nameRes() {
+	return R.string.usource_bt_device_dynamics_device_address;
+}
+}
 }

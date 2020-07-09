@@ -35,74 +35,75 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class DateUSourceSkill implements USourceSkill<DateUSourceData> {
 
-  @NonNull
-  @Override
-  public String id() {
-    return "date";
-  }
+@NonNull
+@Override
+public String id() {
+	return "date";
+}
 
-  @Override
-  public int name() {
-    return R.string.usource_date;
-  }
+@Override
+public int name() {
+	return R.string.usource_date;
+}
 
-  @Override
-  public boolean isCompatible(@NonNull final Context context) {
-    return true;
-  }
+@Override
+public boolean isCompatible(@NonNull final Context context) {
+	return true;
+}
 
-  @Nullable
-  @Override
-  public Boolean checkPermissions(final @NonNull Context context) {
-    return null;
-  }
+@Nullable
+@Override
+public Boolean checkPermissions(final @NonNull Context context) {
+	return null;
+}
 
-  @Override
-  public void requestPermissions(final @NonNull Activity activity,
-                                 final int requestCode) {}
+@Override
+public void requestPermissions(final @NonNull Activity activity,
+                               final int requestCode) {
+}
 
-  @NonNull
-  @Override
-  public USourceDataFactory<DateUSourceData> dataFactory() {
-    return new DateUSourceDataFactory();
-  }
+@NonNull
+@Override
+public USourceDataFactory<DateUSourceData> dataFactory() {
+	return new DateUSourceDataFactory();
+}
 
-  @NonNull
-  @Override
-  public SourceCategory category() {
-    return SourceCategory.date_time;
-  }
+@NonNull
+@Override
+public SourceCategory category() {
+	return SourceCategory.date_time;
+}
 
-  @NonNull
-  @Override
-  public SkillView<DateUSourceData> view() {
-    return new DateSkillViewFragment();
-  }
+@NonNull
+@Override
+public SkillView<DateUSourceData> view() {
+	return new DateSkillViewFragment();
+}
 
-  @Override
-  public SkillView<DateUSourceData> eventView() {
-    return new DateEventSkillViewFragment();
-  }
+@Override
+public SkillView<DateUSourceData> eventView() {
+	return new DateEventSkillViewFragment();
+}
 
-  @Override
-  public AbstractSlot<DateUSourceData>
-  slot(final @NonNull Context context,
-       final @ValidData @NonNull DateUSourceData data) {
-    return new DateSlot(context, data);
-  }
+@Override
+public AbstractSlot<DateUSourceData>
+slot(final @NonNull Context context,
+     final @ValidData @NonNull DateUSourceData data) {
+	return new DateSlot(context, data);
+}
 
-  @Override
-  public AbstractSlot<DateUSourceData>
-  slot(final @NonNull Context context, final @NonNull DateUSourceData data,
-       final boolean retriggerable, final boolean persistent) {
-    return new DateSlot(context, data, retriggerable, persistent);
-  }
+@Override
+public AbstractSlot<DateUSourceData>
+slot(final @NonNull Context context, final @NonNull DateUSourceData data,
+     final boolean retriggerable, final boolean persistent) {
+	return new DateSlot(context, data, retriggerable, persistent);
+}
 
-  @Override
-  public Tracker<DateUSourceData>
-  tracker(final @NonNull Context context, final @NonNull DateUSourceData data,
-          final @NonNull PendingIntent event_positive,
-          final @NonNull PendingIntent event_negative) {
-    return new DateTracker(context, data, event_positive, event_negative);
-  }
+@Override
+public Tracker<DateUSourceData>
+tracker(final @NonNull Context context, final @NonNull DateUSourceData data,
+        final @NonNull PendingIntent event_positive,
+        final @NonNull PendingIntent event_negative) {
+	return new DateTracker(context, data, event_positive, event_negative);
+}
 }

@@ -26,28 +26,28 @@ import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class LaunchAppOperationDataFactory
-    implements OperationDataFactory<LaunchAppOperationData> {
-  @NonNull
-  @Override
-  public Class<LaunchAppOperationData> dataClass() {
-    return LaunchAppOperationData.class;
-  }
+	implements OperationDataFactory<LaunchAppOperationData> {
+@NonNull
+@Override
+public Class<LaunchAppOperationData> dataClass() {
+	return LaunchAppOperationData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public LaunchAppOperationData dummyData() {
-    return new LaunchAppOperationData("com.dummy.app.package",
-                                      "com.dummy.app.package.Activity1", null);
-  }
+@ValidData
+@NonNull
+@Override
+public LaunchAppOperationData dummyData() {
+	return new LaunchAppOperationData("com.dummy.app.package",
+	                                  "com.dummy.app.package.Activity1", null);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public LaunchAppOperationData parse(final @NonNull String data,
-                                      final @NonNull PluginDataFormat format,
-                                      final int version)
-      throws IllegalStorageDataException {
-    return new LaunchAppOperationData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public LaunchAppOperationData parse(final @NonNull String data,
+                                    final @NonNull PluginDataFormat format,
+                                    final int version)
+throws IllegalStorageDataException {
+	return new LaunchAppOperationData(data, format, version);
+}
 }

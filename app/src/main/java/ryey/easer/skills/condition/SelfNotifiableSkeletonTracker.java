@@ -32,73 +32,73 @@ import java.util.Locale;
 import ryey.easer.commons.local_skill.conditionskill.ConditionData;
 
 public abstract class SelfNotifiableSkeletonTracker<D extends ConditionData>
-    extends SkeletonTracker<D> {
-  // Fields used in relevant Intent
-  private static final String ACTION_SATISFIED = "ryey.easer.tracker.SATISFIED";
-  private static final String ACTION_UNSATISFIED =
-      "ryey.easer.tracker.UNSATISFIED";
-  private static final String CATEGORY_NOTIFY_SLOT =
-      "ryey.easer.tracker.category.NOTIFY_SLOT";
-  /*
-   * Mechanisms and fields used to notify the slot itself, and then proceed to
-   * `onPositiveNotified()`. This is because some system-level checking
-   * mechanisms (e.g. data/time) need a PendingIntent.
-   */
-  protected final Uri uri = Uri.parse(String.format(
-      Locale.US, "slot://%s/%d", getClass().getSimpleName(), hashCode()));
-  // After sent, this will trigger onPositiveNotified().
-  // Meant to be used when the event is going to a positive state.
-  protected final PendingIntent notifySelfIntent_positive;
-  // After sent, this will trigger onNegativeNotified().
-  // Meant to be used when the event is going to a negative state.
-  protected final PendingIntent notifySelfIntent_negative;
-  private final IntentFilter filter;
-  private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      Logger.d("self notifying Intent received. action: %s",
-               intent.getAction());
-      if (intent.getAction().equals(ACTION_SATISFIED)) {
-        onPositiveNotified();
-      } else if (intent.getAction().equals(ACTION_UNSATISFIED)) {
-        onNegativeNotified();
-      }
-    }
-  };
+	extends SkeletonTracker<D> {
+// Fields used in relevant Intent
+private static final String ACTION_SATISFIED = "ryey.easer.tracker.SATISFIED";
+private static final String ACTION_UNSATISFIED =
+	"ryey.easer.tracker.UNSATISFIED";
+private static final String CATEGORY_NOTIFY_SLOT =
+	"ryey.easer.tracker.category.NOTIFY_SLOT";
+/*
+ * Mechanisms and fields used to notify the slot itself, and then proceed to
+ * `onPositiveNotified()`. This is because some system-level checking
+ * mechanisms (e.g. data/time) need a PendingIntent.
+ */
+protected final Uri uri = Uri.parse(String.format(
+					    Locale.US, "slot://%s/%d", getClass().getSimpleName(), hashCode()));
+// After sent, this will trigger onPositiveNotified().
+// Meant to be used when the event is going to a positive state.
+protected final PendingIntent notifySelfIntent_positive;
+// After sent, this will trigger onNegativeNotified().
+// Meant to be used when the event is going to a negative state.
+protected final PendingIntent notifySelfIntent_negative;
+private final IntentFilter filter;
+private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+	@Override
+	public void onReceive(final Context context, final Intent intent) {
+		Logger.d("self notifying Intent received. action: %s",
+		         intent.getAction());
+		if (intent.getAction().equals(ACTION_SATISFIED)) {
+			onPositiveNotified();
+		} else if (intent.getAction().equals(ACTION_UNSATISFIED)) {
+			onNegativeNotified();
+		}
+	}
+};
 
-  {
-    filter = new IntentFilter();
-    filter.addAction(ACTION_SATISFIED);
-    filter.addAction(ACTION_UNSATISFIED);
-    filter.addCategory(CATEGORY_NOTIFY_SLOT);
-    filter.addDataScheme(uri.getScheme());
-    filter.addDataAuthority(uri.getAuthority(), null);
-    filter.addDataPath(uri.getPath(), PatternMatcher.PATTERN_LITERAL);
+{
+	filter = new IntentFilter();
+	filter.addAction(ACTION_SATISFIED);
+	filter.addAction(ACTION_UNSATISFIED);
+	filter.addCategory(CATEGORY_NOTIFY_SLOT);
+	filter.addDataScheme(uri.getScheme());
+	filter.addDataAuthority(uri.getAuthority(), null);
+	filter.addDataPath(uri.getPath(), PatternMatcher.PATTERN_LITERAL);
 
-    Intent intent = new Intent(ACTION_SATISFIED);
-    intent.addCategory(CATEGORY_NOTIFY_SLOT);
-    intent.setData(uri);
-    notifySelfIntent_positive =
-        PendingIntent.getBroadcast(context, 0, intent, 0);
-    intent.setAction(ACTION_UNSATISFIED);
-    notifySelfIntent_negative =
-        PendingIntent.getBroadcast(context, 0, intent, 0);
-  }
+	Intent intent = new Intent(ACTION_SATISFIED);
+	intent.addCategory(CATEGORY_NOTIFY_SLOT);
+	intent.setData(uri);
+	notifySelfIntent_positive =
+		PendingIntent.getBroadcast(context, 0, intent, 0);
+	intent.setAction(ACTION_UNSATISFIED);
+	notifySelfIntent_negative =
+		PendingIntent.getBroadcast(context, 0, intent, 0);
+}
 
-  protected SelfNotifiableSkeletonTracker(
-      final Context context, final D data,
-      final @NonNull PendingIntent event_positive,
-      final @NonNull PendingIntent event_negative) {
-    super(context, data, event_positive, event_negative);
-  }
+protected SelfNotifiableSkeletonTracker(
+	final Context context, final D data,
+	final @NonNull PendingIntent event_positive,
+	final @NonNull PendingIntent event_negative) {
+	super(context, data, event_positive, event_negative);
+}
 
-  protected void onPositiveNotified() {
-    Logger.v("onPositiveNotified");
-    newSatisfiedState(true);
-  }
+protected void onPositiveNotified() {
+	Logger.v("onPositiveNotified");
+	newSatisfiedState(true);
+}
 
-  protected void onNegativeNotified() {
-    Logger.v("onNegativeNotified");
-    newSatisfiedState(false);
-  }
+protected void onNegativeNotified() {
+	Logger.v("onNegativeNotified");
+	newSatisfiedState(false);
+}
 }

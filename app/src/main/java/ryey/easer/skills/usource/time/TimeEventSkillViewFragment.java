@@ -35,56 +35,56 @@ import ryey.easer.skills.SkillViewFragment;
 
 @Deprecated
 public class TimeEventSkillViewFragment
-    extends SkillViewFragment<TimeUSourceData> {
-  private TimePicker timePicker;
+	extends SkillViewFragment<TimeUSourceData> {
+private TimePicker timePicker;
 
-  @NonNull
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final @Nullable ViewGroup container,
-                           final @Nullable Bundle savedInstanceState) {
-    timePicker = new TimePicker(getContext());
-    timePicker.setIs24HourView(!SettingsUtils.use12HourClock(getContext()));
+@NonNull
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final @Nullable ViewGroup container,
+                         final @Nullable Bundle savedInstanceState) {
+	timePicker = new TimePicker(getContext());
+	timePicker.setIs24HourView(!SettingsUtils.use12HourClock(getContext()));
 
-    return timePicker;
-  }
+	return timePicker;
+}
 
-  private static void setTimePicker(final TimePicker timePicker,
-                                    final Calendar calendar) {
-    int hour, minute;
-    hour = calendar.get(Calendar.HOUR_OF_DAY);
-    minute = calendar.get(Calendar.MINUTE);
-    if (Build.VERSION.SDK_INT >= 23) {
-      timePicker.setHour(hour);
-      timePicker.setMinute(minute);
-    } else {
-      timePicker.setCurrentHour(hour);
-      timePicker.setCurrentMinute(minute);
-    }
-  }
+private static void setTimePicker(final TimePicker timePicker,
+                                  final Calendar calendar) {
+	int hour, minute;
+	hour = calendar.get(Calendar.HOUR_OF_DAY);
+	minute = calendar.get(Calendar.MINUTE);
+	if (Build.VERSION.SDK_INT >= 23) {
+		timePicker.setHour(hour);
+		timePicker.setMinute(minute);
+	} else {
+		timePicker.setCurrentHour(hour);
+		timePicker.setCurrentMinute(minute);
+	}
+}
 
-  private static Calendar fromTimePicker(final TimePicker timePicker) {
-    Calendar calendar = Calendar.getInstance();
-    if (Build.VERSION.SDK_INT >= 23) {
-      calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
-      calendar.set(Calendar.MINUTE, timePicker.getMinute());
-    } else {
-      calendar.set(Calendar.HOUR_OF_DAY, timePicker.getCurrentHour());
-      calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
-    }
-    return calendar;
-  }
+private static Calendar fromTimePicker(final TimePicker timePicker) {
+	Calendar calendar = Calendar.getInstance();
+	if (Build.VERSION.SDK_INT >= 23) {
+		calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
+		calendar.set(Calendar.MINUTE, timePicker.getMinute());
+	} else {
+		calendar.set(Calendar.HOUR_OF_DAY, timePicker.getCurrentHour());
+		calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
+	}
+	return calendar;
+}
 
-  @Override
-  protected void _fill(final @ValidData @NonNull TimeUSourceData data) {
-    setTimePicker(timePicker, data.time);
-  }
+@Override
+protected void _fill(final @ValidData @NonNull TimeUSourceData data) {
+	setTimePicker(timePicker, data.time);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public TimeUSourceData getData() throws InvalidDataInputException {
-    return new TimeUSourceData(fromTimePicker(timePicker),
-                               TimeUSourceData.Rel.after);
-  }
+@ValidData
+@NonNull
+@Override
+public TimeUSourceData getData() throws InvalidDataInputException {
+	return new TimeUSourceData(fromTimePicker(timePicker),
+	                           TimeUSourceData.Rel.after);
+}
 }

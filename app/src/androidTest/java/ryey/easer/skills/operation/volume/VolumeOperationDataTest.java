@@ -27,13 +27,13 @@ import ryey.easer.skills.TestHelper;
 
 public class VolumeOperationDataTest {
 
-  @Test
-  public void testParcel() {
-    VolumeOperationData dummyData =
-        new VolumeOperationDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    VolumeOperationData parceledData =
-        VolumeOperationData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	VolumeOperationData dummyData =
+		new VolumeOperationDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	VolumeOperationData parceledData =
+		VolumeOperationData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

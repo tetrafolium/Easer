@@ -28,28 +28,28 @@ import ryey.easer.core.ui.data.SourceSkillViewContainerFragment;
 import ryey.easer.skills.LocalSkillRegistry;
 
 public class EditEventDataFragment
-    extends EditSourceDataFragment<EventData, EventSkill> {
+	extends EditSourceDataFragment<EventData, EventSkill> {
 
-  @Override
-  protected int buttonText() {
-    return R.string.title_select_event;
-  }
+@Override
+protected int buttonText() {
+	return R.string.title_select_event;
+}
 
-  @Override
-  protected SourceSelectorDialogFragment<EventSkill> selectorDialogFragment() {
-    return new EventSelectorDialogFragment();
-  }
+@Override
+protected SourceSelectorDialogFragment<EventSkill> selectorDialogFragment() {
+	return new EventSelectorDialogFragment();
+}
 
-  @Override
-  protected EventSkill findSkill(final EventData data) {
-    return LocalSkillRegistry.getInstance().event().findSkill(data);
-  }
+@Override
+protected EventSkill findSkill(final EventData data) {
+	return LocalSkillRegistry.getInstance().event().findSkill(data);
+}
 
-  @Override
-  protected SourceSkillViewContainerFragment<EventData, EventSkill>
-  skillViewContainerFragment(final EventSkill skill) {
-    return EventSkillViewContainerFragment.createInstance(skill);
-  }
+@Override
+protected SourceSkillViewContainerFragment<EventData, EventSkill>
+skillViewContainerFragment(final EventSkill skill) {
+	return EventSkillViewContainerFragment.createInstance(skill);
+}
 }
 
 // public class EditEventDataFragment extends Fragment implements

@@ -27,42 +27,42 @@ import java.util.Set;
 import ryey.easer.skills.event.SelfNotifiableSlot;
 
 class DayOfWeekSlot extends SelfNotifiableSlot<DayOfWeekUSourceData> {
-  private static AlarmManager mAlarmManager;
+private static AlarmManager mAlarmManager;
 
-  @NonNull private final Set<Integer> days;
+@NonNull private final Set<Integer> days;
 
-  DayOfWeekSlot(final Context context, final DayOfWeekUSourceData data) {
-    this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
-  }
+DayOfWeekSlot(final Context context, final DayOfWeekUSourceData data) {
+	this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+}
 
-  DayOfWeekSlot(final Context context, final DayOfWeekUSourceData data,
-                final boolean retriggerable, final boolean persistent) {
-    super(context, data, retriggerable, persistent);
-    this.days = data.days;
+DayOfWeekSlot(final Context context, final DayOfWeekUSourceData data,
+              final boolean retriggerable, final boolean persistent) {
+	super(context, data, retriggerable, persistent);
+	this.days = data.days;
 
-    if (mAlarmManager == null)
-      mAlarmManager =
-          (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-  }
+	if (mAlarmManager == null)
+		mAlarmManager =
+			(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+}
 
-  @Override
-  public void listen() {
-    super.listen();
-    Utils.scheduleAlarmEveryday(mAlarmManager, notifySelfIntent_positive);
-  }
+@Override
+public void listen() {
+	super.listen();
+	Utils.scheduleAlarmEveryday(mAlarmManager, notifySelfIntent_positive);
+}
 
-  @Override
-  public void cancel() {
-    super.cancel();
-    mAlarmManager.cancel(notifySelfIntent_positive);
-  }
+@Override
+public void cancel() {
+	super.cancel();
+	mAlarmManager.cancel(notifySelfIntent_positive);
+}
 
-  @Override
-  protected void onPositiveNotified(final Intent intent) {
-    if (Utils.isSatisfied(days)) {
-      changeSatisfiedState(true);
-    } else {
-      changeSatisfiedState(false);
-    }
-  }
+@Override
+protected void onPositiveNotified(final Intent intent) {
+	if (Utils.isSatisfied(days)) {
+		changeSatisfiedState(true);
+	} else {
+		changeSatisfiedState(false);
+	}
+}
 }

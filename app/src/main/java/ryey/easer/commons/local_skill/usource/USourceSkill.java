@@ -37,169 +37,169 @@ import ryey.easer.commons.local_skill.eventskill.Slot;
 
 public interface USourceSkill<D extends USourceData> extends Skill<D> {
 
-  String EXTRA_INFO_TYPE = "ryey.easer.skill.source.type";
-  String INFO_TYPE_EVENT = "event";
-  String INFO_TYPE_CONDITION = "condition";
+String EXTRA_INFO_TYPE = "ryey.easer.skill.source.type";
+String INFO_TYPE_EVENT = "event";
+String INFO_TYPE_CONDITION = "condition";
 
-  @NonNull USourceDataFactory<D> dataFactory();
+@NonNull USourceDataFactory<D> dataFactory();
 
-  @NonNull
-  default SourceCategory category() {
-    return SourceCategory.unknown;
-  }
+@NonNull
+default SourceCategory category() {
+	return SourceCategory.unknown;
+}
 
-  /**
-   * Default value for eventView() and conditionView().
-   * Returns the control UI of this plugin.
-   * Used in relevant UI.
-   */
-  @NonNull SkillView<D> view();
+/**
+ * Default value for eventView() and conditionView().
+ * Returns the control UI of this plugin.
+ * Used in relevant UI.
+ */
+@NonNull SkillView<D> view();
 
-  Slot<D> slot(@NonNull Context context, @NonNull D data);
+Slot<D> slot(@NonNull Context context, @NonNull D data);
 
-  Slot<D> slot(@NonNull Context context, @NonNull D data, boolean retriggerable,
-               boolean persistent);
+Slot<D> slot(@NonNull Context context, @NonNull D data, boolean retriggerable,
+             boolean persistent);
 
-  Tracker<D> tracker(@NonNull Context context, @NonNull D data,
-                     @NonNull PendingIntent event_positive,
-                     @NonNull PendingIntent event_negative);
+Tracker<D> tracker(@NonNull Context context, @NonNull D data,
+                   @NonNull PendingIntent event_positive,
+                   @NonNull PendingIntent event_negative);
 
-  default SkillView<D> eventView() {
-    Bundle args = new Bundle();
-    args.putString(EXTRA_INFO_TYPE, INFO_TYPE_EVENT);
-    SkillView<D> v = view();
-    v.setArguments(args);
-    return v;
-  }
+default SkillView<D> eventView() {
+	Bundle args = new Bundle();
+	args.putString(EXTRA_INFO_TYPE, INFO_TYPE_EVENT);
+	SkillView<D> v = view();
+	v.setArguments(args);
+	return v;
+}
 
-  default SkillView<D> conditionView() {
-    Bundle args = new Bundle();
-    args.putString(EXTRA_INFO_TYPE, INFO_TYPE_CONDITION);
-    SkillView<D> v = view();
-    v.setArguments(args);
-    return v;
-  }
+default SkillView<D> conditionView() {
+	Bundle args = new Bundle();
+	args.putString(EXTRA_INFO_TYPE, INFO_TYPE_CONDITION);
+	SkillView<D> v = view();
+	v.setArguments(args);
+	return v;
+}
 
-  default EventSkill<D> event() {
-    return new EventSkill<D>() {
-      @NonNull
-      @Override
-      public EventDataFactory<D> dataFactory() {
-        return USourceSkill.this.dataFactory();
-      }
+default EventSkill<D> event() {
+	return new EventSkill<D>() {
+		       @NonNull
+		       @Override
+		       public EventDataFactory<D> dataFactory() {
+			       return USourceSkill.this.dataFactory();
+		       }
 
-      @NonNull
-      @Override
-      public SourceCategory category() {
-        return USourceSkill.this.category();
-      }
+		       @NonNull
+		       @Override
+		       public SourceCategory category() {
+			       return USourceSkill.this.category();
+		       }
 
-      @Override
-      public Slot<D> slot(final @NonNull Context context,
-                          final @NonNull D data) {
-        return USourceSkill.this.slot(context, data);
-      }
+		       @Override
+		       public Slot<D> slot(final @NonNull Context context,
+		                           final @NonNull D data) {
+			       return USourceSkill.this.slot(context, data);
+		       }
 
-      @Override
-      public Slot<D> slot(final @NonNull Context context, final @NonNull D data,
-                          final boolean retriggerable,
-                          final boolean persistent) {
-        return USourceSkill.this.slot(context, data, retriggerable, persistent);
-      }
+		       @Override
+		       public Slot<D> slot(final @NonNull Context context, final @NonNull D data,
+		                           final boolean retriggerable,
+		                           final boolean persistent) {
+			       return USourceSkill.this.slot(context, data, retriggerable, persistent);
+		       }
 
-      @NonNull
-      @Override
-      public String id() {
-        return USourceSkill.this.id();
-      }
+		       @NonNull
+		       @Override
+		       public String id() {
+			       return USourceSkill.this.id();
+		       }
 
-      @Override
-      public int name() {
-        return USourceSkill.this.name();
-      }
+		       @Override
+		       public int name() {
+			       return USourceSkill.this.name();
+		       }
 
-      @Override
-      public boolean isCompatible(final @NonNull Context context) {
-        return USourceSkill.this.isCompatible(context);
-      }
+		       @Override
+		       public boolean isCompatible(final @NonNull Context context) {
+			       return USourceSkill.this.isCompatible(context);
+		       }
 
-      @Nullable
-      @Override
-      public Boolean checkPermissions(final @NonNull Context context) {
-        return USourceSkill.this.checkPermissions(context);
-      }
+		       @Nullable
+		       @Override
+		       public Boolean checkPermissions(final @NonNull Context context) {
+			       return USourceSkill.this.checkPermissions(context);
+		       }
 
-      @Override
-      public void requestPermissions(final @NonNull Activity activity,
-                                     final int requestCode) {
-        USourceSkill.this.requestPermissions(activity, requestCode);
-      }
+		       @Override
+		       public void requestPermissions(final @NonNull Activity activity,
+		                                      final int requestCode) {
+			       USourceSkill.this.requestPermissions(activity, requestCode);
+		       }
 
-      @NonNull
-      @Override
-      public SkillView<D> view() {
-        return USourceSkill.this.eventView();
-      }
-    };
-  }
+		       @NonNull
+		       @Override
+		       public SkillView<D> view() {
+			       return USourceSkill.this.eventView();
+		       }
+	};
+}
 
-  default ConditionSkill<D> condition() {
-    return new ConditionSkill<D>() {
-      @NonNull
-      @Override
-      public ConditionDataFactory<D> dataFactory() {
-        return USourceSkill.this.dataFactory();
-      }
+default ConditionSkill<D> condition() {
+	return new ConditionSkill<D>() {
+		       @NonNull
+		       @Override
+		       public ConditionDataFactory<D> dataFactory() {
+			       return USourceSkill.this.dataFactory();
+		       }
 
-      @NonNull
-      @Override
-      public SourceCategory category() {
-        return USourceSkill.this.category();
-      }
+		       @NonNull
+		       @Override
+		       public SourceCategory category() {
+			       return USourceSkill.this.category();
+		       }
 
-      @NonNull
-      @Override
-      public Tracker<D> tracker(final @NonNull Context context,
-                                final @NonNull D data,
-                                final @NonNull PendingIntent event_positive,
-                                final @NonNull PendingIntent event_negative) {
-        return USourceSkill.this.tracker(context, data, event_positive,
-                                         event_negative);
-      }
+		       @NonNull
+		       @Override
+		       public Tracker<D> tracker(final @NonNull Context context,
+		                                 final @NonNull D data,
+		                                 final @NonNull PendingIntent event_positive,
+		                                 final @NonNull PendingIntent event_negative) {
+			       return USourceSkill.this.tracker(context, data, event_positive,
+			                                        event_negative);
+		       }
 
-      @NonNull
-      @Override
-      public String id() {
-        return USourceSkill.this.id();
-      }
+		       @NonNull
+		       @Override
+		       public String id() {
+			       return USourceSkill.this.id();
+		       }
 
-      @Override
-      public int name() {
-        return USourceSkill.this.name();
-      }
+		       @Override
+		       public int name() {
+			       return USourceSkill.this.name();
+		       }
 
-      @Override
-      public boolean isCompatible(final @NonNull Context context) {
-        return USourceSkill.this.isCompatible(context);
-      }
+		       @Override
+		       public boolean isCompatible(final @NonNull Context context) {
+			       return USourceSkill.this.isCompatible(context);
+		       }
 
-      @Nullable
-      @Override
-      public Boolean checkPermissions(final @NonNull Context context) {
-        return USourceSkill.this.checkPermissions(context);
-      }
+		       @Nullable
+		       @Override
+		       public Boolean checkPermissions(final @NonNull Context context) {
+			       return USourceSkill.this.checkPermissions(context);
+		       }
 
-      @Override
-      public void requestPermissions(final @NonNull Activity activity,
-                                     final int requestCode) {
-        USourceSkill.this.requestPermissions(activity, requestCode);
-      }
+		       @Override
+		       public void requestPermissions(final @NonNull Activity activity,
+		                                      final int requestCode) {
+			       USourceSkill.this.requestPermissions(activity, requestCode);
+		       }
 
-      @NonNull
-      @Override
-      public SkillView<D> view() {
-        return USourceSkill.this.conditionView();
-      }
-    };
-  }
+		       @NonNull
+		       @Override
+		       public SkillView<D> view() {
+			       return USourceSkill.this.conditionView();
+		       }
+	};
+}
 }

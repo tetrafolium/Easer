@@ -35,25 +35,25 @@ import ryey.easer.skills.LocalSkillRegistry;
 
 public class EventParser implements Parser<EventStructure> {
 
-  @Override
-  public EventStructure parse(final InputStream in)
-      throws IOException, IllegalStorageDataException {
-    try {
-      JSONObject jsonObject = new JSONObject(IOUtils.inputStreamToString(in));
-      int version = jsonObject.optInt(C.VERSION, C.VERSION_USE_SCENARIO);
-      final String name = jsonObject.getString(C.NAME);
-      JSONObject jsonObject_situation = jsonObject.getJSONObject(C.SIT);
-      String spec = jsonObject_situation.getString(C.SPEC);
-      EventSkill<?> plugin =
-          LocalSkillRegistry.getInstance().event().findSkill(spec);
-      if (plugin == null)
-        throw new IllegalStorageDataException("Event skill not found");
-      EventData eventData =
-          plugin.dataFactory().parse(jsonObject_situation.getString(C.DATA),
-                                     PluginDataFormat.JSON, version);
-      return new EventStructure(version, name, eventData);
-    } catch (JSONException e) {
-      throw new IllegalStorageDataException(e);
-    }
-  }
+@Override
+public EventStructure parse(final InputStream in)
+throws IOException, IllegalStorageDataException {
+	try {
+		JSONObject jsonObject = new JSONObject(IOUtils.inputStreamToString(in));
+		int version = jsonObject.optInt(C.VERSION, C.VERSION_USE_SCENARIO);
+		final String name = jsonObject.getString(C.NAME);
+		JSONObject jsonObject_situation = jsonObject.getJSONObject(C.SIT);
+		String spec = jsonObject_situation.getString(C.SPEC);
+		EventSkill<?> plugin =
+			LocalSkillRegistry.getInstance().event().findSkill(spec);
+		if (plugin == null)
+			throw new IllegalStorageDataException("Event skill not found");
+		EventData eventData =
+			plugin.dataFactory().parse(jsonObject_situation.getString(C.DATA),
+			                           PluginDataFormat.JSON, version);
+		return new EventStructure(version, name, eventData);
+	} catch (JSONException e) {
+		throw new IllegalStorageDataException(e);
+	}
+}
 }

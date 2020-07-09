@@ -22,4 +22,4 @@ package ryey.easer.core.data.storage.backend;
 import ryey.easer.core.data.ProfileStructure;
 
 public interface ProfileDataStorageBackendInterface
-    extends DataStorageBackendCommonInterface<ProfileStructure> {}
+	extends DataStorageBackendCommonInterface<ProfileStructure> {}

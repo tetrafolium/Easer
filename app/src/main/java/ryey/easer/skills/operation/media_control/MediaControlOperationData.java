@@ -31,104 +31,104 @@ import ryey.easer.plugin.PluginDataFormat;
 
 public class MediaControlOperationData implements OperationData {
 
-  @Nullable
-  @Override
-  public Set<String> placeholders() {
-    return null;
-  }
+@Nullable
+@Override
+public Set<String> placeholders() {
+	return null;
+}
 
-  @NonNull
-  @Override
-  public OperationData
-  applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
-    return this;
-  }
+@NonNull
+@Override
+public OperationData
+applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
+	return this;
+}
 
-  enum ControlChoice {
-    play_pause,
-    play,
-    pause,
-    previous,
-    next,
-  }
+enum ControlChoice {
+	play_pause,
+	play,
+	pause,
+	previous,
+	next,
+}
 
-  ControlChoice choice = null;
+ControlChoice choice = null;
 
-  MediaControlOperationData(final ControlChoice choice) {
-    this.choice = choice;
-  }
+MediaControlOperationData(final ControlChoice choice) {
+	this.choice = choice;
+}
 
-  MediaControlOperationData(final @NonNull String data,
-                            final @NonNull PluginDataFormat format,
-                            final int version)
-      throws IllegalStorageDataException {
-    parse(data, format, version);
-  }
+MediaControlOperationData(final @NonNull String data,
+                          final @NonNull PluginDataFormat format,
+                          final int version)
+throws IllegalStorageDataException {
+	parse(data, format, version);
+}
 
-  public void parse(final @NonNull String data,
-                    final @NonNull PluginDataFormat format, final int version)
-      throws IllegalStorageDataException {
-    switch (format) {
-    default:
-      try {
-        this.choice = ControlChoice.valueOf(data);
-      } catch (Exception e) {
-        throw new IllegalStorageDataException(e);
-      }
-    }
-  }
+public void parse(final @NonNull String data,
+                  final @NonNull PluginDataFormat format, final int version)
+throws IllegalStorageDataException {
+	switch (format) {
+	default:
+		try {
+			this.choice = ControlChoice.valueOf(data);
+		} catch (Exception e) {
+			throw new IllegalStorageDataException(e);
+		}
+	}
+}
 
-  @NonNull
-  @Override
-  public String serialize(final @NonNull PluginDataFormat format) {
-    String res;
-    switch (format) {
-    default:
-      res = choice.toString();
-    }
-    return res;
-  }
+@NonNull
+@Override
+public String serialize(final @NonNull PluginDataFormat format) {
+	String res;
+	switch (format) {
+	default:
+		res = choice.toString();
+	}
+	return res;
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean isValid() {
-    if (choice == null)
-      return false;
-    return true;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean isValid() {
+	if (choice == null)
+		return false;
+	return true;
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean equals(final Object obj) {
-    if (obj == this)
-      return true;
-    if (!(obj instanceof MediaControlOperationData))
-      return false;
-    return choice == ((MediaControlOperationData)obj).choice;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean equals(final Object obj) {
+	if (obj == this)
+		return true;
+	if (!(obj instanceof MediaControlOperationData))
+		return false;
+	return choice == ((MediaControlOperationData)obj).choice;
+}
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-  @Override
-  public void writeToParcel(final Parcel dest, final int flags) {
-    dest.writeSerializable(choice);
-  }
+@Override
+public void writeToParcel(final Parcel dest, final int flags) {
+	dest.writeSerializable(choice);
+}
 
-  public static final Parcelable.Creator<MediaControlOperationData> CREATOR =
-      new Parcelable.Creator<MediaControlOperationData>() {
-        public MediaControlOperationData createFromParcel(final Parcel in) {
-          return new MediaControlOperationData(in);
-        }
+public static final Parcelable.Creator<MediaControlOperationData> CREATOR =
+	new Parcelable.Creator<MediaControlOperationData>() {
+	public MediaControlOperationData createFromParcel(final Parcel in) {
+		return new MediaControlOperationData(in);
+	}
 
-        public MediaControlOperationData[] newArray(final int size) {
-          return new MediaControlOperationData[size];
-        }
-      };
+	public MediaControlOperationData[] newArray(final int size) {
+		return new MediaControlOperationData[size];
+	}
+};
 
-  private MediaControlOperationData(final Parcel in) {
-    choice = (ControlChoice)in.readSerializable();
-  }
+private MediaControlOperationData(final Parcel in) {
+	choice = (ControlChoice)in.readSerializable();
+}
 }

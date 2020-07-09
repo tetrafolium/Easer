@@ -23,6 +23,6 @@ import java.io.IOException;
 import ryey.easer.core.data.ScriptStructure;
 
 public interface ScriptDataStorageBackendInterface
-    extends DataStorageBackendCommonInterface<ScriptStructure> {
-  void update(ScriptStructure scriptStructure) throws IOException;
+	extends DataStorageBackendCommonInterface<ScriptStructure> {
+void update(ScriptStructure scriptStructure) throws IOException;
 }

@@ -32,30 +32,30 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillViewFragment;
 
 public class CommandSkillViewFragment
-    extends SkillViewFragment<CommandOperationData> {
-  private EditText editText_command;
+	extends SkillViewFragment<CommandOperationData> {
+private EditText editText_command;
 
-  @NonNull
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final @Nullable ViewGroup container,
-                           final @Nullable Bundle savedInstanceState) {
-    View view =
-        inflater.inflate(R.layout.plugin_operation__command, container, false);
-    editText_command = view.findViewById(R.id.command);
-    return view;
-  }
+@NonNull
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final @Nullable ViewGroup container,
+                         final @Nullable Bundle savedInstanceState) {
+	View view =
+		inflater.inflate(R.layout.plugin_operation__command, container, false);
+	editText_command = view.findViewById(R.id.command);
+	return view;
+}
 
-  @Override
-  protected void _fill(final @ValidData @NonNull CommandOperationData data) {
-    String command = data.get();
-    editText_command.setText(command);
-  }
+@Override
+protected void _fill(final @ValidData @NonNull CommandOperationData data) {
+	String command = data.get();
+	editText_command.setText(command);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public CommandOperationData getData() throws InvalidDataInputException {
-    return new CommandOperationData(editText_command.getText().toString());
-  }
+@ValidData
+@NonNull
+@Override
+public CommandOperationData getData() throws InvalidDataInputException {
+	return new CommandOperationData(editText_command.getText().toString());
+}
 }

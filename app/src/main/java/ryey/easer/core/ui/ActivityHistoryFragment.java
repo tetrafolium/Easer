@@ -58,268 +58,268 @@ import ryey.easer.databinding.ItemActivityLogBinding;
 
 public class ActivityHistoryFragment extends Fragment {
 
-  private static final String ARG_SIZE =
-      "ryey.easer.core.ui.ActivityHistoryFragment.ARG.SIZE";
-  private static final int COMPACT = 1;
-  private static final int FULL = 0;
+private static final String ARG_SIZE =
+	"ryey.easer.core.ui.ActivityHistoryFragment.ARG.SIZE";
+private static final int COMPACT = 1;
+private static final int FULL = 0;
 
-  static ActivityHistoryFragment compact() {
-    Bundle bundle = new Bundle();
-    bundle.putInt(ARG_SIZE, COMPACT);
-    ActivityHistoryFragment fragment = new ActivityHistoryFragment();
-    fragment.setArguments(bundle);
-    return fragment;
-  }
+static ActivityHistoryFragment compact() {
+	Bundle bundle = new Bundle();
+	bundle.putInt(ARG_SIZE, COMPACT);
+	ActivityHistoryFragment fragment = new ActivityHistoryFragment();
+	fragment.setArguments(bundle);
+	return fragment;
+}
 
-  static ActivityHistoryFragment full() {
-    Bundle bundle = new Bundle();
-    bundle.putInt(ARG_SIZE, FULL);
-    ActivityHistoryFragment fragment = new ActivityHistoryFragment();
-    fragment.setArguments(bundle);
-    return fragment;
-  }
+static ActivityHistoryFragment full() {
+	Bundle bundle = new Bundle();
+	bundle.putInt(ARG_SIZE, FULL);
+	ActivityHistoryFragment fragment = new ActivityHistoryFragment();
+	fragment.setArguments(bundle);
+	return fragment;
+}
 
-  final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      switch (intent.getAction()) {
-      case EHService.ACTION_PROFILE_UPDATED:
-        refreshHistoryDisplay();
-        break;
-      }
-    }
-  };
+final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+	@Override
+	public void onReceive(final Context context, final Intent intent) {
+		switch (intent.getAction()) {
+		case EHService.ACTION_PROFILE_UPDATED:
+			refreshHistoryDisplay();
+			break;
+		}
+	}
+};
 
-  private int size = FULL;
-  HistoryViewHolder historyViewHolder;
-  HistoryAdapter historyAdapter;
+private int size = FULL;
+HistoryViewHolder historyViewHolder;
+HistoryAdapter historyAdapter;
 
-  boolean clearHistoryAfterBind = false;
-  ActivityLogService.ActivityLogServiceBinder serviceBinder;
-  ServiceConnection serviceConnection = new ServiceConnection() {
-    @Override
-    public void onServiceConnected(final ComponentName name,
-                                   final IBinder service) {
-      serviceBinder = (ActivityLogService.ActivityLogServiceBinder)service;
-      if (clearHistoryAfterBind) {
-        clearHistory();
-        clearHistoryAfterBind = false;
-      }
-    }
+boolean clearHistoryAfterBind = false;
+ActivityLogService.ActivityLogServiceBinder serviceBinder;
+ServiceConnection serviceConnection = new ServiceConnection() {
+	@Override
+	public void onServiceConnected(final ComponentName name,
+	                               final IBinder service) {
+		serviceBinder = (ActivityLogService.ActivityLogServiceBinder)service;
+		if (clearHistoryAfterBind) {
+			clearHistory();
+			clearHistoryAfterBind = false;
+		}
+	}
 
-    @Override
-    public void onServiceDisconnected(final ComponentName name) {
-      serviceBinder = null;
-    }
-  };
+	@Override
+	public void onServiceDisconnected(final ComponentName name) {
+		serviceBinder = null;
+	}
+};
 
-  @Nullable
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final @Nullable ViewGroup container,
-                           final @Nullable Bundle savedInstanceState) {
-    Bundle args = getArguments();
-    if (args != null && COMPACT == args.getInt(ARG_SIZE))
-      size = COMPACT;
-    if (size == FULL) {
-      getActivity().setTitle(R.string.title_activity_history);
-      View layout = inflater.inflate(R.layout.fragment_loaded_history_full,
-                                     container, false);
-      RecyclerView view = layout.findViewById(R.id.recycler_view);
-      view.setHasFixedSize(true);
-      LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-      view.setLayoutManager(layoutManager);
-      DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-          view.getContext(), layoutManager.getOrientation());
-      view.addItemDecoration(dividerItemDecoration);
-      historyAdapter = new HistoryAdapter();
-      view.setAdapter(historyAdapter);
-      setHasOptionsMenu(true);
-      return layout;
-    } else {
-      View view =
-          inflater.inflate(R.layout.item_activity_log, container, false);
-      historyViewHolder =
-          new HistoryViewHolder(view, new WeakReference<>(getContext()));
-      return view;
-    }
-  }
+@Nullable
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final @Nullable ViewGroup container,
+                         final @Nullable Bundle savedInstanceState) {
+	Bundle args = getArguments();
+	if (args != null && COMPACT == args.getInt(ARG_SIZE))
+		size = COMPACT;
+	if (size == FULL) {
+		getActivity().setTitle(R.string.title_activity_history);
+		View layout = inflater.inflate(R.layout.fragment_loaded_history_full,
+		                               container, false);
+		RecyclerView view = layout.findViewById(R.id.recycler_view);
+		view.setHasFixedSize(true);
+		LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+		view.setLayoutManager(layoutManager);
+		DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+			view.getContext(), layoutManager.getOrientation());
+		view.addItemDecoration(dividerItemDecoration);
+		historyAdapter = new HistoryAdapter();
+		view.setAdapter(historyAdapter);
+		setHasOptionsMenu(true);
+		return layout;
+	} else {
+		View view =
+			inflater.inflate(R.layout.item_activity_log, container, false);
+		historyViewHolder =
+			new HistoryViewHolder(view, new WeakReference<>(getContext()));
+		return view;
+	}
+}
 
-  @Override
-  public void onViewCreated(final @NonNull View view,
-                            final @Nullable Bundle savedInstanceState) {
-    IntentFilter filter = new IntentFilter();
-    filter.addAction(EHService.ACTION_PROFILE_UPDATED);
-    getContext().registerReceiver(mReceiver, filter);
-  }
+@Override
+public void onViewCreated(final @NonNull View view,
+                          final @Nullable Bundle savedInstanceState) {
+	IntentFilter filter = new IntentFilter();
+	filter.addAction(EHService.ACTION_PROFILE_UPDATED);
+	getContext().registerReceiver(mReceiver, filter);
+}
 
-  @Override
-  public void onResume() {
-    super.onResume();
-    refreshHistoryDisplay();
-    getContext().bindService(new Intent(getContext(), ActivityLogService.class),
-                             serviceConnection, Context.BIND_AUTO_CREATE);
-  }
+@Override
+public void onResume() {
+	super.onResume();
+	refreshHistoryDisplay();
+	getContext().bindService(new Intent(getContext(), ActivityLogService.class),
+	                         serviceConnection, Context.BIND_AUTO_CREATE);
+}
 
-  @Override
-  public void onPause() {
-    super.onPause();
-    getContext().unbindService(serviceConnection);
-  }
+@Override
+public void onPause() {
+	super.onPause();
+	getContext().unbindService(serviceConnection);
+}
 
-  @Override
-  public void onDestroyView() {
-    super.onDestroyView();
-    getActivity().unregisterReceiver(mReceiver);
-  }
+@Override
+public void onDestroyView() {
+	super.onDestroyView();
+	getActivity().unregisterReceiver(mReceiver);
+}
 
-  @Override
-  public void onCreateOptionsMenu(final Menu menu,
-                                  final MenuInflater inflater) {
-    inflater.inflate(R.menu.activity_history, menu);
-    super.onCreateOptionsMenu(menu, inflater);
-  }
+@Override
+public void onCreateOptionsMenu(final Menu menu,
+                                final MenuInflater inflater) {
+	inflater.inflate(R.menu.activity_history, menu);
+	super.onCreateOptionsMenu(menu, inflater);
+}
 
-  @Override
-  public boolean onOptionsItemSelected(final MenuItem item) {
-    if (item.getItemId() == R.id.action_clear) {
-      if (serviceBinder == null)
-        clearHistoryAfterBind = true;
-      else
-        clearHistory();
-      return true;
-    } else
-      return super.onOptionsItemSelected(item);
-  }
+@Override
+public boolean onOptionsItemSelected(final MenuItem item) {
+	if (item.getItemId() == R.id.action_clear) {
+		if (serviceBinder == null)
+			clearHistoryAfterBind = true;
+		else
+			clearHistory();
+		return true;
+	} else
+		return super.onOptionsItemSelected(item);
+}
 
-  private void clearHistory() {
-    serviceBinder.clearLog();
-    historyAdapter.notifyDataSetChanged();
-  }
+private void clearHistory() {
+	serviceBinder.clearLog();
+	historyAdapter.notifyDataSetChanged();
+}
 
-  private void refreshHistoryDisplay() {
-    if (historyViewHolder != null) {
-      historyViewHolder.bindTo(ActivityLogService.Companion.getLastHistory());
-    } else {
-      historyAdapter.notifyDataSetChanged();
-    }
-  }
+private void refreshHistoryDisplay() {
+	if (historyViewHolder != null) {
+		historyViewHolder.bindTo(ActivityLogService.Companion.getLastHistory());
+	} else {
+		historyAdapter.notifyDataSetChanged();
+	}
+}
 
-  public static class HistoryAdapter
-      extends ListAdapter<ActivityLog, HistoryViewHolder> {
+public static class HistoryAdapter
+	extends ListAdapter<ActivityLog, HistoryViewHolder> {
 
-    HistoryAdapter() {
-      super(DIFF_CALLBACK);
-      submitList(ActivityLogService.Companion.getHistory());
-    }
+HistoryAdapter() {
+	super(DIFF_CALLBACK);
+	submitList(ActivityLogService.Companion.getHistory());
+}
 
-    @NonNull
-    @Override
-    public HistoryViewHolder onCreateViewHolder(final @NonNull ViewGroup parent,
-                                                final int viewType) {
-      View v = LayoutInflater.from(parent.getContext())
-                   .inflate(R.layout.item_activity_log, parent, false);
-      return new HistoryViewHolder(v, new WeakReference<>(parent.getContext()));
-    }
+@NonNull
+@Override
+public HistoryViewHolder onCreateViewHolder(final @NonNull ViewGroup parent,
+                                            final int viewType) {
+	View v = LayoutInflater.from(parent.getContext())
+	         .inflate(R.layout.item_activity_log, parent, false);
+	return new HistoryViewHolder(v, new WeakReference<>(parent.getContext()));
+}
 
-    @Override
-    public void onBindViewHolder(final @NonNull HistoryViewHolder holder,
-                                 final int position) {
-      ActivityLog log = getItem(position);
-      holder.bindTo(log);
-    }
+@Override
+public void onBindViewHolder(final @NonNull HistoryViewHolder holder,
+                             final int position) {
+	ActivityLog log = getItem(position);
+	holder.bindTo(log);
+}
 
-    static final DiffUtil.ItemCallback<ActivityLog> DIFF_CALLBACK =
-        new DiffUtil.ItemCallback<ActivityLog>() {
-          @Override
-          public boolean areItemsTheSame(
-              final @NonNull ActivityLog oldActivityLog,
-              final @NonNull ActivityLog newActivityLog) {
-            return oldActivityLog.equals(newActivityLog);
-          }
-          @Override
-          public boolean areContentsTheSame(
-              final @NonNull ActivityLog oldActivityLog,
-              final @NonNull ActivityLog newActivityLog) {
-            return oldActivityLog.equals(newActivityLog);
-          }
-        };
-  }
+static final DiffUtil.ItemCallback<ActivityLog> DIFF_CALLBACK =
+	new DiffUtil.ItemCallback<ActivityLog>() {
+	@Override
+	public boolean areItemsTheSame(
+		final @NonNull ActivityLog oldActivityLog,
+		final @NonNull ActivityLog newActivityLog) {
+		return oldActivityLog.equals(newActivityLog);
+	}
+	@Override
+	public boolean areContentsTheSame(
+		final @NonNull ActivityLog oldActivityLog,
+		final @NonNull ActivityLog newActivityLog) {
+		return oldActivityLog.equals(newActivityLog);
+	}
+};
+}
 
-  static class HistoryViewHolder extends RecyclerView.ViewHolder {
-    final ItemActivityLogBinding binding;
-    final WeakReference<Context> context;
-    HistoryViewHolder(final View itemView,
-                      final WeakReference<Context> context) {
-      super(itemView);
-      binding = DataBindingUtil.bind(itemView);
-      this.context = context;
-    }
+static class HistoryViewHolder extends RecyclerView.ViewHolder {
+final ItemActivityLogBinding binding;
+final WeakReference<Context> context;
+HistoryViewHolder(final View itemView,
+                  final WeakReference<Context> context) {
+	super(itemView);
+	binding = DataBindingUtil.bind(itemView);
+	this.context = context;
+}
 
-    @Nullable
-    private static String tLong2Text(final long time, final Context context) {
-      if (time < 0) {
-        return null;
-      }
-      Calendar calendar = Calendar.getInstance();
-      calendar.setTimeInMillis(time);
-      DateFormat df;
-      if (SettingsUtils.use12HourClock(context)) {
-        df = Utils.df_12hour;
-      } else {
-        df = Utils.df_24hour;
-      }
-      return df.format(calendar.getTime());
-    }
+@Nullable
+private static String tLong2Text(final long time, final Context context) {
+	if (time < 0) {
+		return null;
+	}
+	Calendar calendar = Calendar.getInstance();
+	calendar.setTimeInMillis(time);
+	DateFormat df;
+	if (SettingsUtils.use12HourClock(context)) {
+		df = Utils.df_12hour;
+	} else {
+		df = Utils.df_24hour;
+	}
+	return df.format(calendar.getTime());
+}
 
-    void bindTo(final @Nullable ActivityLog activityLog) {
-      binding.cScript.setVisibility(View.GONE);
-      binding.cStatus.setVisibility(View.GONE);
-      binding.cProfile.setVisibility(View.GONE);
-      binding.cService.setVisibility(View.GONE);
-      binding.cTime.setVisibility(View.GONE);
-      binding.cExtra.setVisibility(View.GONE);
-      if (activityLog == null)
-        return;
-      long loadTime = activityLog.time();
-      binding.cTime.setVisibility(View.VISIBLE);
-      binding.tvTime.setText(tLong2Text(loadTime, context.get()));
-      String extraInfo = activityLog.extraInfo();
-      if (extraInfo != null) {
-        binding.cExtra.setVisibility(View.VISIBLE);
-        binding.tvExtra.setText(extraInfo);
-      }
-      if (activityLog instanceof ScriptSatisfactionLog) {
-        ScriptSatisfactionLog log = (ScriptSatisfactionLog)activityLog;
-        final String scriptName = (log).getScriptName();
-        binding.cScript.setVisibility(View.VISIBLE);
-        binding.tvScript.setText(scriptName);
-        final String profileName = (log).getProfileName();
-        if (profileName != null) {
-          binding.cProfile.setVisibility(View.VISIBLE);
-          binding.tvProfile.setText(profileName);
-        }
-        binding.cStatus.setVisibility(View.VISIBLE);
-        binding.tvStatus.setText(log.getSatisfaction()
-                                     ? R.string.activity_history__satisfied
-                                     : R.string.activity_history__unsatisfied);
-      } else {
-        if (activityLog instanceof ProfileLoadedLog) {
-          ProfileLoadedLog log = (ProfileLoadedLog)activityLog;
-          final String profileName = (log).getProfileName();
-          binding.cProfile.setVisibility(View.VISIBLE);
-          binding.tvProfile.setText(profileName);
-        } else if (activityLog instanceof ServiceLog) {
-          ServiceLog log = (ServiceLog)activityLog;
-          final String serviceName = log.getServiceName();
-          final boolean start = log.getStart();
-          binding.cService.setVisibility(View.VISIBLE);
-          binding.tvService.setText(serviceName);
-          binding.cStatus.setVisibility(View.VISIBLE);
-          binding.tvStatus.setText(start ? R.string.activity_history__start
-                                         : R.string.activity_history__stop);
-        }
-      }
-    }
-  }
+void bindTo(final @Nullable ActivityLog activityLog) {
+	binding.cScript.setVisibility(View.GONE);
+	binding.cStatus.setVisibility(View.GONE);
+	binding.cProfile.setVisibility(View.GONE);
+	binding.cService.setVisibility(View.GONE);
+	binding.cTime.setVisibility(View.GONE);
+	binding.cExtra.setVisibility(View.GONE);
+	if (activityLog == null)
+		return;
+	long loadTime = activityLog.time();
+	binding.cTime.setVisibility(View.VISIBLE);
+	binding.tvTime.setText(tLong2Text(loadTime, context.get()));
+	String extraInfo = activityLog.extraInfo();
+	if (extraInfo != null) {
+		binding.cExtra.setVisibility(View.VISIBLE);
+		binding.tvExtra.setText(extraInfo);
+	}
+	if (activityLog instanceof ScriptSatisfactionLog) {
+		ScriptSatisfactionLog log = (ScriptSatisfactionLog)activityLog;
+		final String scriptName = (log).getScriptName();
+		binding.cScript.setVisibility(View.VISIBLE);
+		binding.tvScript.setText(scriptName);
+		final String profileName = (log).getProfileName();
+		if (profileName != null) {
+			binding.cProfile.setVisibility(View.VISIBLE);
+			binding.tvProfile.setText(profileName);
+		}
+		binding.cStatus.setVisibility(View.VISIBLE);
+		binding.tvStatus.setText(log.getSatisfaction()
+		                     ? R.string.activity_history__satisfied
+		                     : R.string.activity_history__unsatisfied);
+	} else {
+		if (activityLog instanceof ProfileLoadedLog) {
+			ProfileLoadedLog log = (ProfileLoadedLog)activityLog;
+			final String profileName = (log).getProfileName();
+			binding.cProfile.setVisibility(View.VISIBLE);
+			binding.tvProfile.setText(profileName);
+		} else if (activityLog instanceof ServiceLog) {
+			ServiceLog log = (ServiceLog)activityLog;
+			final String serviceName = log.getServiceName();
+			final boolean start = log.getStart();
+			binding.cService.setVisibility(View.VISIBLE);
+			binding.tvService.setText(serviceName);
+			binding.cStatus.setVisibility(View.VISIBLE);
+			binding.tvStatus.setText(start ? R.string.activity_history__start
+			                 : R.string.activity_history__stop);
+		}
+	}
+}
+}
 }

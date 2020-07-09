@@ -26,34 +26,34 @@ import ryey.easer.commons.local_skill.eventskill.EventDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class CalendarEventDataFactory implements EventDataFactory<CalendarEventData> {
-  @NonNull
-  @Override
-  public Class<CalendarEventData> dataClass() {
-    return CalendarEventData.class;
-  }
+@NonNull
+@Override
+public Class<CalendarEventData> dataClass() {
+	return CalendarEventData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public CalendarEventData dummyData() {
-    CalendarData calendarData = new CalendarData();
-    calendarData.calendar_id = 20;
-    for (int i = 0; i < CalendarData.condition_name.length; i++) {
-      if (i % 2 == 0) {
-        calendarData.conditions.add(CalendarData.condition_name[i]);
-      }
-    }
-    CalendarEventData dummyData = new CalendarEventData(calendarData);
-    return dummyData;
-  }
+@ValidData
+@NonNull
+@Override
+public CalendarEventData dummyData() {
+	CalendarData calendarData = new CalendarData();
+	calendarData.calendar_id = 20;
+	for (int i = 0; i < CalendarData.condition_name.length; i++) {
+		if (i % 2 == 0) {
+			calendarData.conditions.add(CalendarData.condition_name[i]);
+		}
+	}
+	CalendarEventData dummyData = new CalendarEventData(calendarData);
+	return dummyData;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public CalendarEventData parse(final @NonNull String data,
-                                 final @NonNull PluginDataFormat format,
-                                 final int version)
-      throws IllegalStorageDataException {
-    return new CalendarEventData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public CalendarEventData parse(final @NonNull String data,
+                               final @NonNull PluginDataFormat format,
+                               final int version)
+throws IllegalStorageDataException {
+	return new CalendarEventData(data, format, version);
+}
 }

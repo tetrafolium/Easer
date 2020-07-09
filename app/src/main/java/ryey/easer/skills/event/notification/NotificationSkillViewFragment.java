@@ -32,49 +32,49 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillViewFragment;
 
 public class NotificationSkillViewFragment
-    extends SkillViewFragment<NotificationEventData> {
-  private EditText editText_app;
-  private EditText editText_title;
-  private EditText editText_content;
+	extends SkillViewFragment<NotificationEventData> {
+private EditText editText_app;
+private EditText editText_title;
+private EditText editText_content;
 
-  @NonNull
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final @Nullable ViewGroup container,
-                           final @Nullable Bundle savedInstanceState) {
-    View view =
-        inflater.inflate(R.layout.plugin_event__notification, container, false);
+@NonNull
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final @Nullable ViewGroup container,
+                         final @Nullable Bundle savedInstanceState) {
+	View view =
+		inflater.inflate(R.layout.plugin_event__notification, container, false);
 
-    editText_app = view.findViewById(R.id.editText_app);
-    editText_title = view.findViewById(R.id.editText_title);
-    editText_content = view.findViewById(R.id.editText_content);
+	editText_app = view.findViewById(R.id.editText_app);
+	editText_title = view.findViewById(R.id.editText_title);
+	editText_content = view.findViewById(R.id.editText_content);
 
-    return view;
-  }
+	return view;
+}
 
-  @Override
-  protected void _fill(final @ValidData @NonNull NotificationEventData data) {
-    editText_app.setText(data.app);
-    editText_title.setText(data.title);
-    editText_content.setText(data.content);
-  }
+@Override
+protected void _fill(final @ValidData @NonNull NotificationEventData data) {
+	editText_app.setText(data.app);
+	editText_title.setText(data.title);
+	editText_content.setText(data.content);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public NotificationEventData getData() throws InvalidDataInputException {
-    String app = textOf(editText_app);
-    String title = textOf(editText_title);
-    String content = textOf(editText_content);
-    return new NotificationEventData(app, title, content);
-  }
+@ValidData
+@NonNull
+@Override
+public NotificationEventData getData() throws InvalidDataInputException {
+	String app = textOf(editText_app);
+	String title = textOf(editText_title);
+	String content = textOf(editText_content);
+	return new NotificationEventData(app, title, content);
+}
 
-  @Nullable
-  private static String textOf(final EditText editText) {
-    String text = editText.getText().toString();
-    if (text.isEmpty())
-      return null;
-    else
-      return text;
-  }
+@Nullable
+private static String textOf(final EditText editText) {
+	String text = editText.getText().toString();
+	if (text.isEmpty())
+		return null;
+	else
+		return text;
+}
 }

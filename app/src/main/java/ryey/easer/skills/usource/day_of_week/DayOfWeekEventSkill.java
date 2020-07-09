@@ -35,70 +35,71 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class DayOfWeekEventSkill implements USourceSkill<DayOfWeekUSourceData> {
 
-  @NonNull
-  @Override
-  public String id() {
-    return "day_of_week";
-  }
+@NonNull
+@Override
+public String id() {
+	return "day_of_week";
+}
 
-  @Override
-  public int name() {
-    return R.string.usource_day_of_week;
-  }
+@Override
+public int name() {
+	return R.string.usource_day_of_week;
+}
 
-  @Override
-  public boolean isCompatible(@NonNull final Context context) {
-    return true;
-  }
+@Override
+public boolean isCompatible(@NonNull final Context context) {
+	return true;
+}
 
-  @Nullable
-  @Override
-  public Boolean checkPermissions(final @NonNull Context context) {
-    return null;
-  }
+@Nullable
+@Override
+public Boolean checkPermissions(final @NonNull Context context) {
+	return null;
+}
 
-  @Override
-  public void requestPermissions(final @NonNull Activity activity,
-                                 final int requestCode) {}
+@Override
+public void requestPermissions(final @NonNull Activity activity,
+                               final int requestCode) {
+}
 
-  @NonNull
-  @Override
-  public USourceDataFactory<DayOfWeekUSourceData> dataFactory() {
-    return new DayOfWeekUSourceDataFactory();
-  }
+@NonNull
+@Override
+public USourceDataFactory<DayOfWeekUSourceData> dataFactory() {
+	return new DayOfWeekUSourceDataFactory();
+}
 
-  @NonNull
-  @Override
-  public SourceCategory category() {
-    return SourceCategory.date_time;
-  }
+@NonNull
+@Override
+public SourceCategory category() {
+	return SourceCategory.date_time;
+}
 
-  @NonNull
-  @Override
-  public SkillView<DayOfWeekUSourceData> view() {
-    return new DayOfWeekSkillViewFragment();
-  }
+@NonNull
+@Override
+public SkillView<DayOfWeekUSourceData> view() {
+	return new DayOfWeekSkillViewFragment();
+}
 
-  @Override
-  public AbstractSlot<DayOfWeekUSourceData>
-  slot(final @NonNull Context context,
-       final @ValidData @NonNull DayOfWeekUSourceData data) {
-    return new DayOfWeekSlot(context, data);
-  }
+@Override
+public AbstractSlot<DayOfWeekUSourceData>
+slot(final @NonNull Context context,
+     final @ValidData @NonNull DayOfWeekUSourceData data) {
+	return new DayOfWeekSlot(context, data);
+}
 
-  @Override
-  public AbstractSlot<DayOfWeekUSourceData>
-  slot(final @NonNull Context context, final @NonNull DayOfWeekUSourceData data,
-       final boolean retriggerable, final boolean persistent) {
-    return new DayOfWeekSlot(context, data, retriggerable, persistent);
-  }
+@Override
+public AbstractSlot<DayOfWeekUSourceData>
+slot(final @NonNull Context context, final @NonNull DayOfWeekUSourceData data,
+     final boolean retriggerable, final boolean persistent) {
+	return new DayOfWeekSlot(context, data, retriggerable, persistent);
+}
 
-  @Override
-  public Tracker<DayOfWeekUSourceData>
-  tracker(final @NonNull Context context,
-          final @NonNull DayOfWeekUSourceData data,
-          final @NonNull PendingIntent event_positive,
-          final @NonNull PendingIntent event_negative) {
-    return new DayOfWeekTracker(context, data, event_positive, event_negative);
-  }
+@Override
+public Tracker<DayOfWeekUSourceData>
+tracker(final @NonNull Context context,
+        final @NonNull DayOfWeekUSourceData data,
+        final @NonNull PendingIntent event_positive,
+        final @NonNull PendingIntent event_negative) {
+	return new DayOfWeekTracker(context, data, event_positive, event_negative);
+}
 }

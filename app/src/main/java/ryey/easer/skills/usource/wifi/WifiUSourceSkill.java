@@ -37,75 +37,75 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class WifiUSourceSkill implements USourceSkill<WifiUSourceData> {
 
-  @NonNull
-  @Override
-  public String id() {
-    return "wifi connection";
-  }
+@NonNull
+@Override
+public String id() {
+	return "wifi connection";
+}
 
-  @Override
-  public int name() {
-    return R.string.usource_wificonn;
-  }
+@Override
+public int name() {
+	return R.string.usource_wificonn;
+}
 
-  @Override
-  public boolean isCompatible(@NonNull final Context context) {
-    return true;
-  }
+@Override
+public boolean isCompatible(@NonNull final Context context) {
+	return true;
+}
 
-  @Nullable
-  @Override
-  public Boolean checkPermissions(final @NonNull Context context) {
-    return SkillUtils.checkPermission(context,
-                                      Manifest.permission.ACCESS_WIFI_STATE,
-                                      Manifest.permission.CHANGE_WIFI_STATE);
-  }
+@Nullable
+@Override
+public Boolean checkPermissions(final @NonNull Context context) {
+	return SkillUtils.checkPermission(context,
+	                                  Manifest.permission.ACCESS_WIFI_STATE,
+	                                  Manifest.permission.CHANGE_WIFI_STATE);
+}
 
-  @Override
-  public void requestPermissions(final @NonNull Activity activity,
-                                 final int requestCode) {
-    SkillUtils.requestPermission(activity, requestCode,
-                                 Manifest.permission.ACCESS_WIFI_STATE,
-                                 Manifest.permission.CHANGE_WIFI_STATE);
-  }
+@Override
+public void requestPermissions(final @NonNull Activity activity,
+                               final int requestCode) {
+	SkillUtils.requestPermission(activity, requestCode,
+	                             Manifest.permission.ACCESS_WIFI_STATE,
+	                             Manifest.permission.CHANGE_WIFI_STATE);
+}
 
-  @NonNull
-  @Override
-  public USourceDataFactory<WifiUSourceData> dataFactory() {
-    return new WifiUSourceDataFactory();
-  }
+@NonNull
+@Override
+public USourceDataFactory<WifiUSourceData> dataFactory() {
+	return new WifiUSourceDataFactory();
+}
 
-  @NonNull
-  @Override
-  public SourceCategory category() {
-    return SourceCategory.device;
-  }
+@NonNull
+@Override
+public SourceCategory category() {
+	return SourceCategory.device;
+}
 
-  @NonNull
-  @Override
-  public SkillView<WifiUSourceData> view() {
-    return new WifiSkillViewFragment();
-  }
+@NonNull
+@Override
+public SkillView<WifiUSourceData> view() {
+	return new WifiSkillViewFragment();
+}
 
-  @Override
-  public AbstractSlot<WifiUSourceData>
-  slot(final @NonNull Context context,
-       final @ValidData @NonNull WifiUSourceData data) {
-    return new WifiConnSlot(context, data);
-  }
+@Override
+public AbstractSlot<WifiUSourceData>
+slot(final @NonNull Context context,
+     final @ValidData @NonNull WifiUSourceData data) {
+	return new WifiConnSlot(context, data);
+}
 
-  @Override
-  public AbstractSlot<WifiUSourceData>
-  slot(final @NonNull Context context, final @NonNull WifiUSourceData data,
-       final boolean retriggerable, final boolean persistent) {
-    return new WifiConnSlot(context, data, retriggerable, persistent);
-  }
+@Override
+public AbstractSlot<WifiUSourceData>
+slot(final @NonNull Context context, final @NonNull WifiUSourceData data,
+     final boolean retriggerable, final boolean persistent) {
+	return new WifiConnSlot(context, data, retriggerable, persistent);
+}
 
-  @Override
-  public Tracker<WifiUSourceData>
-  tracker(final @NonNull Context context, final @NonNull WifiUSourceData data,
-          final @NonNull PendingIntent event_positive,
-          final @NonNull PendingIntent event_negative) {
-    return new WifiTracker(context, data, event_positive, event_negative);
-  }
+@Override
+public Tracker<WifiUSourceData>
+tracker(final @NonNull Context context, final @NonNull WifiUSourceData data,
+        final @NonNull PendingIntent event_positive,
+        final @NonNull PendingIntent event_negative) {
+	return new WifiTracker(context, data, event_positive, event_negative);
+}
 }

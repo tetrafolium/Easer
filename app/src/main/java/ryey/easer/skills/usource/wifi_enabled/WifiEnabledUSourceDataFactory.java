@@ -26,27 +26,27 @@ import ryey.easer.commons.local_skill.usource.USourceDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class WifiEnabledUSourceDataFactory
-    implements USourceDataFactory<WifiEnabledUSourceData> {
-  @NonNull
-  @Override
-  public Class<WifiEnabledUSourceData> dataClass() {
-    return WifiEnabledUSourceData.class;
-  }
+	implements USourceDataFactory<WifiEnabledUSourceData> {
+@NonNull
+@Override
+public Class<WifiEnabledUSourceData> dataClass() {
+	return WifiEnabledUSourceData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public WifiEnabledUSourceData dummyData() {
-    return new WifiEnabledUSourceData(true);
-  }
+@ValidData
+@NonNull
+@Override
+public WifiEnabledUSourceData dummyData() {
+	return new WifiEnabledUSourceData(true);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public WifiEnabledUSourceData parse(final @NonNull String data,
-                                      final @NonNull PluginDataFormat format,
-                                      final int version)
-      throws IllegalStorageDataException {
-    return new WifiEnabledUSourceData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public WifiEnabledUSourceData parse(final @NonNull String data,
+                                    final @NonNull PluginDataFormat format,
+                                    final int version)
+throws IllegalStorageDataException {
+	return new WifiEnabledUSourceData(data, format, version);
+}
 }

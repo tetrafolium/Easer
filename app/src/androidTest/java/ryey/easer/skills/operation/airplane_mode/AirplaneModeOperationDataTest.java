@@ -27,13 +27,13 @@ import ryey.easer.skills.TestHelper;
 
 public class AirplaneModeOperationDataTest {
 
-  @Test
-  public void testParcel() {
-    AirplaneModeOperationData dummyData =
-        new AirplaneModeOperationDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    AirplaneModeOperationData parceledData =
-        AirplaneModeOperationData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	AirplaneModeOperationData dummyData =
+		new AirplaneModeOperationDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	AirplaneModeOperationData parceledData =
+		AirplaneModeOperationData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

@@ -27,13 +27,13 @@ import ryey.easer.skills.TestHelper;
 
 public class RotationOperationDataTest {
 
-  @Test
-  public void testParcel() {
-    RotationOperationData dummyData =
-        new RotationOperationDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    RotationOperationData parceledData =
-        RotationOperationData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	RotationOperationData dummyData =
+		new RotationOperationDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	RotationOperationData parceledData =
+		RotationOperationData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

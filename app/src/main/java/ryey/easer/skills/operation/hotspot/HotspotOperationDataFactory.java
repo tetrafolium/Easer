@@ -26,27 +26,27 @@ import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class HotspotOperationDataFactory
-    implements OperationDataFactory<HotspotOperationData> {
-  @NonNull
-  @Override
-  public Class<HotspotOperationData> dataClass() {
-    return HotspotOperationData.class;
-  }
+	implements OperationDataFactory<HotspotOperationData> {
+@NonNull
+@Override
+public Class<HotspotOperationData> dataClass() {
+	return HotspotOperationData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public HotspotOperationData dummyData() {
-    return new HotspotOperationData(true);
-  }
+@ValidData
+@NonNull
+@Override
+public HotspotOperationData dummyData() {
+	return new HotspotOperationData(true);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public HotspotOperationData parse(final @NonNull String data,
-                                    final @NonNull PluginDataFormat format,
-                                    final int version)
-      throws IllegalStorageDataException {
-    return new HotspotOperationData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public HotspotOperationData parse(final @NonNull String data,
+                                  final @NonNull PluginDataFormat format,
+                                  final int version)
+throws IllegalStorageDataException {
+	return new HotspotOperationData(data, format, version);
+}
 }

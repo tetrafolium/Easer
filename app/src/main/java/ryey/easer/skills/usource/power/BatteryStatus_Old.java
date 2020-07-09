@@ -21,6 +21,6 @@ package ryey.easer.skills.usource.power;
 
 @Deprecated
 class BatteryStatus_Old {
-  static final int charging = 0;
-  static final int discharging = 2;
+static final int charging = 0;
+static final int discharging = 2;
 }

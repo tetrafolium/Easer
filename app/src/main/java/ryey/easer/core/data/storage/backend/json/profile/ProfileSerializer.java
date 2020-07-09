@@ -32,41 +32,41 @@ import ryey.easer.plugin.PluginDataFormat;
 
 public class ProfileSerializer implements Serializer<ProfileStructure> {
 
-  public String serialize(final ProfileStructure profile)
-      throws UnableToSerializeException {
-    try {
-      JSONObject jsonObject = new JSONObject();
-      jsonObject.put(C.NAME, profile.getName());
-      jsonObject.put(C.VERSION, C.VERSION_CURRENT);
-      jsonObject.put(C.OPERATION, serialize_operation(profile));
-      return jsonObject.toString();
-    } catch (JSONException e) {
-      throw new UnableToSerializeException(e.getMessage());
-    }
-  }
+public String serialize(final ProfileStructure profile)
+throws UnableToSerializeException {
+	try {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put(C.NAME, profile.getName());
+		jsonObject.put(C.VERSION, C.VERSION_CURRENT);
+		jsonObject.put(C.OPERATION, serialize_operation(profile));
+		return jsonObject.toString();
+	} catch (JSONException e) {
+		throw new UnableToSerializeException(e.getMessage());
+	}
+}
 
-  JSONArray serialize_operation(final ProfileStructure profile)
-      throws JSONException {
-    JSONArray json_operations = new JSONArray();
-    for (String pluginId : profile.pluginIds()) {
-      Collection<RemoteLocalOperationDataWrapper> possibleData =
-          profile.get(pluginId);
-      for (RemoteLocalOperationDataWrapper dataWrapper : possibleData) {
-        JSONObject single_data_object = new JSONObject();
-        single_data_object.put(C.SPEC, pluginId);
-        String serialized_data;
-        if (dataWrapper.isRemote()) {
-          // noinspection ConstantConditions
-          serialized_data = dataWrapper.remoteData.rawData;
-        } else {
-          // noinspection ConstantConditions
-          serialized_data =
-              dataWrapper.localData.serialize(PluginDataFormat.JSON);
-        }
-        single_data_object.put(C.DATA, serialized_data);
-        json_operations.put(single_data_object);
-      }
-    }
-    return json_operations;
-  }
+JSONArray serialize_operation(final ProfileStructure profile)
+throws JSONException {
+	JSONArray json_operations = new JSONArray();
+	for (String pluginId : profile.pluginIds()) {
+		Collection<RemoteLocalOperationDataWrapper> possibleData =
+			profile.get(pluginId);
+		for (RemoteLocalOperationDataWrapper dataWrapper : possibleData) {
+			JSONObject single_data_object = new JSONObject();
+			single_data_object.put(C.SPEC, pluginId);
+			String serialized_data;
+			if (dataWrapper.isRemote()) {
+				// noinspection ConstantConditions
+				serialized_data = dataWrapper.remoteData.rawData;
+			} else {
+				// noinspection ConstantConditions
+				serialized_data =
+					dataWrapper.localData.serialize(PluginDataFormat.JSON);
+			}
+			single_data_object.put(C.DATA, serialized_data);
+			json_operations.put(single_data_object);
+		}
+	}
+	return json_operations;
+}
 }

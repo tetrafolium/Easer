@@ -47,154 +47,154 @@ import java.util.List;
 import ryey.easer.R;
 
 public abstract class AbstractDataListFragment
-    extends ListFragment implements DataListInterface {
+	extends ListFragment implements DataListInterface {
 
-  protected static String TAG = "[AbstractDataListFragment] ";
+protected static String TAG = "[AbstractDataListFragment] ";
 
-  protected WeakReference<DataListContainerInterface> refContainer;
+protected WeakReference<DataListContainerInterface> refContainer;
 
-  @NonNull public abstract String title();
+@NonNull public abstract String title();
 
-  @StringRes public abstract int helpTextRes();
+@StringRes public abstract int helpTextRes();
 
-  @Override
-  public void onAttach(final Context context) {
-    super.onAttach(context);
+@Override
+public void onAttach(final Context context) {
+	super.onAttach(context);
 
-    ListAdapter adapter =
-        new IListAdapter(getActivity(), new ArrayList<ListDataWrapper>());
-    setListAdapter(adapter);
-  }
+	ListAdapter adapter =
+		new IListAdapter(getActivity(), new ArrayList<ListDataWrapper>());
+	setListAdapter(adapter);
+}
 
-  @Override
-  public View onCreateView(final LayoutInflater inflater,
-                           final ViewGroup container,
-                           final Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_fab_list, container, false);
-    //        getActivity().setTitle(title());
-    //        setHasOptionsMenu(true);
-    return view;
-  }
+@Override
+public View onCreateView(final LayoutInflater inflater,
+                         final ViewGroup container,
+                         final Bundle savedInstanceState) {
+	View view = inflater.inflate(R.layout.fragment_fab_list, container, false);
+	//        getActivity().setTitle(title());
+	//        setHasOptionsMenu(true);
+	return view;
+}
 
-  @CallSuper
-  @Override
-  public void onResume() {
-    super.onResume();
-    reloadList();
-    registerForContextMenu(getListView()); // Don't know if ever works
-  }
+@CallSuper
+@Override
+public void onResume() {
+	super.onResume();
+	reloadList();
+	registerForContextMenu(getListView()); // Don't know if ever works
+}
 
-  @Override
-  public void onPause() {
-    super.onPause();
-    unregisterForContextMenu(getListView()); // Same as the paired method
-  }
+@Override
+public void onPause() {
+	super.onPause();
+	unregisterForContextMenu(getListView()); // Same as the paired method
+}
 
-  @Override
-  public void onListItemClick(final ListView l, final View v,
-                              final int position, final long id) {
-    super.onListItemClick(l, v, position, id);
-    ListDataWrapper wrapper = (ListDataWrapper)l.getItemAtPosition(position);
-    refContainer.get().editData(wrapper.name);
-  }
+@Override
+public void onListItemClick(final ListView l, final View v,
+                            final int position, final long id) {
+	super.onListItemClick(l, v, position, id);
+	ListDataWrapper wrapper = (ListDataWrapper)l.getItemAtPosition(position);
+	refContainer.get().editData(wrapper.name);
+}
 
-  @Override
-  public void onCreateContextMenu(final ContextMenu menu, final View v,
-                                  final ContextMenu.ContextMenuInfo menuInfo) {
-    super.onCreateContextMenu(menu, v, menuInfo);
-    MenuInflater inflater = getActivity().getMenuInflater();
-    inflater.inflate(R.menu.list_context, menu);
-  }
+@Override
+public void onCreateContextMenu(final ContextMenu menu, final View v,
+                                final ContextMenu.ContextMenuInfo menuInfo) {
+	super.onCreateContextMenu(menu, v, menuInfo);
+	MenuInflater inflater = getActivity().getMenuInflater();
+	inflater.inflate(R.menu.list_context, menu);
+}
 
-  @Override
-  public boolean onContextItemSelected(final MenuItem item) {
-    if (!refContainer.get().isVisibleToUser())
-      return false;
-    AdapterView.AdapterContextMenuInfo info =
-        (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-    ListDataWrapper wrapper =
-        (ListDataWrapper)getListView().getItemAtPosition(info.position);
-    String name = wrapper.name;
-    int id = item.getItemId();
-    switch (id) {
-    case R.id.action_edit:
-      refContainer.get().editData(name);
-      return true;
-    case R.id.action_delete:
-      refContainer.get().deleteData(name);
-      return true;
-    }
-    return super.onContextItemSelected(item);
-  }
+@Override
+public boolean onContextItemSelected(final MenuItem item) {
+	if (!refContainer.get().isVisibleToUser())
+		return false;
+	AdapterView.AdapterContextMenuInfo info =
+		(AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+	ListDataWrapper wrapper =
+		(ListDataWrapper)getListView().getItemAtPosition(info.position);
+	String name = wrapper.name;
+	int id = item.getItemId();
+	switch (id) {
+	case R.id.action_edit:
+		refContainer.get().editData(name);
+		return true;
+	case R.id.action_delete:
+		refContainer.get().deleteData(name);
+		return true;
+	}
+	return super.onContextItemSelected(item);
+}
 
-  protected abstract List<ListDataWrapper> queryDataList();
+protected abstract List<ListDataWrapper> queryDataList();
 
-  @Override
-  public void registerContainer(final
-                                @NonNull DataListContainerInterface container) {
-    this.refContainer = new WeakReference<>(container);
-  }
+@Override
+public void registerContainer(final
+                              @NonNull DataListContainerInterface container) {
+	this.refContainer = new WeakReference<>(container);
+}
 
-  protected void reloadList() {
-    Logger.d(TAG + "reloadList()");
-    List<ListDataWrapper> items = queryDataList();
-    Logger.v(TAG + "All item: %s", items);
-    IListAdapter adapter = (IListAdapter)getListAdapter();
-    adapter.clear();
-    adapter.addAll(items);
-    adapter.notifyDataSetChanged();
-    if (getListAdapter().getCount() == 0) {
-      Logger.d("%s: no item", TAG);
-      refContainer.get().setShowHelp(true);
-    } else {
-      Logger.d("%s: has item", TAG);
-      refContainer.get().setShowHelp(false);
-    }
-  }
+protected void reloadList() {
+	Logger.d(TAG + "reloadList()");
+	List<ListDataWrapper> items = queryDataList();
+	Logger.v(TAG + "All item: %s", items);
+	IListAdapter adapter = (IListAdapter)getListAdapter();
+	adapter.clear();
+	adapter.addAll(items);
+	adapter.notifyDataSetChanged();
+	if (getListAdapter().getCount() == 0) {
+		Logger.d("%s: no item", TAG);
+		refContainer.get().setShowHelp(true);
+	} else {
+		Logger.d("%s: has item", TAG);
+		refContainer.get().setShowHelp(false);
+	}
+}
 
-  public abstract Intent intentForEditDataActivity();
+public abstract Intent intentForEditDataActivity();
 
-  @Override
-  public void onEditDataResultCallback(final boolean success) {
-    if (success) {
-      onDataChangedFromEditDataActivity();
-    }
-  }
+@Override
+public void onEditDataResultCallback(final boolean success) {
+	if (success) {
+		onDataChangedFromEditDataActivity();
+	}
+}
 
-  @CallSuper
-  protected void onDataChangedFromEditDataActivity() {
-    reloadList();
-  }
+@CallSuper
+protected void onDataChangedFromEditDataActivity() {
+	reloadList();
+}
 
-  protected static class IListAdapter extends ArrayAdapter<ListDataWrapper> {
-    IListAdapter(final Context context, final List<ListDataWrapper> data) {
-      super(context, R.layout.item_data_list, R.id.textView_data_title, data);
-    }
+protected static class IListAdapter extends ArrayAdapter<ListDataWrapper> {
+IListAdapter(final Context context, final List<ListDataWrapper> data) {
+	super(context, R.layout.item_data_list, R.id.textView_data_title, data);
+}
 
-    @NonNull
-    @Override
-    public View getView(final int position, final @Nullable View convertView,
-                        final @NonNull ViewGroup parent) {
-      View view = super.getView(position, convertView, parent);
-      ListDataWrapper wrapper = getItem(position);
-      TextView tv_name = view.findViewById(R.id.textView_data_title);
-      tv_name.setTextColor(
-          ContextCompat.getColor(getContext(), wrapper.colorRes));
-      tv_name.setText(wrapper.name);
-      return view;
-    }
-  }
+@NonNull
+@Override
+public View getView(final int position, final @Nullable View convertView,
+                    final @NonNull ViewGroup parent) {
+	View view = super.getView(position, convertView, parent);
+	ListDataWrapper wrapper = getItem(position);
+	TextView tv_name = view.findViewById(R.id.textView_data_title);
+	tv_name.setTextColor(
+		ContextCompat.getColor(getContext(), wrapper.colorRes));
+	tv_name.setText(wrapper.name);
+	return view;
+}
+}
 
-  protected static class ListDataWrapper {
-    public final String name;
-    final @ColorRes int colorRes;
-    public ListDataWrapper(final String name) {
-      this.name = name;
-      colorRes = R.color.colorText;
-    }
-    public ListDataWrapper(final String name, final @ColorRes int colorRes) {
-      this.name = name;
-      this.colorRes = colorRes;
-    }
-  }
+protected static class ListDataWrapper {
+public final String name;
+final @ColorRes int colorRes;
+public ListDataWrapper(final String name) {
+	this.name = name;
+	colorRes = R.color.colorText;
+}
+public ListDataWrapper(final String name, final @ColorRes int colorRes) {
+	this.name = name;
+	this.colorRes = colorRes;
+}
+}
 }

@@ -26,27 +26,27 @@ import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class RingerModeOperationDataFactory
-    implements OperationDataFactory<RingerModeOperationData> {
-  @NonNull
-  @Override
-  public Class<RingerModeOperationData> dataClass() {
-    return RingerModeOperationData.class;
-  }
+	implements OperationDataFactory<RingerModeOperationData> {
+@NonNull
+@Override
+public Class<RingerModeOperationData> dataClass() {
+	return RingerModeOperationData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public RingerModeOperationData dummyData() {
-    return new RingerModeOperationData(RingerMode.vibrate);
-  }
+@ValidData
+@NonNull
+@Override
+public RingerModeOperationData dummyData() {
+	return new RingerModeOperationData(RingerMode.vibrate);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public RingerModeOperationData parse(final @NonNull String data,
-                                       final @NonNull PluginDataFormat format,
-                                       final int version)
-      throws IllegalStorageDataException {
-    return new RingerModeOperationData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public RingerModeOperationData parse(final @NonNull String data,
+                                     final @NonNull PluginDataFormat format,
+                                     final int version)
+throws IllegalStorageDataException {
+	return new RingerModeOperationData(data, format, version);
+}
 }

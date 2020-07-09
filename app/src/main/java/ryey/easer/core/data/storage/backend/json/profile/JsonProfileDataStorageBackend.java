@@ -34,80 +34,80 @@ import ryey.easer.core.data.storage.backend.ProfileDataStorageBackendInterface;
 import ryey.easer.core.data.storage.backend.json.NC;
 
 public class JsonProfileDataStorageBackend
-    implements ProfileDataStorageBackendInterface {
+	implements ProfileDataStorageBackendInterface {
 
-  private final Context context;
-  private static File dir;
+private final Context context;
+private static File dir;
 
-  public JsonProfileDataStorageBackend(final Context context) {
-    this.context = context;
-    dir = IOUtils.mustGetSubDir(context.getFilesDir(), "profile");
-  }
+public JsonProfileDataStorageBackend(final Context context) {
+	this.context = context;
+	dir = IOUtils.mustGetSubDir(context.getFilesDir(), "profile");
+}
 
-  @Override
-  public boolean has(final String name) {
-    return IOUtils.fileExists(dir, name + NC.SUFFIX);
-  }
+@Override
+public boolean has(final String name) {
+	return IOUtils.fileExists(dir, name + NC.SUFFIX);
+}
 
-  @Override
-  public List<String> list() {
-    ArrayList<String> list = new ArrayList<>();
-    for (ProfileStructure profile : all()) {
-      list.add(profile.getName());
-    }
-    return list;
-  }
+@Override
+public List<String> list() {
+	ArrayList<String> list = new ArrayList<>();
+	for (ProfileStructure profile : all()) {
+		list.add(profile.getName());
+	}
+	return list;
+}
 
-  @Override
-  public ProfileStructure get(final String name)
-      throws FileNotFoundException, IllegalStorageDataException {
-    File file = new File(dir, name + NC.SUFFIX);
-    return get(file);
-  }
+@Override
+public ProfileStructure get(final String name)
+throws FileNotFoundException, IllegalStorageDataException {
+	File file = new File(dir, name + NC.SUFFIX);
+	return get(file);
+}
 
-  private ProfileStructure get(final File file)
-      throws FileNotFoundException, IllegalStorageDataException {
-    ProfileParser parser = new ProfileParser();
-    ProfileStructure profileStructure =
-        FileDataStorageBackendHelper.get(parser, file);
-    return profileStructure;
-  }
+private ProfileStructure get(final File file)
+throws FileNotFoundException, IllegalStorageDataException {
+	ProfileParser parser = new ProfileParser();
+	ProfileStructure profileStructure =
+		FileDataStorageBackendHelper.get(parser, file);
+	return profileStructure;
+}
 
-  @Override
-  public void write(final ProfileStructure profile) throws IOException {
-    File file = new File(dir, profile.getName() + NC.SUFFIX);
-    ProfileSerializer serializer = new ProfileSerializer();
-    FileDataStorageBackendHelper.write(serializer, file, profile);
-  }
+@Override
+public void write(final ProfileStructure profile) throws IOException {
+	File file = new File(dir, profile.getName() + NC.SUFFIX);
+	ProfileSerializer serializer = new ProfileSerializer();
+	FileDataStorageBackendHelper.write(serializer, file, profile);
+}
 
-  @Override
-  public void delete(final String name) {
-    File file = new File(dir, name + NC.SUFFIX);
-    if (!file.delete())
-      throw new IllegalStateException("Unable to delete " + file);
-  }
+@Override
+public void delete(final String name) {
+	File file = new File(dir, name + NC.SUFFIX);
+	if (!file.delete())
+		throw new IllegalStateException("Unable to delete " + file);
+}
 
-  @Override
-  public List<ProfileStructure> all() {
-    List<ProfileStructure> list = new ArrayList<>();
-    File[] files = dir.listFiles(new FileFilter() {
-      @Override
-      public boolean accept(final File pathname) {
-        if ((pathname.isFile()) && (pathname.getName().endsWith(NC.SUFFIX))) {
-          return true;
-        }
-        return false;
-      }
-    });
-    for (File file : files) {
-      try {
-        list.add(get(file));
-      } catch (IllegalStorageDataException e) {
-        e.printStackTrace();
-      } catch (FileNotFoundException e) {
-        throw new IllegalStateException(e.getCause());
-      }
-    }
-    return list;
-  }
+@Override
+public List<ProfileStructure> all() {
+	List<ProfileStructure> list = new ArrayList<>();
+	File[] files = dir.listFiles(new FileFilter() {
+			@Override
+			public boolean accept(final File pathname) {
+			        if ((pathname.isFile()) && (pathname.getName().endsWith(NC.SUFFIX))) {
+			                return true;
+				}
+			        return false;
+			}
+		});
+	for (File file : files) {
+		try {
+			list.add(get(file));
+		} catch (IllegalStorageDataException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			throw new IllegalStateException(e.getCause());
+		}
+	}
+	return list;
+}
 }

@@ -31,59 +31,59 @@ import ryey.easer.skills.condition.SkeletonTracker;
 
 public class PowerTracker extends SkeletonTracker<PowerUSourceData> {
 
-  private final BroadcastReceiver receiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      switch (intent.getAction()) {
-      case Intent.ACTION_POWER_CONNECTED:
-        determineAndNotify(true);
-        break;
-      case Intent.ACTION_POWER_DISCONNECTED:
-        determineAndNotify(false);
-        break;
-      }
-    }
-  };
-  private IntentFilter filter;
+private final BroadcastReceiver receiver = new BroadcastReceiver() {
+	@Override
+	public void onReceive(final Context context, final Intent intent) {
+		switch (intent.getAction()) {
+		case Intent.ACTION_POWER_CONNECTED:
+			determineAndNotify(true);
+			break;
+		case Intent.ACTION_POWER_DISCONNECTED:
+			determineAndNotify(false);
+			break;
+		}
+	}
+};
+private IntentFilter filter;
 
-  {
-    filter = new IntentFilter();
-    //        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
-    //        filter.addAction(Intent.ACTION_BATTERY_LOW);
-    //        filter.addAction(Intent.ACTION_BATTERY_OKAY);
-    filter.addAction(Intent.ACTION_POWER_CONNECTED);
-    filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
-  }
+{
+	filter = new IntentFilter();
+	//        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
+	//        filter.addAction(Intent.ACTION_BATTERY_LOW);
+	//        filter.addAction(Intent.ACTION_BATTERY_OKAY);
+	filter.addAction(Intent.ACTION_POWER_CONNECTED);
+	filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+}
 
-  PowerTracker(final Context context, final PowerUSourceData data,
-               final @NonNull PendingIntent event_positive,
-               final @NonNull PendingIntent event_negative) {
-    super(context, data, event_positive, event_negative);
-    Logger.d("PowerTracker constructed");
-  }
+PowerTracker(final Context context, final PowerUSourceData data,
+             final @NonNull PendingIntent event_positive,
+             final @NonNull PendingIntent event_negative) {
+	super(context, data, event_positive, event_negative);
+	Logger.d("PowerTracker constructed");
+}
 
-  @Override
-  public void start() {
-    context.registerReceiver(receiver, filter);
-  }
+@Override
+public void start() {
+	context.registerReceiver(receiver, filter);
+}
 
-  @Override
-  public void stop() {
-    context.unregisterReceiver(receiver);
-  }
+@Override
+public void stop() {
+	context.unregisterReceiver(receiver);
+}
 
-  @Override
-  public Boolean state() {
-    Logger.d("PowerTracker.state()");
-    Intent batteryStickyIntent = Utils.getBatteryStickyIntent(context);
-    int status =
-        batteryStickyIntent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-    boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
-                         status == BatteryManager.BATTERY_STATUS_FULL;
-    return Utils.determine(isCharging, data, batteryStickyIntent);
-  }
+@Override
+public Boolean state() {
+	Logger.d("PowerTracker.state()");
+	Intent batteryStickyIntent = Utils.getBatteryStickyIntent(context);
+	int status =
+		batteryStickyIntent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+	boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
+	                     status == BatteryManager.BATTERY_STATUS_FULL;
+	return Utils.determine(isCharging, data, batteryStickyIntent);
+}
 
-  private void determineAndNotify(final boolean isCharging) {
-    newSatisfiedState(Utils.determine(isCharging, data, context));
-  }
+private void determineAndNotify(final boolean isCharging) {
+	newSatisfiedState(Utils.determine(isCharging, data, context));
+}
 }

@@ -35,68 +35,68 @@ import ryey.easer.skills.operation.OperationLoader;
 
 public class AlarmOperationSkill implements OperationSkill<AlarmOperationData> {
 
-  @NonNull
-  @Override
-  public String id() {
-    return "alarm";
-  }
+@NonNull
+@Override
+public String id() {
+	return "alarm";
+}
 
-  @Override
-  public int name() {
-    return R.string.operation_alarm;
-  }
+@Override
+public int name() {
+	return R.string.operation_alarm;
+}
 
-  @Override
-  public boolean isCompatible(@NonNull final Context context) {
-    return true;
-  }
+@Override
+public boolean isCompatible(@NonNull final Context context) {
+	return true;
+}
 
-  @NonNull
-  @Override
-  public PrivilegeUsage privilege() {
-    return PrivilegeUsage.no_root;
-  }
+@NonNull
+@Override
+public PrivilegeUsage privilege() {
+	return PrivilegeUsage.no_root;
+}
 
-  @Override
-  public int maxExistence() {
-    return 0;
-  }
+@Override
+public int maxExistence() {
+	return 0;
+}
 
-  @NonNull
-  @Override
-  public Category category() {
-    return Category.android;
-  }
+@NonNull
+@Override
+public Category category() {
+	return Category.android;
+}
 
-  @Nullable
-  @Override
-  public Boolean checkPermissions(final @NonNull Context context) {
-    return SkillUtils.checkPermission(context, Manifest.permission.SET_ALARM);
-  }
+@Nullable
+@Override
+public Boolean checkPermissions(final @NonNull Context context) {
+	return SkillUtils.checkPermission(context, Manifest.permission.SET_ALARM);
+}
 
-  @Override
-  public void requestPermissions(final @NonNull Activity activity,
-                                 final int requestCode) {
-    SkillUtils.requestPermission(activity, requestCode,
-                                 Manifest.permission.SET_ALARM);
-  }
+@Override
+public void requestPermissions(final @NonNull Activity activity,
+                               final int requestCode) {
+	SkillUtils.requestPermission(activity, requestCode,
+	                             Manifest.permission.SET_ALARM);
+}
 
-  @NonNull
-  @Override
-  public OperationDataFactory<AlarmOperationData> dataFactory() {
-    return new AlarmOperationDataFactory();
-  }
+@NonNull
+@Override
+public OperationDataFactory<AlarmOperationData> dataFactory() {
+	return new AlarmOperationDataFactory();
+}
 
-  @NonNull
-  @Override
-  public SkillView<AlarmOperationData> view() {
-    return new AlarmSkillViewFragment();
-  }
+@NonNull
+@Override
+public SkillView<AlarmOperationData> view() {
+	return new AlarmSkillViewFragment();
+}
 
-  @NonNull
-  @Override
-  public OperationLoader<AlarmOperationData> loader(final
-                                                    @NonNull Context context) {
-    return new AlarmLoader(context);
-  }
+@NonNull
+@Override
+public OperationLoader<AlarmOperationData> loader(final
+                                                  @NonNull Context context) {
+	return new AlarmLoader(context);
+}
 }

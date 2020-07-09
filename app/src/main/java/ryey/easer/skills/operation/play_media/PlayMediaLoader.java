@@ -27,19 +27,21 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class PlayMediaLoader extends OperationLoader<PlayMediaOperationData> {
-  PlayMediaLoader(final Context context) { super(context); }
+PlayMediaLoader(final Context context) {
+	super(context);
+}
 
-  @Override
-  public boolean load(final @ValidData @NonNull PlayMediaOperationData data) {
-    MediaPlayer mp = new MediaPlayer();
-    try {
-      mp.setDataSource(data.filePath);
-      mp.prepare();
-      mp.start();
-      return true;
-    } catch (IOException e) {
-      e.printStackTrace();
-      return false;
-    }
-  }
+@Override
+public boolean load(final @ValidData @NonNull PlayMediaOperationData data) {
+	MediaPlayer mp = new MediaPlayer();
+	try {
+		mp.setDataSource(data.filePath);
+		mp.prepare();
+		mp.start();
+		return true;
+	} catch (IOException e) {
+		e.printStackTrace();
+		return false;
+	}
+}
 }

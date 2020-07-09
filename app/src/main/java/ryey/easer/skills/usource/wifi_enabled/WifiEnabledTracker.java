@@ -29,56 +29,56 @@ import androidx.annotation.NonNull;
 import ryey.easer.skills.condition.SkeletonTracker;
 
 public class WifiEnabledTracker
-    extends SkeletonTracker<WifiEnabledUSourceData> {
+	extends SkeletonTracker<WifiEnabledUSourceData> {
 
-  private WifiManager wifiManager;
+private WifiManager wifiManager;
 
-  private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(intent.getAction())) {
-        int extraWifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,
-                                                WifiManager.WIFI_STATE_UNKNOWN);
+private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+	@Override
+	public void onReceive(final Context context, final Intent intent) {
+		if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(intent.getAction())) {
+			int extraWifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,
+			                                        WifiManager.WIFI_STATE_UNKNOWN);
 
-        switch (extraWifiState) {
-        case WifiManager.WIFI_STATE_DISABLED:
-          newSatisfiedState(!data.enabled);
-          break;
-        case WifiManager.WIFI_STATE_ENABLED:
-          newSatisfiedState(data.enabled);
-          break;
-        default:
-          newSatisfiedState(null);
-        }
-      }
-    }
-  };
-  private final IntentFilter intentFilter =
-      new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION);
+			switch (extraWifiState) {
+			case WifiManager.WIFI_STATE_DISABLED:
+				newSatisfiedState(!data.enabled);
+				break;
+			case WifiManager.WIFI_STATE_ENABLED:
+				newSatisfiedState(data.enabled);
+				break;
+			default:
+				newSatisfiedState(null);
+			}
+		}
+	}
+};
+private final IntentFilter intentFilter =
+	new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION);
 
-  WifiEnabledTracker(final Context context, final WifiEnabledUSourceData data,
-                     final @NonNull PendingIntent event_positive,
-                     final @NonNull PendingIntent event_negative) {
-    super(context, data, event_positive, event_negative);
+WifiEnabledTracker(final Context context, final WifiEnabledUSourceData data,
+                   final @NonNull PendingIntent event_positive,
+                   final @NonNull PendingIntent event_negative) {
+	super(context, data, event_positive, event_negative);
 
-    wifiManager = (WifiManager)context.getApplicationContext().getSystemService(
-        Context.WIFI_SERVICE);
-  }
+	wifiManager = (WifiManager)context.getApplicationContext().getSystemService(
+		Context.WIFI_SERVICE);
+}
 
-  @Override
-  public void start() {
-    context.registerReceiver(broadcastReceiver, intentFilter);
-  }
+@Override
+public void start() {
+	context.registerReceiver(broadcastReceiver, intentFilter);
+}
 
-  @Override
-  public void stop() {
-    context.unregisterReceiver(broadcastReceiver);
-  }
+@Override
+public void stop() {
+	context.unregisterReceiver(broadcastReceiver);
+}
 
-  @Override
-  public Boolean state() {
-    if (wifiManager == null)
-      return null;
-    return wifiManager.isWifiEnabled();
-  }
+@Override
+public Boolean state() {
+	if (wifiManager == null)
+		return null;
+	return wifiManager.isWifiEnabled();
+}
 }

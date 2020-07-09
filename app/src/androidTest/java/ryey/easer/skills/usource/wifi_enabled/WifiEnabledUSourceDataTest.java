@@ -27,13 +27,13 @@ import ryey.easer.skills.TestHelper;
 
 public class WifiEnabledUSourceDataTest {
 
-  @Test
-  public void testParcel() {
-    WifiEnabledUSourceData dummyData =
-        new WifiEnabledUSourceDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    WifiEnabledUSourceData parceledData =
-        WifiEnabledUSourceData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	WifiEnabledUSourceData dummyData =
+		new WifiEnabledUSourceDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	WifiEnabledUSourceData parceledData =
+		WifiEnabledUSourceData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

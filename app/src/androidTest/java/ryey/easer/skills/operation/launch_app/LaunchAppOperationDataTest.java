@@ -27,13 +27,13 @@ import ryey.easer.skills.TestHelper;
 
 public class LaunchAppOperationDataTest {
 
-  @Test
-  public void testParcel() {
-    LaunchAppOperationData dummyData =
-        new LaunchAppOperationDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    LaunchAppOperationData parceledData =
-        LaunchAppOperationData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	LaunchAppOperationData dummyData =
+		new LaunchAppOperationDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	LaunchAppOperationData parceledData =
+		LaunchAppOperationData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

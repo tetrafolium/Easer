@@ -34,40 +34,42 @@ import android.view.WindowManager;
  */
 public class DumbSettingBrightnessActivity extends Activity {
 
-  private static final String EXTRA_BRIGHTNESS = "brightness";
+private static final String EXTRA_BRIGHTNESS = "brightness";
 
-  static void applyBrightness(final Context context, final float brightness) {
-    Intent intent = new Intent(context, DumbSettingBrightnessActivity.class);
-    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    intent.putExtra(EXTRA_BRIGHTNESS, brightness);
-    context.startActivity(intent);
-  }
+static void applyBrightness(final Context context, final float brightness) {
+	Intent intent = new Intent(context, DumbSettingBrightnessActivity.class);
+	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	intent.putExtra(EXTRA_BRIGHTNESS, brightness);
+	context.startActivity(intent);
+}
 
-  @Override
-  protected void onCreate(final Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    Handler handler = new StopHandler(this);
-    Intent intent = this.getIntent();
-    float brightness = intent.getFloatExtra(EXTRA_BRIGHTNESS, 0);
-    WindowManager.LayoutParams params = getWindow().getAttributes();
-    params.screenBrightness = brightness;
-    getWindow().setAttributes(params);
+@Override
+protected void onCreate(final Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	Handler handler = new StopHandler(this);
+	Intent intent = this.getIntent();
+	float brightness = intent.getFloatExtra(EXTRA_BRIGHTNESS, 0);
+	WindowManager.LayoutParams params = getWindow().getAttributes();
+	params.screenBrightness = brightness;
+	getWindow().setAttributes(params);
 
-    Message message = handler.obtainMessage(StopHandler.DELAYED_MESSAGE);
-    handler.sendMessageDelayed(message, 1000);
-  }
+	Message message = handler.obtainMessage(StopHandler.DELAYED_MESSAGE);
+	handler.sendMessageDelayed(message, 1000);
+}
 
-  private static class StopHandler extends Handler {
-    static final int DELAYED_MESSAGE = 1;
+private static class StopHandler extends Handler {
+static final int DELAYED_MESSAGE = 1;
 
-    Activity activity;
-    StopHandler(final Activity activity) { this.activity = activity; }
-    @Override
-    public void handleMessage(final Message msg) {
-      if (msg.what == DELAYED_MESSAGE) {
-        activity.finish();
-      }
-      super.handleMessage(msg);
-    }
-  }
+Activity activity;
+StopHandler(final Activity activity) {
+	this.activity = activity;
+}
+@Override
+public void handleMessage(final Message msg) {
+	if (msg.what == DELAYED_MESSAGE) {
+		activity.finish();
+	}
+	super.handleMessage(msg);
+}
+}
 }

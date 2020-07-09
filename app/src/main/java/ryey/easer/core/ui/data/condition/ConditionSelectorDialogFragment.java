@@ -26,15 +26,15 @@ import ryey.easer.core.ui.data.SourceSelectorDialogFragment;
 import ryey.easer.skills.LocalSkillRegistry;
 
 public class ConditionSelectorDialogFragment
-    extends SourceSelectorDialogFragment<ConditionSkill> {
-  @Override
-  protected int titleRes() {
-    return R.string.title_select_condition;
-  }
+	extends SourceSelectorDialogFragment<ConditionSkill> {
+@Override
+protected int titleRes() {
+	return R.string.title_select_condition;
+}
 
-  @Override
-  protected List<ConditionSkill> skillList() {
-    return LocalSkillRegistry.getInstance().condition().getEnabledSkills(
-        getContext());
-  }
+@Override
+protected List<ConditionSkill> skillList() {
+	return LocalSkillRegistry.getInstance().condition().getEnabledSkills(
+		getContext());
+}
 }

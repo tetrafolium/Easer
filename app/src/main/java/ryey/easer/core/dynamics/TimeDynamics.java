@@ -30,23 +30,23 @@ import ryey.easer.R;
 
 class TimeDynamics implements CoreDynamicsInterface {
 
-  private static final SimpleDateFormat sdf_time =
-      new SimpleDateFormat("HH-mm-ss", Locale.US);
+private static final SimpleDateFormat sdf_time =
+	new SimpleDateFormat("HH-mm-ss", Locale.US);
 
-  @Override
-  public String id() {
-    return "ryey.easer.core.dynamics.time";
-  }
+@Override
+public String id() {
+	return "ryey.easer.core.dynamics.time";
+}
 
-  @Override
-  public int nameRes() {
-    return R.string.dynamics_time;
-  }
+@Override
+public int nameRes() {
+	return R.string.dynamics_time;
+}
 
-  @Override
-  public String invoke(final @NonNull Context context,
-                       final @NonNull Bundle extras) {
-    Date now = Calendar.getInstance().getTime();
-    return sdf_time.format(now);
-  }
+@Override
+public String invoke(final @NonNull Context context,
+                     final @NonNull Bundle extras) {
+	Date now = Calendar.getInstance().getTime();
+	return sdf_time.format(now);
+}
 }

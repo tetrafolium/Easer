@@ -39,148 +39,152 @@ import ryey.easer.commons.local_skill.ValidData;
  * Base Fragment class for plugin's UI.
  */
 public abstract class SkillViewFragment<T extends StorageData>
-    extends SkillView<T> {
+	extends SkillView<T> {
 
-  /**
-   * Used in case {@link #onCreateView} is called after {@link #fill}`.
-   */
-  private FillDataJob jobFillData = new FillDataJob("FillDataJob");
+/**
+ * Used in case {@link #onCreateView} is called after {@link #fill}`.
+ */
+private FillDataJob jobFillData = new FillDataJob("FillDataJob");
 
-  /**
-   * Controls whether the content (view) is enabled/interactive or not in the
-   * beginning. Works similar to {@link #jobFillData}.
-   */
-  private SetEnabledJob jobSetEnabled = new SetEnabledJob("FillDataJob");
+/**
+ * Controls whether the content (view) is enabled/interactive or not in the
+ * beginning. Works similar to {@link #jobFillData}.
+ */
+private SetEnabledJob jobSetEnabled = new SetEnabledJob("FillDataJob");
 
-  /**
-   * Normal {@link Fragment} method. Subclasses must override this method to
-   * provide the UI. The only difference is the return value is now {@link
-   * NonNull}.
-   */
-  @NonNull
-  @Override
-  public abstract View onCreateView(@NonNull LayoutInflater inflater,
-                                    @Nullable ViewGroup container,
-                                    @Nullable Bundle savedInstanceState);
+/**
+ * Normal {@link Fragment} method. Subclasses must override this method to
+ * provide the UI. The only difference is the return value is now {@link
+ * NonNull}.
+ */
+@NonNull
+@Override
+public abstract View onCreateView(@NonNull LayoutInflater inflater,
+                                  @Nullable ViewGroup container,
+                                  @Nullable Bundle savedInstanceState);
 
-  /**
-   * @see #jobFillData
-   * @see #jobSetEnabled
-   * If overridden, call back-through is needed.
-   */
-  @CallSuper
-  @Override
-  public void onViewCreated(final @NonNull View view,
-                            final @Nullable Bundle savedInstanceState) {
-    jobFillData.tick(0);
-    jobSetEnabled.tick(0);
-  }
+/**
+ * @see #jobFillData
+ * @see #jobSetEnabled
+ * If overridden, call back-through is needed.
+ */
+@CallSuper
+@Override
+public void onViewCreated(final @NonNull View view,
+                          final @Nullable Bundle savedInstanceState) {
+	jobFillData.tick(0);
+	jobSetEnabled.tick(0);
+}
 
-  /**
-   * Get the description text from resources.
-   * Could be overridden in subclasses if needed for customized text.
-   */
-  @NonNull
-  public String desc(final @NonNull Resources res) {
-    return res.getString(
-        LocalSkillRegistry.getInstance().all().findSkill(this).name());
-  }
+/**
+ * Get the description text from resources.
+ * Could be overridden in subclasses if needed for customized text.
+ */
+@NonNull
+public String desc(final @NonNull Resources res) {
+	return res.getString(
+		LocalSkillRegistry.getInstance().all().findSkill(this).name());
+}
 
-  /**
-   * Check whether the to-be-filled data is of the correct type.
-   */
-  private void checkDataType(final @ValidData @NonNull T data)
-      throws IllegalArgumentTypeException {
-    Class expectedDataClass = LocalSkillRegistry.getInstance()
-                                  .all()
-                                  .findSkill(this)
-                                  .dataFactory()
-                                  .dataClass();
-    if (data.getClass().equals(expectedDataClass))
-      return;
-    throw new IllegalArgumentTypeException(data.getClass(), expectedDataClass);
-  }
+/**
+ * Check whether the to-be-filled data is of the correct type.
+ */
+private void checkDataType(final @ValidData @NonNull T data)
+throws IllegalArgumentTypeException {
+	Class expectedDataClass = LocalSkillRegistry.getInstance()
+	                          .all()
+	                          .findSkill(this)
+	                          .dataFactory()
+	                          .dataClass();
+	if (data.getClass().equals(expectedDataClass))
+		return;
+	throw new IllegalArgumentTypeException(data.getClass(), expectedDataClass);
+}
 
-  /**
-   * The actual method to set the UI according to the data.
-   * Skill developers is expected to override this method rather than {@link
-   * #fill}. This methods does NOT care about synchronization or other stuffs.
-   */
-  protected abstract void _fill(@ValidData @NonNull T data);
+/**
+ * The actual method to set the UI according to the data.
+ * Skill developers is expected to override this method rather than {@link
+ * #fill}. This methods does NOT care about synchronization or other stuffs.
+ */
+protected abstract void _fill(@ValidData @NonNull T data);
 
-  /**
-   * Set the UI according to the data.
-   * This methods takes care of synchronization (see {@link #jobFillData}).
-   * Skill implementors normally only need to implement {@link #_fill} method.
-   */
-  public void fill(final @ValidData @NonNull T data) {
-    try {
-      checkDataType(data);
-      jobFillData.passed_data = data;
-      jobFillData.tick(1);
-    } catch (IllegalArgumentTypeException e) {
-      Logger.e(e, "filling with illegal data type");
-      throw e;
-    }
-  }
+/**
+ * Set the UI according to the data.
+ * This methods takes care of synchronization (see {@link #jobFillData}).
+ * Skill implementors normally only need to implement {@link #_fill} method.
+ */
+public void fill(final @ValidData @NonNull T data) {
+	try {
+		checkDataType(data);
+		jobFillData.passed_data = data;
+		jobFillData.tick(1);
+	} catch (IllegalArgumentTypeException e) {
+		Logger.e(e, "filling with illegal data type");
+		throw e;
+	}
+}
 
-  /**
-   * Construct the correct {@link StorageData} (subclass) containing the data in
-   * the UI.
-   * @throws InvalidDataInputException If the data inputted by the user is
-   *     invalid
-   */
-  @ValidData
-  @NonNull
-  public abstract T getData() throws InvalidDataInputException;
+/**
+ * Construct the correct {@link StorageData} (subclass) containing the data in
+ * the UI.
+ * @throws InvalidDataInputException If the data inputted by the user is
+ *     invalid
+ */
+@ValidData
+@NonNull
+public abstract T getData() throws InvalidDataInputException;
 
-  /**
-   * Change the interactive state of the UI components.
-   * Override this method only if the UI has other controls of the enabled
-   * state.
-   */
-  public void setEnabled(final boolean enabled) {
-    jobSetEnabled.enabled = enabled;
-    jobSetEnabled.tick(1);
-  }
+/**
+ * Change the interactive state of the UI components.
+ * Override this method only if the UI has other controls of the enabled
+ * state.
+ */
+public void setEnabled(final boolean enabled) {
+	jobSetEnabled.enabled = enabled;
+	jobSetEnabled.tick(1);
+}
 
-  /**
-   * Recursively change the interactive state of the UI components.
-   */
-  protected static void setEnabled(final @NonNull View v,
-                                   final boolean enabled) {
-    v.setEnabled(enabled);
-    if (v instanceof ViewGroup) {
-      View child;
-      for (int i = 0; i < ((ViewGroup)v).getChildCount(); i++) {
-        child = ((ViewGroup)v).getChildAt(i);
-        setEnabled(child, enabled);
-      }
-    }
-  }
+/**
+ * Recursively change the interactive state of the UI components.
+ */
+protected static void setEnabled(final @NonNull View v,
+                                 final boolean enabled) {
+	v.setEnabled(enabled);
+	if (v instanceof ViewGroup) {
+		View child;
+		for (int i = 0; i < ((ViewGroup)v).getChildCount(); i++) {
+			child = ((ViewGroup)v).getChildAt(i);
+			setEnabled(child, enabled);
+		}
+	}
+}
 
-  private class FillDataJob extends DelayedJob {
-    private T passed_data = null;
+private class FillDataJob extends DelayedJob {
+private T passed_data = null;
 
-    FillDataJob(final String tag) { super(2, tag); }
+FillDataJob(final String tag) {
+	super(2, tag);
+}
 
-    @Override
-    public void exec() {
-      if (passed_data != null) {
-        _fill(passed_data);
-      }
-    }
-  }
+@Override
+public void exec() {
+	if (passed_data != null) {
+		_fill(passed_data);
+	}
+}
+}
 
-  private class SetEnabledJob extends DelayedJob {
-    private boolean enabled = true;
+private class SetEnabledJob extends DelayedJob {
+private boolean enabled = true;
 
-    SetEnabledJob(final String tag) { super(2, tag); }
+SetEnabledJob(final String tag) {
+	super(2, tag);
+}
 
-    @Override
-    public void exec() {
-      // noinspection ConstantConditions
-      setEnabled(getView(), enabled);
-    }
-  }
+@Override
+public void exec() {
+	// noinspection ConstantConditions
+	setEnabled(getView(), enabled);
+}
+}
 }

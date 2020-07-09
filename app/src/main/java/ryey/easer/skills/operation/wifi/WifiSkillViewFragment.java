@@ -25,12 +25,12 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.SwitchSkillViewFragment;
 
 public class WifiSkillViewFragment
-    extends SwitchSkillViewFragment<WifiOperationData> {
+	extends SwitchSkillViewFragment<WifiOperationData> {
 
-  @ValidData
-  @NonNull
-  @Override
-  public WifiOperationData getData() throws InvalidDataInputException {
-    return new WifiOperationData(state());
-  }
+@ValidData
+@NonNull
+@Override
+public WifiOperationData getData() throws InvalidDataInputException {
+	return new WifiOperationData(state());
+}
 }

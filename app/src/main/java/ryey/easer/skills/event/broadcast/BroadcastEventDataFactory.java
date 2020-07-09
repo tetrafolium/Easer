@@ -26,33 +26,33 @@ import ryey.easer.commons.local_skill.eventskill.EventDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class BroadcastEventDataFactory
-    implements EventDataFactory<BroadcastEventData> {
-  @NonNull
-  @Override
-  public Class<BroadcastEventData> dataClass() {
-    return BroadcastEventData.class;
-  }
+	implements EventDataFactory<BroadcastEventData> {
+@NonNull
+@Override
+public Class<BroadcastEventData> dataClass() {
+	return BroadcastEventData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public BroadcastEventData dummyData() {
-    ReceiverSideIntentData intentData = new ReceiverSideIntentData();
-    intentData.action.add("action1");
-    intentData.action.add("action2");
-    intentData.category.add("category1");
-    intentData.category.add("category2");
-    BroadcastEventData dummyData = new BroadcastEventData(intentData);
-    return dummyData;
-  }
+@ValidData
+@NonNull
+@Override
+public BroadcastEventData dummyData() {
+	ReceiverSideIntentData intentData = new ReceiverSideIntentData();
+	intentData.action.add("action1");
+	intentData.action.add("action2");
+	intentData.category.add("category1");
+	intentData.category.add("category2");
+	BroadcastEventData dummyData = new BroadcastEventData(intentData);
+	return dummyData;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public BroadcastEventData parse(final @NonNull String data,
-                                  final @NonNull PluginDataFormat format,
-                                  final int version)
-      throws IllegalStorageDataException {
-    return new BroadcastEventData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public BroadcastEventData parse(final @NonNull String data,
+                                final @NonNull PluginDataFormat format,
+                                final int version)
+throws IllegalStorageDataException {
+	return new BroadcastEventData(data, format, version);
+}
 }

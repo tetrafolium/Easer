@@ -34,78 +34,80 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class NetworkTransmissionLoader
-    extends OperationLoader<NetworkTransmissionOperationData> {
-  public NetworkTransmissionLoader(final Context context) { super(context); }
+	extends OperationLoader<NetworkTransmissionOperationData> {
+public NetworkTransmissionLoader(final Context context) {
+	super(context);
+}
 
-  @Override
-  public boolean
-  load(final @ValidData @NonNull NetworkTransmissionOperationData data) {
-    // TODO: Async and correctly report
-    NetworkTask task = new NetworkTask();
-    task.execute(data);
-    return true;
-  }
+@Override
+public boolean
+load(final @ValidData @NonNull NetworkTransmissionOperationData data) {
+	// TODO: Async and correctly report
+	NetworkTask task = new NetworkTask();
+	task.execute(data);
+	return true;
+}
 
-  private static class NetworkTask
-      extends AsyncTask<NetworkTransmissionOperationData, Void, Boolean> {
+private static class NetworkTask
+	extends AsyncTask<NetworkTransmissionOperationData, Void, Boolean> {
 
-    @Override
-    protected Boolean doInBackground(
-        final
-            NetworkTransmissionOperationData... networkTransmissionOperationData) {
-      NetworkTransmissionOperationData data =
-          networkTransmissionOperationData[0];
-      try {
-        InetAddress remote_address = InetAddress.getByName(data.remote_address);
-        switch (data.protocol) {
-        case tcp:
-          try {
-            Socket socket = new Socket(remote_address, data.remote_port);
-            try {
-              OutputStream outputStream = socket.getOutputStream();
-              try {
-                DataOutputStream dataOutputStream =
-                    new DataOutputStream(outputStream);
-                try {
-                  dataOutputStream.writeBytes(data.data);
-                } finally {
-                  dataOutputStream.flush();
-                  dataOutputStream.close();
-                }
-              } finally {
-                outputStream.flush();
-                outputStream.close();
-              }
-            } finally {
-              socket.close();
-            }
-          } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-          }
-          break;
-        case udp:
-          DatagramPacket datagramPacket =
-              new DatagramPacket(data.data.getBytes(), data.data.length(),
-                                 remote_address, data.remote_port);
-          try {
-            DatagramSocket socket = new DatagramSocket();
-            socket.send(datagramPacket);
-            socket.close();
-          } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-          }
-          break;
-        default:
-          throw new IllegalAccessError(
-              "data should be valid when calling this method");
-        }
-      } catch (UnknownHostException e) {
-        e.printStackTrace();
-        return false;
-      }
-      return true;
-    }
-  }
+@Override
+protected Boolean doInBackground(
+	final
+	NetworkTransmissionOperationData... networkTransmissionOperationData) {
+	NetworkTransmissionOperationData data =
+		networkTransmissionOperationData[0];
+	try {
+		InetAddress remote_address = InetAddress.getByName(data.remote_address);
+		switch (data.protocol) {
+		case tcp:
+			try {
+				Socket socket = new Socket(remote_address, data.remote_port);
+				try {
+					OutputStream outputStream = socket.getOutputStream();
+					try {
+						DataOutputStream dataOutputStream =
+							new DataOutputStream(outputStream);
+						try {
+							dataOutputStream.writeBytes(data.data);
+						} finally {
+							dataOutputStream.flush();
+							dataOutputStream.close();
+						}
+					} finally {
+						outputStream.flush();
+						outputStream.close();
+					}
+				} finally {
+					socket.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+			break;
+		case udp:
+			DatagramPacket datagramPacket =
+				new DatagramPacket(data.data.getBytes(), data.data.length(),
+				                   remote_address, data.remote_port);
+			try {
+				DatagramSocket socket = new DatagramSocket();
+				socket.send(datagramPacket);
+				socket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+			break;
+		default:
+			throw new IllegalAccessError(
+				      "data should be valid when calling this method");
+		}
+	} catch (UnknownHostException e) {
+		e.printStackTrace();
+		return false;
+	}
+	return true;
+}
+}
 }

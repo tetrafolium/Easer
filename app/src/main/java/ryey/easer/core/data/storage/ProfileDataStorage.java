@@ -27,36 +27,36 @@ import ryey.easer.core.data.storage.backend.ProfileDataStorageBackendInterface;
 import ryey.easer.core.data.storage.backend.json.profile.JsonProfileDataStorageBackend;
 
 public class ProfileDataStorage
-    extends AbstractDataStorage<ProfileStructure,
-                                ProfileDataStorageBackendInterface> {
+	extends AbstractDataStorage<ProfileStructure,
+	                            ProfileDataStorageBackendInterface> {
 
-  public ProfileDataStorage(final Context context) {
-    super(context, new ProfileDataStorageBackendInterface[] {
-                       new JsonProfileDataStorageBackend(context),
-                   });
-  }
+public ProfileDataStorage(final Context context) {
+	super(context, new ProfileDataStorageBackendInterface[] {
+			new JsonProfileDataStorageBackend(context),
+		});
+}
 
-  @Override
-  boolean isSafeToDelete(final String name) {
-    ScriptDataStorage scriptDataStorage = new ScriptDataStorage(context);
-    for (ScriptStructure scriptStructure : scriptDataStorage.allScripts()) {
-      if (name.equals(scriptStructure.getProfileName()))
-        return false;
-    }
-    return true;
-  }
+@Override
+boolean isSafeToDelete(final String name) {
+	ScriptDataStorage scriptDataStorage = new ScriptDataStorage(context);
+	for (ScriptStructure scriptStructure : scriptDataStorage.allScripts()) {
+		if (name.equals(scriptStructure.getProfileName()))
+			return false;
+	}
+	return true;
+}
 
-  @Override
-  protected void handleRename(final String oldName,
-                              final ProfileStructure profile)
-      throws IOException {
-    ScriptDataStorage scriptDataStorage = new ScriptDataStorage(context);
-    for (String scriptName : scriptDataStorage.list()) {
-      ScriptStructure script = scriptDataStorage.get(scriptName);
-      if (oldName.equals(script.getProfileName())) {
-        script.setProfileName(profile.getName());
-        scriptDataStorage.update(script);
-      }
-    }
-  }
+@Override
+protected void handleRename(final String oldName,
+                            final ProfileStructure profile)
+throws IOException {
+	ScriptDataStorage scriptDataStorage = new ScriptDataStorage(context);
+	for (String scriptName : scriptDataStorage.list()) {
+		ScriptStructure script = scriptDataStorage.get(scriptName);
+		if (oldName.equals(script.getProfileName())) {
+			script.setProfileName(profile.getName());
+			scriptDataStorage.update(script);
+		}
+	}
+}
 }

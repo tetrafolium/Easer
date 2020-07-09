@@ -30,64 +30,68 @@ import ryey.easer.plugin.PluginDataFormat;
 import ryey.easer.skills.reusable.IntegerData;
 
 public abstract class IntegerOperationData
-    extends IntegerData implements OperationData {
+	extends IntegerData implements OperationData {
 
-  protected IntegerOperationData() { super(); }
+protected IntegerOperationData() {
+	super();
+}
 
-  protected IntegerOperationData(final @NonNull Integer level) { super(level); }
+protected IntegerOperationData(final @NonNull Integer level) {
+	super(level);
+}
 
-  public IntegerOperationData(final @NonNull String data,
-                              final @NonNull PluginDataFormat format,
-                              final int version)
-      throws IllegalStorageDataException {
-    parse(data, format, version);
-  }
+public IntegerOperationData(final @NonNull String data,
+                            final @NonNull PluginDataFormat format,
+                            final int version)
+throws IllegalStorageDataException {
+	parse(data, format, version);
+}
 
-  public void parse(final @NonNull String data,
-                    final @NonNull PluginDataFormat format, final int version)
-      throws IllegalStorageDataException {
-    switch (format) {
-    default:
-      Integer level = Integer.valueOf(data);
-      set(level);
-    }
-  }
+public void parse(final @NonNull String data,
+                  final @NonNull PluginDataFormat format, final int version)
+throws IllegalStorageDataException {
+	switch (format) {
+	default:
+		Integer level = Integer.valueOf(data);
+		set(level);
+	}
+}
 
-  @NonNull
-  @Override
-  public String serialize(final @NonNull PluginDataFormat format) {
-    String res;
-    switch (format) {
-    default:
-      res = get().toString();
-    }
-    return res;
-  }
+@NonNull
+@Override
+public String serialize(final @NonNull PluginDataFormat format) {
+	String res;
+	switch (format) {
+	default:
+		res = get().toString();
+	}
+	return res;
+}
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-  @Override
-  public void writeToParcel(final @NonNull Parcel dest, final int flags) {
-    dest.writeInt(level);
-  }
+@Override
+public void writeToParcel(final @NonNull Parcel dest, final int flags) {
+	dest.writeInt(level);
+}
 
-  protected IntegerOperationData(final @NonNull Parcel in) {
-    level = in.readInt();
-  }
+protected IntegerOperationData(final @NonNull Parcel in) {
+	level = in.readInt();
+}
 
-  @Nullable
-  @Override
-  public Set<String> placeholders() {
-    return null;
-  }
+@Nullable
+@Override
+public Set<String> placeholders() {
+	return null;
+}
 
-  @NonNull
-  @Override
-  public OperationData
-  applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
-    return this;
-  }
+@NonNull
+@Override
+public OperationData
+applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
+	return this;
+}
 }

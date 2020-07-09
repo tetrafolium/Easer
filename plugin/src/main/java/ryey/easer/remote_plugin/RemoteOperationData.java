@@ -25,46 +25,46 @@ import ryey.easer.plugin.PluginDataFormat;
 
 public class RemoteOperationData implements Parcelable {
 
-  public final String pluginId;
-  public final PluginDataFormat format;
-  public final String rawData;
+public final String pluginId;
+public final PluginDataFormat format;
+public final String rawData;
 
-  public RemoteOperationData(final String pluginId,
-                             final PluginDataFormat format,
-                             final String rawData) {
-    this.pluginId = pluginId;
-    this.format = format;
-    this.rawData = rawData;
-  }
+public RemoteOperationData(final String pluginId,
+                           final PluginDataFormat format,
+                           final String rawData) {
+	this.pluginId = pluginId;
+	this.format = format;
+	this.rawData = rawData;
+}
 
-  protected RemoteOperationData(final Parcel in) {
-    pluginId = in.readString();
-    format = PluginDataFormat.fromParcel(in);
-    rawData = in.readString();
-  }
+protected RemoteOperationData(final Parcel in) {
+	pluginId = in.readString();
+	format = PluginDataFormat.fromParcel(in);
+	rawData = in.readString();
+}
 
-  @Override
-  public void writeToParcel(final Parcel dest, final int flags) {
-    dest.writeString(pluginId);
-    PluginDataFormat.toParcel(dest, format);
-    dest.writeString(rawData);
-  }
+@Override
+public void writeToParcel(final Parcel dest, final int flags) {
+	dest.writeString(pluginId);
+	PluginDataFormat.toParcel(dest, format);
+	dest.writeString(rawData);
+}
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-  public static final Creator<RemoteOperationData> CREATOR =
-      new Creator<RemoteOperationData>() {
-        @Override
-        public RemoteOperationData createFromParcel(final Parcel in) {
-          return new RemoteOperationData(in);
-        }
+public static final Creator<RemoteOperationData> CREATOR =
+	new Creator<RemoteOperationData>() {
+	@Override
+	public RemoteOperationData createFromParcel(final Parcel in) {
+		return new RemoteOperationData(in);
+	}
 
-        @Override
-        public RemoteOperationData[] newArray(final int size) {
-          return new RemoteOperationData[size];
-        }
-      };
+	@Override
+	public RemoteOperationData[] newArray(final int size) {
+		return new RemoteOperationData[size];
+	}
+};
 }

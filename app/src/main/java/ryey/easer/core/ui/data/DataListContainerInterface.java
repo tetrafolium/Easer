@@ -22,28 +22,28 @@ package ryey.easer.core.ui.data;
 import androidx.annotation.NonNull;
 
 public interface DataListContainerInterface {
-  void setShowHelp(boolean show);
+void setShowHelp(boolean show);
 
-  void newData();
-  void editData(@NonNull String name);
-  void deleteData(@NonNull String name);
+void newData();
+void editData(@NonNull String name);
+void deleteData(@NonNull String name);
 
-  void switchContent(@NonNull DataListContainerFragment.ListType type);
+void switchContent(@NonNull DataListContainerFragment.ListType type);
 
-  /**
-   * Workaround due to preload of ViewPager (which causes {@link
-   * androidx.fragment.app.Fragment#getUserVisibleHint} doesn't work) and {@link
-   * androidx.fragment.app.Fragment#onContextItemSelected} is called on all
-   * Fragments (from {@link androidx.fragment.app.FragmentManager}
-   * @return if the current is really the current page displayed to the user
-   */
-  boolean isVisibleToUser();
+/**
+ * Workaround due to preload of ViewPager (which causes {@link
+ * androidx.fragment.app.Fragment#getUserVisibleHint} doesn't work) and {@link
+ * androidx.fragment.app.Fragment#onContextItemSelected} is called on all
+ * Fragments (from {@link androidx.fragment.app.FragmentManager}
+ * @return if the current is really the current page displayed to the user
+ */
+boolean isVisibleToUser();
 
-  enum ListType {
-    script,
-    script_tree,
-    event,
-    condition,
-    profile,
-  }
+enum ListType {
+	script,
+	script_tree,
+	event,
+	condition,
+	profile,
+}
 }

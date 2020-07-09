@@ -35,50 +35,50 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillViewFragment;
 
 public class AlarmSkillViewFragment
-    extends SkillViewFragment<AlarmOperationData> {
-  private EditText editText_time;
-  private EditText editText_message;
-  private RadioButton radioButton_absolute, radioButton_relative;
+	extends SkillViewFragment<AlarmOperationData> {
+private EditText editText_time;
+private EditText editText_message;
+private RadioButton radioButton_absolute, radioButton_relative;
 
-  @NonNull
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final @Nullable ViewGroup container,
-                           final @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.plugin_operation__set_alarm,
-                                 container, false);
+@NonNull
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final @Nullable ViewGroup container,
+                         final @Nullable Bundle savedInstanceState) {
+	View view = inflater.inflate(R.layout.plugin_operation__set_alarm,
+	                             container, false);
 
-    editText_time = view.findViewById(R.id.editText_time);
-    editText_message = view.findViewById(R.id.editText_message);
-    radioButton_absolute = view.findViewById(R.id.radioButton_absolute);
-    radioButton_relative = view.findViewById(R.id.radioButton_relative);
+	editText_time = view.findViewById(R.id.editText_time);
+	editText_message = view.findViewById(R.id.editText_message);
+	radioButton_absolute = view.findViewById(R.id.radioButton_absolute);
+	radioButton_relative = view.findViewById(R.id.radioButton_relative);
 
-    return view;
-  }
+	return view;
+}
 
-  @Override
-  protected void _fill(final @ValidData @NonNull AlarmOperationData data) {
-    editText_time.setText(AlarmOperationData.TimeToText(data.time));
-    editText_message.setText(data.message);
-    if (data.absolute)
-      radioButton_absolute.setChecked(true);
-    else
-      radioButton_relative.setChecked(true);
-  }
+@Override
+protected void _fill(final @ValidData @NonNull AlarmOperationData data) {
+	editText_time.setText(AlarmOperationData.TimeToText(data.time));
+	editText_message.setText(data.message);
+	if (data.absolute)
+		radioButton_absolute.setChecked(true);
+	else
+		radioButton_relative.setChecked(true);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public AlarmOperationData getData() throws InvalidDataInputException {
-    Calendar time;
-    try {
-      time = AlarmOperationData.TextToTime(editText_time.getText().toString());
-    } catch (ParseException e) {
-      e.printStackTrace();
-      throw new InvalidDataInputException(e.getMessage());
-    }
-    String message = editText_message.getText().toString();
-    boolean absolute = radioButton_absolute.isChecked();
-    return new AlarmOperationData(time, message, absolute);
-  }
+@ValidData
+@NonNull
+@Override
+public AlarmOperationData getData() throws InvalidDataInputException {
+	Calendar time;
+	try {
+		time = AlarmOperationData.TextToTime(editText_time.getText().toString());
+	} catch (ParseException e) {
+		e.printStackTrace();
+		throw new InvalidDataInputException(e.getMessage());
+	}
+	String message = editText_message.getText().toString();
+	boolean absolute = radioButton_absolute.isChecked();
+	return new AlarmOperationData(time, message, absolute);
+}
 }

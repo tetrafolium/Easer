@@ -30,68 +30,70 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class RingerModeLoader extends OperationLoader<RingerModeOperationData> {
-  public RingerModeLoader(final Context context) { super(context); }
+public RingerModeLoader(final Context context) {
+	super(context);
+}
 
-  @Override
-  public boolean load(final @ValidData @NonNull RingerModeOperationData data) {
-    RingerMode mode = RingerMode.compatible(data.ringerMode);
-    AudioManager audioManager =
-        (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+@Override
+public boolean load(final @ValidData @NonNull RingerModeOperationData data) {
+	RingerMode mode = RingerMode.compatible(data.ringerMode);
+	AudioManager audioManager =
+		(AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      if (mode == RingerMode.vibrate || mode == RingerMode.normal) {
-        return amSetMode(audioManager, mode);
-      } else {
-        return setDoNotDisturbForLollipop(mode);
-      }
-    } else {
-      return amSetMode(audioManager, mode);
-    }
-  }
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+		if (mode == RingerMode.vibrate || mode == RingerMode.normal) {
+			return amSetMode(audioManager, mode);
+		} else {
+			return setDoNotDisturbForLollipop(mode);
+		}
+	} else {
+		return amSetMode(audioManager, mode);
+	}
+}
 
-  private static boolean amSetMode(final AudioManager audioManager,
-                                   final RingerMode mode) {
-    int am_mode;
-    switch (mode) {
-    case silent:
-      am_mode = AudioManager.RINGER_MODE_SILENT;
-      break;
-    case vibrate:
-      am_mode = AudioManager.RINGER_MODE_VIBRATE;
-      break;
-    case normal:
-      am_mode = AudioManager.RINGER_MODE_NORMAL;
-      break;
-    default:
-      Logger.w("Running on below Lollipop, but ringer mode %s found", mode);
-      return false;
-    }
-    audioManager.setRingerMode(am_mode);
-    if (audioManager.getRingerMode() == am_mode) {
-      return true;
-    } else {
-      Logger.e("not properly set ringer mode :: expected <%s> got <%s>", mode,
-               audioManager.getRingerMode());
-      return false;
-    }
-  }
+private static boolean amSetMode(final AudioManager audioManager,
+                                 final RingerMode mode) {
+	int am_mode;
+	switch (mode) {
+	case silent:
+		am_mode = AudioManager.RINGER_MODE_SILENT;
+		break;
+	case vibrate:
+		am_mode = AudioManager.RINGER_MODE_VIBRATE;
+		break;
+	case normal:
+		am_mode = AudioManager.RINGER_MODE_NORMAL;
+		break;
+	default:
+		Logger.w("Running on below Lollipop, but ringer mode %s found", mode);
+		return false;
+	}
+	audioManager.setRingerMode(am_mode);
+	if (audioManager.getRingerMode() == am_mode) {
+		return true;
+	} else {
+		Logger.e("not properly set ringer mode :: expected <%s> got <%s>", mode,
+		         audioManager.getRingerMode());
+		return false;
+	}
+}
 
-  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-  private boolean setDoNotDisturbForLollipop(final RingerMode mode) {
-    int mode_num;
-    if (mode == RingerMode.dnd_all) {
-      mode_num = NotificationListenerService.INTERRUPTION_FILTER_ALL;
-    } else if (mode == RingerMode.dnd_priority) {
-      mode_num = NotificationListenerService.INTERRUPTION_FILTER_PRIORITY;
-    } else if (mode == RingerMode.dnd_none) {
-      mode_num = NotificationListenerService.INTERRUPTION_FILTER_NONE;
-    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-               mode == RingerMode.dnd_alarms) {
-      mode_num = NotificationListenerService.INTERRUPTION_FILTER_ALARMS;
-    } else {
-      throw new IllegalStateException("DoNotDisturb mode run out of cases???");
-    }
-    InterruptionFilterSwitcherService.setInterruptionFilter(context, mode_num);
-    return true;
-  }
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+private boolean setDoNotDisturbForLollipop(final RingerMode mode) {
+	int mode_num;
+	if (mode == RingerMode.dnd_all) {
+		mode_num = NotificationListenerService.INTERRUPTION_FILTER_ALL;
+	} else if (mode == RingerMode.dnd_priority) {
+		mode_num = NotificationListenerService.INTERRUPTION_FILTER_PRIORITY;
+	} else if (mode == RingerMode.dnd_none) {
+		mode_num = NotificationListenerService.INTERRUPTION_FILTER_NONE;
+	} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+	           mode == RingerMode.dnd_alarms) {
+		mode_num = NotificationListenerService.INTERRUPTION_FILTER_ALARMS;
+	} else {
+		throw new IllegalStateException("DoNotDisturb mode run out of cases???");
+	}
+	InterruptionFilterSwitcherService.setInterruptionFilter(context, mode_num);
+	return true;
+}
 }

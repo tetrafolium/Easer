@@ -36,70 +36,70 @@ import ryey.easer.commons.local_skill.operationskill.OperationSkill;
 
 public class CommonSkillUtils {
 
-  public static final int TYPE_OPERATION = 0;
-  public static final int TYPE_EVENT = 1;
-  public static final int TYPE_CONDITION = 2;
-  private static final String[] TYPE_NAMES = {"operation", "event",
-                                              "condition"};
+public static final int TYPE_OPERATION = 0;
+public static final int TYPE_EVENT = 1;
+public static final int TYPE_CONDITION = 2;
+private static final String[] TYPE_NAMES = {"operation", "event",
+	                                    "condition"};
 
-  public static String pluginEnabledKey(final Skill plugin) {
-    String type_name;
-    if (plugin instanceof OperationSkill)
-      type_name = TYPE_NAMES[0];
-    else if (plugin instanceof EventSkill)
-      type_name = TYPE_NAMES[1];
-    else if (plugin instanceof ConditionSkill)
-      type_name = TYPE_NAMES[2];
-    else
-      throw new IllegalAccessError("Unknown plugin type???");
-    return String.format(Locale.US, "%s_plugin_enabled_%s", type_name,
-                         plugin.id());
-  }
+public static String pluginEnabledKey(final Skill plugin) {
+	String type_name;
+	if (plugin instanceof OperationSkill)
+		type_name = TYPE_NAMES[0];
+	else if (plugin instanceof EventSkill)
+		type_name = TYPE_NAMES[1];
+	else if (plugin instanceof ConditionSkill)
+		type_name = TYPE_NAMES[2];
+	else
+		throw new IllegalAccessError("Unknown plugin type???");
+	return String.format(Locale.US, "%s_plugin_enabled_%s", type_name,
+	                     plugin.id());
+}
 
-  public static String pluginEnabledKey(final int type, final String id) {
-    return String.format(Locale.US, "%s_plugin_enabled_%s", TYPE_NAMES[type],
-                         id);
-  }
+public static String pluginEnabledKey(final int type, final String id) {
+	return String.format(Locale.US, "%s_plugin_enabled_%s", TYPE_NAMES[type],
+	                     id);
+}
 
-  /**
-   * This method assumes the given id is corresponded to a plugin
-   * @param context
-   * @param type
-   * @param id
-   * @return
-   */
-  public static boolean isEnabled(final Context context, final int type,
-                                  final String id) {
-    SharedPreferences settingsPreference =
-        PreferenceManager.getDefaultSharedPreferences(context);
-    return settingsPreference.getBoolean(
-        CommonSkillUtils.pluginEnabledKey(type, id), true);
-  }
+/**
+ * This method assumes the given id is corresponded to a plugin
+ * @param context
+ * @param type
+ * @param id
+ * @return
+ */
+public static boolean isEnabled(final Context context, final int type,
+                                final String id) {
+	SharedPreferences settingsPreference =
+		PreferenceManager.getDefaultSharedPreferences(context);
+	return settingsPreference.getBoolean(
+		CommonSkillUtils.pluginEnabledKey(type, id), true);
+}
 
-  public static class IO {
+public static class IO {
 
-    public static <T extends Enum<?>> void
-    writeEnumCollectionToParcel(final @NonNull Parcel dest, final int flags,
-                                final @Nullable Collection<T> enumArray) {
-      if (enumArray == null || enumArray.size() == 0) {
-        dest.writeInt(0);
-      } else {
-        dest.writeInt(enumArray.size());
-        for (T elem : enumArray) {
-          dest.writeInt(elem.ordinal());
-        }
-      }
-    }
+public static <T extends Enum<?> > void
+writeEnumCollectionToParcel(final @NonNull Parcel dest, final int flags,
+                            final @Nullable Collection<T> enumArray) {
+	if (enumArray == null || enumArray.size() == 0) {
+		dest.writeInt(0);
+	} else {
+		dest.writeInt(enumArray.size());
+		for (T elem : enumArray) {
+			dest.writeInt(elem.ordinal());
+		}
+	}
+}
 
-    @NonNull
-    public static <T extends Enum<T>> Collection<T>
-    readEnumCollectionFromParcel(final @NonNull Parcel in,
-                                 final @NonNull T[] values) {
-      List<T> list = new ArrayList<>();
-      int length = in.readByte();
-      for (int i = 0; i < length; i++)
-        list.add(values[in.readInt()]);
-      return list;
-    }
-  }
+@NonNull
+public static <T extends Enum<T> > Collection<T>
+readEnumCollectionFromParcel(final @NonNull Parcel in,
+                             final @NonNull T[] values) {
+	List<T> list = new ArrayList<>();
+	int length = in.readByte();
+	for (int i = 0; i < length; i++)
+		list.add(values[in.readInt()]);
+	return list;
+}
+}
 }

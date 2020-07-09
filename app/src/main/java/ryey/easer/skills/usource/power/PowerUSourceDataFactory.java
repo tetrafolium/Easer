@@ -27,27 +27,27 @@ import ryey.easer.commons.local_skill.usource.USourceDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class PowerUSourceDataFactory implements USourceDataFactory<PowerUSourceData> {
-  @NonNull
-  @Override
-  public Class<PowerUSourceData> dataClass() {
-    return PowerUSourceData.class;
-  }
+@NonNull
+@Override
+public Class<PowerUSourceData> dataClass() {
+	return PowerUSourceData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public PowerUSourceData dummyData() {
-    return new PowerUSourceData(BatteryStatus.charging,
-                                Collections.singletonList(ChargingMethod.usb));
-  }
+@ValidData
+@NonNull
+@Override
+public PowerUSourceData dummyData() {
+	return new PowerUSourceData(BatteryStatus.charging,
+	                            Collections.singletonList(ChargingMethod.usb));
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public PowerUSourceData parse(final @NonNull String data,
-                                final @NonNull PluginDataFormat format,
-                                final int version)
-      throws IllegalStorageDataException {
-    return new PowerUSourceData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public PowerUSourceData parse(final @NonNull String data,
+                              final @NonNull PluginDataFormat format,
+                              final int version)
+throws IllegalStorageDataException {
+	return new PowerUSourceData(data, format, version);
+}
 }

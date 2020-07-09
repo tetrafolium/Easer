@@ -26,27 +26,27 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 class HotspotLoader extends OperationLoader<HotspotOperationData> {
-  private final HotspotHelper helper;
+private final HotspotHelper helper;
 
-  public HotspotLoader(final Context context) {
-    super(context);
-    helper = HotspotHelper.getInstance(context);
-  }
+public HotspotLoader(final Context context) {
+	super(context);
+	helper = HotspotHelper.getInstance(context);
+}
 
-  @Override
-  public boolean load(final @ValidData @NonNull HotspotOperationData data) {
-    Boolean state = data.get();
-    try {
-      if (helper.isApEnabled() == state)
-        return true;
-      if (state)
-        return helper.enableAp();
-      else
-        return helper.disableAp();
-    } catch (Exception e) {
-      Logger.e(e, "error while changing hotspot state");
-      e.printStackTrace();
-      return false;
-    }
-  }
+@Override
+public boolean load(final @ValidData @NonNull HotspotOperationData data) {
+	Boolean state = data.get();
+	try {
+		if (helper.isApEnabled() == state)
+			return true;
+		if (state)
+			return helper.enableAp();
+		else
+			return helper.disableAp();
+	} catch (Exception e) {
+		Logger.e(e, "error while changing hotspot state");
+		e.printStackTrace();
+		return false;
+	}
+}
 }

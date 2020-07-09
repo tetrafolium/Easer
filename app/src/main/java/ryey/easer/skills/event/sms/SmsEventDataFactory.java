@@ -26,29 +26,29 @@ import ryey.easer.commons.local_skill.eventskill.EventDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class SmsEventDataFactory implements EventDataFactory<SmsEventData> {
-  @NonNull
-  @Override
-  public Class<SmsEventData> dataClass() {
-    return SmsEventData.class;
-  }
+@NonNull
+@Override
+public Class<SmsEventData> dataClass() {
+	return SmsEventData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public SmsEventData dummyData() {
-    SmsInnerData innerData = new SmsInnerData();
-    innerData.sender = "15077707777";
-    innerData.content = "aaa";
-    return new SmsEventData(innerData);
-  }
+@ValidData
+@NonNull
+@Override
+public SmsEventData dummyData() {
+	SmsInnerData innerData = new SmsInnerData();
+	innerData.sender = "15077707777";
+	innerData.content = "aaa";
+	return new SmsEventData(innerData);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public SmsEventData parse(final @NonNull String data,
-                            final @NonNull PluginDataFormat format,
-                            final int version)
-      throws IllegalStorageDataException {
-    return new SmsEventData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public SmsEventData parse(final @NonNull String data,
+                          final @NonNull PluginDataFormat format,
+                          final int version)
+throws IllegalStorageDataException {
+	return new SmsEventData(data, format, version);
+}
 }

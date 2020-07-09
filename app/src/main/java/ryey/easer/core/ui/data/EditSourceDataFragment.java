@@ -35,81 +35,81 @@ import ryey.easer.commons.local_skill.SourceCategory;
 import ryey.easer.commons.local_skill.StorageData;
 
 public abstract class EditSourceDataFragment<
-    D extends StorageData, S extends Skill & SourceCategory.Categorized>
-    extends Fragment
-    implements SourceSelectorDialogFragment.SelectedListener<S> {
+		D extends StorageData, S extends Skill & SourceCategory.Categorized>
+	extends Fragment
+	implements SourceSelectorDialogFragment.SelectedListener<S> {
 
-  private static final String TAG_SELECT_DIALOG = "select_dialog";
+private static final String TAG_SELECT_DIALOG = "select_dialog";
 
-  protected Button mButtonSelect = null;
-  protected SourceSkillViewContainerFragment<D, S> skillViewContainerFragment =
-      null;
+protected Button mButtonSelect = null;
+protected SourceSkillViewContainerFragment<D, S> skillViewContainerFragment =
+	null;
 
-  @StringRes protected abstract int buttonText();
-  protected abstract SourceSelectorDialogFragment<S> selectorDialogFragment();
-  protected abstract S findSkill(D data);
-  protected abstract SourceSkillViewContainerFragment<D, S>
-  skillViewContainerFragment(S skill);
+@StringRes protected abstract int buttonText();
+protected abstract SourceSelectorDialogFragment<S> selectorDialogFragment();
+protected abstract S findSkill(D data);
+protected abstract SourceSkillViewContainerFragment<D, S>
+skillViewContainerFragment(S skill);
 
-  @Nullable
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final @Nullable ViewGroup container,
-                           final @Nullable Bundle savedInstanceState) {
-    View view =
-        inflater.inflate(R.layout.fragment_edit_source_data, container, false);
+@Nullable
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final @Nullable ViewGroup container,
+                         final @Nullable Bundle savedInstanceState) {
+	View view =
+		inflater.inflate(R.layout.fragment_edit_source_data, container, false);
 
-    mButtonSelect = view.findViewById(R.id.btn_select);
-    mButtonSelect.setText(buttonText());
-    mButtonSelect.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(final View v) {
-        SourceSelectorDialogFragment<S> eventSelectorFragment =
-            selectorDialogFragment();
-        eventSelectorFragment.setSelectedListener(EditSourceDataFragment.this);
-        eventSelectorFragment.show(getChildFragmentManager(),
-                                   TAG_SELECT_DIALOG);
-      }
-    });
+	mButtonSelect = view.findViewById(R.id.btn_select);
+	mButtonSelect.setText(buttonText());
+	mButtonSelect.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+			        SourceSelectorDialogFragment<S> eventSelectorFragment =
+					selectorDialogFragment();
+			        eventSelectorFragment.setSelectedListener(EditSourceDataFragment.this);
+			        eventSelectorFragment.show(getChildFragmentManager(),
+			                                   TAG_SELECT_DIALOG);
+			}
+		});
 
-    return view;
-  }
+	return view;
+}
 
-  public void loadFromData(final D data) {
-    S skill = findSkill(data);
-    assert skill != null;
-    setSkill(skillViewContainerFragment(skill), getString(skill.name()), data);
-  }
+public void loadFromData(final D data) {
+	S skill = findSkill(data);
+	assert skill != null;
+	setSkill(skillViewContainerFragment(skill), getString(skill.name()), data);
+}
 
-  public D saveToData() throws InvalidDataInputException {
-    if (skillViewContainerFragment == null)
-      throw new InvalidDataInputException("No Event selected");
-    return skillViewContainerFragment.getData();
-  }
+public D saveToData() throws InvalidDataInputException {
+	if (skillViewContainerFragment == null)
+		throw new InvalidDataInputException("No Event selected");
+	return skillViewContainerFragment.getData();
+}
 
-  @Override
-  public void onSelected(
-      final SourceSelectorDialogFragment.SkillItemWrapper<S> skillItemWrapper) {
-    setSkill(skillViewContainerFragment(skillItemWrapper.skill),
-             skillItemWrapper.name);
-  }
+@Override
+public void onSelected(
+	final SourceSelectorDialogFragment.SkillItemWrapper<S> skillItemWrapper) {
+	setSkill(skillViewContainerFragment(skillItemWrapper.skill),
+	         skillItemWrapper.name);
+}
 
-  private void setSkill(
-      final SourceSkillViewContainerFragment<D, S> skillViewContainerFragment,
-      final String name) {
-    setSkill(skillViewContainerFragment, name, null);
-  }
+private void setSkill(
+	final SourceSkillViewContainerFragment<D, S> skillViewContainerFragment,
+	final String name) {
+	setSkill(skillViewContainerFragment, name, null);
+}
 
-  private void setSkill(
-      final SourceSkillViewContainerFragment<D, S> skillViewContainerFragment,
-      final String name, final D data) {
-    mButtonSelect.setText(name);
-    this.skillViewContainerFragment = skillViewContainerFragment;
-    getChildFragmentManager()
-        .beginTransaction()
-        .replace(R.id.skill_view, skillViewContainerFragment)
-        .commit();
-    if (data != null)
-      skillViewContainerFragment.fill(data);
-  }
+private void setSkill(
+	final SourceSkillViewContainerFragment<D, S> skillViewContainerFragment,
+	final String name, final D data) {
+	mButtonSelect.setText(name);
+	this.skillViewContainerFragment = skillViewContainerFragment;
+	getChildFragmentManager()
+	.beginTransaction()
+	.replace(R.id.skill_view, skillViewContainerFragment)
+	.commit();
+	if (data != null)
+		skillViewContainerFragment.fill(data);
+}
 }

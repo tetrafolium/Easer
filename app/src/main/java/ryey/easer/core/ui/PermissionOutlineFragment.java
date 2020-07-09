@@ -36,66 +36,67 @@ import ryey.easer.skills.LocalSkillRegistry;
 
 public class PermissionOutlineFragment extends Fragment {
 
-  Button mButton;
+Button mButton;
 
-  public PermissionOutlineFragment() {}
+public PermissionOutlineFragment() {
+}
 
-  @Override
-  public void onRequestPermissionsResult(final int requestCode,
-                                         final @NonNull String[] permissions,
-                                         final @NonNull int[] grantResults) {
-    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-  }
+@Override
+public void onRequestPermissionsResult(final int requestCode,
+                                       final @NonNull String[] permissions,
+                                       final @NonNull int[] grantResults) {
+	super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+}
 
-  @Override
-  public void onCreate(final Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-  }
+@Override
+public void onCreate(final Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+}
 
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final ViewGroup container,
-                           final Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.fragment_permission_outline, container,
-                            false);
-  }
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final ViewGroup container,
+                         final Bundle savedInstanceState) {
+	return inflater.inflate(R.layout.fragment_permission_outline, container,
+	                        false);
+}
 
-  @Override
-  public void onViewCreated(final @NonNull View view,
-                            final @Nullable Bundle savedInstanceState) {
-    mButton = view.findViewById(R.id.button_more);
-    mButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(final View v) {
-        SettingsActivity.callSkillSettings(getActivity());
-      }
-    });
-  }
+@Override
+public void onViewCreated(final @NonNull View view,
+                          final @Nullable Bundle savedInstanceState) {
+	mButton = view.findViewById(R.id.button_more);
+	mButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+			        SettingsActivity.callSkillSettings(getActivity());
+			}
+		});
+}
 
-  @Override
-  public void onResume() {
-    super.onResume();
-    if (hasAllRequiredPermissions()) {
-      getView().setVisibility(View.GONE);
-    } else {
-      getView().setVisibility(View.VISIBLE);
-    }
-  }
+@Override
+public void onResume() {
+	super.onResume();
+	if (hasAllRequiredPermissions()) {
+		getView().setVisibility(View.GONE);
+	} else {
+		getView().setVisibility(View.VISIBLE);
+	}
+}
 
-  boolean hasAllRequiredPermissions() {
-    final boolean logging = SettingsUtils.logging(getContext());
-    boolean satisfied = true;
-    for (Object obj_plugin :
-         LocalSkillRegistry.getInstance().all().getEnabledSkills(
-             getContext())) {
-      Skill plugin = (Skill)obj_plugin;
-      if (plugin.checkPermissions(getContext()) == Boolean.FALSE) {
-        Logger.d("Permission for plugin <%s> not satisfied", plugin.id());
-        if (!logging)
-          return false;
-        satisfied = false;
-      }
-    }
-    return satisfied;
-  }
+boolean hasAllRequiredPermissions() {
+	final boolean logging = SettingsUtils.logging(getContext());
+	boolean satisfied = true;
+	for (Object obj_plugin :
+	     LocalSkillRegistry.getInstance().all().getEnabledSkills(
+		     getContext())) {
+		Skill plugin = (Skill)obj_plugin;
+		if (plugin.checkPermissions(getContext()) == Boolean.FALSE) {
+			Logger.d("Permission for plugin <%s> not satisfied", plugin.id());
+			if (!logging)
+				return false;
+			satisfied = false;
+		}
+	}
+	return satisfied;
+}
 }

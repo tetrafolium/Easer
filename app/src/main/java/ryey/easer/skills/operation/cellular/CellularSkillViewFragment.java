@@ -25,12 +25,12 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.SwitchSkillViewFragment;
 
 public class CellularSkillViewFragment
-    extends SwitchSkillViewFragment<CellularOperationData> {
+	extends SwitchSkillViewFragment<CellularOperationData> {
 
-  @ValidData
-  @NonNull
-  @Override
-  public CellularOperationData getData() throws InvalidDataInputException {
-    return new CellularOperationData(state());
-  }
+@ValidData
+@NonNull
+@Override
+public CellularOperationData getData() throws InvalidDataInputException {
+	return new CellularOperationData(state());
+}
 }

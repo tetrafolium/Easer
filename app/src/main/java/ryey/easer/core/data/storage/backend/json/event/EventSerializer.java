@@ -30,28 +30,28 @@ import ryey.easer.plugin.PluginDataFormat;
 import ryey.easer.skills.LocalSkillRegistry;
 
 public class EventSerializer implements Serializer<EventStructure> {
-  @Override
-  public String serialize(final EventStructure data)
-      throws UnableToSerializeException {
-    try {
-      JSONObject jsonObject = new JSONObject();
-      jsonObject.put(C.NAME, data.getName());
-      jsonObject.put(C.VERSION, C.VERSION_CURRENT);
+@Override
+public String serialize(final EventStructure data)
+throws UnableToSerializeException {
+	try {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put(C.NAME, data.getName());
+		jsonObject.put(C.VERSION, C.VERSION_CURRENT);
 
-      EventData event = data.getEventData();
-      jsonObject.put(C.SIT, serialize_situation(event));
-      return jsonObject.toString();
-    } catch (JSONException e) {
-      throw new UnableToSerializeException(e.getMessage());
-    }
-  }
+		EventData event = data.getEventData();
+		jsonObject.put(C.SIT, serialize_situation(event));
+		return jsonObject.toString();
+	} catch (JSONException e) {
+		throw new UnableToSerializeException(e.getMessage());
+	}
+}
 
-  private static JSONObject serialize_situation(final EventData event)
-      throws JSONException {
-    JSONObject json_situation = new JSONObject();
-    json_situation.put(
-        C.SPEC, LocalSkillRegistry.getInstance().event().findSkill(event).id());
-    json_situation.put(C.DATA, event.serialize(PluginDataFormat.JSON));
-    return json_situation;
-  }
+private static JSONObject serialize_situation(final EventData event)
+throws JSONException {
+	JSONObject json_situation = new JSONObject();
+	json_situation.put(
+		C.SPEC, LocalSkillRegistry.getInstance().event().findSkill(event).id());
+	json_situation.put(C.DATA, event.serialize(PluginDataFormat.JSON));
+	return json_situation;
+}
 }

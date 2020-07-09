@@ -26,27 +26,27 @@ import ryey.easer.commons.local_skill.usource.USourceDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class ScreenUSourceDataFactory
-    implements USourceDataFactory<ScreenUSourceData> {
-  @NonNull
-  @Override
-  public Class<ScreenUSourceData> dataClass() {
-    return ScreenUSourceData.class;
-  }
+	implements USourceDataFactory<ScreenUSourceData> {
+@NonNull
+@Override
+public Class<ScreenUSourceData> dataClass() {
+	return ScreenUSourceData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public ScreenUSourceData dummyData() {
-    return new ScreenUSourceData(ScreenUSourceData.ScreenEvent.on);
-  }
+@ValidData
+@NonNull
+@Override
+public ScreenUSourceData dummyData() {
+	return new ScreenUSourceData(ScreenUSourceData.ScreenEvent.on);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public ScreenUSourceData parse(final @NonNull String data,
-                                 final @NonNull PluginDataFormat format,
-                                 final int version)
-      throws IllegalStorageDataException {
-    return new ScreenUSourceData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public ScreenUSourceData parse(final @NonNull String data,
+                               final @NonNull PluginDataFormat format,
+                               final int version)
+throws IllegalStorageDataException {
+	return new ScreenUSourceData(data, format, version);
+}
 }

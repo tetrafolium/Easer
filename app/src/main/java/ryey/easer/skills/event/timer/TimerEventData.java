@@ -31,144 +31,144 @@ import ryey.easer.skills.event.AbstractEventData;
 
 public class TimerEventData extends AbstractEventData {
 
-  private static final String K_SHORT = "short?";
-  private static final String K_SECONDS = "seconds";
-  private static final String K_MINUTES = "time";
-  private static final String K_EXACT_BOOL = "exact?";
-  private static final String K_REPEAT_BOOL = "repeat?";
+private static final String K_SHORT = "short?";
+private static final String K_SECONDS = "seconds";
+private static final String K_MINUTES = "time";
+private static final String K_EXACT_BOOL = "exact?";
+private static final String K_REPEAT_BOOL = "repeat?";
 
-  final boolean shortTime;
-  final int time;
-  final Boolean exact;
-  final boolean repeat;
+final boolean shortTime;
+final int time;
+final Boolean exact;
+final boolean repeat;
 
-  TimerEventData(final boolean shortTime, final int time, final Boolean exact,
-                 final boolean repeat) {
-    this.shortTime = shortTime;
-    this.time = time;
-    this.exact = exact;
-    this.repeat = repeat;
-  }
+TimerEventData(final boolean shortTime, final int time, final Boolean exact,
+               final boolean repeat) {
+	this.shortTime = shortTime;
+	this.time = time;
+	this.exact = exact;
+	this.repeat = repeat;
+}
 
-  TimerEventData(final int seconds, final boolean repeat) {
-    this(true, seconds, null, repeat);
-  }
+TimerEventData(final int seconds, final boolean repeat) {
+	this(true, seconds, null, repeat);
+}
 
-  TimerEventData(final int minutes, final boolean exact, final boolean repeat) {
-    this(false, minutes, exact, repeat);
-  }
+TimerEventData(final int minutes, final boolean exact, final boolean repeat) {
+	this(false, minutes, exact, repeat);
+}
 
-  TimerEventData(final @NonNull String data,
-                 final @NonNull PluginDataFormat format, final int version)
-      throws IllegalStorageDataException {
-    switch (format) {
-    default:
-      try {
-        JSONObject jsonObject = new JSONObject(data);
-        shortTime = jsonObject.optBoolean(K_SHORT, false);
-        if (shortTime) {
-          time = jsonObject.getInt(K_SECONDS);
-          exact = null;
-        } else {
-          time = jsonObject.getInt(K_MINUTES);
-          exact = jsonObject.getBoolean(K_EXACT_BOOL);
-        }
-        repeat = jsonObject.getBoolean(K_REPEAT_BOOL);
-      } catch (JSONException e) {
-        throw new IllegalStorageDataException(e);
-      }
-    }
-  }
+TimerEventData(final @NonNull String data,
+               final @NonNull PluginDataFormat format, final int version)
+throws IllegalStorageDataException {
+	switch (format) {
+	default:
+		try {
+			JSONObject jsonObject = new JSONObject(data);
+			shortTime = jsonObject.optBoolean(K_SHORT, false);
+			if (shortTime) {
+				time = jsonObject.getInt(K_SECONDS);
+				exact = null;
+			} else {
+				time = jsonObject.getInt(K_MINUTES);
+				exact = jsonObject.getBoolean(K_EXACT_BOOL);
+			}
+			repeat = jsonObject.getBoolean(K_REPEAT_BOOL);
+		} catch (JSONException e) {
+			throw new IllegalStorageDataException(e);
+		}
+	}
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean isValid() {
-    if (time <= 0)
-      return false;
-    return true;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean isValid() {
+	if (time <= 0)
+		return false;
+	return true;
+}
 
-  @Nullable
-  @Override
-  public Dynamics[] dynamics() {
-    return null;
-  }
+@Nullable
+@Override
+public Dynamics[] dynamics() {
+	return null;
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean equals(final Object obj) {
-    if (obj == null || !(obj instanceof TimerEventData))
-      return false;
-    if (shortTime != ((TimerEventData)obj).shortTime)
-      return false;
-    if (time != ((TimerEventData)obj).time)
-      return false;
-    if (repeat != ((TimerEventData)obj).repeat)
-      return false;
-    if (exact != ((TimerEventData)obj).exact)
-      return false;
-    return true;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean equals(final Object obj) {
+	if (obj == null || !(obj instanceof TimerEventData))
+		return false;
+	if (shortTime != ((TimerEventData)obj).shortTime)
+		return false;
+	if (time != ((TimerEventData)obj).time)
+		return false;
+	if (repeat != ((TimerEventData)obj).repeat)
+		return false;
+	if (exact != ((TimerEventData)obj).exact)
+		return false;
+	return true;
+}
 
-  @NonNull
-  @Override
-  public String serialize(final @NonNull PluginDataFormat format) {
-    String res;
-    switch (format) {
-    default:
-      JSONObject jsonObject = new JSONObject();
-      try {
-        jsonObject.put(K_SHORT, shortTime);
-        if (shortTime)
-          jsonObject.put(K_SECONDS, time);
-        else {
-          jsonObject.put(K_MINUTES, time);
-          jsonObject.put(K_EXACT_BOOL, exact);
-        }
-        jsonObject.put(K_REPEAT_BOOL, repeat);
-      } catch (JSONException e) {
-        e.printStackTrace();
-        throw new IllegalStateException(e);
-      }
-      res = jsonObject.toString();
-    }
-    return res;
-  }
+@NonNull
+@Override
+public String serialize(final @NonNull PluginDataFormat format) {
+	String res;
+	switch (format) {
+	default:
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put(K_SHORT, shortTime);
+			if (shortTime)
+				jsonObject.put(K_SECONDS, time);
+			else {
+				jsonObject.put(K_MINUTES, time);
+				jsonObject.put(K_EXACT_BOOL, exact);
+			}
+			jsonObject.put(K_REPEAT_BOOL, repeat);
+		} catch (JSONException e) {
+			e.printStackTrace();
+			throw new IllegalStateException(e);
+		}
+		res = jsonObject.toString();
+	}
+	return res;
+}
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-  @Override
-  public void writeToParcel(final Parcel dest, final int flags) {
-    dest.writeByte((byte)(shortTime ? 1 : 0));
-    dest.writeInt(time);
-    if (!shortTime) {
-      dest.writeByte((byte)(exact ? 1 : 0));
-    }
-    dest.writeByte((byte)(repeat ? 1 : 0));
-  }
+@Override
+public void writeToParcel(final Parcel dest, final int flags) {
+	dest.writeByte((byte)(shortTime ? 1 : 0));
+	dest.writeInt(time);
+	if (!shortTime) {
+		dest.writeByte((byte)(exact ? 1 : 0));
+	}
+	dest.writeByte((byte)(repeat ? 1 : 0));
+}
 
-  public static final Creator<TimerEventData> CREATOR =
-      new Creator<TimerEventData>() {
-        public TimerEventData createFromParcel(final Parcel in) {
-          return new TimerEventData(in);
-        }
+public static final Creator<TimerEventData> CREATOR =
+	new Creator<TimerEventData>() {
+	public TimerEventData createFromParcel(final Parcel in) {
+		return new TimerEventData(in);
+	}
 
-        public TimerEventData[] newArray(final int size) {
-          return new TimerEventData[size];
-        }
-      };
+	public TimerEventData[] newArray(final int size) {
+		return new TimerEventData[size];
+	}
+};
 
-  private TimerEventData(final Parcel in) {
-    shortTime = in.readByte() != 0;
-    time = in.readInt();
-    if (shortTime) {
-      exact = null;
-    } else {
-      exact = in.readByte() != 0;
-    }
-    repeat = in.readByte() != 0;
-  }
+private TimerEventData(final Parcel in) {
+	shortTime = in.readByte() != 0;
+	time = in.readInt();
+	if (shortTime) {
+		exact = null;
+	} else {
+		exact = in.readByte() != 0;
+	}
+	repeat = in.readByte() != 0;
+}
 }

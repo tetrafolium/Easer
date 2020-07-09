@@ -28,33 +28,33 @@ import ryey.easer.commons.C;
 
 public class ScriptTreeTest {
 
-  ScriptTree scriptTreeRoot, child1, child2, grandchild11;
-  static ScriptStructure structure, structure1, structure2, structure3;
+ScriptTree scriptTreeRoot, child1, child2, grandchild11;
+static ScriptStructure structure, structure1, structure2, structure3;
 
-  @BeforeClass
-  public static void setUpAll() {
-    structure = new ScriptStructure(C.VERSION_CREATED_IN_RUNTIME);
-    structure1 = new ScriptStructure(C.VERSION_CREATED_IN_RUNTIME);
-    structure2 = new ScriptStructure(C.VERSION_CREATED_IN_RUNTIME);
-    structure3 = new ScriptStructure(C.VERSION_CREATED_IN_RUNTIME);
-  }
+@BeforeClass
+public static void setUpAll() {
+	structure = new ScriptStructure(C.VERSION_CREATED_IN_RUNTIME);
+	structure1 = new ScriptStructure(C.VERSION_CREATED_IN_RUNTIME);
+	structure2 = new ScriptStructure(C.VERSION_CREATED_IN_RUNTIME);
+	structure3 = new ScriptStructure(C.VERSION_CREATED_IN_RUNTIME);
+}
 
-  @Before
-  public void setUp() {
-    scriptTreeRoot = new ScriptTree(structure);
-    child1 = new ScriptTree(structure1);
-    child2 = new ScriptTree(structure2);
-    grandchild11 = new ScriptTree(structure3);
-  }
+@Before
+public void setUp() {
+	scriptTreeRoot = new ScriptTree(structure);
+	child1 = new ScriptTree(structure1);
+	child2 = new ScriptTree(structure2);
+	grandchild11 = new ScriptTree(structure3);
+}
 
-  @Test
-  public void addAndGetSub() throws Exception {
-    assertEquals(scriptTreeRoot.getSubs().size(), 0);
-    scriptTreeRoot.addSub(child1);
-    assertEquals(scriptTreeRoot.getSubs().size(), 1);
-    scriptTreeRoot.addSub(child2);
-    assertEquals(scriptTreeRoot.getSubs().size(), 2);
-    child1.addSub(grandchild11);
-    assertEquals(scriptTreeRoot.getSubs().size(), 2);
-  }
+@Test
+public void addAndGetSub() throws Exception {
+	assertEquals(scriptTreeRoot.getSubs().size(), 0);
+	scriptTreeRoot.addSub(child1);
+	assertEquals(scriptTreeRoot.getSubs().size(), 1);
+	scriptTreeRoot.addSub(child2);
+	assertEquals(scriptTreeRoot.getSubs().size(), 2);
+	child1.addSub(grandchild11);
+	assertEquals(scriptTreeRoot.getSubs().size(), 2);
+}
 }

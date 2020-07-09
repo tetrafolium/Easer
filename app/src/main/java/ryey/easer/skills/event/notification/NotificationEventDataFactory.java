@@ -26,30 +26,30 @@ import ryey.easer.commons.local_skill.eventskill.EventDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class NotificationEventDataFactory
-    implements EventDataFactory<NotificationEventData> {
-  @NonNull
-  @Override
-  public Class<NotificationEventData> dataClass() {
-    return NotificationEventData.class;
-  }
+	implements EventDataFactory<NotificationEventData> {
+@NonNull
+@Override
+public Class<NotificationEventData> dataClass() {
+	return NotificationEventData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public NotificationEventData dummyData() {
-    String app = "example.app";
-    String title = "title example";
-    String content = "content example";
-    return new NotificationEventData(app, title, content);
-  }
+@ValidData
+@NonNull
+@Override
+public NotificationEventData dummyData() {
+	String app = "example.app";
+	String title = "title example";
+	String content = "content example";
+	return new NotificationEventData(app, title, content);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public NotificationEventData parse(final @NonNull String data,
-                                     final @NonNull PluginDataFormat format,
-                                     final int version)
-      throws IllegalStorageDataException {
-    return new NotificationEventData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public NotificationEventData parse(final @NonNull String data,
+                                   final @NonNull PluginDataFormat format,
+                                   final int version)
+throws IllegalStorageDataException {
+	return new NotificationEventData(data, format, version);
+}
 }

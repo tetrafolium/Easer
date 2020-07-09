@@ -27,12 +27,12 @@ import ryey.easer.skills.TestHelper;
 
 public class HeadsetUSourceDataTest {
 
-  @Test
-  public void testParcel() {
-    HeadsetUSourceData dummyData = new HeadsetUSourceDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    HeadsetUSourceData parceledData =
-        HeadsetUSourceData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	HeadsetUSourceData dummyData = new HeadsetUSourceDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	HeadsetUSourceData parceledData =
+		HeadsetUSourceData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

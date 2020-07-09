@@ -29,53 +29,53 @@ import androidx.annotation.NonNull;
 import ryey.easer.skills.condition.SkeletonTracker;
 
 public class BluetoothEnabledTracker
-    extends SkeletonTracker<BluetoothEnabledUSourceData> {
+	extends SkeletonTracker<BluetoothEnabledUSourceData> {
 
-  private BluetoothAdapter bluetoothAdapter;
+private BluetoothAdapter bluetoothAdapter;
 
-  private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(intent.getAction())) {
-        switch (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1)) {
-        case BluetoothAdapter.STATE_ON:
-          newSatisfiedState(data.enabled);
-          break;
-        case BluetoothAdapter.STATE_OFF:
-          newSatisfiedState(!data.enabled);
-          break;
-        default:
-          newSatisfiedState(null);
-        }
-      }
-    }
-  };
-  private static IntentFilter intentFilter =
-      new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+	@Override
+	public void onReceive(final Context context, final Intent intent) {
+		if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(intent.getAction())) {
+			switch (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1)) {
+			case BluetoothAdapter.STATE_ON:
+				newSatisfiedState(data.enabled);
+				break;
+			case BluetoothAdapter.STATE_OFF:
+				newSatisfiedState(!data.enabled);
+				break;
+			default:
+				newSatisfiedState(null);
+			}
+		}
+	}
+};
+private static IntentFilter intentFilter =
+	new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
 
-  BluetoothEnabledTracker(final Context context,
-                          final BluetoothEnabledUSourceData data,
-                          final @NonNull PendingIntent event_positive,
-                          final @NonNull PendingIntent event_negative) {
-    super(context, data, event_positive, event_negative);
+BluetoothEnabledTracker(final Context context,
+                        final BluetoothEnabledUSourceData data,
+                        final @NonNull PendingIntent event_positive,
+                        final @NonNull PendingIntent event_negative) {
+	super(context, data, event_positive, event_negative);
 
-    bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-  }
+	bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+}
 
-  @Override
-  public void start() {
-    context.registerReceiver(broadcastReceiver, intentFilter);
-  }
+@Override
+public void start() {
+	context.registerReceiver(broadcastReceiver, intentFilter);
+}
 
-  @Override
-  public void stop() {
-    context.unregisterReceiver(broadcastReceiver);
-  }
+@Override
+public void stop() {
+	context.unregisterReceiver(broadcastReceiver);
+}
 
-  @Override
-  public Boolean state() {
-    if (bluetoothAdapter == null)
-      return null;
-    return bluetoothAdapter.isEnabled();
-  }
+@Override
+public Boolean state() {
+	if (bluetoothAdapter == null)
+		return null;
+	return bluetoothAdapter.isEnabled();
+}
 }

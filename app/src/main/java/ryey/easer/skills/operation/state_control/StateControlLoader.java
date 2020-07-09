@@ -30,31 +30,34 @@ import ryey.easer.core.EHService;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class StateControlLoader
-    extends OperationLoader<StateControlOperationData> {
+	extends OperationLoader<StateControlOperationData> {
 
-  private StateControlOperationData data;
+private StateControlOperationData data;
 
-  private ServiceConnection connection = new ServiceConnection() {
-    @Override
-    public void onServiceConnected(final ComponentName componentName,
-                                   final IBinder iBinder) {
-      EHService.EHBinder binder = (EHService.EHBinder)iBinder;
-      binder.setLotusStatus(data.scriptName, data.newStatus);
-      context.unbindService(this);
-    }
+private ServiceConnection connection = new ServiceConnection() {
+	@Override
+	public void onServiceConnected(final ComponentName componentName,
+	                               final IBinder iBinder) {
+		EHService.EHBinder binder = (EHService.EHBinder)iBinder;
+		binder.setLotusStatus(data.scriptName, data.newStatus);
+		context.unbindService(this);
+	}
 
-    @Override
-    public void onServiceDisconnected(final ComponentName componentName) {}
-  };
+	@Override
+	public void onServiceDisconnected(final ComponentName componentName) {
+	}
+};
 
-  StateControlLoader(final Context context) { super(context); }
+StateControlLoader(final Context context) {
+	super(context);
+}
 
-  @Override
-  public boolean load(final
-                      @ValidData @NonNull StateControlOperationData data) {
-    this.data = data;
-    Intent intent = new Intent(context, EHService.class);
-    context.bindService(intent, connection, Context.BIND_AUTO_CREATE);
-    return true;
-  }
+@Override
+public boolean load(final
+                    @ValidData @NonNull StateControlOperationData data) {
+	this.data = data;
+	Intent intent = new Intent(context, EHService.class);
+	context.bindService(intent, connection, Context.BIND_AUTO_CREATE);
+	return true;
+}
 }

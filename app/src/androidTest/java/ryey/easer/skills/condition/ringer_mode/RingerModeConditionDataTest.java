@@ -27,13 +27,13 @@ import ryey.easer.skills.TestHelper;
 
 public class RingerModeConditionDataTest {
 
-  @Test
-  public void testParcel() {
-    RingerModeConditionData dummyData =
-        new RingerModeConditionDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    RingerModeConditionData parceledData =
-        RingerModeConditionData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	RingerModeConditionData dummyData =
+		new RingerModeConditionDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	RingerModeConditionData parceledData =
+		RingerModeConditionData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

@@ -28,24 +28,28 @@ import ryey.easer.skills.operation.BooleanOperationData;
 
 public class WifiOperationData extends BooleanOperationData {
 
-  WifiOperationData(final Boolean state) { super(state); }
+WifiOperationData(final Boolean state) {
+	super(state);
+}
 
-  WifiOperationData(final @NonNull String data,
-                    final @NonNull PluginDataFormat format, final int version)
-      throws IllegalStorageDataException {
-    super(data, format, version);
-  }
+WifiOperationData(final @NonNull String data,
+                  final @NonNull PluginDataFormat format, final int version)
+throws IllegalStorageDataException {
+	super(data, format, version);
+}
 
-  public static final Parcelable.Creator<WifiOperationData> CREATOR =
-      new Parcelable.Creator<WifiOperationData>() {
-        public WifiOperationData createFromParcel(final Parcel in) {
-          return new WifiOperationData(in);
-        }
+public static final Parcelable.Creator<WifiOperationData> CREATOR =
+	new Parcelable.Creator<WifiOperationData>() {
+	public WifiOperationData createFromParcel(final Parcel in) {
+		return new WifiOperationData(in);
+	}
 
-        public WifiOperationData[] newArray(final int size) {
-          return new WifiOperationData[size];
-        }
-      };
+	public WifiOperationData[] newArray(final int size) {
+		return new WifiOperationData[size];
+	}
+};
 
-  private WifiOperationData(final Parcel in) { super(in); }
+private WifiOperationData(final Parcel in) {
+	super(in);
+}
 }

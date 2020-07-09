@@ -36,135 +36,135 @@ import ryey.easer.commons.local_skill.usource.USourceData;
 import ryey.easer.plugin.PluginDataFormat;
 
 public class DateUSourceData implements USourceData {
-  private static final SimpleDateFormat sdf_date =
-      new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+private static final SimpleDateFormat sdf_date =
+	new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
-  private static String DateToText(final Calendar calendar) {
-    return sdf_date.format(calendar.getTime());
-  }
+private static String DateToText(final Calendar calendar) {
+	return sdf_date.format(calendar.getTime());
+}
 
-  private static Calendar TextToDate(final String text) throws ParseException {
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(sdf_date.parse(text));
-    return calendar;
-  }
+private static Calendar TextToDate(final String text) throws ParseException {
+	Calendar calendar = Calendar.getInstance();
+	calendar.setTime(sdf_date.parse(text));
+	return calendar;
+}
 
-  enum Rel {
-    after,
-  }
+enum Rel {
+	after,
+}
 
-  private static final String K_DATE = "date";
-  private static final String K_REL = "rel";
+private static final String K_DATE = "date";
+private static final String K_REL = "rel";
 
-  Calendar date;
-  Rel rel;
+Calendar date;
+Rel rel;
 
-  public DateUSourceData(final Calendar date, final Rel rel) {
-    this.date = date;
-    this.rel = rel;
-  }
+public DateUSourceData(final Calendar date, final Rel rel) {
+	this.date = date;
+	this.rel = rel;
+}
 
-  DateUSourceData(final @NonNull String data,
-                  final @NonNull PluginDataFormat format, final int version)
-      throws IllegalStorageDataException {
-    switch (format) {
-    default:
-      try {
-        JSONObject jsonObject = new JSONObject(data);
-        try {
-          this.date = TextToDate(jsonObject.getString(K_DATE));
-        } catch (ParseException e) {
-          throw new IllegalStorageDataException(e);
-        }
-        this.rel = Rel.valueOf(jsonObject.getString(K_REL));
-      } catch (JSONException e) {
-        if (version < C.VERSION_UNIFORMED_SOURCE) {
-          try {
-            this.date = TextToDate(data);
-          } catch (ParseException e1) {
-            throw new IllegalStorageDataException(e1);
-          }
-          this.rel = Rel.after;
-        } else {
-          throw new IllegalStorageDataException(e);
-        }
-      }
-    }
-  }
+DateUSourceData(final @NonNull String data,
+                final @NonNull PluginDataFormat format, final int version)
+throws IllegalStorageDataException {
+	switch (format) {
+	default:
+		try {
+			JSONObject jsonObject = new JSONObject(data);
+			try {
+				this.date = TextToDate(jsonObject.getString(K_DATE));
+			} catch (ParseException e) {
+				throw new IllegalStorageDataException(e);
+			}
+			this.rel = Rel.valueOf(jsonObject.getString(K_REL));
+		} catch (JSONException e) {
+			if (version < C.VERSION_UNIFORMED_SOURCE) {
+				try {
+					this.date = TextToDate(data);
+				} catch (ParseException e1) {
+					throw new IllegalStorageDataException(e1);
+				}
+				this.rel = Rel.after;
+			} else {
+				throw new IllegalStorageDataException(e);
+			}
+		}
+	}
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean isValid() {
-    if (date == null)
-      return false;
-    return true;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean isValid() {
+	if (date == null)
+		return false;
+	return true;
+}
 
-  @Nullable
-  @Override
-  public Dynamics[] dynamics() {
-    return null;
-  }
+@Nullable
+@Override
+public Dynamics[] dynamics() {
+	return null;
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean equals(final Object obj) {
-    if (obj == this)
-      return true;
-    if (obj == null || !(obj instanceof DateUSourceData))
-      return false;
-    if (!rel.equals(((DateUSourceData)obj).rel))
-      return false;
-    if (!DateToText(date).equals(DateToText(((DateUSourceData)obj).date)))
-      return false;
-    return true;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean equals(final Object obj) {
+	if (obj == this)
+		return true;
+	if (obj == null || !(obj instanceof DateUSourceData))
+		return false;
+	if (!rel.equals(((DateUSourceData)obj).rel))
+		return false;
+	if (!DateToText(date).equals(DateToText(((DateUSourceData)obj).date)))
+		return false;
+	return true;
+}
 
-  @NonNull
-  @Override
-  public String serialize(final @NonNull PluginDataFormat format) {
-    String res;
-    switch (format) {
-    default:
-      try {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put(K_DATE, DateToText(date));
-        jsonObject.put(K_REL, rel.name());
-        res = jsonObject.toString();
-      } catch (JSONException e) {
-        e.printStackTrace();
-        throw new IllegalStateException(
-            "Failed to serialize DateConditionData");
-      }
-    }
-    return res;
-  }
+@NonNull
+@Override
+public String serialize(final @NonNull PluginDataFormat format) {
+	String res;
+	switch (format) {
+	default:
+		try {
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put(K_DATE, DateToText(date));
+			jsonObject.put(K_REL, rel.name());
+			res = jsonObject.toString();
+		} catch (JSONException e) {
+			e.printStackTrace();
+			throw new IllegalStateException(
+				      "Failed to serialize DateConditionData");
+		}
+	}
+	return res;
+}
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-  @Override
-  public void writeToParcel(final Parcel dest, final int flags) {
-    dest.writeLong(date.getTimeInMillis());
-    dest.writeInt(rel.ordinal());
-  }
+@Override
+public void writeToParcel(final Parcel dest, final int flags) {
+	dest.writeLong(date.getTimeInMillis());
+	dest.writeInt(rel.ordinal());
+}
 
-  public static final Parcelable.Creator<DateUSourceData> CREATOR =
-      new Parcelable.Creator<DateUSourceData>() {
-        public DateUSourceData createFromParcel(final Parcel in) {
-          return new DateUSourceData(in);
-        }
+public static final Parcelable.Creator<DateUSourceData> CREATOR =
+	new Parcelable.Creator<DateUSourceData>() {
+	public DateUSourceData createFromParcel(final Parcel in) {
+		return new DateUSourceData(in);
+	}
 
-        public DateUSourceData[] newArray(final int size) {
-          return new DateUSourceData[size];
-        }
-      };
+	public DateUSourceData[] newArray(final int size) {
+		return new DateUSourceData[size];
+	}
+};
 
-  private DateUSourceData(final Parcel in) {
-    date = Calendar.getInstance();
-    date.setTimeInMillis(in.readLong());
-    rel = Rel.values()[in.readInt()];
-  }
+private DateUSourceData(final Parcel in) {
+	date = Calendar.getInstance();
+	date.setTimeInMillis(in.readLong());
+	rel = Rel.values()[in.readInt()];
+}
 }

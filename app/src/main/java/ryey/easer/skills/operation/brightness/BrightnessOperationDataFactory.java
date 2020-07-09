@@ -26,27 +26,27 @@ import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class BrightnessOperationDataFactory
-    implements OperationDataFactory<BrightnessOperationData> {
-  @NonNull
-  @Override
-  public Class<BrightnessOperationData> dataClass() {
-    return BrightnessOperationData.class;
-  }
+	implements OperationDataFactory<BrightnessOperationData> {
+@NonNull
+@Override
+public Class<BrightnessOperationData> dataClass() {
+	return BrightnessOperationData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public BrightnessOperationData dummyData() {
-    return new BrightnessOperationData(3);
-  }
+@ValidData
+@NonNull
+@Override
+public BrightnessOperationData dummyData() {
+	return new BrightnessOperationData(3);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public BrightnessOperationData parse(final @NonNull String data,
-                                       final @NonNull PluginDataFormat format,
-                                       final int version)
-      throws IllegalStorageDataException {
-    return new BrightnessOperationData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public BrightnessOperationData parse(final @NonNull String data,
+                                     final @NonNull PluginDataFormat format,
+                                     final int version)
+throws IllegalStorageDataException {
+	return new BrightnessOperationData(data, format, version);
+}
 }

@@ -35,132 +35,132 @@ import ryey.easer.skills.event.AbstractEventData;
 
 public class SmsEventData extends AbstractEventData {
 
-  private static final String K_SENDER = "sender";
-  private static final String K_CONTENT = "content";
+private static final String K_SENDER = "sender";
+private static final String K_CONTENT = "content";
 
-  SmsInnerData innerData;
+SmsInnerData innerData;
 
-  public SmsEventData(final SmsInnerData innerData) {
-    this.innerData = innerData;
-  }
+public SmsEventData(final SmsInnerData innerData) {
+	this.innerData = innerData;
+}
 
-  SmsEventData(final @NonNull String data,
-               final @NonNull PluginDataFormat format, final int version)
-      throws IllegalStorageDataException {
-    parse(data, format, version);
-  }
+SmsEventData(final @NonNull String data,
+             final @NonNull PluginDataFormat format, final int version)
+throws IllegalStorageDataException {
+	parse(data, format, version);
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean isValid() {
-    if (innerData == null)
-      return false;
-    return true;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean isValid() {
+	if (innerData == null)
+		return false;
+	return true;
+}
 
-  public void parse(final @NonNull String data,
-                    final @NonNull PluginDataFormat format, final int version)
-      throws IllegalStorageDataException {
-    innerData = new SmsInnerData();
-    switch (format) {
-    default:
-      try {
-        JSONObject jsonObject = new JSONObject(data);
-        innerData.sender = jsonObject.optString(K_SENDER, null);
-        innerData.content = jsonObject.optString(K_CONTENT, null);
-      } catch (JSONException e) {
-        e.printStackTrace();
-        throw new IllegalStorageDataException(e);
-      }
-    }
-  }
+public void parse(final @NonNull String data,
+                  final @NonNull PluginDataFormat format, final int version)
+throws IllegalStorageDataException {
+	innerData = new SmsInnerData();
+	switch (format) {
+	default:
+		try {
+			JSONObject jsonObject = new JSONObject(data);
+			innerData.sender = jsonObject.optString(K_SENDER, null);
+			innerData.content = jsonObject.optString(K_CONTENT, null);
+		} catch (JSONException e) {
+			e.printStackTrace();
+			throw new IllegalStorageDataException(e);
+		}
+	}
+}
 
-  @NonNull
-  @Override
-  public String serialize(final @NonNull PluginDataFormat format) {
-    String res;
-    switch (format) {
-    default:
-      try {
-        JSONObject jsonObject = new JSONObject();
-        if (!Utils.isBlank(innerData.sender))
-          jsonObject.put(K_SENDER, innerData.sender);
-        if (!Utils.isBlank(innerData.content))
-          jsonObject.put(K_CONTENT, innerData.content);
-        res = jsonObject.toString();
-      } catch (JSONException e) {
-        Logger.e(e, "Error serializing %s", getClass().getSimpleName());
-        throw new IllegalStateException(e.getMessage());
-      }
-    }
-    return res;
-  }
+@NonNull
+@Override
+public String serialize(final @NonNull PluginDataFormat format) {
+	String res;
+	switch (format) {
+	default:
+		try {
+			JSONObject jsonObject = new JSONObject();
+			if (!Utils.isBlank(innerData.sender))
+				jsonObject.put(K_SENDER, innerData.sender);
+			if (!Utils.isBlank(innerData.content))
+				jsonObject.put(K_CONTENT, innerData.content);
+			res = jsonObject.toString();
+		} catch (JSONException e) {
+			Logger.e(e, "Error serializing %s", getClass().getSimpleName());
+			throw new IllegalStateException(e.getMessage());
+		}
+	}
+	return res;
+}
 
-  @Nullable
-  @Override
-  public Dynamics[] dynamics() {
-    return new Dynamics[] {new SenderDynamics(), new ContentDynamics()};
-  }
+@Nullable
+@Override
+public Dynamics[] dynamics() {
+	return new Dynamics[] {new SenderDynamics(), new ContentDynamics()};
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean equals(final Object obj) {
-    if (obj == this)
-      return true;
-    if (!(obj instanceof SmsEventData))
-      return false;
-    return innerData.equals(((SmsEventData)obj).innerData);
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean equals(final Object obj) {
+	if (obj == this)
+		return true;
+	if (!(obj instanceof SmsEventData))
+		return false;
+	return innerData.equals(((SmsEventData)obj).innerData);
+}
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-  @Override
-  public void writeToParcel(final Parcel dest, final int flags) {
-    dest.writeParcelable(innerData, flags);
-  }
+@Override
+public void writeToParcel(final Parcel dest, final int flags) {
+	dest.writeParcelable(innerData, flags);
+}
 
-  public static final Parcelable.Creator<SmsEventData> CREATOR =
-      new Parcelable.Creator<SmsEventData>() {
-        public SmsEventData createFromParcel(final Parcel in) {
-          return new SmsEventData(in);
-        }
+public static final Parcelable.Creator<SmsEventData> CREATOR =
+	new Parcelable.Creator<SmsEventData>() {
+	public SmsEventData createFromParcel(final Parcel in) {
+		return new SmsEventData(in);
+	}
 
-        public SmsEventData[] newArray(final int size) {
-          return new SmsEventData[size];
-        }
-      };
+	public SmsEventData[] newArray(final int size) {
+		return new SmsEventData[size];
+	}
+};
 
-  private SmsEventData(final Parcel in) {
-    innerData = in.readParcelable(SmsInnerData.class.getClassLoader());
-  }
+private SmsEventData(final Parcel in) {
+	innerData = in.readParcelable(SmsInnerData.class.getClassLoader());
+}
 
-  public static class SenderDynamics implements Dynamics {
-    static final String id = "ryey.easer.skills.event.sms.dynamics.sender";
+public static class SenderDynamics implements Dynamics {
+static final String id = "ryey.easer.skills.event.sms.dynamics.sender";
 
-    @Override
-    public String id() {
-      return id;
-    }
+@Override
+public String id() {
+	return id;
+}
 
-    @Override
-    public int nameRes() {
-      return R.string.ev_sms_dynamics_sender;
-    }
-  }
-  public static class ContentDynamics implements Dynamics {
-    static final String id = "ryey.easer.skills.event.sms.dynamics.content";
+@Override
+public int nameRes() {
+	return R.string.ev_sms_dynamics_sender;
+}
+}
+public static class ContentDynamics implements Dynamics {
+static final String id = "ryey.easer.skills.event.sms.dynamics.content";
 
-    @Override
-    public String id() {
-      return id;
-    }
+@Override
+public String id() {
+	return id;
+}
 
-    @Override
-    public int nameRes() {
-      return R.string.ev_sms_dynamics_content;
-    }
-  }
+@Override
+public int nameRes() {
+	return R.string.ev_sms_dynamics_content;
+}
+}
 }

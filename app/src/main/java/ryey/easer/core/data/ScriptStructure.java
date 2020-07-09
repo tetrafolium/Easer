@@ -36,112 +36,138 @@ import ryey.easer.commons.local_skill.eventskill.EventData;
  * structure.
  */
 final public class ScriptStructure
-    implements Renameable, Verifiable, WithCreatedVersion {
-  private final int createdVersion;
-  protected String name;
-  private EventStructure event;
-  private ConditionStructure condition;
-  protected boolean active = true;
-  private boolean reverse = false;
-  private boolean repeatable = true;
-  private boolean persistent = false;
-  @Nullable private DynamicsLink dynamicsLink;
-  @Nullable protected String profileName;
-  @Nullable protected String parentName;
+	implements Renameable, Verifiable, WithCreatedVersion {
+private final int createdVersion;
+protected String name;
+private EventStructure event;
+private ConditionStructure condition;
+protected boolean active = true;
+private boolean reverse = false;
+private boolean repeatable = true;
+private boolean persistent = false;
+@Nullable private DynamicsLink dynamicsLink;
+@Nullable protected String profileName;
+@Nullable protected String parentName;
 
-  public ScriptStructure(final int createdVersion) {
-    this.createdVersion = createdVersion;
-  }
+public ScriptStructure(final int createdVersion) {
+	this.createdVersion = createdVersion;
+}
 
-  public String getName() { return name; }
+public String getName() {
+	return name;
+}
 
-  public void setName(final String name) { this.name = name; }
+public void setName(final String name) {
+	this.name = name;
+}
 
-  public boolean isEvent() { return event != null; }
+public boolean isEvent() {
+	return event != null;
+}
 
-  public EventStructure getEvent() { return event; }
+public EventStructure getEvent() {
+	return event;
+}
 
-  public void setEvent(final EventStructure event) { this.event = event; }
+public void setEvent(final EventStructure event) {
+	this.event = event;
+}
 
-  public boolean isCondition() { return condition != null; }
+public boolean isCondition() {
+	return condition != null;
+}
 
-  public ConditionStructure getCondition() { return condition; }
+public ConditionStructure getCondition() {
+	return condition;
+}
 
-  public void setCondition(final ConditionStructure condition) {
-    this.condition = condition;
-  }
+public void setCondition(final ConditionStructure condition) {
+	this.condition = condition;
+}
 
-  @Deprecated
-  public EventData getEventData() {
-    return event.getEventData();
-  }
+@Deprecated
+public EventData getEventData() {
+	return event.getEventData();
+}
 
-  @Deprecated
-  public void setEventData(final EventData eventData) {
-    this.event = EventStructure.createTmpScenario(eventData);
-  }
+@Deprecated
+public void setEventData(final EventData eventData) {
+	this.event = EventStructure.createTmpScenario(eventData);
+}
 
-  public boolean isActive() { return active; }
+public boolean isActive() {
+	return active;
+}
 
-  public void setActive(final boolean active) { this.active = active; }
+public void setActive(final boolean active) {
+	this.active = active;
+}
 
-  @Nullable
-  public String getProfileName() {
-    return profileName;
-  }
+@Nullable
+public String getProfileName() {
+	return profileName;
+}
 
-  public void setProfileName(final @Nullable String profileName) {
-    this.profileName = profileName;
-  }
+public void setProfileName(final @Nullable String profileName) {
+	this.profileName = profileName;
+}
 
-  @Nullable
-  public String getParentName() {
-    return parentName;
-  }
+@Nullable
+public String getParentName() {
+	return parentName;
+}
 
-  public void setParentName(final @Nullable String parentName) {
-    this.parentName = parentName;
-  }
+public void setParentName(final @Nullable String parentName) {
+	this.parentName = parentName;
+}
 
-  public boolean isValid() {
-    if ((name == null) || (name.isEmpty()))
-      return false;
-    if ((event == null) == (condition == null))
-      return false;
-    if (event != null && !event.isValid())
-      return false;
-    if (condition != null && !condition.isValid())
-      return false;
-    return true;
-  }
+public boolean isValid() {
+	if ((name == null) || (name.isEmpty()))
+		return false;
+	if ((event == null) == (condition == null))
+		return false;
+	if (event != null && !event.isValid())
+		return false;
+	if (condition != null && !condition.isValid())
+		return false;
+	return true;
+}
 
-  public boolean isRepeatable() { return repeatable; }
+public boolean isRepeatable() {
+	return repeatable;
+}
 
-  public void setRepeatable(final boolean repeatable) {
-    this.repeatable = repeatable;
-  }
+public void setRepeatable(final boolean repeatable) {
+	this.repeatable = repeatable;
+}
 
-  public boolean isPersistent() { return persistent; }
+public boolean isPersistent() {
+	return persistent;
+}
 
-  public void setPersistent(final boolean persistent) {
-    this.persistent = persistent;
-  }
+public void setPersistent(final boolean persistent) {
+	this.persistent = persistent;
+}
 
-  public boolean isReverse() { return reverse; }
+public boolean isReverse() {
+	return reverse;
+}
 
-  public void setReverse(final boolean reverse) { this.reverse = reverse; }
+public void setReverse(final boolean reverse) {
+	this.reverse = reverse;
+}
 
-  @Override
-  public int createdVersion() {
-    return createdVersion;
-  }
+@Override
+public int createdVersion() {
+	return createdVersion;
+}
 
-  public void setDynamicsLink(final @Nullable DynamicsLink dynamicsLink) {
-    this.dynamicsLink = dynamicsLink;
-  }
+public void setDynamicsLink(final @Nullable DynamicsLink dynamicsLink) {
+	this.dynamicsLink = dynamicsLink;
+}
 
-  @Nullable
-  public DynamicsLink getDynamicsLink() {
-    return dynamicsLink;
-  }
+@Nullable
+public DynamicsLink getDynamicsLink() {
+	return dynamicsLink;
+}
 }

@@ -24,19 +24,19 @@ import tellh.com.recyclertreeview_lib.LayoutItemType;
 
 public final class EventItem implements LayoutItemType {
 
-  final String eventName;
-  final boolean active;
-  final boolean valid;
+final String eventName;
+final boolean active;
+final boolean valid;
 
-  public EventItem(final String eventName, final boolean active,
-                   final boolean valid) {
-    this.eventName = eventName;
-    this.active = active;
-    this.valid = valid;
-  }
+public EventItem(final String eventName, final boolean active,
+                 final boolean valid) {
+	this.eventName = eventName;
+	this.active = active;
+	this.valid = valid;
+}
 
-  @Override
-  public int getLayoutId() {
-    return R.layout.item_script_data_node;
-  }
+@Override
+public int getLayoutId() {
+	return R.layout.item_script_data_node;
+}
 }

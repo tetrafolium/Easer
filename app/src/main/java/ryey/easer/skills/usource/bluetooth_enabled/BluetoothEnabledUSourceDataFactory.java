@@ -26,26 +26,26 @@ import ryey.easer.commons.local_skill.usource.USourceDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class BluetoothEnabledUSourceDataFactory
-    implements USourceDataFactory<BluetoothEnabledUSourceData> {
-  @NonNull
-  @Override
-  public Class<BluetoothEnabledUSourceData> dataClass() {
-    return BluetoothEnabledUSourceData.class;
-  }
+	implements USourceDataFactory<BluetoothEnabledUSourceData> {
+@NonNull
+@Override
+public Class<BluetoothEnabledUSourceData> dataClass() {
+	return BluetoothEnabledUSourceData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public BluetoothEnabledUSourceData dummyData() {
-    return new BluetoothEnabledUSourceData(true);
-  }
+@ValidData
+@NonNull
+@Override
+public BluetoothEnabledUSourceData dummyData() {
+	return new BluetoothEnabledUSourceData(true);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public BluetoothEnabledUSourceData
-  parse(final @NonNull String data, final @NonNull PluginDataFormat format,
-        final int version) throws IllegalStorageDataException {
-    return new BluetoothEnabledUSourceData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public BluetoothEnabledUSourceData
+parse(final @NonNull String data, final @NonNull PluginDataFormat format,
+      final int version) throws IllegalStorageDataException {
+	return new BluetoothEnabledUSourceData(data, format, version);
+}
 }

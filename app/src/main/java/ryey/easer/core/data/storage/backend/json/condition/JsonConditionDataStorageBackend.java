@@ -34,78 +34,78 @@ import ryey.easer.core.data.storage.backend.IOUtils;
 import ryey.easer.core.data.storage.backend.json.NC;
 
 public class JsonConditionDataStorageBackend
-    implements ConditionDataStorageBackendInterface {
+	implements ConditionDataStorageBackendInterface {
 
-  private final Context context;
-  private static File dir;
+private final Context context;
+private static File dir;
 
-  public JsonConditionDataStorageBackend(final Context context) {
-    this.context = context;
-    dir = IOUtils.mustGetSubDir(context.getFilesDir(), "condition");
-  }
+public JsonConditionDataStorageBackend(final Context context) {
+	this.context = context;
+	dir = IOUtils.mustGetSubDir(context.getFilesDir(), "condition");
+}
 
-  @Override
-  public boolean has(final String name) {
-    return IOUtils.fileExists(dir, name + NC.SUFFIX);
-  }
+@Override
+public boolean has(final String name) {
+	return IOUtils.fileExists(dir, name + NC.SUFFIX);
+}
 
-  @Override
-  public List<String> list() {
-    ArrayList<String> list = new ArrayList<>();
-    for (ConditionStructure condition : all()) {
-      list.add(condition.getName());
-    }
-    return list;
-  }
+@Override
+public List<String> list() {
+	ArrayList<String> list = new ArrayList<>();
+	for (ConditionStructure condition : all()) {
+		list.add(condition.getName());
+	}
+	return list;
+}
 
-  @Override
-  public ConditionStructure get(final String name)
-      throws FileNotFoundException, IllegalStorageDataException {
-    File file = new File(dir, name + NC.SUFFIX);
-    return get(file);
-  }
+@Override
+public ConditionStructure get(final String name)
+throws FileNotFoundException, IllegalStorageDataException {
+	File file = new File(dir, name + NC.SUFFIX);
+	return get(file);
+}
 
-  private ConditionStructure get(final File file)
-      throws FileNotFoundException, IllegalStorageDataException {
-    ConditionParser parser = new ConditionParser();
-    return FileDataStorageBackendHelper.get(parser, file);
-  }
+private ConditionStructure get(final File file)
+throws FileNotFoundException, IllegalStorageDataException {
+	ConditionParser parser = new ConditionParser();
+	return FileDataStorageBackendHelper.get(parser, file);
+}
 
-  @Override
-  public void write(final ConditionStructure data) throws IOException {
-    File file = new File(dir, data.getName() + NC.SUFFIX);
-    ConditionSerializer serializer = new ConditionSerializer();
-    FileDataStorageBackendHelper.write(serializer, file, data);
-  }
+@Override
+public void write(final ConditionStructure data) throws IOException {
+	File file = new File(dir, data.getName() + NC.SUFFIX);
+	ConditionSerializer serializer = new ConditionSerializer();
+	FileDataStorageBackendHelper.write(serializer, file, data);
+}
 
-  @Override
-  public void delete(final String name) {
-    File file = new File(dir, name + NC.SUFFIX);
-    if (!file.delete())
-      throw new IllegalStateException("Unable to delete " + file);
-  }
+@Override
+public void delete(final String name) {
+	File file = new File(dir, name + NC.SUFFIX);
+	if (!file.delete())
+		throw new IllegalStateException("Unable to delete " + file);
+}
 
-  @Override
-  public List<ConditionStructure> all() {
-    List<ConditionStructure> list = new ArrayList<>();
-    File[] files = dir.listFiles(new FileFilter() {
-      @Override
-      public boolean accept(final File pathname) {
-        if ((pathname.isFile()) && (pathname.getName().endsWith(NC.SUFFIX))) {
-          return true;
-        }
-        return false;
-      }
-    });
-    for (File file : files) {
-      try {
-        list.add(get(file));
-      } catch (IllegalStorageDataException e) {
-        e.printStackTrace();
-      } catch (FileNotFoundException e) {
-        throw new IllegalStateException(e.getCause());
-      }
-    }
-    return list;
-  }
+@Override
+public List<ConditionStructure> all() {
+	List<ConditionStructure> list = new ArrayList<>();
+	File[] files = dir.listFiles(new FileFilter() {
+			@Override
+			public boolean accept(final File pathname) {
+			        if ((pathname.isFile()) && (pathname.getName().endsWith(NC.SUFFIX))) {
+			                return true;
+				}
+			        return false;
+			}
+		});
+	for (File file : files) {
+		try {
+			list.add(get(file));
+		} catch (IllegalStorageDataException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			throw new IllegalStateException(e.getCause());
+		}
+	}
+	return list;
+}
 }

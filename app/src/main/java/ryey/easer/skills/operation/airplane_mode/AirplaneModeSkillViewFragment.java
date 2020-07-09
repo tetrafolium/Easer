@@ -25,12 +25,12 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.SwitchSkillViewFragment;
 
 public class AirplaneModeSkillViewFragment
-    extends SwitchSkillViewFragment<AirplaneModeOperationData> {
+	extends SwitchSkillViewFragment<AirplaneModeOperationData> {
 
-  @ValidData
-  @NonNull
-  @Override
-  public AirplaneModeOperationData getData() throws InvalidDataInputException {
-    return new AirplaneModeOperationData(state());
-  }
+@ValidData
+@NonNull
+@Override
+public AirplaneModeOperationData getData() throws InvalidDataInputException {
+	return new AirplaneModeOperationData(state());
+}
 }

@@ -27,13 +27,13 @@ import ryey.easer.skills.TestHelper;
 
 public class BTDeviceUSourceDataTest {
 
-  @Test
-  public void testParcel() {
-    BTDeviceUSourceData dummyData =
-        new BTDeviceUSourceDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    BTDeviceUSourceData parceledData =
-        BTDeviceUSourceData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	BTDeviceUSourceData dummyData =
+		new BTDeviceUSourceDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	BTDeviceUSourceData parceledData =
+		BTDeviceUSourceData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

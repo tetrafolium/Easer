@@ -30,33 +30,35 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class SendNotificationLoader
-    extends OperationLoader<SendNotificationOperationData> {
-  private static int NOTIFICATION_ID = 0;
+	extends OperationLoader<SendNotificationOperationData> {
+private static int NOTIFICATION_ID = 0;
 
-  static {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      NOTIFICATION_ID = ThreadLocalRandom.current().nextInt();
-    }
-  }
+static {
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+		NOTIFICATION_ID = ThreadLocalRandom.current().nextInt();
+	}
+}
 
-  public SendNotificationLoader(final Context context) { super(context); }
+public SendNotificationLoader(final Context context) {
+	super(context);
+}
 
-  @Override
-  public boolean load(final
-                      @ValidData @NonNull SendNotificationOperationData data) {
-    NotificationManager notificationManager =
-        (NotificationManager)context.getSystemService(
-            Context.NOTIFICATION_SERVICE);
+@Override
+public boolean load(final
+                    @ValidData @NonNull SendNotificationOperationData data) {
+	NotificationManager notificationManager =
+		(NotificationManager)context.getSystemService(
+			Context.NOTIFICATION_SERVICE);
 
-    NotificationCompat.Builder builder =
-        new NotificationCompat.Builder(context);
-    builder.setSmallIcon(R.mipmap.ic_launcher);
-    builder.setContentTitle(data.title);
-    builder.setContentText(data.content);
+	NotificationCompat.Builder builder =
+		new NotificationCompat.Builder(context);
+	builder.setSmallIcon(R.mipmap.ic_launcher);
+	builder.setContentTitle(data.title);
+	builder.setContentText(data.content);
 
-    notificationManager.notify(NOTIFICATION_ID, builder.build());
-    NOTIFICATION_ID++;
+	notificationManager.notify(NOTIFICATION_ID, builder.build());
+	NOTIFICATION_ID++;
 
-    return true;
-  }
+	return true;
+}
 }

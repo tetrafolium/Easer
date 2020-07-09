@@ -35,78 +35,78 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class SmsEventSkill implements EventSkill<SmsEventData> {
 
-  @NonNull
-  @Override
-  public String id() {
-    return "sms";
-  }
+@NonNull
+@Override
+public String id() {
+	return "sms";
+}
 
-  @Override
-  public int name() {
-    return R.string.event_sms;
-  }
+@Override
+public int name() {
+	return R.string.event_sms;
+}
 
-  @Override
-  public boolean isCompatible(@NonNull final Context context) {
-    return true;
-  }
+@Override
+public boolean isCompatible(@NonNull final Context context) {
+	return true;
+}
 
-  @Nullable
-  @Override
-  public Boolean checkPermissions(final @NonNull Context context) {
-    return SkillUtils.checkPermission(context, Manifest.permission.READ_SMS,
-                                      Manifest.permission.RECEIVE_SMS);
-  }
+@Nullable
+@Override
+public Boolean checkPermissions(final @NonNull Context context) {
+	return SkillUtils.checkPermission(context, Manifest.permission.READ_SMS,
+	                                  Manifest.permission.RECEIVE_SMS);
+}
 
-  @Override
-  public void requestPermissions(final @NonNull Activity activity,
-                                 final int requestCode) {
-    boolean can_read_sms =
-        SkillUtils.checkPermission(activity, Manifest.permission.READ_SMS);
-    boolean can_receive_sms =
-        SkillUtils.checkPermission(activity, Manifest.permission.RECEIVE_SMS);
-    if (!can_read_sms && !can_receive_sms) {
-      SkillUtils.requestPermission(activity, requestCode,
-                                   Manifest.permission.READ_SMS,
-                                   Manifest.permission.RECEIVE_SMS);
-    } else if (!can_read_sms) {
-      SkillUtils.requestPermission(activity, requestCode,
-                                   Manifest.permission.READ_SMS);
-    } else {
-      SkillUtils.requestPermission(activity, requestCode,
-                                   Manifest.permission.RECEIVE_SMS);
-    }
-  }
+@Override
+public void requestPermissions(final @NonNull Activity activity,
+                               final int requestCode) {
+	boolean can_read_sms =
+		SkillUtils.checkPermission(activity, Manifest.permission.READ_SMS);
+	boolean can_receive_sms =
+		SkillUtils.checkPermission(activity, Manifest.permission.RECEIVE_SMS);
+	if (!can_read_sms && !can_receive_sms) {
+		SkillUtils.requestPermission(activity, requestCode,
+		                             Manifest.permission.READ_SMS,
+		                             Manifest.permission.RECEIVE_SMS);
+	} else if (!can_read_sms) {
+		SkillUtils.requestPermission(activity, requestCode,
+		                             Manifest.permission.READ_SMS);
+	} else {
+		SkillUtils.requestPermission(activity, requestCode,
+		                             Manifest.permission.RECEIVE_SMS);
+	}
+}
 
-  @NonNull
-  @Override
-  public EventDataFactory<SmsEventData> dataFactory() {
-    return new SmsEventDataFactory();
-  }
+@NonNull
+@Override
+public EventDataFactory<SmsEventData> dataFactory() {
+	return new SmsEventDataFactory();
+}
 
-  @NonNull
-  @Override
-  public SourceCategory category() {
-    return SourceCategory.personal;
-  }
+@NonNull
+@Override
+public SourceCategory category() {
+	return SourceCategory.personal;
+}
 
-  @NonNull
-  @Override
-  public SkillView<SmsEventData> view() {
-    return new SmsSkillViewFragment();
-  }
+@NonNull
+@Override
+public SkillView<SmsEventData> view() {
+	return new SmsSkillViewFragment();
+}
 
-  @Override
-  public AbstractSlot<SmsEventData>
-  slot(final @NonNull Context context,
-       final @ValidData @NonNull SmsEventData data) {
-    return new SmsConnSlot(context, data);
-  }
+@Override
+public AbstractSlot<SmsEventData>
+slot(final @NonNull Context context,
+     final @ValidData @NonNull SmsEventData data) {
+	return new SmsConnSlot(context, data);
+}
 
-  @Override
-  public AbstractSlot<SmsEventData>
-  slot(final @NonNull Context context, final @NonNull SmsEventData data,
-       final boolean retriggerable, final boolean persistent) {
-    return new SmsConnSlot(context, data, retriggerable, persistent);
-  }
+@Override
+public AbstractSlot<SmsEventData>
+slot(final @NonNull Context context, final @NonNull SmsEventData data,
+     final boolean retriggerable, final boolean persistent) {
+	return new SmsConnSlot(context, data, retriggerable, persistent);
+}
 }

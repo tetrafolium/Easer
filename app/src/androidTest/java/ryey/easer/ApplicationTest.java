@@ -30,6 +30,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class ApplicationTest {
-  @Test
-  public void test() throws Exception {}
+@Test
+public void test() throws Exception {
+}
 }

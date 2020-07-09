@@ -26,30 +26,30 @@ import java.util.Collection;
 
 public class Utils {
 
-  static void scheduleAlarmEveryday(final AlarmManager alarmManager,
-                                    final PendingIntent pendingIntent) {
-    Calendar calendar = Calendar.getInstance();
-    calendar.set(Calendar.HOUR_OF_DAY, 0);
-    calendar.set(Calendar.MINUTE, 0);
-    calendar.set(Calendar.SECOND, 0); // 00:00
-    calendar.roll(Calendar.DAY_OF_YEAR,
-                  1); // "Tomorrow" (with extra care from the next code block)
-    if (calendar.get(Calendar.DAY_OF_YEAR) ==
-        0) // First day of year, but year is not rolled
-      calendar.roll(Calendar.YEAR, 1);
-    // calendar == Tomorrow 00:00
-    alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
-                                     calendar.getTimeInMillis(),
-                                     AlarmManager.INTERVAL_DAY, pendingIntent);
-  }
+static void scheduleAlarmEveryday(final AlarmManager alarmManager,
+                                  final PendingIntent pendingIntent) {
+	Calendar calendar = Calendar.getInstance();
+	calendar.set(Calendar.HOUR_OF_DAY, 0);
+	calendar.set(Calendar.MINUTE, 0);
+	calendar.set(Calendar.SECOND, 0); // 00:00
+	calendar.roll(Calendar.DAY_OF_YEAR,
+	              1); // "Tomorrow" (with extra care from the next code block)
+	if (calendar.get(Calendar.DAY_OF_YEAR) ==
+	    0) // First day of year, but year is not rolled
+		calendar.roll(Calendar.YEAR, 1);
+	// calendar == Tomorrow 00:00
+	alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+	                                 calendar.getTimeInMillis(),
+	                                 AlarmManager.INTERVAL_DAY, pendingIntent);
+}
 
-  static boolean isSatisfied(final Collection<Integer> days) {
-    Calendar now = Calendar.getInstance();
-    int hour = now.get(Calendar.HOUR_OF_DAY);
-    int day_of_week = now.get(Calendar.DAY_OF_WEEK) -
-                      1; // Starts with 1, but ours starts with 0
-    if (hour > 12)       // If not yet 00:00 (because it's "inexact")
-      day_of_week = (day_of_week + 1) % 7;
-    return days.contains(day_of_week);
-  }
+static boolean isSatisfied(final Collection<Integer> days) {
+	Calendar now = Calendar.getInstance();
+	int hour = now.get(Calendar.HOUR_OF_DAY);
+	int day_of_week = now.get(Calendar.DAY_OF_WEEK) -
+	                  1; // Starts with 1, but ours starts with 0
+	if (hour > 12)   // If not yet 00:00 (because it's "inexact")
+		day_of_week = (day_of_week + 1) % 7;
+	return days.contains(day_of_week);
+}
 }

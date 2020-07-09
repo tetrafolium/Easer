@@ -52,202 +52,202 @@ import ryey.easer.skills.SkillUtils;
 import ryey.easer.skills.SkillViewFragment;
 
 public class WifiSkillViewFragment extends SkillViewFragment<WifiUSourceData> {
-  private EditText editText_ssid;
+private EditText editText_ssid;
 
-  private RadioButton rb_match_essid;
-  private RadioButton rb_match_bssid;
+private RadioButton rb_match_essid;
+private RadioButton rb_match_bssid;
 
-  private WifiManager wifiManager;
-  private boolean waiting_for_result;
-  private ReentrantLock wait_lock = new ReentrantLock();
-  private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      if (WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(
-              intent.getAction())) {
-        onResultsAvailable();
-      }
-    }
-  };
-  ProgressDialog progressDialog;
+private WifiManager wifiManager;
+private boolean waiting_for_result;
+private ReentrantLock wait_lock = new ReentrantLock();
+private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+	@Override
+	public void onReceive(final Context context, final Intent intent) {
+		if (WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(
+			    intent.getAction())) {
+			onResultsAvailable();
+		}
+	}
+};
+ProgressDialog progressDialog;
 
-  @Override
-  public void onAttach(final Context context) {
-    super.onAttach(context);
-    wifiManager = (WifiManager)context.getApplicationContext().getSystemService(
-        Context.WIFI_SERVICE);
-    context.registerReceiver(
-        mReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-  }
+@Override
+public void onAttach(final Context context) {
+	super.onAttach(context);
+	wifiManager = (WifiManager)context.getApplicationContext().getSystemService(
+		Context.WIFI_SERVICE);
+	context.registerReceiver(
+		mReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+}
 
-  @NonNull
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final @Nullable ViewGroup container,
-                           final @Nullable Bundle savedInstanceState) {
-    final View view = inflater.inflate(R.layout.plugin_usource__wifi_connection,
-                                       container, false);
-    editText_ssid = view.findViewById(R.id.wifi_name);
+@NonNull
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final @Nullable ViewGroup container,
+                         final @Nullable Bundle savedInstanceState) {
+	final View view = inflater.inflate(R.layout.plugin_usource__wifi_connection,
+	                                   container, false);
+	editText_ssid = view.findViewById(R.id.wifi_name);
 
-    rb_match_essid = view.findViewById(R.id.rb_match_essid);
-    rb_match_bssid = view.findViewById(R.id.rb_match_bssid);
+	rb_match_essid = view.findViewById(R.id.rb_match_essid);
+	rb_match_bssid = view.findViewById(R.id.rb_match_bssid);
 
-    view.findViewById(R.id.connection_picker)
-        .setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(final View v) {
-            if (!SkillUtils.checkPermission(
-                    getContext(), Manifest.permission.ACCESS_WIFI_STATE))
-              return;
-            wait_lock.lock();
-            try {
-              waiting_for_result = true;
-            } finally {
-              wait_lock.unlock();
-            }
-            wifiManager.startScan();
-            progressDialog = new ProgressDialog(getContext());
-            progressDialog.setTitle(R.string.usource_wificonn_wait_for_result);
-            progressDialog.setIndeterminate(true);
-            progressDialog.show();
-          }
-        });
+	view.findViewById(R.id.connection_picker)
+	.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+			        if (!SkillUtils.checkPermission(
+					    getContext(), Manifest.permission.ACCESS_WIFI_STATE))
+					return;
+			        wait_lock.lock();
+			        try {
+			                waiting_for_result = true;
+				} finally {
+			                wait_lock.unlock();
+				}
+			        wifiManager.startScan();
+			        progressDialog = new ProgressDialog(getContext());
+			        progressDialog.setTitle(R.string.usource_wificonn_wait_for_result);
+			        progressDialog.setIndeterminate(true);
+			        progressDialog.show();
+			}
+		});
 
-    return view;
-  }
+	return view;
+}
 
-  @Override
-  public void onDetach() {
-    // noinspection ConstantConditions
-    @NonNull Context context = getContext();
-    wifiManager = (WifiManager)context.getApplicationContext().getSystemService(
-        Context.WIFI_SERVICE);
-    context.unregisterReceiver(mReceiver);
-    super.onDetach();
-  }
+@Override
+public void onDetach() {
+	// noinspection ConstantConditions
+	@NonNull Context context = getContext();
+	wifiManager = (WifiManager)context.getApplicationContext().getSystemService(
+		Context.WIFI_SERVICE);
+	context.unregisterReceiver(mReceiver);
+	super.onDetach();
+}
 
-  private void onResultsAvailable() {
-    wait_lock.lock();
-    try {
-      if (!waiting_for_result)
-        return;
-      waiting_for_result = false;
-    } finally {
-      wait_lock.unlock();
-    }
-    final ArrayAdapter<WifiConfigurationWrapper> arrayAdapter =
-        new ArrayAdapter<>(getContext(),
-                           android.R.layout.select_dialog_singlechoice);
-    for (WifiConfigurationWrapper wrapper : obtainWifiList()) {
-      arrayAdapter.add(wrapper);
-    }
-    AlertDialog.Builder builderSingle = new AlertDialog.Builder(getContext());
-    builderSingle.setTitle(R.string.usource_wificonn_select_dialog_title);
-    builderSingle.setAdapter(
-        arrayAdapter, new DialogInterface.OnClickListener() {
-          @SuppressWarnings("ConstantConditions")
-          @Override
-          public void onClick(final DialogInterface dialog, final int which) {
-            onWifiSelected(arrayAdapter.getItem(which));
-          }
-        });
-    builderSingle.show();
-    progressDialog.dismiss();
-  }
+private void onResultsAvailable() {
+	wait_lock.lock();
+	try {
+		if (!waiting_for_result)
+			return;
+		waiting_for_result = false;
+	} finally {
+		wait_lock.unlock();
+	}
+	final ArrayAdapter<WifiConfigurationWrapper> arrayAdapter =
+		new ArrayAdapter<>(getContext(),
+		                   android.R.layout.select_dialog_singlechoice);
+	for (WifiConfigurationWrapper wrapper : obtainWifiList()) {
+		arrayAdapter.add(wrapper);
+	}
+	AlertDialog.Builder builderSingle = new AlertDialog.Builder(getContext());
+	builderSingle.setTitle(R.string.usource_wificonn_select_dialog_title);
+	builderSingle.setAdapter(
+		arrayAdapter, new DialogInterface.OnClickListener() {
+			@SuppressWarnings("ConstantConditions")
+			@Override
+			public void onClick(final DialogInterface dialog, final int which) {
+			        onWifiSelected(arrayAdapter.getItem(which));
+			}
+		});
+	builderSingle.show();
+	progressDialog.dismiss();
+}
 
-  private List<WifiConfigurationWrapper> obtainWifiList() {
-    List<WifiConfigurationWrapper> list = new ArrayList<>();
-    if (wifiManager != null) {
-      List<ScanResult> scanResults = wifiManager.getScanResults();
-      for (ScanResult result : scanResults) {
-        list.add(new WifiConfigurationWrapper(result.SSID, result.BSSID));
-      }
-    }
-    return list;
-  }
+private List<WifiConfigurationWrapper> obtainWifiList() {
+	List<WifiConfigurationWrapper> list = new ArrayList<>();
+	if (wifiManager != null) {
+		List<ScanResult> scanResults = wifiManager.getScanResults();
+		for (ScanResult result : scanResults) {
+			list.add(new WifiConfigurationWrapper(result.SSID, result.BSSID));
+		}
+	}
+	return list;
+}
 
-  private void onWifiSelected(final WifiConfigurationWrapper wrapper) {
-    if (rb_match_essid.isChecked()) {
-      String essid = wrapper.SSID;
-      addESSID(essid);
-    } else {
-      String bssid = wrapper.BSSID;
-      addBSSID(bssid);
-    }
-  }
+private void onWifiSelected(final WifiConfigurationWrapper wrapper) {
+	if (rb_match_essid.isChecked()) {
+		String essid = wrapper.SSID;
+		addESSID(essid);
+	} else {
+		String bssid = wrapper.BSSID;
+		addBSSID(bssid);
+	}
+}
 
-  private void addESSID(final String essid) {
-    Editable text = editText_ssid.getText();
-    if (!Utils.isBlank(text.toString()))
-      text.append("\n");
-    if (essid.startsWith("\"")) {
-      essid = essid.substring(1, essid.length() - 1);
-    }
-    text.append(essid);
-  }
+private void addESSID(final String essid) {
+	Editable text = editText_ssid.getText();
+	if (!Utils.isBlank(text.toString()))
+		text.append("\n");
+	if (essid.startsWith("\"")) {
+		essid = essid.substring(1, essid.length() - 1);
+	}
+	text.append(essid);
+}
 
-  private void addBSSID(final String bssid) {
-    Editable text = editText_ssid.getText();
-    if (!Utils.isBlank(text.toString()))
-      text.append("\n");
-    text.append(bssid);
-  }
+private void addBSSID(final String bssid) {
+	Editable text = editText_ssid.getText();
+	if (!Utils.isBlank(text.toString()))
+		text.append("\n");
+	text.append(bssid);
+}
 
-  @Override
-  protected void _fill(final @ValidData @NonNull WifiUSourceData data) {
-    rb_match_essid.setChecked(data.mode_essid);
-    editText_ssid.setText(Utils.StringCollectionToString(data.ssids, false));
-  }
+@Override
+protected void _fill(final @ValidData @NonNull WifiUSourceData data) {
+	rb_match_essid.setChecked(data.mode_essid);
+	editText_ssid.setText(Utils.StringCollectionToString(data.ssids, false));
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public WifiUSourceData getData() throws InvalidDataInputException {
-    return new WifiUSourceData(editText_ssid.getText().toString(),
-                               rb_match_essid.isChecked());
-  }
+@ValidData
+@NonNull
+@Override
+public WifiUSourceData getData() throws InvalidDataInputException {
+	return new WifiUSourceData(editText_ssid.getText().toString(),
+	                           rb_match_essid.isChecked());
+}
 
-  static class WifiConfigurationWrapper implements Parcelable {
-    final String SSID;
-    final String BSSID;
+static class WifiConfigurationWrapper implements Parcelable {
+final String SSID;
+final String BSSID;
 
-    WifiConfigurationWrapper(final String SSID, final String BSSID) {
-      this.SSID = SSID;
-      this.BSSID = BSSID;
-    }
+WifiConfigurationWrapper(final String SSID, final String BSSID) {
+	this.SSID = SSID;
+	this.BSSID = BSSID;
+}
 
-    private WifiConfigurationWrapper(final Parcel in) {
-      SSID = in.readString();
-      BSSID = in.readString();
-    }
+private WifiConfigurationWrapper(final Parcel in) {
+	SSID = in.readString();
+	BSSID = in.readString();
+}
 
-    public static final Creator<WifiConfigurationWrapper> CREATOR =
-        new Creator<WifiConfigurationWrapper>() {
-          @Override
-          public WifiConfigurationWrapper createFromParcel(final Parcel in) {
-            return new WifiConfigurationWrapper(in);
-          }
+public static final Creator<WifiConfigurationWrapper> CREATOR =
+	new Creator<WifiConfigurationWrapper>() {
+	@Override
+	public WifiConfigurationWrapper createFromParcel(final Parcel in) {
+		return new WifiConfigurationWrapper(in);
+	}
 
-          @Override
-          public WifiConfigurationWrapper[] newArray(final int size) {
-            return new WifiConfigurationWrapper[size];
-          }
-        };
+	@Override
+	public WifiConfigurationWrapper[] newArray(final int size) {
+		return new WifiConfigurationWrapper[size];
+	}
+};
 
-    @Override
-    public int describeContents() {
-      return 0;
-    }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-    @Override
-    public void writeToParcel(final Parcel parcel, final int i) {
-      parcel.writeString(SSID);
-      parcel.writeString(BSSID);
-    }
+@Override
+public void writeToParcel(final Parcel parcel, final int i) {
+	parcel.writeString(SSID);
+	parcel.writeString(BSSID);
+}
 
-    @Override
-    public String toString() {
-      return String.format("%s\n[%s]", SSID, BSSID);
-    }
-  }
+@Override
+public String toString() {
+	return String.format("%s\n[%s]", SSID, BSSID);
+}
+}
 }

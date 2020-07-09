@@ -35,70 +35,70 @@ import ryey.easer.core.ui.data.DataListContainerInterface;
 
 public class ScriptListFragment extends AbstractDataListFragment {
 
-  static { TAG = "[ScriptListFragment] "; }
+static { TAG = "[ScriptListFragment] "; }
 
-  @NonNull
-  @Override
-  public String title() {
-    return getString(R.string.title_script);
-  }
+@NonNull
+@Override
+public String title() {
+	return getString(R.string.title_script);
+}
 
-  @Override
-  public int helpTextRes() {
-    return R.string.help_script;
-  }
+@Override
+public int helpTextRes() {
+	return R.string.help_script;
+}
 
-  @Nullable
-  @Override
-  public Integer extraMenu() {
-    return R.menu.list_script_extra;
-  }
+@Nullable
+@Override
+public Integer extraMenu() {
+	return R.menu.list_script_extra;
+}
 
-  @Override
-  public void onCreate(final @Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setHasOptionsMenu(true);
-  }
+@Override
+public void onCreate(final @Nullable Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	setHasOptionsMenu(true);
+}
 
-  @Override
-  public boolean onOptionsItemSelected(final MenuItem item) {
-    if (item.getItemId() == R.id.action_tree_list) {
-      refContainer.get().switchContent(
-          DataListContainerInterface.ListType.script_tree);
-      return true;
-    }
-    return false;
-  }
+@Override
+public boolean onOptionsItemSelected(final MenuItem item) {
+	if (item.getItemId() == R.id.action_tree_list) {
+		refContainer.get().switchContent(
+			DataListContainerInterface.ListType.script_tree);
+		return true;
+	}
+	return false;
+}
 
-  @Override
-  protected List<ListDataWrapper> queryDataList() {
-    ScriptDataStorage dataStorage = new ScriptDataStorage(getContext());
-    List<ListDataWrapper> dataWrapperList = new ArrayList<>();
-    for (String name : dataStorage.list()) {
-      ScriptStructure script = dataStorage.get(name);
-      if (script.isActive()) {
-        if (script.isValid()) {
-          dataWrapperList.add(new ListDataWrapper(name));
-        } else {
-          dataWrapperList.add(
-              new ListDataWrapper(name, R.color.colorText_invalid));
-        }
-      } else {
-        dataWrapperList.add(
-            new ListDataWrapper(name, R.color.colorText_scriptInactive));
-      }
-    }
-    return dataWrapperList;
-  }
+@Override
+protected List<ListDataWrapper> queryDataList() {
+	ScriptDataStorage dataStorage = new ScriptDataStorage(getContext());
+	List<ListDataWrapper> dataWrapperList = new ArrayList<>();
+	for (String name : dataStorage.list()) {
+		ScriptStructure script = dataStorage.get(name);
+		if (script.isActive()) {
+			if (script.isValid()) {
+				dataWrapperList.add(new ListDataWrapper(name));
+			} else {
+				dataWrapperList.add(
+					new ListDataWrapper(name, R.color.colorText_invalid));
+			}
+		} else {
+			dataWrapperList.add(
+				new ListDataWrapper(name, R.color.colorText_scriptInactive));
+		}
+	}
+	return dataWrapperList;
+}
 
-  @Override
-  protected void onDataChangedFromEditDataActivity() {
-    super.onDataChangedFromEditDataActivity();
-    EHService.reload(getContext());
-  }
+@Override
+protected void onDataChangedFromEditDataActivity() {
+	super.onDataChangedFromEditDataActivity();
+	EHService.reload(getContext());
+}
 
-  @Override
-  public Intent intentForEditDataActivity() {
-    return new Intent(getActivity(), EditScriptActivity.class);
-  }
+@Override
+public Intent intentForEditDataActivity() {
+	return new Intent(getActivity(), EditScriptActivity.class);
+}
 }

@@ -27,63 +27,64 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DynamicsLink implements Parcelable {
-  private HashMap<String, String> link = new HashMap<>();
+private HashMap<String, String> link = new HashMap<>();
 
-  public DynamicsLink() {}
+public DynamicsLink() {
+}
 
-  public void put(final String placeholder, final String property) {
-    link.put(placeholder, property);
-  }
+public void put(final String placeholder, final String property) {
+	link.put(placeholder, property);
+}
 
-  @NonNull
-  public Map<String, String> identityMap() {
-    return link;
-  }
+@NonNull
+public Map<String, String> identityMap() {
+	return link;
+}
 
-  /**
-   * From `A ==> B & B ==> C` to `A ==> C`
-   * link is `A ==> B` (Placeholder ==> Dynamics id)
-   * extras is `B ==> C` (Dynamics id ==> Dynamics value)
-   * @param extras The mapping between Dynamics id to Dynamics value
-   * @return Mapping from Placeholder to Dynamics value
-   */
-  @NonNull
-  public SolidDynamicsAssignment assign(final Bundle extras) {
-    HashMap<String, String> assignment = new HashMap<>();
-    for (String key : link.keySet()) {
-      String dynamics_id = link.get(key);
-      String dynamics_value = extras.getString(dynamics_id);
-      if (dynamics_value != null) {
-        assignment.put(key, dynamics_value);
-      }
-    }
-    return new SolidDynamicsAssignment(assignment);
-  }
+/**
+ * From `A ==> B & B ==> C` to `A ==> C`
+ * link is `A ==> B` (Placeholder ==> Dynamics id)
+ * extras is `B ==> C` (Dynamics id ==> Dynamics value)
+ * @param extras The mapping between Dynamics id to Dynamics value
+ * @return Mapping from Placeholder to Dynamics value
+ */
+@NonNull
+public SolidDynamicsAssignment assign(final Bundle extras) {
+	HashMap<String, String> assignment = new HashMap<>();
+	for (String key : link.keySet()) {
+		String dynamics_id = link.get(key);
+		String dynamics_value = extras.getString(dynamics_id);
+		if (dynamics_value != null) {
+			assignment.put(key, dynamics_value);
+		}
+	}
+	return new SolidDynamicsAssignment(assignment);
+}
 
-  private DynamicsLink(final Parcel in) {
-    in.readMap(link, HashMap.class.getClassLoader());
-  }
+private DynamicsLink(final Parcel in) {
+	in.readMap(link, HashMap.class.getClassLoader());
+}
 
-  public static final Parcelable.Creator<DynamicsLink> CREATOR =
-      new Parcelable.Creator<DynamicsLink>() {
-        @Override
-        public DynamicsLink createFromParcel(final Parcel in) {
-          return new DynamicsLink(in);
-        }
+public static final Parcelable.Creator<DynamicsLink> CREATOR =
+	new Parcelable.Creator<DynamicsLink>() {
+	@Override
+	public DynamicsLink createFromParcel(final Parcel in) {
+		return new DynamicsLink(in);
+	}
 
-        @Override
-        public DynamicsLink[] newArray(final int size) {
-          return new DynamicsLink[size];
-        }
-      };
+	@Override
+	public DynamicsLink[] newArray(final int size) {
+		return new DynamicsLink[size];
+	}
+};
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-  @Override
-  public void writeToParcel(final Parcel parcel, final int i) {
-    parcel.writeMap(link);
-  }
+@Override
+public void writeToParcel(final Parcel parcel, final int i) {
+	parcel.writeMap(link);
+}
 }

@@ -33,41 +33,41 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillViewFragment;
 
 public class BroadcastSkillViewFragment
-    extends SkillViewFragment<BroadcastEventData> {
-  private EditText editText_action;
-  private EditText editText_category;
+	extends SkillViewFragment<BroadcastEventData> {
+private EditText editText_action;
+private EditText editText_category;
 
-  @NonNull
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final @Nullable ViewGroup container,
-                           final @Nullable Bundle savedInstanceState) {
-    View view =
-        inflater.inflate(R.layout.plugin_event__broadcast, container, false);
-    editText_action = view.findViewById(R.id.editText_action);
-    editText_category = view.findViewById(R.id.editText_category);
+@NonNull
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final @Nullable ViewGroup container,
+                         final @Nullable Bundle savedInstanceState) {
+	View view =
+		inflater.inflate(R.layout.plugin_event__broadcast, container, false);
+	editText_action = view.findViewById(R.id.editText_action);
+	editText_category = view.findViewById(R.id.editText_category);
 
-    return view;
-  }
+	return view;
+}
 
-  @Override
-  protected void _fill(final @ValidData @NonNull BroadcastEventData data) {
-    ReceiverSideIntentData intentData = data.intentData;
-    editText_action.setText(
-        Utils.StringCollectionToString(intentData.action, false));
-    editText_category.setText(
-        Utils.StringCollectionToString(intentData.category, false));
-  }
+@Override
+protected void _fill(final @ValidData @NonNull BroadcastEventData data) {
+	ReceiverSideIntentData intentData = data.intentData;
+	editText_action.setText(
+		Utils.StringCollectionToString(intentData.action, false));
+	editText_category.setText(
+		Utils.StringCollectionToString(intentData.category, false));
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public BroadcastEventData getData() throws InvalidDataInputException {
-    ReceiverSideIntentData intentData = new ReceiverSideIntentData();
-    intentData.action =
-        Utils.stringToStringList(editText_action.getText().toString());
-    intentData.category =
-        Utils.stringToStringList(editText_category.getText().toString());
-    return new BroadcastEventData(intentData);
-  }
+@ValidData
+@NonNull
+@Override
+public BroadcastEventData getData() throws InvalidDataInputException {
+	ReceiverSideIntentData intentData = new ReceiverSideIntentData();
+	intentData.action =
+		Utils.stringToStringList(editText_action.getText().toString());
+	intentData.category =
+		Utils.stringToStringList(editText_category.getText().toString());
+	return new BroadcastEventData(intentData);
+}
 }

@@ -29,81 +29,81 @@ import ryey.easer.plugin.PluginDataFormat;
 
 public class ScreenUSourceData implements USourceData {
 
-  enum ScreenEvent {
-    on,
-    off,
-    unlocked,
-  }
+enum ScreenEvent {
+	on,
+	off,
+	unlocked,
+}
 
-  final ScreenEvent screenEvent;
+final ScreenEvent screenEvent;
 
-  ScreenUSourceData(final ScreenEvent screenEvent) {
-    this.screenEvent = screenEvent;
-  }
+ScreenUSourceData(final ScreenEvent screenEvent) {
+	this.screenEvent = screenEvent;
+}
 
-  ScreenUSourceData(final @NonNull String data,
-                    final @NonNull PluginDataFormat format, final int version)
-      throws IllegalStorageDataException {
-    screenEvent = ScreenEvent.valueOf(data);
-  }
+ScreenUSourceData(final @NonNull String data,
+                  final @NonNull PluginDataFormat format, final int version)
+throws IllegalStorageDataException {
+	screenEvent = ScreenEvent.valueOf(data);
+}
 
-  @NonNull
-  @Override
-  public String serialize(final @NonNull PluginDataFormat format) {
-    String res;
-    switch (format) {
-    default:
-      res = screenEvent.name();
-    }
-    return res;
-  }
+@NonNull
+@Override
+public String serialize(final @NonNull PluginDataFormat format) {
+	String res;
+	switch (format) {
+	default:
+		res = screenEvent.name();
+	}
+	return res;
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean isValid() {
-    if (screenEvent == null)
-      return false;
-    return true;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean isValid() {
+	if (screenEvent == null)
+		return false;
+	return true;
+}
 
-  @Nullable
-  @Override
-  public Dynamics[] dynamics() {
-    return null;
-  }
+@Nullable
+@Override
+public Dynamics[] dynamics() {
+	return null;
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean equals(final Object obj) {
-    if (obj == null || !(obj instanceof ScreenUSourceData))
-      return false;
-    if (!screenEvent.equals(((ScreenUSourceData)obj).screenEvent))
-      return false;
-    return true;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean equals(final Object obj) {
+	if (obj == null || !(obj instanceof ScreenUSourceData))
+		return false;
+	if (!screenEvent.equals(((ScreenUSourceData)obj).screenEvent))
+		return false;
+	return true;
+}
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-  @Override
-  public void writeToParcel(final Parcel dest, final int flags) {
-    screenEvent.ordinal();
-  }
+@Override
+public void writeToParcel(final Parcel dest, final int flags) {
+	screenEvent.ordinal();
+}
 
-  public static final Creator<ScreenUSourceData> CREATOR =
-      new Creator<ScreenUSourceData>() {
-        public ScreenUSourceData createFromParcel(final Parcel in) {
-          return new ScreenUSourceData(in);
-        }
+public static final Creator<ScreenUSourceData> CREATOR =
+	new Creator<ScreenUSourceData>() {
+	public ScreenUSourceData createFromParcel(final Parcel in) {
+		return new ScreenUSourceData(in);
+	}
 
-        public ScreenUSourceData[] newArray(final int size) {
-          return new ScreenUSourceData[size];
-        }
-      };
+	public ScreenUSourceData[] newArray(final int size) {
+		return new ScreenUSourceData[size];
+	}
+};
 
-  private ScreenUSourceData(final Parcel in) {
-    screenEvent = ScreenEvent.values()[in.readInt()];
-  }
+private ScreenUSourceData(final Parcel in) {
+	screenEvent = ScreenEvent.values()[in.readInt()];
+}
 }

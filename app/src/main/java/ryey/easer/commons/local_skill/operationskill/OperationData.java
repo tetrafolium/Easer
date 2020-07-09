@@ -26,8 +26,8 @@ import ryey.easer.commons.local_skill.StorageData;
 import ryey.easer.commons.local_skill.dynamics.SolidDynamicsAssignment;
 
 public interface OperationData extends StorageData {
-  @Nullable Set<String> placeholders();
+@Nullable Set<String> placeholders();
 
-  @NonNull
-  OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment);
+@NonNull
+OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment);
 }

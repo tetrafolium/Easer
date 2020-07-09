@@ -26,13 +26,13 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.plugin.PluginDataFormat;
 
 public interface OperationDataFactory<T extends OperationData>
-    extends DataFactory<T> {
-  @NonNull Class<T> dataClass();
+	extends DataFactory<T> {
+@NonNull Class<T> dataClass();
 
-  @ValidData @NonNull T dummyData();
+@ValidData @NonNull T dummyData();
 
-  @ValidData
-  @NonNull
-  T parse(@NonNull String data, @NonNull PluginDataFormat format, int version)
-      throws IllegalStorageDataException;
+@ValidData
+@NonNull
+T parse(@NonNull String data, @NonNull PluginDataFormat format, int version)
+throws IllegalStorageDataException;
 }

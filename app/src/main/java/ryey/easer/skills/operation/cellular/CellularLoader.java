@@ -31,62 +31,64 @@ import ryey.easer.skills.SkillUtils;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class CellularLoader extends OperationLoader<CellularOperationData> {
-  public CellularLoader(final Context context) { super(context); }
+public CellularLoader(final Context context) {
+	super(context);
+}
 
-  @Override
-  public boolean load(final @ValidData @NonNull CellularOperationData data) {
-    Boolean state = data.get();
-    TelephonyManager telephonyManager =
-        (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-    if (state ==
-        (telephonyManager.getDataState() == TelephonyManager.DATA_CONNECTED)) {
-      return true;
-    } else {
-      if (SkillUtils.useRootFeature(context)) {
-        try {
-          String command = "svc data " + (state ? "enable" : "disable");
-          SkillUtils.executeCommandAsRoot(context, command);
-          return true;
-        } catch (IOException e) {
-          e.printStackTrace();
-          return false;
-        }
-      } else {
-        try {
-          Class telephonyManagerClass =
-              Class.forName(telephonyManager.getClass().getName());
-          Method getITelephonyMethod =
-              telephonyManagerClass.getDeclaredMethod("getITelephony");
-          getITelephonyMethod.setAccessible(true);
-          Object ITelephonyStub = getITelephonyMethod.invoke(telephonyManager);
-          Class ITelephonyClass =
-              Class.forName(ITelephonyStub.getClass().getName());
-          Method dataConnSwitchMethod;
-          if (state) {
-            dataConnSwitchMethod =
-                ITelephonyClass.getDeclaredMethod("enableDataConnectivity");
-          } else {
-            dataConnSwitchMethod =
-                ITelephonyClass.getDeclaredMethod("disableDataConnectivity");
-          }
-          dataConnSwitchMethod.setAccessible(true);
-          dataConnSwitchMethod.invoke(ITelephonyStub);
-          return true;
-        } catch (ClassNotFoundException e) {
-          Logger.e(e, null);
-          e.printStackTrace();
-        } catch (InvocationTargetException e) {
-          Logger.e(e, null);
-          e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-          Logger.e(e, null);
-          e.printStackTrace();
-        } catch (IllegalAccessException e) {
-          Logger.e(e, null);
-          e.printStackTrace();
-        }
-      }
-    }
-    return false;
-  }
+@Override
+public boolean load(final @ValidData @NonNull CellularOperationData data) {
+	Boolean state = data.get();
+	TelephonyManager telephonyManager =
+		(TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+	if (state ==
+	    (telephonyManager.getDataState() == TelephonyManager.DATA_CONNECTED)) {
+		return true;
+	} else {
+		if (SkillUtils.useRootFeature(context)) {
+			try {
+				String command = "svc data " + (state ? "enable" : "disable");
+				SkillUtils.executeCommandAsRoot(context, command);
+				return true;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		} else {
+			try {
+				Class telephonyManagerClass =
+					Class.forName(telephonyManager.getClass().getName());
+				Method getITelephonyMethod =
+					telephonyManagerClass.getDeclaredMethod("getITelephony");
+				getITelephonyMethod.setAccessible(true);
+				Object ITelephonyStub = getITelephonyMethod.invoke(telephonyManager);
+				Class ITelephonyClass =
+					Class.forName(ITelephonyStub.getClass().getName());
+				Method dataConnSwitchMethod;
+				if (state) {
+					dataConnSwitchMethod =
+						ITelephonyClass.getDeclaredMethod("enableDataConnectivity");
+				} else {
+					dataConnSwitchMethod =
+						ITelephonyClass.getDeclaredMethod("disableDataConnectivity");
+				}
+				dataConnSwitchMethod.setAccessible(true);
+				dataConnSwitchMethod.invoke(ITelephonyStub);
+				return true;
+			} catch (ClassNotFoundException e) {
+				Logger.e(e, null);
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				Logger.e(e, null);
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				Logger.e(e, null);
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				Logger.e(e, null);
+				e.printStackTrace();
+			}
+		}
+	}
+	return false;
+}
 }

@@ -28,42 +28,42 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class WidgetSlot extends AbstractSlot<WidgetEventData> {
 
-  private static IntentFilter intentFilter =
-      new IntentFilter(UserActionWidget.Companion.getACTION_WIDGET_CLICKED());
+private static IntentFilter intentFilter =
+	new IntentFilter(UserActionWidget.Companion.getACTION_WIDGET_CLICKED());
 
-  BroadcastReceiver mReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      assert intent != null;
-      if (UserActionWidget.Companion.getACTION_WIDGET_CLICKED().equals(
-              intent.getAction())) {
-        //                intent.setExtrasClassLoader(String.class.getClassLoader());
-        String tag = intent.getStringExtra(
-            UserActionWidget.Companion.getEXTRA_WIDGET_TAG());
-        if (eventData.widgetTag.equals(tag)) {
-          changeSatisfiedState(true);
-        }
-      }
-    }
-  };
+BroadcastReceiver mReceiver = new BroadcastReceiver() {
+	@Override
+	public void onReceive(final Context context, final Intent intent) {
+		assert intent != null;
+		if (UserActionWidget.Companion.getACTION_WIDGET_CLICKED().equals(
+			    intent.getAction())) {
+			//                intent.setExtrasClassLoader(String.class.getClassLoader());
+			String tag = intent.getStringExtra(
+				UserActionWidget.Companion.getEXTRA_WIDGET_TAG());
+			if (eventData.widgetTag.equals(tag)) {
+				changeSatisfiedState(true);
+			}
+		}
+	}
+};
 
-  WidgetSlot(final Context context, final WidgetEventData data) {
-    this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
-  }
+WidgetSlot(final Context context, final WidgetEventData data) {
+	this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+}
 
-  WidgetSlot(final Context context, final WidgetEventData data,
-             final boolean retriggerable, final boolean persistent) {
-    super(context, data, retriggerable, persistent);
-  }
+WidgetSlot(final Context context, final WidgetEventData data,
+           final boolean retriggerable, final boolean persistent) {
+	super(context, data, retriggerable, persistent);
+}
 
-  @Override
-  public void listen() {
-    LocalBroadcastManager.getInstance(context).registerReceiver(mReceiver,
-                                                                intentFilter);
-  }
+@Override
+public void listen() {
+	LocalBroadcastManager.getInstance(context).registerReceiver(mReceiver,
+	                                                            intentFilter);
+}
 
-  @Override
-  public void cancel() {
-    LocalBroadcastManager.getInstance(context).unregisterReceiver(mReceiver);
-  }
+@Override
+public void cancel() {
+	LocalBroadcastManager.getInstance(context).unregisterReceiver(mReceiver);
+}
 }

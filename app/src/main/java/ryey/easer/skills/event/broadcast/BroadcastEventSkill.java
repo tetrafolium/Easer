@@ -33,61 +33,62 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class BroadcastEventSkill implements EventSkill<BroadcastEventData> {
 
-  @NonNull
-  @Override
-  public String id() {
-    return "broadcast";
-  }
+@NonNull
+@Override
+public String id() {
+	return "broadcast";
+}
 
-  @Override
-  public int name() {
-    return R.string.event_broadcast;
-  }
+@Override
+public int name() {
+	return R.string.event_broadcast;
+}
 
-  @Override
-  public boolean isCompatible(@NonNull final Context context) {
-    return true;
-  }
+@Override
+public boolean isCompatible(@NonNull final Context context) {
+	return true;
+}
 
-  @Nullable
-  @Override
-  public Boolean checkPermissions(final @NonNull Context context) {
-    return null;
-  }
+@Nullable
+@Override
+public Boolean checkPermissions(final @NonNull Context context) {
+	return null;
+}
 
-  @Override
-  public void requestPermissions(final @NonNull Activity activity,
-                                 final int requestCode) {}
+@Override
+public void requestPermissions(final @NonNull Activity activity,
+                               final int requestCode) {
+}
 
-  @NonNull
-  @Override
-  public EventDataFactory<BroadcastEventData> dataFactory() {
-    return new BroadcastEventDataFactory();
-  }
+@NonNull
+@Override
+public EventDataFactory<BroadcastEventData> dataFactory() {
+	return new BroadcastEventDataFactory();
+}
 
-  @NonNull
-  @Override
-  public SourceCategory category() {
-    return SourceCategory.android;
-  }
+@NonNull
+@Override
+public SourceCategory category() {
+	return SourceCategory.android;
+}
 
-  @NonNull
-  @Override
-  public SkillView<BroadcastEventData> view() {
-    return new BroadcastSkillViewFragment();
-  }
+@NonNull
+@Override
+public SkillView<BroadcastEventData> view() {
+	return new BroadcastSkillViewFragment();
+}
 
-  @Override
-  public AbstractSlot<BroadcastEventData>
-  slot(final @NonNull Context context,
-       final @ValidData @NonNull BroadcastEventData data) {
-    return new BroadcastConnSlot(context, data);
-  }
+@Override
+public AbstractSlot<BroadcastEventData>
+slot(final @NonNull Context context,
+     final @ValidData @NonNull BroadcastEventData data) {
+	return new BroadcastConnSlot(context, data);
+}
 
-  @Override
-  public AbstractSlot<BroadcastEventData>
-  slot(final @NonNull Context context, final @NonNull BroadcastEventData data,
-       final boolean retriggerable, final boolean persistent) {
-    return new BroadcastConnSlot(context, data, retriggerable, persistent);
-  }
+@Override
+public AbstractSlot<BroadcastEventData>
+slot(final @NonNull Context context, final @NonNull BroadcastEventData data,
+     final boolean retriggerable, final boolean persistent) {
+	return new BroadcastConnSlot(context, data, retriggerable, persistent);
+}
 }

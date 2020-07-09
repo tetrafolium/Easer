@@ -23,4 +23,4 @@ import ryey.easer.commons.local_skill.conditionskill.ConditionDataFactory;
 import ryey.easer.commons.local_skill.eventskill.EventDataFactory;
 
 public interface USourceDataFactory<D extends USourceData>
-    extends EventDataFactory<D>, ConditionDataFactory<D> {}
+	extends EventDataFactory<D>, ConditionDataFactory<D> {}

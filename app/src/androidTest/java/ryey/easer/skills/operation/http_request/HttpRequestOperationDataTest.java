@@ -27,13 +27,13 @@ import ryey.easer.skills.TestHelper;
 
 public class HttpRequestOperationDataTest {
 
-  @Test
-  public void testParcel() {
-    HttpRequestOperationData dummyData =
-        new HttpRequestOperationDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    HttpRequestOperationData parceledData =
-        HttpRequestOperationData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	HttpRequestOperationData dummyData =
+		new HttpRequestOperationDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	HttpRequestOperationData parceledData =
+		HttpRequestOperationData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

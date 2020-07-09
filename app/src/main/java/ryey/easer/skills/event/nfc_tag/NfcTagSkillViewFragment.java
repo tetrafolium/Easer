@@ -37,63 +37,63 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillViewFragment;
 
 public class NfcTagSkillViewFragment
-    extends SkillViewFragment<NfcTagEventData> {
+	extends SkillViewFragment<NfcTagEventData> {
 
-  private static final int REQCODE_WAIT_FOR_TAG = 120;
+private static final int REQCODE_WAIT_FOR_TAG = 120;
 
-  private EditText editText;
+private EditText editText;
 
-  @Override
-  public void onActivityResult(final int requestCode, final int resultCode,
-                               final Intent data) {
-    if (requestCode == REQCODE_WAIT_FOR_TAG &&
-        resultCode == Activity.RESULT_OK) {
-      Logger.d("got expected result. setting data");
-      byte[] tag_id = data.getByteArrayExtra(WaitForNfcActivity.EXTRA_ID);
-      editText.setText(NfcTagEventData.byteArray2hexString(tag_id));
-    }
-  }
+@Override
+public void onActivityResult(final int requestCode, final int resultCode,
+                             final Intent data) {
+	if (requestCode == REQCODE_WAIT_FOR_TAG &&
+	    resultCode == Activity.RESULT_OK) {
+		Logger.d("got expected result. setting data");
+		byte[] tag_id = data.getByteArrayExtra(WaitForNfcActivity.EXTRA_ID);
+		editText.setText(NfcTagEventData.byteArray2hexString(tag_id));
+	}
+}
 
-  @NonNull
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final @Nullable ViewGroup container,
-                           final @Nullable Bundle savedInstanceState) {
-    View view =
-        inflater.inflate(R.layout.plugin_event__nfc_tag, container, false);
+@NonNull
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final @Nullable ViewGroup container,
+                         final @Nullable Bundle savedInstanceState) {
+	View view =
+		inflater.inflate(R.layout.plugin_event__nfc_tag, container, false);
 
-    editText = view.findViewById(R.id.editText_tag_id);
-    view.findViewById(R.id.button_wait_for_device)
-        .setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(final View view) {
-            enableWaiterActivity();
-            Intent intent = new Intent(getActivity(), WaitForNfcActivity.class);
-            startActivityForResult(intent, REQCODE_WAIT_FOR_TAG);
-          }
-        });
+	editText = view.findViewById(R.id.editText_tag_id);
+	view.findViewById(R.id.button_wait_for_device)
+	.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View view) {
+			        enableWaiterActivity();
+			        Intent intent = new Intent(getActivity(), WaitForNfcActivity.class);
+			        startActivityForResult(intent, REQCODE_WAIT_FOR_TAG);
+			}
+		});
 
-    return view;
-  }
+	return view;
+}
 
-  @Override
-  protected void _fill(final @ValidData @NonNull NfcTagEventData data) {
-    editText.setText(data.toString());
-  }
+@Override
+protected void _fill(final @ValidData @NonNull NfcTagEventData data) {
+	editText.setText(data.toString());
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public NfcTagEventData getData() throws InvalidDataInputException {
-    return new NfcTagEventData(editText.getText().toString());
-  }
+@ValidData
+@NonNull
+@Override
+public NfcTagEventData getData() throws InvalidDataInputException {
+	return new NfcTagEventData(editText.getText().toString());
+}
 
-  @SuppressWarnings("ConstantConditions")
-  private void enableWaiterActivity() {
-    PackageManager pm = getContext().getPackageManager();
-    pm.setComponentEnabledSetting(
-        new ComponentName(getContext(), WaitForNfcActivity.class),
-        PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-        PackageManager.DONT_KILL_APP);
-  }
+@SuppressWarnings("ConstantConditions")
+private void enableWaiterActivity() {
+	PackageManager pm = getContext().getPackageManager();
+	pm.setComponentEnabledSetting(
+		new ComponentName(getContext(), WaitForNfcActivity.class),
+		PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+		PackageManager.DONT_KILL_APP);
+}
 }

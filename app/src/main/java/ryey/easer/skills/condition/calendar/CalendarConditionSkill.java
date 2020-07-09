@@ -35,63 +35,63 @@ import ryey.easer.skills.SkillUtils;
 import ryey.easer.skills.SkillViewFragment;
 
 public class CalendarConditionSkill
-    implements ConditionSkill<CalendarConditionData> {
+	implements ConditionSkill<CalendarConditionData> {
 
-  @NonNull
-  @Override
-  public String id() {
-    return "calendar_condition";
-  }
+@NonNull
+@Override
+public String id() {
+	return "calendar_condition";
+}
 
-  @Override
-  public int name() {
-    return R.string.event_calendar;
-  }
+@Override
+public int name() {
+	return R.string.event_calendar;
+}
 
-  @Override
-  public boolean isCompatible(@NonNull final Context context) {
-    return true;
-  }
+@Override
+public boolean isCompatible(@NonNull final Context context) {
+	return true;
+}
 
-  @Nullable
-  @Override
-  public Boolean checkPermissions(final @NonNull Context context) {
-    return SkillUtils.checkPermission(context,
-                                      Manifest.permission.READ_CALENDAR);
-  }
+@Nullable
+@Override
+public Boolean checkPermissions(final @NonNull Context context) {
+	return SkillUtils.checkPermission(context,
+	                                  Manifest.permission.READ_CALENDAR);
+}
 
-  @Override
-  public void requestPermissions(final @NonNull Activity activity,
-                                 final int requestCode) {
-    SkillUtils.requestPermission(activity, requestCode,
-                                 Manifest.permission.READ_CALENDAR);
-  }
+@Override
+public void requestPermissions(final @NonNull Activity activity,
+                               final int requestCode) {
+	SkillUtils.requestPermission(activity, requestCode,
+	                             Manifest.permission.READ_CALENDAR);
+}
 
-  @NonNull
-  @Override
-  public ConditionDataFactory<CalendarConditionData> dataFactory() {
-    return new CalendarConditionDataFactory();
-  }
+@NonNull
+@Override
+public ConditionDataFactory<CalendarConditionData> dataFactory() {
+	return new CalendarConditionDataFactory();
+}
 
-  @NonNull
-  @Override
-  public SourceCategory category() {
-    return SourceCategory.personal;
-  }
+@NonNull
+@Override
+public SourceCategory category() {
+	return SourceCategory.personal;
+}
 
-  @NonNull
-  @Override
-  public SkillViewFragment<CalendarConditionData> view() {
-    return new CalendarSkillViewFragment();
-  }
+@NonNull
+@Override
+public SkillViewFragment<CalendarConditionData> view() {
+	return new CalendarSkillViewFragment();
+}
 
-  @NonNull
-  @Override
-  public Tracker<CalendarConditionData>
-  tracker(final @NonNull Context context,
-          final @ValidData @NonNull CalendarConditionData data,
-          final @NonNull PendingIntent event_positive,
-          final @NonNull PendingIntent event_negative) {
-    return new CalendarTracker(context, data, event_positive, event_negative);
-  }
+@NonNull
+@Override
+public Tracker<CalendarConditionData>
+tracker(final @NonNull Context context,
+        final @ValidData @NonNull CalendarConditionData data,
+        final @NonNull PendingIntent event_positive,
+        final @NonNull PendingIntent event_negative) {
+	return new CalendarTracker(context, data, event_positive, event_negative);
+}
 }

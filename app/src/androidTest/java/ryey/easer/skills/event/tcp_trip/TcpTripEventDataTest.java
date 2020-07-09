@@ -27,12 +27,12 @@ import ryey.easer.skills.TestHelper;
 
 public class TcpTripEventDataTest {
 
-  @Test
-  public void testParcel() {
-    TcpTripEventData dummyData = new TcpTripEventDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    TcpTripEventData parceledData =
-        TcpTripEventData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	TcpTripEventData dummyData = new TcpTripEventDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	TcpTripEventData parceledData =
+		TcpTripEventData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

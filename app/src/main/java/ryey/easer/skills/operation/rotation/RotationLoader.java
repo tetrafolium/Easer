@@ -27,13 +27,15 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class RotationLoader extends OperationLoader<RotationOperationData> {
-  public RotationLoader(final Context context) { super(context); }
+public RotationLoader(final Context context) {
+	super(context);
+}
 
-  @Override
-  public boolean load(final @ValidData @NonNull RotationOperationData data) {
-    ContentResolver resolver = context.getContentResolver();
-    Boolean state = data.get();
-    return Settings.System.putInt(
-        resolver, Settings.System.ACCELEROMETER_ROTATION, state ? 1 : 0);
-  }
+@Override
+public boolean load(final @ValidData @NonNull RotationOperationData data) {
+	ContentResolver resolver = context.getContentResolver();
+	Boolean state = data.get();
+	return Settings.System.putInt(
+		resolver, Settings.System.ACCELEROMETER_ROTATION, state ? 1 : 0);
+}
 }

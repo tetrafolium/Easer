@@ -33,132 +33,132 @@ import ryey.easer.commons.local_skill.usource.USourceData;
 import ryey.easer.plugin.PluginDataFormat;
 
 public class CellLocationUSourceData implements USourceData {
-  final List<CellLocationSingleData> data = new ArrayList<>();
+final List<CellLocationSingleData> data = new ArrayList<>();
 
-  CellLocationUSourceData(final String[] locations) {
-    setFromMultiple(locations);
-  }
+CellLocationUSourceData(final String[] locations) {
+	setFromMultiple(locations);
+}
 
-  CellLocationUSourceData(final @NonNull String data,
-                          final @NonNull PluginDataFormat format,
-                          final int version)
-      throws IllegalStorageDataException {
-    switch (format) {
-    default:
-      try {
-        JSONArray jsonArray = new JSONArray(data);
-        String[] strings = new String[jsonArray.length()];
-        for (int i = 0; i < jsonArray.length(); i++) {
-          strings[i] = jsonArray.getString(i);
-        }
-        setFromMultiple(strings);
-      } catch (JSONException e) {
-        e.printStackTrace();
-        throw new IllegalStorageDataException(e);
-      }
-    }
-  }
+CellLocationUSourceData(final @NonNull String data,
+                        final @NonNull PluginDataFormat format,
+                        final int version)
+throws IllegalStorageDataException {
+	switch (format) {
+	default:
+		try {
+			JSONArray jsonArray = new JSONArray(data);
+			String[] strings = new String[jsonArray.length()];
+			for (int i = 0; i < jsonArray.length(); i++) {
+				strings[i] = jsonArray.getString(i);
+			}
+			setFromMultiple(strings);
+		} catch (JSONException e) {
+			e.printStackTrace();
+			throw new IllegalStorageDataException(e);
+		}
+	}
+}
 
-  private void setFromMultiple(final String[] locations) {
-    data.clear();
-    for (String location : locations) {
-      CellLocationSingleData singleData = new CellLocationSingleData();
-      singleData.set(location);
-      if (singleData.isValid())
-        data.add(singleData);
-    }
-  }
+private void setFromMultiple(final String[] locations) {
+	data.clear();
+	for (String location : locations) {
+		CellLocationSingleData singleData = new CellLocationSingleData();
+		singleData.set(location);
+		if (singleData.isValid())
+			data.add(singleData);
+	}
+}
 
-  @NonNull
-  @Override
-  public String serialize(final @NonNull PluginDataFormat format) {
-    String res;
-    switch (format) {
-    default:
-      JSONArray jsonArray = new JSONArray();
-      for (CellLocationSingleData singleData : data) {
-        jsonArray.put(singleData.toString());
-      }
-      res = jsonArray.toString();
-    }
-    return res;
-  }
+@NonNull
+@Override
+public String serialize(final @NonNull PluginDataFormat format) {
+	String res;
+	switch (format) {
+	default:
+		JSONArray jsonArray = new JSONArray();
+		for (CellLocationSingleData singleData : data) {
+			jsonArray.put(singleData.toString());
+		}
+		res = jsonArray.toString();
+	}
+	return res;
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean isValid() {
-    if (data.size() == 0)
-      return false;
-    return true;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean isValid() {
+	if (data.size() == 0)
+		return false;
+	return true;
+}
 
-  @Nullable
-  @Override
-  public Dynamics[] dynamics() {
-    return new Dynamics[] {new CellLocationDynamics()};
-  }
+@Nullable
+@Override
+public Dynamics[] dynamics() {
+	return new Dynamics[] {new CellLocationDynamics()};
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean equals(final Object obj) {
-    if (obj == this)
-      return true;
-    if (obj == null || !(obj instanceof CellLocationUSourceData))
-      return false;
-    if (!data.equals(((CellLocationUSourceData)obj).data))
-      return false;
-    return true;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean equals(final Object obj) {
+	if (obj == this)
+		return true;
+	if (obj == null || !(obj instanceof CellLocationUSourceData))
+		return false;
+	if (!data.equals(((CellLocationUSourceData)obj).data))
+		return false;
+	return true;
+}
 
-  @Override
-  public String toString() {
-    StringBuilder str = new StringBuilder();
-    if (data.size() > 0) {
-      str.append(data.get(0).toString());
-      for (int i = 1; i < data.size(); i++) {
-        str.append("\n").append(data.get(i).toString());
-      }
-    }
-    return str.toString();
-  }
+@Override
+public String toString() {
+	StringBuilder str = new StringBuilder();
+	if (data.size() > 0) {
+		str.append(data.get(0).toString());
+		for (int i = 1; i < data.size(); i++) {
+			str.append("\n").append(data.get(i).toString());
+		}
+	}
+	return str.toString();
+}
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-  @Override
-  public void writeToParcel(final Parcel dest, final int flags) {
-    dest.writeList(data);
-  }
+@Override
+public void writeToParcel(final Parcel dest, final int flags) {
+	dest.writeList(data);
+}
 
-  public static final Creator<CellLocationUSourceData> CREATOR =
-      new Creator<CellLocationUSourceData>() {
-        public CellLocationUSourceData createFromParcel(final Parcel in) {
-          return new CellLocationUSourceData(in);
-        }
+public static final Creator<CellLocationUSourceData> CREATOR =
+	new Creator<CellLocationUSourceData>() {
+	public CellLocationUSourceData createFromParcel(final Parcel in) {
+		return new CellLocationUSourceData(in);
+	}
 
-        public CellLocationUSourceData[] newArray(final int size) {
-          return new CellLocationUSourceData[size];
-        }
-      };
+	public CellLocationUSourceData[] newArray(final int size) {
+		return new CellLocationUSourceData[size];
+	}
+};
 
-  private CellLocationUSourceData(final Parcel in) {
-    in.readList(data, CellLocationSingleData.class.getClassLoader());
-  }
+private CellLocationUSourceData(final Parcel in) {
+	in.readList(data, CellLocationSingleData.class.getClassLoader());
+}
 
-  static class CellLocationDynamics implements Dynamics {
+static class CellLocationDynamics implements Dynamics {
 
-    static final String id = "ryey.easer.skills.event.cell_location.tower";
+static final String id = "ryey.easer.skills.event.cell_location.tower";
 
-    @Override
-    public String id() {
-      return id;
-    }
+@Override
+public String id() {
+	return id;
+}
 
-    @Override
-    public int nameRes() {
-      return R.string.usource_cell_location_dynamics_cell_location;
-    }
-  }
+@Override
+public int nameRes() {
+	return R.string.usource_cell_location_dynamics_cell_location;
+}
+}
 }

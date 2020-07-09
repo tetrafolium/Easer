@@ -27,13 +27,13 @@ import ryey.easer.skills.TestHelper;
 
 public class PlayMediaOperationDataTest {
 
-  @Test
-  public void testParcel() {
-    PlayMediaOperationData dummyData =
-        new PlayMediaOperationDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    PlayMediaOperationData parceledData =
-        PlayMediaOperationData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	PlayMediaOperationData dummyData =
+		new PlayMediaOperationDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	PlayMediaOperationData parceledData =
+		PlayMediaOperationData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

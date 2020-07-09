@@ -27,12 +27,12 @@ import ryey.easer.skills.TestHelper;
 
 public class CalendarEventDataTest {
 
-  @Test
-  public void testParcel() {
-    CalendarEventData dummyData = new CalendarEventDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    CalendarEventData parceledData =
-        CalendarEventData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	CalendarEventData dummyData = new CalendarEventDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	CalendarEventData parceledData =
+		CalendarEventData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

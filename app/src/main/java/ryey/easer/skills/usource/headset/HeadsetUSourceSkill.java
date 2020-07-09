@@ -35,70 +35,71 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class HeadsetUSourceSkill implements USourceSkill<HeadsetUSourceData> {
 
-  @NonNull
-  @Override
-  public String id() {
-    return "headset";
-  }
+@NonNull
+@Override
+public String id() {
+	return "headset";
+}
 
-  @Override
-  public int name() {
-    return R.string.usource_headset;
-  }
+@Override
+public int name() {
+	return R.string.usource_headset;
+}
 
-  @Override
-  public boolean isCompatible(@NonNull final Context context) {
-    return true;
-  }
+@Override
+public boolean isCompatible(@NonNull final Context context) {
+	return true;
+}
 
-  @Nullable
-  @Override
-  public Boolean checkPermissions(final @NonNull Context context) {
-    return null;
-  }
+@Nullable
+@Override
+public Boolean checkPermissions(final @NonNull Context context) {
+	return null;
+}
 
-  @Override
-  public void requestPermissions(final @NonNull Activity activity,
-                                 final int requestCode) {}
+@Override
+public void requestPermissions(final @NonNull Activity activity,
+                               final int requestCode) {
+}
 
-  @NonNull
-  @Override
-  public USourceDataFactory<HeadsetUSourceData> dataFactory() {
-    return new HeadsetUSourceDataFactory();
-  }
+@NonNull
+@Override
+public USourceDataFactory<HeadsetUSourceData> dataFactory() {
+	return new HeadsetUSourceDataFactory();
+}
 
-  @NonNull
-  @Override
-  public SourceCategory category() {
-    return SourceCategory.device;
-  }
+@NonNull
+@Override
+public SourceCategory category() {
+	return SourceCategory.device;
+}
 
-  @NonNull
-  @Override
-  public SkillView<HeadsetUSourceData> view() {
-    return new HeadsetSkillViewFragment();
-  }
+@NonNull
+@Override
+public SkillView<HeadsetUSourceData> view() {
+	return new HeadsetSkillViewFragment();
+}
 
-  @Override
-  public AbstractSlot<HeadsetUSourceData>
-  slot(final @NonNull Context context,
-       final @ValidData @NonNull HeadsetUSourceData data) {
-    return new HeadsetSlot(context, data);
-  }
+@Override
+public AbstractSlot<HeadsetUSourceData>
+slot(final @NonNull Context context,
+     final @ValidData @NonNull HeadsetUSourceData data) {
+	return new HeadsetSlot(context, data);
+}
 
-  @Override
-  public AbstractSlot<HeadsetUSourceData>
-  slot(final @NonNull Context context, final @NonNull HeadsetUSourceData data,
-       final boolean retriggerable, final boolean persistent) {
-    return new HeadsetSlot(context, data, retriggerable, persistent);
-  }
+@Override
+public AbstractSlot<HeadsetUSourceData>
+slot(final @NonNull Context context, final @NonNull HeadsetUSourceData data,
+     final boolean retriggerable, final boolean persistent) {
+	return new HeadsetSlot(context, data, retriggerable, persistent);
+}
 
-  @Override
-  public Tracker<HeadsetUSourceData>
-  tracker(final @NonNull Context context,
-          final @NonNull HeadsetUSourceData data,
-          final @NonNull PendingIntent event_positive,
-          final @NonNull PendingIntent event_negative) {
-    return new HeadsetTracker(context, data, event_positive, event_negative);
-  }
+@Override
+public Tracker<HeadsetUSourceData>
+tracker(final @NonNull Context context,
+        final @NonNull HeadsetUSourceData data,
+        final @NonNull PendingIntent event_positive,
+        final @NonNull PendingIntent event_negative) {
+	return new HeadsetTracker(context, data, event_positive, event_negative);
+}
 }

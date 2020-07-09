@@ -26,30 +26,32 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class BrightnessLoader extends OperationLoader<BrightnessOperationData> {
-  public BrightnessLoader(final Context context) { super(context); }
+public BrightnessLoader(final Context context) {
+	super(context);
+}
 
-  @Override
-  public boolean load(final @ValidData @NonNull BrightnessOperationData data) {
-    return loadthis(data);
-  }
+@Override
+public boolean load(final @ValidData @NonNull BrightnessOperationData data) {
+	return loadthis(data);
+}
 
-  private boolean loadthis(final BrightnessOperationData data) {
-    Integer level = data.get();
-    if (data.isAuto())
-      Settings.System.putInt(context.getContentResolver(),
-                             Settings.System.SCREEN_BRIGHTNESS_MODE,
-                             Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
-    else {
-      Settings.System.putInt(context.getContentResolver(),
-                             Settings.System.SCREEN_BRIGHTNESS_MODE,
-                             Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
-      Settings.System.putInt(context.getContentResolver(),
-                             Settings.System.SCREEN_BRIGHTNESS, level);
-    }
+private boolean loadthis(final BrightnessOperationData data) {
+	Integer level = data.get();
+	if (data.isAuto())
+		Settings.System.putInt(context.getContentResolver(),
+		                       Settings.System.SCREEN_BRIGHTNESS_MODE,
+		                       Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
+	else {
+		Settings.System.putInt(context.getContentResolver(),
+		                       Settings.System.SCREEN_BRIGHTNESS_MODE,
+		                       Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
+		Settings.System.putInt(context.getContentResolver(),
+		                       Settings.System.SCREEN_BRIGHTNESS, level);
+	}
 
-    DumbSettingBrightnessActivity.applyBrightness(context,
-                                                  ((float)level) / 255);
+	DumbSettingBrightnessActivity.applyBrightness(context,
+	                                              ((float)level) / 255);
 
-    return true;
-  }
+	return true;
+}
 }

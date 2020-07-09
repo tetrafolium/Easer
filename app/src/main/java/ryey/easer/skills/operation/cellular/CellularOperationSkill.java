@@ -32,67 +32,68 @@ import ryey.easer.plugin.operation.Category;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class CellularOperationSkill
-    implements OperationSkill<CellularOperationData> {
+	implements OperationSkill<CellularOperationData> {
 
-  @NonNull
-  @Override
-  public String id() {
-    return "cellular";
-  }
+@NonNull
+@Override
+public String id() {
+	return "cellular";
+}
 
-  @Override
-  public int name() {
-    return R.string.operation_cellular;
-  }
+@Override
+public int name() {
+	return R.string.operation_cellular;
+}
 
-  @Override
-  public boolean isCompatible(@NonNull final Context context) {
-    return true;
-  }
+@Override
+public boolean isCompatible(@NonNull final Context context) {
+	return true;
+}
 
-  @NonNull
-  @Override
-  public PrivilegeUsage privilege() {
-    return PrivilegeUsage.prefer_root;
-  }
+@NonNull
+@Override
+public PrivilegeUsage privilege() {
+	return PrivilegeUsage.prefer_root;
+}
 
-  @Override
-  public int maxExistence() {
-    return 1;
-  }
+@Override
+public int maxExistence() {
+	return 1;
+}
 
-  @NonNull
-  @Override
-  public Category category() {
-    return Category.system_config;
-  }
+@NonNull
+@Override
+public Category category() {
+	return Category.system_config;
+}
 
-  @Nullable
-  @Override
-  public Boolean checkPermissions(final @NonNull Context context) {
-    return true;
-  }
+@Nullable
+@Override
+public Boolean checkPermissions(final @NonNull Context context) {
+	return true;
+}
 
-  @Override
-  public void requestPermissions(final @NonNull Activity activity,
-                                 final int requestCode) {}
+@Override
+public void requestPermissions(final @NonNull Activity activity,
+                               final int requestCode) {
+}
 
-  @NonNull
-  @Override
-  public OperationDataFactory<CellularOperationData> dataFactory() {
-    return new CellularOperationDataFactory();
-  }
+@NonNull
+@Override
+public OperationDataFactory<CellularOperationData> dataFactory() {
+	return new CellularOperationDataFactory();
+}
 
-  @NonNull
-  @Override
-  public SkillView<CellularOperationData> view() {
-    return new CellularSkillViewFragment();
-  }
+@NonNull
+@Override
+public SkillView<CellularOperationData> view() {
+	return new CellularSkillViewFragment();
+}
 
-  @NonNull
-  @Override
-  public OperationLoader<CellularOperationData>
-  loader(final @NonNull Context context) {
-    return new CellularLoader(context);
-  }
+@NonNull
+@Override
+public OperationLoader<CellularOperationData>
+loader(final @NonNull Context context) {
+	return new CellularLoader(context);
+}
 }

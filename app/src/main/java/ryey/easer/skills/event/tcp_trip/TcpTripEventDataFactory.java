@@ -26,32 +26,32 @@ import ryey.easer.commons.local_skill.eventskill.EventDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class TcpTripEventDataFactory implements EventDataFactory<TcpTripEventData> {
-  @NonNull
-  @Override
-  public Class<TcpTripEventData> dataClass() {
-    return TcpTripEventData.class;
-  }
+@NonNull
+@Override
+public Class<TcpTripEventData> dataClass() {
+	return TcpTripEventData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public TcpTripEventData dummyData() {
-    String raddr = "192.168.12.4";
-    int rport = 3163;
-    String send_data = "data to send";
-    boolean check_data = true;
-    String reply_data = "www my reply data";
-    return new TcpTripEventData(raddr, rport, send_data, check_data,
-                                reply_data);
-  }
+@ValidData
+@NonNull
+@Override
+public TcpTripEventData dummyData() {
+	String raddr = "192.168.12.4";
+	int rport = 3163;
+	String send_data = "data to send";
+	boolean check_data = true;
+	String reply_data = "www my reply data";
+	return new TcpTripEventData(raddr, rport, send_data, check_data,
+	                            reply_data);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public TcpTripEventData parse(final @NonNull String data,
-                                final @NonNull PluginDataFormat format,
-                                final int version)
-      throws IllegalStorageDataException {
-    return new TcpTripEventData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public TcpTripEventData parse(final @NonNull String data,
+                              final @NonNull PluginDataFormat format,
+                              final int version)
+throws IllegalStorageDataException {
+	return new TcpTripEventData(data, format, version);
+}
 }

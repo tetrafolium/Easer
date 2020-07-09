@@ -21,22 +21,22 @@ package ryey.easer.commons.local_skill.conditionskill;
 
 public interface Tracker<D extends ConditionData> {
 
-  /**
-   * Start functioning as a top-level listener.
-   * When (probably satisfying) event happens, notify itself and finally proceed
-   * to {@link #changeSatisfiedState(boolean)}.
-   *
-   * Can be called multiply times (data remain the same).
-   */
-  void start();
+/**
+ * Start functioning as a top-level listener.
+ * When (probably satisfying) event happens, notify itself and finally proceed
+ * to {@link #changeSatisfiedState(boolean)}.
+ *
+ * Can be called multiply times (data remain the same).
+ */
+void start();
 
-  /**
-   * Stop functioning as a top-level listener.
-   * No longer notify itself even when it is really satisfied.
-   *
-   * This methods doesn't prevent {@link #check()} to set itself satisfied.
-   */
-  void stop();
+/**
+ * Stop functioning as a top-level listener.
+ * No longer notify itself even when it is really satisfied.
+ *
+ * This methods doesn't prevent {@link #check()} to set itself satisfied.
+ */
+void stop();
 
-  Boolean state();
+Boolean state();
 }

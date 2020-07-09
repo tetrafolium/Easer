@@ -26,29 +26,29 @@ import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class MediaControlOperationDataFactory
-    implements OperationDataFactory<MediaControlOperationData> {
-  @NonNull
-  @Override
-  public Class<MediaControlOperationData> dataClass() {
-    return MediaControlOperationData.class;
-  }
+	implements OperationDataFactory<MediaControlOperationData> {
+@NonNull
+@Override
+public Class<MediaControlOperationData> dataClass() {
+	return MediaControlOperationData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public MediaControlOperationData dummyData() {
-    MediaControlOperationData dummyData = new MediaControlOperationData(
-        MediaControlOperationData.ControlChoice.next);
-    return dummyData;
-  }
+@ValidData
+@NonNull
+@Override
+public MediaControlOperationData dummyData() {
+	MediaControlOperationData dummyData = new MediaControlOperationData(
+		MediaControlOperationData.ControlChoice.next);
+	return dummyData;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public MediaControlOperationData parse(final @NonNull String data,
-                                         final @NonNull PluginDataFormat format,
-                                         final int version)
-      throws IllegalStorageDataException {
-    return new MediaControlOperationData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public MediaControlOperationData parse(final @NonNull String data,
+                                       final @NonNull PluginDataFormat format,
+                                       final int version)
+throws IllegalStorageDataException {
+	return new MediaControlOperationData(data, format, version);
+}
 }

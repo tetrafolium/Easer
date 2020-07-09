@@ -36,125 +36,127 @@ import ryey.easer.skills.event.AbstractEventData;
 
 public class CalendarEventData extends AbstractEventData {
 
-  private static final String T_calendar_id = "calendar_id";
-  private static final String T_condition = "condition";
+private static final String T_calendar_id = "calendar_id";
+private static final String T_condition = "condition";
 
-  CalendarData data;
+CalendarData data;
 
-  CalendarEventData(final CalendarData data) { this.data = data; }
+CalendarEventData(final CalendarData data) {
+	this.data = data;
+}
 
-  CalendarEventData(final @NonNull String data,
-                    final @NonNull PluginDataFormat format, final int version)
-      throws IllegalStorageDataException {
-    parse(data, format, version);
-  }
+CalendarEventData(final @NonNull String data,
+                  final @NonNull PluginDataFormat format, final int version)
+throws IllegalStorageDataException {
+	parse(data, format, version);
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean isValid() {
-    if (data == null)
-      return false;
-    if (data.calendar_id == -1)
-      return false;
-    if (data.conditions.size() == 0)
-      return false;
-    return true;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean isValid() {
+	if (data == null)
+		return false;
+	if (data.calendar_id == -1)
+		return false;
+	if (data.conditions.size() == 0)
+		return false;
+	return true;
+}
 
-  public void parse(final @NonNull String data,
-                    final @NonNull PluginDataFormat format, final int version)
-      throws IllegalStorageDataException {
-    switch (format) {
-    default:
-      try {
-        JSONObject jsonObject = new JSONObject(data);
-        this.data = new CalendarData();
-        this.data.calendar_id = jsonObject.optLong(T_calendar_id);
-        JSONArray jsonArray_conditions = jsonObject.optJSONArray(T_condition);
-        for (int i = 0; i < jsonArray_conditions.length(); i++) {
-          String condition = jsonArray_conditions.getString(i);
-          for (int j = 0; j < CalendarData.condition_name.length; j++) {
-            this.data.conditions.add(condition);
-          }
-        }
-      } catch (JSONException e) {
-        Logger.e(e, "Error parsing %s data to SUFFIX",
-                 getClass().getSimpleName());
-        e.printStackTrace();
-      }
-    }
-  }
+public void parse(final @NonNull String data,
+                  final @NonNull PluginDataFormat format, final int version)
+throws IllegalStorageDataException {
+	switch (format) {
+	default:
+		try {
+			JSONObject jsonObject = new JSONObject(data);
+			this.data = new CalendarData();
+			this.data.calendar_id = jsonObject.optLong(T_calendar_id);
+			JSONArray jsonArray_conditions = jsonObject.optJSONArray(T_condition);
+			for (int i = 0; i < jsonArray_conditions.length(); i++) {
+				String condition = jsonArray_conditions.getString(i);
+				for (int j = 0; j < CalendarData.condition_name.length; j++) {
+					this.data.conditions.add(condition);
+				}
+			}
+		} catch (JSONException e) {
+			Logger.e(e, "Error parsing %s data to SUFFIX",
+			         getClass().getSimpleName());
+			e.printStackTrace();
+		}
+	}
+}
 
-  @NonNull
-  @Override
-  public String serialize(final @NonNull PluginDataFormat format) {
-    String res;
-    switch (format) {
-    default:
-      JSONObject jsonObject = new JSONObject();
-      try {
-        jsonObject.put(T_calendar_id, data.calendar_id);
-        JSONArray jsonArray_conditions = new JSONArray();
-        for (String k : data.conditions) {
-          jsonArray_conditions.put(k);
-        }
-        jsonObject.put(T_condition, jsonArray_conditions);
-      } catch (JSONException e) {
-        Logger.e(e, "Error putting %s data", getClass().getSimpleName());
-        e.printStackTrace();
-      }
-      res = jsonObject.toString();
-    }
-    return res;
-  }
+@NonNull
+@Override
+public String serialize(final @NonNull PluginDataFormat format) {
+	String res;
+	switch (format) {
+	default:
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put(T_calendar_id, data.calendar_id);
+			JSONArray jsonArray_conditions = new JSONArray();
+			for (String k : data.conditions) {
+				jsonArray_conditions.put(k);
+			}
+			jsonObject.put(T_condition, jsonArray_conditions);
+		} catch (JSONException e) {
+			Logger.e(e, "Error putting %s data", getClass().getSimpleName());
+			e.printStackTrace();
+		}
+		res = jsonObject.toString();
+	}
+	return res;
+}
 
-  @Nullable
-  @Override
-  public Dynamics[] dynamics() {
-    return null;
-  }
+@Nullable
+@Override
+public Dynamics[] dynamics() {
+	return null;
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean equals(final Object obj) {
-    if (obj == this)
-      return true;
-    if (!(obj instanceof CalendarEventData))
-      return false;
-    if (data.calendar_id != ((CalendarEventData)obj).data.calendar_id)
-      return false;
-    if (!data.conditions.equals(((CalendarEventData)obj).data.conditions))
-      return false;
-    return true;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean equals(final Object obj) {
+	if (obj == this)
+		return true;
+	if (!(obj instanceof CalendarEventData))
+		return false;
+	if (data.calendar_id != ((CalendarEventData)obj).data.calendar_id)
+		return false;
+	if (!data.conditions.equals(((CalendarEventData)obj).data.conditions))
+		return false;
+	return true;
+}
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-  @Override
-  public void writeToParcel(final Parcel dest, final int flags) {
-    dest.writeLong(data.calendar_id);
-    dest.writeList(new ArrayList<>(data.conditions));
-  }
+@Override
+public void writeToParcel(final Parcel dest, final int flags) {
+	dest.writeLong(data.calendar_id);
+	dest.writeList(new ArrayList<>(data.conditions));
+}
 
-  public static final Parcelable.Creator<CalendarEventData> CREATOR =
-      new Parcelable.Creator<CalendarEventData>() {
-        public CalendarEventData createFromParcel(final Parcel in) {
-          return new CalendarEventData(in);
-        }
+public static final Parcelable.Creator<CalendarEventData> CREATOR =
+	new Parcelable.Creator<CalendarEventData>() {
+	public CalendarEventData createFromParcel(final Parcel in) {
+		return new CalendarEventData(in);
+	}
 
-        public CalendarEventData[] newArray(final int size) {
-          return new CalendarEventData[size];
-        }
-      };
+	public CalendarEventData[] newArray(final int size) {
+		return new CalendarEventData[size];
+	}
+};
 
-  private CalendarEventData(final Parcel in) {
-    data = new CalendarData();
-    data.calendar_id = in.readLong();
-    ArrayList<String> list = new ArrayList<>();
-    in.readList(list, null);
-    data.conditions = new ArraySet<>(list);
-  }
+private CalendarEventData(final Parcel in) {
+	data = new CalendarData();
+	data.calendar_id = in.readLong();
+	ArrayList<String> list = new ArrayList<>();
+	in.readList(list, null);
+	data.conditions = new ArraySet<>(list);
+}
 }

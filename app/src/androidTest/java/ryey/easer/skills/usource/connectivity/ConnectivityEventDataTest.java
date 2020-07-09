@@ -27,13 +27,13 @@ import ryey.easer.skills.TestHelper;
 
 public class ConnectivityEventDataTest {
 
-  @Test
-  public void testParcel() {
-    ConnectivityEventData dummyData =
-        new ConnectivityEventDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    ConnectivityEventData parceledData =
-        ConnectivityEventData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	ConnectivityEventData dummyData =
+		new ConnectivityEventDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	ConnectivityEventData parceledData =
+		ConnectivityEventData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

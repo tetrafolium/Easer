@@ -27,13 +27,13 @@ import ryey.easer.skills.TestHelper;
 
 public class BluetoothEnabledUSourceDataTest {
 
-  @Test
-  public void testParcel() {
-    BluetoothEnabledUSourceData dummyData =
-        new BluetoothEnabledUSourceDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    BluetoothEnabledUSourceData parceledData =
-        BluetoothEnabledUSourceData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	BluetoothEnabledUSourceData dummyData =
+		new BluetoothEnabledUSourceDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	BluetoothEnabledUSourceData parceledData =
+		BluetoothEnabledUSourceData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

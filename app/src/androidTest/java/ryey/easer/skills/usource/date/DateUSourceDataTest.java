@@ -27,12 +27,12 @@ import ryey.easer.skills.TestHelper;
 
 public class DateUSourceDataTest {
 
-  @Test
-  public void testParcel() {
-    DateUSourceData dummyData = new DateUSourceDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    DateUSourceData parceledData =
-        DateUSourceData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	DateUSourceData dummyData = new DateUSourceDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	DateUSourceData parceledData =
+		DateUSourceData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

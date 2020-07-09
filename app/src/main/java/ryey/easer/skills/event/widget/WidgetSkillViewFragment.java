@@ -32,37 +32,37 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillViewFragment;
 
 public class WidgetSkillViewFragment
-    extends SkillViewFragment<WidgetEventData> {
+	extends SkillViewFragment<WidgetEventData> {
 
-  EditText et_id;
+EditText et_id;
 
-  @NonNull
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final @Nullable ViewGroup container,
-                           final @Nullable Bundle savedInstanceState) {
-    View view =
-        inflater.inflate(R.layout.skill_event__widget, container, false);
+@NonNull
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final @Nullable ViewGroup container,
+                         final @Nullable Bundle savedInstanceState) {
+	View view =
+		inflater.inflate(R.layout.skill_event__widget, container, false);
 
-    et_id = view.findViewById(R.id.editText_tag);
+	et_id = view.findViewById(R.id.editText_tag);
 
-    return view;
-  }
+	return view;
+}
 
-  @Override
-  protected void _fill(final @ValidData @NonNull WidgetEventData data) {
-    et_id.setText(data.widgetTag);
-  }
+@Override
+protected void _fill(final @ValidData @NonNull WidgetEventData data) {
+	et_id.setText(data.widgetTag);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public WidgetEventData getData() throws InvalidDataInputException {
-    String strId = et_id.getText().toString();
-    try {
-      return new WidgetEventData(strId);
-    } catch (NumberFormatException e) {
-      throw new InvalidDataInputException("Data is not a valid integer");
-    }
-  }
+@ValidData
+@NonNull
+@Override
+public WidgetEventData getData() throws InvalidDataInputException {
+	String strId = et_id.getText().toString();
+	try {
+		return new WidgetEventData(strId);
+	} catch (NumberFormatException e) {
+		throw new InvalidDataInputException("Data is not a valid integer");
+	}
+}
 }

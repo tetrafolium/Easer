@@ -30,66 +30,68 @@ import ryey.easer.skills.SkillUtils;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class AirplaneModeLoader
-    extends OperationLoader<AirplaneModeOperationData> {
-  public AirplaneModeLoader(final Context context) { super(context); }
+	extends OperationLoader<AirplaneModeOperationData> {
+public AirplaneModeLoader(final Context context) {
+	super(context);
+}
 
-  @Override
-  public boolean load(final
-                      @ValidData @NonNull AirplaneModeOperationData data) {
-    Boolean state = data.get();
-    if (state == airplaneModeIsOn())
-      return true;
-    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
-      return switchBefore17(state);
-    } else {
-      if (switchAfter17(state))
-        return true;
-      else {
-        switchBefore17(state);
-        return airplaneModeIsOn();
-      }
-    }
-  }
+@Override
+public boolean load(final
+                    @ValidData @NonNull AirplaneModeOperationData data) {
+	Boolean state = data.get();
+	if (state == airplaneModeIsOn())
+		return true;
+	if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
+		return switchBefore17(state);
+	} else {
+		if (switchAfter17(state))
+			return true;
+		else {
+			switchBefore17(state);
+			return airplaneModeIsOn();
+		}
+	}
+}
 
-  private boolean airplaneModeIsOn() {
-    boolean mode;
-    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-      mode = Settings.Global.getInt(context.getContentResolver(),
-                                    Settings.Global.AIRPLANE_MODE_ON, 0) == 1;
-    } else {
-      mode = Settings.System.getInt(context.getContentResolver(),
-                                    Settings.System.AIRPLANE_MODE_ON, 0) == 1;
-    }
-    return mode;
-  }
+private boolean airplaneModeIsOn() {
+	boolean mode;
+	if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+		mode = Settings.Global.getInt(context.getContentResolver(),
+		                              Settings.Global.AIRPLANE_MODE_ON, 0) == 1;
+	} else {
+		mode = Settings.System.getInt(context.getContentResolver(),
+		                              Settings.System.AIRPLANE_MODE_ON, 0) == 1;
+	}
+	return mode;
+}
 
-  private boolean switchBefore17(final boolean newState) {
-    Settings.System.putInt(context.getContentResolver(),
-                           Settings.System.AIRPLANE_MODE_ON, newState ? 1 : 0);
+private boolean switchBefore17(final boolean newState) {
+	Settings.System.putInt(context.getContentResolver(),
+	                       Settings.System.AIRPLANE_MODE_ON, newState ? 1 : 0);
 
-    Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-    intent.putExtra("state", !newState);
-    context.sendBroadcast(intent);
-    return true;
-  }
+	Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+	intent.putExtra("state", !newState);
+	context.sendBroadcast(intent);
+	return true;
+}
 
-  private boolean switchAfter17(final boolean newState) {
-    final String COMMAND_FLIGHT_MODE_1 = "settings put global airplane_mode_on";
-    final String COMMAND_FLIGHT_MODE_2 =
-        "am broadcast -a android.intent.action.AIRPLANE_MODE --ez state";
-    if (SkillUtils.useRootFeature(context)) {
-      try {
-        int enabled = newState ? 1 : 0;
-        String command = COMMAND_FLIGHT_MODE_1 + " " + enabled;
-        SkillUtils.executeCommandAsRoot(context, command);
-        command = COMMAND_FLIGHT_MODE_2 + " " + newState;
-        SkillUtils.executeCommandAsRoot(context, command);
-        return true;
-      } catch (IOException e) {
-        e.printStackTrace();
-        return false;
-      }
-    }
-    return false;
-  }
+private boolean switchAfter17(final boolean newState) {
+	final String COMMAND_FLIGHT_MODE_1 = "settings put global airplane_mode_on";
+	final String COMMAND_FLIGHT_MODE_2 =
+		"am broadcast -a android.intent.action.AIRPLANE_MODE --ez state";
+	if (SkillUtils.useRootFeature(context)) {
+		try {
+			int enabled = newState ? 1 : 0;
+			String command = COMMAND_FLIGHT_MODE_1 + " " + enabled;
+			SkillUtils.executeCommandAsRoot(context, command);
+			command = COMMAND_FLIGHT_MODE_2 + " " + newState;
+			SkillUtils.executeCommandAsRoot(context, command);
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	return false;
+}
 }

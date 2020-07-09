@@ -36,65 +36,65 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class NfcTagEventSkill implements EventSkill<NfcTagEventData> {
 
-  @NonNull
-  @Override
-  public String id() {
-    return "nfc_tag";
-  }
+@NonNull
+@Override
+public String id() {
+	return "nfc_tag";
+}
 
-  @Override
-  public int name() {
-    return R.string.event_nfc_tag;
-  }
+@Override
+public int name() {
+	return R.string.event_nfc_tag;
+}
 
-  @Override
-  public boolean isCompatible(@NonNull final Context context) {
-    NfcAdapter adapter = NfcAdapter.getDefaultAdapter(context);
-    return adapter != null;
-  }
+@Override
+public boolean isCompatible(@NonNull final Context context) {
+	NfcAdapter adapter = NfcAdapter.getDefaultAdapter(context);
+	return adapter != null;
+}
 
-  @Nullable
-  @Override
-  public Boolean checkPermissions(final @NonNull Context context) {
-    return SkillUtils.checkPermission(context, Manifest.permission.NFC);
-  }
+@Nullable
+@Override
+public Boolean checkPermissions(final @NonNull Context context) {
+	return SkillUtils.checkPermission(context, Manifest.permission.NFC);
+}
 
-  @Override
-  public void requestPermissions(final @NonNull Activity activity,
-                                 final int requestCode) {
-    SkillUtils.requestPermission(activity, requestCode,
-                                 Manifest.permission.NFC);
-  }
+@Override
+public void requestPermissions(final @NonNull Activity activity,
+                               final int requestCode) {
+	SkillUtils.requestPermission(activity, requestCode,
+	                             Manifest.permission.NFC);
+}
 
-  @NonNull
-  @Override
-  public EventDataFactory<NfcTagEventData> dataFactory() {
-    return new NfcTagEventDataFactory();
-  }
+@NonNull
+@Override
+public EventDataFactory<NfcTagEventData> dataFactory() {
+	return new NfcTagEventDataFactory();
+}
 
-  @NonNull
-  @Override
-  public SourceCategory category() {
-    return SourceCategory.data_communication;
-  }
+@NonNull
+@Override
+public SourceCategory category() {
+	return SourceCategory.data_communication;
+}
 
-  @NonNull
-  @Override
-  public SkillView<NfcTagEventData> view() {
-    return new NfcTagSkillViewFragment();
-  }
+@NonNull
+@Override
+public SkillView<NfcTagEventData> view() {
+	return new NfcTagSkillViewFragment();
+}
 
-  @Override
-  public AbstractSlot<NfcTagEventData>
-  slot(final @NonNull Context context,
-       final @ValidData @NonNull NfcTagEventData data) {
-    return new NfcTagSlot(context, data);
-  }
+@Override
+public AbstractSlot<NfcTagEventData>
+slot(final @NonNull Context context,
+     final @ValidData @NonNull NfcTagEventData data) {
+	return new NfcTagSlot(context, data);
+}
 
-  @Override
-  public AbstractSlot<NfcTagEventData>
-  slot(final @NonNull Context context, final @NonNull NfcTagEventData data,
-       final boolean retriggerable, final boolean persistent) {
-    return new NfcTagSlot(context, data, retriggerable, persistent);
-  }
+@Override
+public AbstractSlot<NfcTagEventData>
+slot(final @NonNull Context context, final @NonNull NfcTagEventData data,
+     final boolean retriggerable, final boolean persistent) {
+	return new NfcTagSlot(context, data, retriggerable, persistent);
+}
 }

@@ -29,56 +29,56 @@ import androidx.annotation.NonNull;
 import ryey.easer.skills.condition.SkeletonTracker;
 
 public class CellLocationTracker
-    extends SkeletonTracker<CellLocationUSourceData> {
+	extends SkeletonTracker<CellLocationUSourceData> {
 
-  private static TelephonyManager telephonyManager = null;
+private static TelephonyManager telephonyManager = null;
 
-  private CellLocationListener cellLocationListener =
-      new CellLocationListener();
+private CellLocationListener cellLocationListener =
+	new CellLocationListener();
 
-  CellLocationTracker(final Context context, final CellLocationUSourceData data,
-                      final @NonNull PendingIntent event_positive,
-                      final @NonNull PendingIntent event_negative) {
-    super(context, data, event_positive, event_negative);
+CellLocationTracker(final Context context, final CellLocationUSourceData data,
+                    final @NonNull PendingIntent event_positive,
+                    final @NonNull PendingIntent event_negative) {
+	super(context, data, event_positive, event_negative);
 
-    if (telephonyManager == null) {
-      telephonyManager =
-          (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-    }
-  }
+	if (telephonyManager == null) {
+		telephonyManager =
+			(TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+	}
+}
 
-  @Override
-  public void start() {
-    telephonyManager.listen(cellLocationListener,
-                            PhoneStateListener.LISTEN_CELL_LOCATION);
-  }
+@Override
+public void start() {
+	telephonyManager.listen(cellLocationListener,
+	                        PhoneStateListener.LISTEN_CELL_LOCATION);
+}
 
-  @Override
-  public void stop() {
-    telephonyManager.listen(cellLocationListener,
-                            PhoneStateListener.LISTEN_NONE);
-  }
+@Override
+public void stop() {
+	telephonyManager.listen(cellLocationListener,
+	                        PhoneStateListener.LISTEN_NONE);
+}
 
-  @SuppressLint("MissingPermission")
-  @Override
-  public Boolean state() {
-    return match(telephonyManager.getCellLocation());
-  }
+@SuppressLint("MissingPermission")
+@Override
+public Boolean state() {
+	return match(telephonyManager.getCellLocation());
+}
 
-  private Boolean match(final CellLocation location) {
-    CellLocationSingleData curr =
-        CellLocationSingleData.fromCellLocation(location);
-    if (curr == null)
-      return null;
-    return data.data.contains(curr);
-  }
+private Boolean match(final CellLocation location) {
+	CellLocationSingleData curr =
+		CellLocationSingleData.fromCellLocation(location);
+	if (curr == null)
+		return null;
+	return data.data.contains(curr);
+}
 
-  class CellLocationListener extends PhoneStateListener {
-    @Override
-    synchronized public void
-    onCellLocationChanged(final CellLocation location) {
-      super.onCellLocationChanged(location);
-      newSatisfiedState(match(location));
-    }
-  }
+class CellLocationListener extends PhoneStateListener {
+@Override
+synchronized public void
+onCellLocationChanged(final CellLocation location) {
+	super.onCellLocationChanged(location);
+	newSatisfiedState(match(location));
+}
+}
 }

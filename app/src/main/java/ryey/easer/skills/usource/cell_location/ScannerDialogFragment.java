@@ -45,137 +45,137 @@ import ryey.easer.R;
 
 public class ScannerDialogFragment extends DialogFragment {
 
-  private TelephonyManager telephonyManager;
-  private final CellLocationListener cellLocationListener =
-      new CellLocationListener();
+private TelephonyManager telephonyManager;
+private final CellLocationListener cellLocationListener =
+	new CellLocationListener();
 
-  private final List<CellLocationSingleData> singleDataList = new ArrayList<>();
-  private ArrayAdapter<CellLocationSingleData> cellLocationDataListAdapter;
+private final List<CellLocationSingleData> singleDataList = new ArrayList<>();
+private ArrayAdapter<CellLocationSingleData> cellLocationDataListAdapter;
 
-  public interface ScannerListener {
-    void onPositiveClicked(@NonNull List<CellLocationSingleData> singleData);
-  }
+public interface ScannerListener {
+void onPositiveClicked(@NonNull List<CellLocationSingleData> singleData);
+}
 
-  @Override
-  public void onAttach(final Context context) {
-    super.onAttach(context);
-    telephonyManager =
-        (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-    if (telephonyManager != null)
-      telephonyManager.listen(cellLocationListener,
-                              PhoneStateListener.LISTEN_CELL_LOCATION);
-  }
+@Override
+public void onAttach(final Context context) {
+	super.onAttach(context);
+	telephonyManager =
+		(TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+	if (telephonyManager != null)
+		telephonyManager.listen(cellLocationListener,
+		                        PhoneStateListener.LISTEN_CELL_LOCATION);
+}
 
-  @Override
-  public void onDetach() {
-    super.onDetach();
-    if (telephonyManager != null)
-      telephonyManager.listen(cellLocationListener,
-                              PhoneStateListener.LISTEN_NONE);
-  }
+@Override
+public void onDetach() {
+	super.onDetach();
+	if (telephonyManager != null)
+		telephonyManager.listen(cellLocationListener,
+		                        PhoneStateListener.LISTEN_NONE);
+}
 
-  @Override
-  public Dialog onCreateDialog(final Bundle savedInstanceState) {
-    if (telephonyManager == null) {
-      Toast
-          .makeText(getContext(), R.string.usource_cell_location_no_signal,
-                    Toast.LENGTH_SHORT)
-          .show();
-      dismiss();
-    }
+@Override
+public Dialog onCreateDialog(final Bundle savedInstanceState) {
+	if (telephonyManager == null) {
+		Toast
+		.makeText(getContext(), R.string.usource_cell_location_no_signal,
+		          Toast.LENGTH_SHORT)
+		.show();
+		dismiss();
+	}
 
-    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+	AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-    View v = LayoutInflater.from(getContext())
-                 .inflate(R.layout.fragment_scanner_cell_location, null);
+	View v = LayoutInflater.from(getContext())
+	         .inflate(R.layout.fragment_scanner_cell_location, null);
 
-    ListView listView = v.findViewById(R.id.list);
-    cellLocationDataListAdapter = new ArrayAdapter<>(
-        getContext(), android.R.layout.simple_list_item_1, singleDataList);
-    listView.setAdapter(cellLocationDataListAdapter);
+	ListView listView = v.findViewById(R.id.list);
+	cellLocationDataListAdapter = new ArrayAdapter<>(
+		getContext(), android.R.layout.simple_list_item_1, singleDataList);
+	listView.setAdapter(cellLocationDataListAdapter);
 
-    builder.setView(v).setPositiveButton(
-        R.string.button_ok, new DialogInterface.OnClickListener() {
-          public void onClick(final DialogInterface dialog, final int id) {
-            ((ScannerListener)getTargetFragment())
-                .onPositiveClicked(singleDataList);
-            dismiss();
-          }
-        });
+	builder.setView(v).setPositiveButton(
+		R.string.button_ok, new DialogInterface.OnClickListener() {
+			public void onClick(final DialogInterface dialog, final int id) {
+			        ((ScannerListener)getTargetFragment())
+			        .onPositiveClicked(singleDataList);
+			        dismiss();
+			}
+		});
 
-    Dialog dialog = builder.create();
+	Dialog dialog = builder.create();
 
-    new GetInitialDataTask(telephonyManager, singleDataList,
-                           cellLocationDataListAdapter)
-        .execute();
+	new GetInitialDataTask(telephonyManager, singleDataList,
+	                       cellLocationDataListAdapter)
+	.execute();
 
-    return dialog;
-  }
+	return dialog;
+}
 
-  private static void addData(
-      final @NonNull List<CellLocationSingleData> singleDataList,
-      final
-      @NonNull ArrayAdapter<CellLocationSingleData> cellLocationDataListAdapter,
-      final @Nullable CellLocationSingleData data) {
-    if ((data != null) && (!singleDataList.contains(data))) {
-      singleDataList.add(data);
-      cellLocationDataListAdapter.notifyDataSetChanged();
-    }
-  }
+private static void addData(
+	final @NonNull List<CellLocationSingleData> singleDataList,
+	final
+	@NonNull ArrayAdapter<CellLocationSingleData> cellLocationDataListAdapter,
+	final @Nullable CellLocationSingleData data) {
+	if ((data != null) && (!singleDataList.contains(data))) {
+		singleDataList.add(data);
+		cellLocationDataListAdapter.notifyDataSetChanged();
+	}
+}
 
-  private void addData(final @Nullable CellLocationSingleData data) {
-    addData(singleDataList, cellLocationDataListAdapter, data);
-  }
+private void addData(final @Nullable CellLocationSingleData data) {
+	addData(singleDataList, cellLocationDataListAdapter, data);
+}
 
-  private class CellLocationListener extends PhoneStateListener {
-    @Override
-    synchronized public void
-    onCellLocationChanged(final CellLocation location) {
-      addData(CellLocationSingleData.fromCellLocation(location));
-    }
-  }
+private class CellLocationListener extends PhoneStateListener {
+@Override
+synchronized public void
+onCellLocationChanged(final CellLocation location) {
+	addData(CellLocationSingleData.fromCellLocation(location));
+}
+}
 
-  /**
-   * Permission is ensured before using this Fragment
-   */
-  @SuppressLint("MissingPermission")
-  private static class GetInitialDataTask
-      extends AsyncTask<Void, CellLocationSingleData, Void> {
+/**
+ * Permission is ensured before using this Fragment
+ */
+@SuppressLint("MissingPermission")
+private static class GetInitialDataTask
+	extends AsyncTask<Void, CellLocationSingleData, Void> {
 
-    private TelephonyManager telephonyManager;
-    private List<CellLocationSingleData> singleDataList;
-    private ArrayAdapter<CellLocationSingleData> adapter;
+private TelephonyManager telephonyManager;
+private List<CellLocationSingleData> singleDataList;
+private ArrayAdapter<CellLocationSingleData> adapter;
 
-    private GetInitialDataTask(
-        final TelephonyManager telephonyManager,
-        final List<CellLocationSingleData> singleDataList,
-        final ArrayAdapter<CellLocationSingleData> adapter) {
-      this.telephonyManager = telephonyManager;
-      this.singleDataList = singleDataList;
-      this.adapter = adapter;
-    }
+private GetInitialDataTask(
+	final TelephonyManager telephonyManager,
+	final List<CellLocationSingleData> singleDataList,
+	final ArrayAdapter<CellLocationSingleData> adapter) {
+	this.telephonyManager = telephonyManager;
+	this.singleDataList = singleDataList;
+	this.adapter = adapter;
+}
 
-    @Override
-    protected Void doInBackground(final Void... voids) {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-        List<CellInfo> cellInfoList = telephonyManager.getAllCellInfo();
-        if (cellInfoList != null) {
-          for (CellInfo cellInfo : cellInfoList) {
-            if (cellInfo.isRegistered()) {
-              publishProgress(CellLocationSingleData.fromCellInfo(cellInfo));
-            }
-          }
-        }
-      } else {
-        CellLocation cellLocation = telephonyManager.getCellLocation();
-        publishProgress(CellLocationSingleData.fromCellLocation(cellLocation));
-      }
-      return null;
-    }
+@Override
+protected Void doInBackground(final Void... voids) {
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+		List<CellInfo> cellInfoList = telephonyManager.getAllCellInfo();
+		if (cellInfoList != null) {
+			for (CellInfo cellInfo : cellInfoList) {
+				if (cellInfo.isRegistered()) {
+					publishProgress(CellLocationSingleData.fromCellInfo(cellInfo));
+				}
+			}
+		}
+	} else {
+		CellLocation cellLocation = telephonyManager.getCellLocation();
+		publishProgress(CellLocationSingleData.fromCellLocation(cellLocation));
+	}
+	return null;
+}
 
-    @Override
-    protected void onProgressUpdate(final CellLocationSingleData... values) {
-      addData(singleDataList, adapter, values[0]);
-    }
-  }
+@Override
+protected void onProgressUpdate(final CellLocationSingleData... values) {
+	addData(singleDataList, adapter, values[0]);
+}
+}
 }

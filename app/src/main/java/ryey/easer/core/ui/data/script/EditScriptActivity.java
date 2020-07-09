@@ -54,286 +54,286 @@ import ryey.easer.core.ui.data.event.EditEventDataFragment;
  * TODO: change the layout
  */
 public class EditScriptActivity
-    extends AbstractEditDataActivity<ScriptStructure, ScriptDataStorage> {
+	extends AbstractEditDataActivity<ScriptStructure, ScriptDataStorage> {
 
-  private static final int REQ_CODE = 1;
+private static final int REQ_CODE = 1;
 
-  static { TAG_DATA_TYPE = "script"; }
+static { TAG_DATA_TYPE = "script"; }
 
-  EditEventDataFragment editEventDataFragment;
+EditEventDataFragment editEventDataFragment;
 
-  EditText mEditText_name = null;
-  DataSelectSpinnerWrapper sw_parent;
-  DataSelectSpinnerWrapper sw_profile;
-  boolean isActive = true;
-  RadioGroup rg_mode;
-  RadioButton rb_inline, rb_event, rb_condition;
-  CompoundButton mSwitch_reverse;
+EditText mEditText_name = null;
+DataSelectSpinnerWrapper sw_parent;
+DataSelectSpinnerWrapper sw_profile;
+boolean isActive = true;
+RadioGroup rg_mode;
+RadioButton rb_inline, rb_event, rb_condition;
+CompoundButton mSwitch_reverse;
 
-  ConstraintLayout layout_use_event;
-  DataSelectSpinnerWrapper sw_event;
-  CompoundButton mSwitch_repeatable;
-  CompoundButton mSwitch_persistent;
+ConstraintLayout layout_use_event;
+DataSelectSpinnerWrapper sw_event;
+CompoundButton mSwitch_repeatable;
+CompoundButton mSwitch_persistent;
 
-  ConstraintLayout layout_use_condition;
-  DataSelectSpinnerWrapper sw_condition;
+ConstraintLayout layout_use_condition;
+DataSelectSpinnerWrapper sw_condition;
 
-  ImageButton dynamics;
-  DynamicsLink dynamicsLink;
+ImageButton dynamics;
+DynamicsLink dynamicsLink;
 
-  @Override
-  public boolean onCreateOptionsMenu(final Menu menu) {
-    getMenuInflater().inflate(R.menu.edit_event, menu);
-    menu.findItem(R.id.action_toggle_active).setChecked(isActive);
-    return true;
-  }
+@Override
+public boolean onCreateOptionsMenu(final Menu menu) {
+	getMenuInflater().inflate(R.menu.edit_event, menu);
+	menu.findItem(R.id.action_toggle_active).setChecked(isActive);
+	return true;
+}
 
-  @Override
-  public boolean onOptionsItemSelected(final MenuItem item) {
-    switch (item.getItemId()) {
-    case R.id.action_toggle_active:
-      isActive = !item.isChecked();
-      item.setChecked(isActive);
-      return true;
-    }
-    return super.onOptionsItemSelected(item);
-  }
+@Override
+public boolean onOptionsItemSelected(final MenuItem item) {
+	switch (item.getItemId()) {
+	case R.id.action_toggle_active:
+		isActive = !item.isChecked();
+		item.setChecked(isActive);
+		return true;
+	}
+	return super.onOptionsItemSelected(item);
+}
 
-  @Override
-  protected ScriptDataStorage retDataStorage() {
-    return new ScriptDataStorage(this);
-  }
+@Override
+protected ScriptDataStorage retDataStorage() {
+	return new ScriptDataStorage(this);
+}
 
-  @Override
-  protected String title() {
-    return getString(R.string.title_script);
-  }
+@Override
+protected String title() {
+	return getString(R.string.title_script);
+}
 
-  @Override
-  protected int contentViewRes() {
-    return R.layout.activity_edit_script;
-  }
+@Override
+protected int contentViewRes() {
+	return R.layout.activity_edit_script;
+}
 
-  protected void init() {
-    mEditText_name = findViewById(R.id.editText_script_title);
+protected void init() {
+	mEditText_name = findViewById(R.id.editText_script_title);
 
-    sw_parent = new DataSelectSpinnerWrapper(
-        this, (Spinner)findViewById(R.id.spinner_parent));
-    sw_parent.beginInit()
-        .setAllowEmpty(true)
-        .fillData(new ScriptDataStorage(this).list())
-        .finalizeInit();
+	sw_parent = new DataSelectSpinnerWrapper(
+		this, (Spinner)findViewById(R.id.spinner_parent));
+	sw_parent.beginInit()
+	.setAllowEmpty(true)
+	.fillData(new ScriptDataStorage(this).list())
+	.finalizeInit();
 
-    sw_profile = new DataSelectSpinnerWrapper(
-        this, (Spinner)findViewById(R.id.spinner_profile));
-    sw_profile.beginInit()
-        .setAllowEmpty(true)
-        .fillData(new ProfileDataStorage(this).list())
-        .finalizeInit();
+	sw_profile = new DataSelectSpinnerWrapper(
+		this, (Spinner)findViewById(R.id.spinner_profile));
+	sw_profile.beginInit()
+	.setAllowEmpty(true)
+	.fillData(new ProfileDataStorage(this).list())
+	.finalizeInit();
 
-    mSwitch_reverse = findViewById(R.id.switch_reverse);
+	mSwitch_reverse = findViewById(R.id.switch_reverse);
 
-    editEventDataFragment =
-        (EditEventDataFragment)getSupportFragmentManager().findFragmentById(
-            R.id.fragment_inline_event);
+	editEventDataFragment =
+		(EditEventDataFragment)getSupportFragmentManager().findFragmentById(
+			R.id.fragment_inline_event);
 
-    layout_use_event = findViewById(R.id.layout_use_event);
-    sw_event = new DataSelectSpinnerWrapper(
-        this, (Spinner)findViewById(R.id.spinner_event));
-    sw_event.beginInit()
-        .setAllowEmpty(false)
-        .fillData(new EventDataStorage(this).list())
-        .finalizeInit();
-    mSwitch_repeatable = findViewById(R.id.switch_repeatable);
-    mSwitch_persistent = findViewById(R.id.switch_persistent);
+	layout_use_event = findViewById(R.id.layout_use_event);
+	sw_event = new DataSelectSpinnerWrapper(
+		this, (Spinner)findViewById(R.id.spinner_event));
+	sw_event.beginInit()
+	.setAllowEmpty(false)
+	.fillData(new EventDataStorage(this).list())
+	.finalizeInit();
+	mSwitch_repeatable = findViewById(R.id.switch_repeatable);
+	mSwitch_persistent = findViewById(R.id.switch_persistent);
 
-    layout_use_condition = findViewById(R.id.layout_use_condition);
-    sw_condition = new DataSelectSpinnerWrapper(
-        this, (Spinner)findViewById(R.id.spinner_condition));
-    sw_condition.beginInit()
-        .setAllowEmpty(false)
-        .fillData(new ConditionDataStorage(this).list())
-        .finalizeInit();
+	layout_use_condition = findViewById(R.id.layout_use_condition);
+	sw_condition = new DataSelectSpinnerWrapper(
+		this, (Spinner)findViewById(R.id.spinner_condition));
+	sw_condition.beginInit()
+	.setAllowEmpty(false)
+	.fillData(new ConditionDataStorage(this).list())
+	.finalizeInit();
 
-    rg_mode = findViewById(R.id.rg_trigger);
-    rg_mode.setOnCheckedChangeListener(
-        new RadioGroup.OnCheckedChangeListener() {
-          @Override
-          public void onCheckedChanged(final RadioGroup radioGroup,
-                                       final int id) {
-            int v_inline = View.GONE, v_event = View.GONE,
-                v_condition = View.GONE;
-            if (id == R.id.radioButton_inline_event) {
-              v_inline = View.VISIBLE;
-            } else if (id == R.id.radioButton_event) {
-              v_event = View.VISIBLE;
-            } else if (id == R.id.radioButton_condition) {
-              v_condition = View.VISIBLE;
-            } else {
-              throw new IllegalAccessError();
-            }
-            if (v_inline == View.GONE)
-              getSupportFragmentManager()
-                  .beginTransaction()
-                  .hide(editEventDataFragment)
-                  .commit();
-            else
-              getSupportFragmentManager()
-                  .beginTransaction()
-                  .show(editEventDataFragment)
-                  .commit();
-            layout_use_event.setVisibility(v_event);
-            layout_use_condition.setVisibility(v_condition);
-          }
-        });
-    rg_mode.check(R.id.radioButton_condition);
-    rg_mode.check(R.id.radioButton_event);
+	rg_mode = findViewById(R.id.rg_trigger);
+	rg_mode.setOnCheckedChangeListener(
+		new RadioGroup.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(final RadioGroup radioGroup,
+			                             final int id) {
+			        int v_inline = View.GONE, v_event = View.GONE,
+			        v_condition = View.GONE;
+			        if (id == R.id.radioButton_inline_event) {
+			                v_inline = View.VISIBLE;
+				} else if (id == R.id.radioButton_event) {
+			                v_event = View.VISIBLE;
+				} else if (id == R.id.radioButton_condition) {
+			                v_condition = View.VISIBLE;
+				} else {
+			                throw new IllegalAccessError();
+				}
+			        if (v_inline == View.GONE)
+					getSupportFragmentManager()
+					.beginTransaction()
+					.hide(editEventDataFragment)
+					.commit();
+			        else
+					getSupportFragmentManager()
+					.beginTransaction()
+					.show(editEventDataFragment)
+					.commit();
+			        layout_use_event.setVisibility(v_event);
+			        layout_use_condition.setVisibility(v_condition);
+			}
+		});
+	rg_mode.check(R.id.radioButton_condition);
+	rg_mode.check(R.id.radioButton_event);
 
-    rb_inline = findViewById(R.id.radioButton_inline_event);
-    rb_event = findViewById(R.id.radioButton_event);
-    rb_condition = findViewById(R.id.radioButton_condition);
+	rb_inline = findViewById(R.id.radioButton_inline_event);
+	rb_event = findViewById(R.id.radioButton_event);
+	rb_condition = findViewById(R.id.radioButton_condition);
 
-    dynamics = findViewById(R.id.btn_dynamics);
-    dynamics.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(final View view) {
-        Intent intent =
-            new Intent(EditScriptActivity.this, ListDynamicsActivity.class);
-        intent.putExtra(ListDynamicsActivity.EXTRA_DYNAMICS_LINK, dynamicsLink);
-        ArrayList<String> placeholders = new ArrayList<>();
-        String profileName = sw_profile.getSelection();
-        if (profileName == null) {
-          showDynamicsNotReady();
-          return;
-        }
-        ProfileStructure profile =
-            new ProfileDataStorage(EditScriptActivity.this).get(profileName);
-        placeholders.addAll(profile.placeholders());
-        intent.putStringArrayListExtra(ListDynamicsActivity.EXTRA_PLACEHOLDERS,
-                                       placeholders);
-        if (rg_mode.getCheckedRadioButtonId() ==
-            R.id.radioButton_inline_event) {
-          EventData eventData;
-          try {
-            eventData = editEventDataFragment.saveToData();
-          } catch (InvalidDataInputException e) {
-            showDynamicsNotReady();
-            return;
-          }
-          intent.putExtra(ListDynamicsActivity.EXTRA_PLUGIN_TYPE,
-                          ListDynamicsActivity.PLUGIN_TYPE_EVENT);
-          intent.putExtra(ListDynamicsActivity.EXTRA_PLUGIN_DATA, eventData);
-        } else if (rg_mode.getCheckedRadioButtonId() ==
-                   R.id.radioButton_event) {
-          EventDataStorage eventDataStorage =
-              new EventDataStorage(EditScriptActivity.this);
-          String event_name = sw_event.getSelection();
-          if (event_name == null) {
-            showDynamicsNotReady();
-            return;
-          }
-          EventStructure eventStructure = eventDataStorage.get(event_name);
-          intent.putExtra(ListDynamicsActivity.EXTRA_PLUGIN_DATA,
-                          eventStructure.getEventData());
-          intent.putExtra(ListDynamicsActivity.EXTRA_PLUGIN_TYPE,
-                          ListDynamicsActivity.PLUGIN_TYPE_EVENT);
-        } else if (rg_mode.getCheckedRadioButtonId() ==
-                   R.id.radioButton_condition) {
-          intent.putExtra(ListDynamicsActivity.EXTRA_PLUGIN_TYPE,
-                          ListDynamicsActivity.PLUGIN_TYPE_CONDITION);
-        }
-        startActivityForResult(intent, REQ_CODE);
-      }
-    });
-  }
+	dynamics = findViewById(R.id.btn_dynamics);
+	dynamics.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View view) {
+			        Intent intent =
+					new Intent(EditScriptActivity.this, ListDynamicsActivity.class);
+			        intent.putExtra(ListDynamicsActivity.EXTRA_DYNAMICS_LINK, dynamicsLink);
+			        ArrayList<String> placeholders = new ArrayList<>();
+			        String profileName = sw_profile.getSelection();
+			        if (profileName == null) {
+			                showDynamicsNotReady();
+			                return;
+				}
+			        ProfileStructure profile =
+					new ProfileDataStorage(EditScriptActivity.this).get(profileName);
+			        placeholders.addAll(profile.placeholders());
+			        intent.putStringArrayListExtra(ListDynamicsActivity.EXTRA_PLACEHOLDERS,
+			                                       placeholders);
+			        if (rg_mode.getCheckedRadioButtonId() ==
+			            R.id.radioButton_inline_event) {
+			                EventData eventData;
+			                try {
+			                        eventData = editEventDataFragment.saveToData();
+					} catch (InvalidDataInputException e) {
+			                        showDynamicsNotReady();
+			                        return;
+					}
+			                intent.putExtra(ListDynamicsActivity.EXTRA_PLUGIN_TYPE,
+			                                ListDynamicsActivity.PLUGIN_TYPE_EVENT);
+			                intent.putExtra(ListDynamicsActivity.EXTRA_PLUGIN_DATA, eventData);
+				} else if (rg_mode.getCheckedRadioButtonId() ==
+			                   R.id.radioButton_event) {
+			                EventDataStorage eventDataStorage =
+						new EventDataStorage(EditScriptActivity.this);
+			                String event_name = sw_event.getSelection();
+			                if (event_name == null) {
+			                        showDynamicsNotReady();
+			                        return;
+					}
+			                EventStructure eventStructure = eventDataStorage.get(event_name);
+			                intent.putExtra(ListDynamicsActivity.EXTRA_PLUGIN_DATA,
+			                                eventStructure.getEventData());
+			                intent.putExtra(ListDynamicsActivity.EXTRA_PLUGIN_TYPE,
+			                                ListDynamicsActivity.PLUGIN_TYPE_EVENT);
+				} else if (rg_mode.getCheckedRadioButtonId() ==
+			                   R.id.radioButton_condition) {
+			                intent.putExtra(ListDynamicsActivity.EXTRA_PLUGIN_TYPE,
+			                                ListDynamicsActivity.PLUGIN_TYPE_CONDITION);
+				}
+			        startActivityForResult(intent, REQ_CODE);
+			}
+		});
+}
 
-  private void showDynamicsNotReady() {
-    Toast
-        .makeText(EditScriptActivity.this, R.string.prompt_dynamics_not_ready,
-                  Toast.LENGTH_LONG)
-        .show();
-  }
+private void showDynamicsNotReady() {
+	Toast
+	.makeText(EditScriptActivity.this, R.string.prompt_dynamics_not_ready,
+	          Toast.LENGTH_LONG)
+	.show();
+}
 
-  @Override
-  protected void loadFromData(final ScriptStructure script) {
-    rb_inline.setVisibility(View.GONE);
+@Override
+protected void loadFromData(final ScriptStructure script) {
+	rb_inline.setVisibility(View.GONE);
 
-    oldName = script.getName();
-    mEditText_name.setText(oldName);
-    String profile = script.getProfileName();
-    sw_profile.setSelection(profile);
-    String parent = script.getParentName();
-    sw_parent.setSelection(parent);
+	oldName = script.getName();
+	mEditText_name.setText(oldName);
+	String profile = script.getProfileName();
+	sw_profile.setSelection(profile);
+	String parent = script.getParentName();
+	sw_parent.setSelection(parent);
 
-    mSwitch_reverse.setChecked(script.isReverse());
+	mSwitch_reverse.setChecked(script.isReverse());
 
-    if (script.isEvent()) {
-      EventStructure scenario = script.getEvent();
-      if (scenario.isTmpEvent()) {
-        rb_inline.setVisibility(View.VISIBLE);
-        rb_event.setText(R.string.text_predefined_event);
-        rb_condition.setText(R.string.text_use_condition);
+	if (script.isEvent()) {
+		EventStructure scenario = script.getEvent();
+		if (scenario.isTmpEvent()) {
+			rb_inline.setVisibility(View.VISIBLE);
+			rb_event.setText(R.string.text_predefined_event);
+			rb_condition.setText(R.string.text_use_condition);
 
-        rg_mode.check(R.id.radioButton_inline_event);
-        EventData eventData = scenario.getEventData();
-        editEventDataFragment.loadFromData(eventData);
-      } else {
-        rg_mode.check(R.id.radioButton_event);
-        sw_event.setSelection(scenario.getName());
-        mSwitch_repeatable.setChecked(script.isRepeatable());
-        mSwitch_persistent.setChecked(script.isPersistent());
-      }
-    } else {
-      rg_mode.check(R.id.radioButton_condition);
-      ConditionStructure condition = script.getCondition();
-      sw_condition.setSelection(condition.getName());
-    }
+			rg_mode.check(R.id.radioButton_inline_event);
+			EventData eventData = scenario.getEventData();
+			editEventDataFragment.loadFromData(eventData);
+		} else {
+			rg_mode.check(R.id.radioButton_event);
+			sw_event.setSelection(scenario.getName());
+			mSwitch_repeatable.setChecked(script.isRepeatable());
+			mSwitch_persistent.setChecked(script.isPersistent());
+		}
+	} else {
+		rg_mode.check(R.id.radioButton_condition);
+		ConditionStructure condition = script.getCondition();
+		sw_condition.setSelection(condition.getName());
+	}
 
-    isActive = script.isActive();
+	isActive = script.isActive();
 
-    dynamicsLink = script.getDynamicsLink();
-  }
+	dynamicsLink = script.getDynamicsLink();
+}
 
-  @Override
-  protected ScriptStructure saveToData() throws InvalidDataInputException {
-    ScriptStructure script = new ScriptStructure(C.VERSION_CREATED_IN_RUNTIME);
-    script.setName(mEditText_name.getText().toString());
-    String profile = sw_profile.getSelection();
-    script.setProfileName(profile);
-    script.setActive(isActive);
-    script.setParentName(sw_parent.getSelection());
+@Override
+protected ScriptStructure saveToData() throws InvalidDataInputException {
+	ScriptStructure script = new ScriptStructure(C.VERSION_CREATED_IN_RUNTIME);
+	script.setName(mEditText_name.getText().toString());
+	String profile = sw_profile.getSelection();
+	script.setProfileName(profile);
+	script.setActive(isActive);
+	script.setParentName(sw_parent.getSelection());
 
-    script.setReverse(mSwitch_reverse.isChecked());
+	script.setReverse(mSwitch_reverse.isChecked());
 
-    if (rg_mode.getCheckedRadioButtonId() == R.id.radioButton_inline_event) {
-      EventDataStorage eventDataStorage = new EventDataStorage(this);
-      script.setEventData(editEventDataFragment.saveToData());
-    } else if (rg_mode.getCheckedRadioButtonId() == R.id.radioButton_event) {
-      EventDataStorage eventDataStorage = new EventDataStorage(this);
-      String scenario_name = sw_event.getSelection();
-      script.setEvent(eventDataStorage.get(scenario_name));
-      script.setRepeatable(mSwitch_repeatable.isChecked());
-      script.setPersistent(mSwitch_persistent.isChecked());
-    } else if (rg_mode.getCheckedRadioButtonId() ==
-               R.id.radioButton_condition) {
-      ConditionDataStorage conditionDataStorage =
-          new ConditionDataStorage(this);
-      String condition_name = sw_condition.getSelection();
-      script.setCondition(conditionDataStorage.get(condition_name));
-    }
-    script.setDynamicsLink(dynamicsLink);
-    return script;
-  }
+	if (rg_mode.getCheckedRadioButtonId() == R.id.radioButton_inline_event) {
+		EventDataStorage eventDataStorage = new EventDataStorage(this);
+		script.setEventData(editEventDataFragment.saveToData());
+	} else if (rg_mode.getCheckedRadioButtonId() == R.id.radioButton_event) {
+		EventDataStorage eventDataStorage = new EventDataStorage(this);
+		String scenario_name = sw_event.getSelection();
+		script.setEvent(eventDataStorage.get(scenario_name));
+		script.setRepeatable(mSwitch_repeatable.isChecked());
+		script.setPersistent(mSwitch_persistent.isChecked());
+	} else if (rg_mode.getCheckedRadioButtonId() ==
+	           R.id.radioButton_condition) {
+		ConditionDataStorage conditionDataStorage =
+			new ConditionDataStorage(this);
+		String condition_name = sw_condition.getSelection();
+		script.setCondition(conditionDataStorage.get(condition_name));
+	}
+	script.setDynamicsLink(dynamicsLink);
+	return script;
+}
 
-  @Override
-  protected void onActivityResult(final int requestCode, final int resultCode,
-                                  final Intent data) {
-    if (requestCode == REQ_CODE) {
-      if (resultCode == Activity.RESULT_OK) {
-        this.dynamicsLink =
-            data.getParcelableExtra(ListDynamicsActivity.EXTRA_DYNAMICS_LINK);
-      }
-    } else
-      super.onActivityResult(requestCode, resultCode, data);
-  }
+@Override
+protected void onActivityResult(final int requestCode, final int resultCode,
+                                final Intent data) {
+	if (requestCode == REQ_CODE) {
+		if (resultCode == Activity.RESULT_OK) {
+			this.dynamicsLink =
+				data.getParcelableExtra(ListDynamicsActivity.EXTRA_DYNAMICS_LINK);
+		}
+	} else
+		super.onActivityResult(requestCode, resultCode, data);
+}
 }

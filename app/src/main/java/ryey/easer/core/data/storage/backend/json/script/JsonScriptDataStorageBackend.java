@@ -34,86 +34,86 @@ import ryey.easer.core.data.storage.backend.ScriptDataStorageBackendInterface;
 import ryey.easer.core.data.storage.backend.json.NC;
 
 public class JsonScriptDataStorageBackend
-    implements ScriptDataStorageBackendInterface {
+	implements ScriptDataStorageBackendInterface {
 
-  private final Context context;
-  private static File dir;
+private final Context context;
+private static File dir;
 
-  public JsonScriptDataStorageBackend(final Context context) {
-    this.context = context;
-    dir = IOUtils.mustGetSubDir(context.getFilesDir(), "script");
-  }
+public JsonScriptDataStorageBackend(final Context context) {
+	this.context = context;
+	dir = IOUtils.mustGetSubDir(context.getFilesDir(), "script");
+}
 
-  @Override
-  public boolean has(final String name) {
-    return IOUtils.fileExists(dir, name + NC.SUFFIX);
-  }
+@Override
+public boolean has(final String name) {
+	return IOUtils.fileExists(dir, name + NC.SUFFIX);
+}
 
-  @Override
-  public List<String> list() {
-    ArrayList<String> list = new ArrayList<>();
-    for (ScriptStructure event : all()) {
-      list.add(event.getName());
-    }
-    return list;
-  }
+@Override
+public List<String> list() {
+	ArrayList<String> list = new ArrayList<>();
+	for (ScriptStructure event : all()) {
+		list.add(event.getName());
+	}
+	return list;
+}
 
-  @Override
-  public ScriptStructure get(final String name)
-      throws FileNotFoundException, IllegalStorageDataException {
-    File file = new File(dir, name + NC.SUFFIX);
-    return get(file);
-  }
+@Override
+public ScriptStructure get(final String name)
+throws FileNotFoundException, IllegalStorageDataException {
+	File file = new File(dir, name + NC.SUFFIX);
+	return get(file);
+}
 
-  private ScriptStructure get(final File file)
-      throws FileNotFoundException, IllegalStorageDataException {
-    ScriptParser parser = new ScriptParser(context);
-    return FileDataStorageBackendHelper.get(parser, file);
-  }
+private ScriptStructure get(final File file)
+throws FileNotFoundException, IllegalStorageDataException {
+	ScriptParser parser = new ScriptParser(context);
+	return FileDataStorageBackendHelper.get(parser, file);
+}
 
-  @Override
-  public void write(final ScriptStructure event) throws IOException {
-    File file = new File(dir, event.getName() + NC.SUFFIX);
-    ScriptSerializer serializer = new ScriptSerializer();
-    FileDataStorageBackendHelper.write(serializer, file, event);
-  }
+@Override
+public void write(final ScriptStructure event) throws IOException {
+	File file = new File(dir, event.getName() + NC.SUFFIX);
+	ScriptSerializer serializer = new ScriptSerializer();
+	FileDataStorageBackendHelper.write(serializer, file, event);
+}
 
-  @Override
-  public void delete(final String name) {
-    File file = new File(dir, name + NC.SUFFIX);
-    if (!file.delete())
-      throw new IllegalStateException("Unable to delete file " + file);
-  }
+@Override
+public void delete(final String name) {
+	File file = new File(dir, name + NC.SUFFIX);
+	if (!file.delete())
+		throw new IllegalStateException("Unable to delete file " + file);
+}
 
-  @Override
-  public void update(final ScriptStructure event) throws IOException {
-    delete(event.getName());
-    write(event);
-  }
+@Override
+public void update(final ScriptStructure event) throws IOException {
+	delete(event.getName());
+	write(event);
+}
 
-  @Override
-  public List<ScriptStructure> all() {
-    List<ScriptStructure> list = new ArrayList<>();
-    File[] files = dir.listFiles(new FileFilter() {
-      @Override
-      public boolean accept(final File pathname) {
-        if ((pathname.isFile()) && (pathname.getName().endsWith(NC.SUFFIX))) {
-          return true;
-        }
-        return false;
-      }
-    });
-    for (File file : files) {
-      ScriptStructure event;
-      try {
-        event = get(file);
-        list.add(event);
-      } catch (IllegalStorageDataException e) {
-        e.printStackTrace();
-      } catch (FileNotFoundException e) {
-        throw new IllegalStateException(e.getCause());
-      }
-    }
-    return list;
-  }
+@Override
+public List<ScriptStructure> all() {
+	List<ScriptStructure> list = new ArrayList<>();
+	File[] files = dir.listFiles(new FileFilter() {
+			@Override
+			public boolean accept(final File pathname) {
+			        if ((pathname.isFile()) && (pathname.getName().endsWith(NC.SUFFIX))) {
+			                return true;
+				}
+			        return false;
+			}
+		});
+	for (File file : files) {
+		ScriptStructure event;
+		try {
+			event = get(file);
+			list.add(event);
+		} catch (IllegalStorageDataException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			throw new IllegalStateException(e.getCause());
+		}
+	}
+	return list;
+}
 }

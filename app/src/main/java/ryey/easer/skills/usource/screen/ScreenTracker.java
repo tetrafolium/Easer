@@ -31,55 +31,55 @@ import ryey.easer.skills.condition.SkeletonTracker;
 
 public class ScreenTracker extends SkeletonTracker<ScreenUSourceData> {
 
-  private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
-        newSatisfiedState(data.screenEvent == ScreenUSourceData.ScreenEvent.on);
-      } else if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
-        newSatisfiedState(data.screenEvent ==
-                          ScreenUSourceData.ScreenEvent.off);
-      } else if (Intent.ACTION_USER_PRESENT.equals(intent.getAction())) {
-        newSatisfiedState(data.screenEvent ==
-                          ScreenUSourceData.ScreenEvent.unlocked);
-      }
-    }
-  };
+private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+	@Override
+	public void onReceive(final Context context, final Intent intent) {
+		if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
+			newSatisfiedState(data.screenEvent == ScreenUSourceData.ScreenEvent.on);
+		} else if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
+			newSatisfiedState(data.screenEvent ==
+			                  ScreenUSourceData.ScreenEvent.off);
+		} else if (Intent.ACTION_USER_PRESENT.equals(intent.getAction())) {
+			newSatisfiedState(data.screenEvent ==
+			                  ScreenUSourceData.ScreenEvent.unlocked);
+		}
+	}
+};
 
-  private final IntentFilter intentFilter;
+private final IntentFilter intentFilter;
 
-  {
-    intentFilter = new IntentFilter();
-    intentFilter.addAction(Intent.ACTION_SCREEN_ON);
-    intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
-    intentFilter.addAction(Intent.ACTION_USER_PRESENT);
-  }
+{
+	intentFilter = new IntentFilter();
+	intentFilter.addAction(Intent.ACTION_SCREEN_ON);
+	intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+	intentFilter.addAction(Intent.ACTION_USER_PRESENT);
+}
 
-  ScreenTracker(final Context context, final ScreenUSourceData data,
-                final @NonNull PendingIntent event_positive,
-                final @NonNull PendingIntent event_negative) {
-    super(context, data, event_positive, event_negative);
+ScreenTracker(final Context context, final ScreenUSourceData data,
+              final @NonNull PendingIntent event_positive,
+              final @NonNull PendingIntent event_negative) {
+	super(context, data, event_positive, event_negative);
 
-    PowerManager pm =
-        (PowerManager)context.getSystemService(Context.POWER_SERVICE);
-    if (pm == null) {
-      Logger.e("ScreenTracker can't get PowerManager");
-      return;
-    }
-    if (pm.isScreenOn()) {
-      newSatisfiedState(data.screenEvent == ScreenUSourceData.ScreenEvent.on);
-    } else {
-      newSatisfiedState(data.screenEvent == ScreenUSourceData.ScreenEvent.off);
-    }
-  }
+	PowerManager pm =
+		(PowerManager)context.getSystemService(Context.POWER_SERVICE);
+	if (pm == null) {
+		Logger.e("ScreenTracker can't get PowerManager");
+		return;
+	}
+	if (pm.isScreenOn()) {
+		newSatisfiedState(data.screenEvent == ScreenUSourceData.ScreenEvent.on);
+	} else {
+		newSatisfiedState(data.screenEvent == ScreenUSourceData.ScreenEvent.off);
+	}
+}
 
-  @Override
-  public void start() {
-    context.registerReceiver(mReceiver, intentFilter);
-  }
+@Override
+public void start() {
+	context.registerReceiver(mReceiver, intentFilter);
+}
 
-  @Override
-  public void stop() {
-    context.registerReceiver(mReceiver, intentFilter);
-  }
+@Override
+public void stop() {
+	context.registerReceiver(mReceiver, intentFilter);
+}
 }

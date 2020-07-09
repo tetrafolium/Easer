@@ -33,90 +33,90 @@ import ryey.easer.skills.condition.SkeletonTracker;
 
 public class WifiTracker extends SkeletonTracker<WifiUSourceData> {
 
-  private final BroadcastReceiver connReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      String action = intent.getAction();
-      if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(action)) {
-        NetworkInfo networkInfo =
-            intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
-        if (networkInfo == null) {
-          newSatisfiedState(null);
-          return;
-        }
-        if (networkInfo.isConnected()) {
-          WifiInfo wifiInfo =
-              intent.getParcelableExtra(WifiManager.EXTRA_WIFI_INFO);
-          if (wifiInfo == null) {
-            WifiManager wifiManager =
-                (WifiManager)context.getApplicationContext().getSystemService(
-                    Context.WIFI_SERVICE);
-            if (wifiManager == null) {
-              Logger.wtf("[WifiTracker] WifiManager is null");
-              return;
-            }
-            wifiInfo = wifiManager.getConnectionInfo();
-            Logger.d(wifiInfo);
-            if (wifiInfo == null)
-              return;
-          }
-          compareAndSignal(wifiInfo);
-        } else if (!networkInfo.isConnectedOrConnecting()) {
-          WifiManager wifiManager =
-              (WifiManager)context.getApplicationContext().getSystemService(
-                  Context.WIFI_SERVICE);
-          if (wifiManager == null) {
-            Logger.wtf("[WifiTracker] WifiManager is null");
-            return;
-          }
-          boolean wifiEnabled = wifiManager.isWifiEnabled();
-          if (!wifiEnabled) {
-            newSatisfiedState(null);
-            return;
-          }
-          newSatisfiedState(false);
-        }
-      }
-    }
-  };
+private final BroadcastReceiver connReceiver = new BroadcastReceiver() {
+	@Override
+	public void onReceive(final Context context, final Intent intent) {
+		String action = intent.getAction();
+		if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(action)) {
+			NetworkInfo networkInfo =
+				intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+			if (networkInfo == null) {
+				newSatisfiedState(null);
+				return;
+			}
+			if (networkInfo.isConnected()) {
+				WifiInfo wifiInfo =
+					intent.getParcelableExtra(WifiManager.EXTRA_WIFI_INFO);
+				if (wifiInfo == null) {
+					WifiManager wifiManager =
+						(WifiManager)context.getApplicationContext().getSystemService(
+							Context.WIFI_SERVICE);
+					if (wifiManager == null) {
+						Logger.wtf("[WifiTracker] WifiManager is null");
+						return;
+					}
+					wifiInfo = wifiManager.getConnectionInfo();
+					Logger.d(wifiInfo);
+					if (wifiInfo == null)
+						return;
+				}
+				compareAndSignal(wifiInfo);
+			} else if (!networkInfo.isConnectedOrConnecting()) {
+				WifiManager wifiManager =
+					(WifiManager)context.getApplicationContext().getSystemService(
+						Context.WIFI_SERVICE);
+				if (wifiManager == null) {
+					Logger.wtf("[WifiTracker] WifiManager is null");
+					return;
+				}
+				boolean wifiEnabled = wifiManager.isWifiEnabled();
+				if (!wifiEnabled) {
+					newSatisfiedState(null);
+					return;
+				}
+				newSatisfiedState(false);
+			}
+		}
+	}
+};
 
-  private final IntentFilter filter;
+private final IntentFilter filter;
 
-  {
-    filter = new IntentFilter();
-    filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-  }
+{
+	filter = new IntentFilter();
+	filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+}
 
-  WifiTracker(final Context context, final WifiUSourceData data,
-              final @NonNull PendingIntent event_positive,
-              final @NonNull PendingIntent event_negative) {
-    super(context, data, event_positive, event_negative);
+WifiTracker(final Context context, final WifiUSourceData data,
+            final @NonNull PendingIntent event_positive,
+            final @NonNull PendingIntent event_negative) {
+	super(context, data, event_positive, event_negative);
 
-    WifiManager wifiManager =
-        (WifiManager)context.getApplicationContext().getSystemService(
-            Context.WIFI_SERVICE);
-    if (wifiManager == null) {
-      Logger.wtf("[WifiTracker] WifiManager is null");
-      return;
-    }
-    if (wifiManager.isWifiEnabled()) {
-      WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-      compareAndSignal(wifiInfo);
-    }
-  }
+	WifiManager wifiManager =
+		(WifiManager)context.getApplicationContext().getSystemService(
+			Context.WIFI_SERVICE);
+	if (wifiManager == null) {
+		Logger.wtf("[WifiTracker] WifiManager is null");
+		return;
+	}
+	if (wifiManager.isWifiEnabled()) {
+		WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+		compareAndSignal(wifiInfo);
+	}
+}
 
-  @Override
-  public void start() {
-    context.registerReceiver(connReceiver, filter);
-  }
+@Override
+public void start() {
+	context.registerReceiver(connReceiver, filter);
+}
 
-  @Override
-  public void stop() {
-    context.unregisterReceiver(connReceiver);
-  }
+@Override
+public void stop() {
+	context.unregisterReceiver(connReceiver);
+}
 
-  private void compareAndSignal(final @NonNull WifiInfo wifiInfo) {
-    boolean match = Utils.compare(data, wifiInfo);
-    newSatisfiedState(match);
-  }
+private void compareAndSignal(final @NonNull WifiInfo wifiInfo) {
+	boolean match = Utils.compare(data, wifiInfo);
+	newSatisfiedState(match);
+}
 }

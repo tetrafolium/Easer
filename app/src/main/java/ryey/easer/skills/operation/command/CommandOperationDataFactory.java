@@ -26,27 +26,27 @@ import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class CommandOperationDataFactory
-    implements OperationDataFactory<CommandOperationData> {
-  @NonNull
-  @Override
-  public Class<CommandOperationData> dataClass() {
-    return CommandOperationData.class;
-  }
+	implements OperationDataFactory<CommandOperationData> {
+@NonNull
+@Override
+public Class<CommandOperationData> dataClass() {
+	return CommandOperationData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public CommandOperationData dummyData() {
-    return new CommandOperationData("/sdcard/mycmd_file");
-  }
+@ValidData
+@NonNull
+@Override
+public CommandOperationData dummyData() {
+	return new CommandOperationData("/sdcard/mycmd_file");
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public CommandOperationData parse(final @NonNull String data,
-                                    final @NonNull PluginDataFormat format,
-                                    final int version)
-      throws IllegalStorageDataException {
-    return new CommandOperationData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public CommandOperationData parse(final @NonNull String data,
+                                  final @NonNull PluginDataFormat format,
+                                  final int version)
+throws IllegalStorageDataException {
+	return new CommandOperationData(data, format, version);
+}
 }

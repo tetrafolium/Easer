@@ -26,58 +26,59 @@ import java.util.Calendar;
 import ryey.easer.skills.event.SelfNotifiableSlot;
 
 public class TimeSlot extends SelfNotifiableSlot<TimeUSourceData> {
-  private static AlarmManager mAlarmManager;
+private static AlarmManager mAlarmManager;
 
-  private final Calendar calendar;
+private final Calendar calendar;
 
-  public TimeSlot(final Context context, final TimeUSourceData data) {
-    this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
-  }
+public TimeSlot(final Context context, final TimeUSourceData data) {
+	this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+}
 
-  TimeSlot(final Context context, final TimeUSourceData data,
-           final boolean retriggerable, final boolean persistent) {
-    super(context, data, retriggerable, persistent);
+TimeSlot(final Context context, final TimeUSourceData data,
+         final boolean retriggerable, final boolean persistent) {
+	super(context, data, retriggerable, persistent);
 
-    calendar = Calendar.getInstance();
-    long currentTimeMillis = System.currentTimeMillis();
-    calendar.setTimeInMillis(currentTimeMillis);
-    calendar.set(Calendar.HOUR_OF_DAY, data.time.get(Calendar.HOUR_OF_DAY));
-    calendar.set(Calendar.MINUTE, data.time.get(Calendar.MINUTE));
-    Calendar now = Calendar.getInstance();
-    now.setTimeInMillis(currentTimeMillis);
-    if (calendar.before(now)) {
-      calendar.add(Calendar.DAY_OF_YEAR, 1);
-    }
+	calendar = Calendar.getInstance();
+	long currentTimeMillis = System.currentTimeMillis();
+	calendar.setTimeInMillis(currentTimeMillis);
+	calendar.set(Calendar.HOUR_OF_DAY, data.time.get(Calendar.HOUR_OF_DAY));
+	calendar.set(Calendar.MINUTE, data.time.get(Calendar.MINUTE));
+	Calendar now = Calendar.getInstance();
+	now.setTimeInMillis(currentTimeMillis);
+	if (calendar.before(now)) {
+		calendar.add(Calendar.DAY_OF_YEAR, 1);
+	}
 
-    if (mAlarmManager == null)
-      mAlarmManager =
-          (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-  }
+	if (mAlarmManager == null)
+		mAlarmManager =
+			(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+}
 
-  @Override
-  public void listen() {
-    super.listen();
-    if (calendar != null) {
-      mAlarmManager.setInexactRepeating(
-          AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-          AlarmManager.INTERVAL_DAY, notifySelfIntent_positive);
-    }
-  }
+@Override
+public void listen() {
+	super.listen();
+	if (calendar != null) {
+		mAlarmManager.setInexactRepeating(
+			AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+			AlarmManager.INTERVAL_DAY, notifySelfIntent_positive);
+	}
+}
 
-  @Override
-  public void cancel() {
-    super.cancel();
-    if (calendar != null) {
-      mAlarmManager.cancel(notifySelfIntent_positive);
-      mAlarmManager.cancel(notifySelfIntent_negative);
-    }
-  }
+@Override
+public void cancel() {
+	super.cancel();
+	if (calendar != null) {
+		mAlarmManager.cancel(notifySelfIntent_positive);
+		mAlarmManager.cancel(notifySelfIntent_negative);
+	}
+}
 
-  @Override
-  protected void onPositiveNotified(final Intent intent) {
-    changeSatisfiedState(true);
-  }
+@Override
+protected void onPositiveNotified(final Intent intent) {
+	changeSatisfiedState(true);
+}
 
-  @Override
-  protected void onNegativeNotified(final Intent intent) {}
+@Override
+protected void onNegativeNotified(final Intent intent) {
+}
 }

@@ -28,45 +28,45 @@ import androidx.annotation.NonNull;
 import ryey.easer.skills.event.AbstractSlot;
 
 public class BluetoothEnabledSlot
-    extends AbstractSlot<BluetoothEnabledUSourceData> {
+	extends AbstractSlot<BluetoothEnabledUSourceData> {
 
-  private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(intent.getAction())) {
-        switch (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1)) {
-        case BluetoothAdapter.STATE_ON:
-          changeSatisfiedState(eventData.enabled);
-          break;
-        case BluetoothAdapter.STATE_OFF:
-          changeSatisfiedState(!eventData.enabled);
-          break;
-        }
-      }
-    }
-  };
-  private static IntentFilter intentFilter =
-      new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+	@Override
+	public void onReceive(final Context context, final Intent intent) {
+		if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(intent.getAction())) {
+			switch (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1)) {
+			case BluetoothAdapter.STATE_ON:
+				changeSatisfiedState(eventData.enabled);
+				break;
+			case BluetoothAdapter.STATE_OFF:
+				changeSatisfiedState(!eventData.enabled);
+				break;
+			}
+		}
+	}
+};
+private static IntentFilter intentFilter =
+	new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
 
-  public BluetoothEnabledSlot(final Context context,
-                              final BluetoothEnabledUSourceData data) {
-    this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
-  }
+public BluetoothEnabledSlot(final Context context,
+                            final BluetoothEnabledUSourceData data) {
+	this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+}
 
-  public BluetoothEnabledSlot(final @NonNull Context context,
-                              final @NonNull BluetoothEnabledUSourceData data,
-                              final boolean retriggerable,
-                              final boolean persistent) {
-    super(context, data, retriggerable, persistent);
-  }
+public BluetoothEnabledSlot(final @NonNull Context context,
+                            final @NonNull BluetoothEnabledUSourceData data,
+                            final boolean retriggerable,
+                            final boolean persistent) {
+	super(context, data, retriggerable, persistent);
+}
 
-  @Override
-  public void listen() {
-    context.registerReceiver(broadcastReceiver, intentFilter);
-  }
+@Override
+public void listen() {
+	context.registerReceiver(broadcastReceiver, intentFilter);
+}
 
-  @Override
-  public void cancel() {
-    context.unregisterReceiver(broadcastReceiver);
-  }
+@Override
+public void cancel() {
+	context.unregisterReceiver(broadcastReceiver);
+}
 }

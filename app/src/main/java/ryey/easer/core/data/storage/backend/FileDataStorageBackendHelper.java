@@ -29,33 +29,33 @@ import ryey.easer.commons.local_skill.IllegalStorageDataException;
 
 public class FileDataStorageBackendHelper {
 
-  public static <T> T get(final Parser<T> parser, final File file)
-      throws FileNotFoundException, IllegalStorageDataException {
-    try {
-      FileInputStream fin = new FileInputStream(file);
-      T eventStructure = parser.parse(fin);
-      fin.close();
-      return eventStructure;
-    } catch (FileNotFoundException e) {
-      throw e;
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    throw new IllegalAccessError();
-  }
+public static <T> T get(final Parser<T> parser, final File file)
+throws FileNotFoundException, IllegalStorageDataException {
+	try {
+		FileInputStream fin = new FileInputStream(file);
+		T eventStructure = parser.parse(fin);
+		fin.close();
+		return eventStructure;
+	} catch (FileNotFoundException e) {
+		throw e;
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	throw new IllegalAccessError();
+}
 
-  public static <T> void write(final Serializer<T> serializer, final File file,
-                               final T data) throws IOException {
-    try {
-      FileOutputStream fout = new FileOutputStream(file);
-      String serialized_str = serializer.serialize(data);
-      fout.write(serialized_str.getBytes());
-      fout.close();
-    } catch (UnableToSerializeException e) {
-      Logger.e(e, "Unable to serialize");
-      e.printStackTrace();
-      throw new IOException(e.getMessage());
-      // TODO: Maybe throw this exception out?
-    }
-  }
+public static <T> void write(final Serializer<T> serializer, final File file,
+                             final T data) throws IOException {
+	try {
+		FileOutputStream fout = new FileOutputStream(file);
+		String serialized_str = serializer.serialize(data);
+		fout.write(serialized_str.getBytes());
+		fout.close();
+	} catch (UnableToSerializeException e) {
+		Logger.e(e, "Unable to serialize");
+		e.printStackTrace();
+		throw new IOException(e.getMessage());
+		// TODO: Maybe throw this exception out?
+	}
+}
 }

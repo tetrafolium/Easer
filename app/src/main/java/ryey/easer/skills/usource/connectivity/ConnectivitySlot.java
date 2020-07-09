@@ -37,77 +37,77 @@ import ryey.easer.skills.event.AbstractSlot;
 
 class ConnectivitySlot extends AbstractSlot<ConnectivityEventData> {
 
-  private Set<Integer> connectivity_types;
+private Set<Integer> connectivity_types;
 
-  private final BroadcastReceiver receiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      switch (intent.getAction()) {
-      case ConnectivityManager.CONNECTIVITY_ACTION:
-        checkConnectivity();
-        break;
-      }
-    }
-  };
-  private final IntentFilter filter;
+private final BroadcastReceiver receiver = new BroadcastReceiver() {
+	@Override
+	public void onReceive(final Context context, final Intent intent) {
+		switch (intent.getAction()) {
+		case ConnectivityManager.CONNECTIVITY_ACTION:
+			checkConnectivity();
+			break;
+		}
+	}
+};
+private final IntentFilter filter;
 
-  {
-    filter = new IntentFilter();
-    filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-  }
+{
+	filter = new IntentFilter();
+	filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+}
 
-  public ConnectivitySlot(final Context context,
-                          final ConnectivityEventData data) {
-    this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
-  }
+public ConnectivitySlot(final Context context,
+                        final ConnectivityEventData data) {
+	this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+}
 
-  ConnectivitySlot(final Context context, final ConnectivityEventData data,
-                   final boolean retriggerable, final boolean persistent) {
-    super(context, data, retriggerable, persistent);
-    connectivity_types = data.connectivity_type;
-  }
+ConnectivitySlot(final Context context, final ConnectivityEventData data,
+                 final boolean retriggerable, final boolean persistent) {
+	super(context, data, retriggerable, persistent);
+	connectivity_types = data.connectivity_type;
+}
 
-  @Override
-  public void listen() {
-    context.registerReceiver(receiver, filter);
-  }
+@Override
+public void listen() {
+	context.registerReceiver(receiver, filter);
+}
 
-  @Override
-  public void cancel() {
-    context.unregisterReceiver(receiver);
-  }
+@Override
+public void cancel() {
+	context.unregisterReceiver(receiver);
+}
 
-  private void checkConnectivity() {
-    ConnectivityManager connectivityManager =
-        (ConnectivityManager)context.getSystemService(
-            Context.CONNECTIVITY_SERVICE);
-    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-    determineAndNotify(convertType(activeNetworkInfo));
-  }
+private void checkConnectivity() {
+	ConnectivityManager connectivityManager =
+		(ConnectivityManager)context.getSystemService(
+			Context.CONNECTIVITY_SERVICE);
+	NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	determineAndNotify(convertType(activeNetworkInfo));
+}
 
-  private int convertType(final NetworkInfo activeNetworkInfo) {
-    if (activeNetworkInfo == null) {
-      return TYPE_NOT_CONNECTED;
-    }
-    switch (activeNetworkInfo.getType()) {
-    case ConnectivityManager.TYPE_WIFI:
-      return TYPE_WIFI;
-    case ConnectivityManager.TYPE_MOBILE:
-      return TYPE_MOBILE;
-    case ConnectivityManager.TYPE_ETHERNET:
-      return TYPE_ETHERNET;
-    case ConnectivityManager.TYPE_BLUETOOTH:
-      return TYPE_BLUETOOTH;
-    case ConnectivityManager.TYPE_VPN:
-      return TYPE_VPN;
-    }
-    return -1;
-  }
+private int convertType(final NetworkInfo activeNetworkInfo) {
+	if (activeNetworkInfo == null) {
+		return TYPE_NOT_CONNECTED;
+	}
+	switch (activeNetworkInfo.getType()) {
+	case ConnectivityManager.TYPE_WIFI:
+		return TYPE_WIFI;
+	case ConnectivityManager.TYPE_MOBILE:
+		return TYPE_MOBILE;
+	case ConnectivityManager.TYPE_ETHERNET:
+		return TYPE_ETHERNET;
+	case ConnectivityManager.TYPE_BLUETOOTH:
+		return TYPE_BLUETOOTH;
+	case ConnectivityManager.TYPE_VPN:
+		return TYPE_VPN;
+	}
+	return -1;
+}
 
-  private void determineAndNotify(final int networkType) {
-    if (connectivity_types.contains(networkType))
-      changeSatisfiedState(true);
-    else
-      changeSatisfiedState(false);
-  }
+private void determineAndNotify(final int networkType) {
+	if (connectivity_types.contains(networkType))
+		changeSatisfiedState(true);
+	else
+		changeSatisfiedState(false);
+}
 }

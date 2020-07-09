@@ -38,44 +38,45 @@ import ryey.easer.skills.LocalSkillRegistry;
 
 class ProfileParser implements Parser<ProfileStructure> {
 
-  ProfileStructure profile;
+ProfileStructure profile;
 
-  ProfileParser() {}
+ProfileParser() {
+}
 
-  public ProfileStructure parse(final InputStream in)
-      throws IOException, IllegalStorageDataException {
-    try {
-      JSONObject jsonObject = new JSONObject(IOUtils.inputStreamToString(in));
-      int version = jsonObject.optInt(C.VERSION, C.VERSION_ADD_JSON);
-      profile = new ProfileStructure(version);
-      profile.setName(jsonObject.optString(C.NAME));
-      JSONArray jsonArray = jsonObject.optJSONArray(C.OPERATION);
-      parseOperations(jsonArray, version);
-      return profile;
-    } catch (JSONException e) {
-      throw new IllegalStorageDataException(e);
-    }
-  }
+public ProfileStructure parse(final InputStream in)
+throws IOException, IllegalStorageDataException {
+	try {
+		JSONObject jsonObject = new JSONObject(IOUtils.inputStreamToString(in));
+		int version = jsonObject.optInt(C.VERSION, C.VERSION_ADD_JSON);
+		profile = new ProfileStructure(version);
+		profile.setName(jsonObject.optString(C.NAME));
+		JSONArray jsonArray = jsonObject.optJSONArray(C.OPERATION);
+		parseOperations(jsonArray, version);
+		return profile;
+	} catch (JSONException e) {
+		throw new IllegalStorageDataException(e);
+	}
+}
 
-  private void parseOperations(final JSONArray jsonArray, final int version)
-      throws JSONException, IllegalStorageDataException {
-    for (int i = 0; i < jsonArray.length(); i++) {
-      JSONObject jsonObject = jsonArray.getJSONObject(i);
-      String spec = jsonObject.optString(C.SPEC);
-      if (Utils.isBlank(spec)) {
-        throw new IllegalStorageDataException("Illegal Item: No Spec");
-      }
-      String content = jsonObject.optString(C.DATA);
-      OperationSkill plugin =
-          LocalSkillRegistry.getInstance().operation().findSkill(spec);
-      if (plugin != null) {
-        OperationData data =
-            plugin.dataFactory().parse(content, PluginDataFormat.JSON, version);
-        profile.put(plugin.id(), data);
-      } else {
-        profile.put(spec, new RemoteOperationData(spec, PluginDataFormat.JSON,
-                                                  content));
-      }
-    }
-  }
+private void parseOperations(final JSONArray jsonArray, final int version)
+throws JSONException, IllegalStorageDataException {
+	for (int i = 0; i < jsonArray.length(); i++) {
+		JSONObject jsonObject = jsonArray.getJSONObject(i);
+		String spec = jsonObject.optString(C.SPEC);
+		if (Utils.isBlank(spec)) {
+			throw new IllegalStorageDataException("Illegal Item: No Spec");
+		}
+		String content = jsonObject.optString(C.DATA);
+		OperationSkill plugin =
+			LocalSkillRegistry.getInstance().operation().findSkill(spec);
+		if (plugin != null) {
+			OperationData data =
+				plugin.dataFactory().parse(content, PluginDataFormat.JSON, version);
+			profile.put(plugin.id(), data);
+		} else {
+			profile.put(spec, new RemoteOperationData(spec, PluginDataFormat.JSON,
+			                                          content));
+		}
+	}
+}
 }

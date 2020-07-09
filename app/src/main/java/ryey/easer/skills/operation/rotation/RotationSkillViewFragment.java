@@ -25,12 +25,12 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.SwitchSkillViewFragment;
 
 public class RotationSkillViewFragment
-    extends SwitchSkillViewFragment<RotationOperationData> {
+	extends SwitchSkillViewFragment<RotationOperationData> {
 
-  @ValidData
-  @NonNull
-  @Override
-  public RotationOperationData getData() throws InvalidDataInputException {
-    return new RotationOperationData(state());
-  }
+@ValidData
+@NonNull
+@Override
+public RotationOperationData getData() throws InvalidDataInputException {
+	return new RotationOperationData(state());
+}
 }

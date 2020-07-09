@@ -22,23 +22,27 @@ package ryey.easer.skills.condition.calendar;
 import java.util.HashMap;
 
 public enum CalendarConditionMatchType {
-  ANY(0),
-  EVENT_TITLE(1);
+	ANY(0),
+	EVENT_TITLE(1);
 
-  private int id;
+	private int id;
 
-  private static HashMap<Integer, CalendarConditionMatchType> enumById =
-      new HashMap<>();
-  static {
-    for (CalendarConditionMatchType m : CalendarConditionMatchType.values()) {
-      enumById.put(m.getId(), m);
-    }
-  }
+	private static HashMap<Integer, CalendarConditionMatchType> enumById =
+		new HashMap<>();
+	static {
+		for (CalendarConditionMatchType m : CalendarConditionMatchType.values()) {
+			enumById.put(m.getId(), m);
+		}
+	}
 
-  CalendarConditionMatchType(final int id) { this.id = id; }
+	CalendarConditionMatchType(final int id) {
+		this.id = id;
+	}
 
-  public static CalendarConditionMatchType getById(final int id) {
-    return enumById.get(id);
-  }
-  public int getId() { return id; }
+	public static CalendarConditionMatchType getById(final int id) {
+		return enumById.get(id);
+	}
+	public int getId() {
+		return id;
+	}
 }

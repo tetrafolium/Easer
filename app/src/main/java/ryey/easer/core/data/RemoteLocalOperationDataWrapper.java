@@ -24,18 +24,20 @@ import ryey.easer.remote_plugin.RemoteOperationData;
 
 public class RemoteLocalOperationDataWrapper {
 
-  public final OperationData localData;
-  public final RemoteOperationData remoteData;
+public final OperationData localData;
+public final RemoteOperationData remoteData;
 
-  public RemoteLocalOperationDataWrapper(final OperationData localData) {
-    this.localData = localData;
-    this.remoteData = null;
-  }
+public RemoteLocalOperationDataWrapper(final OperationData localData) {
+	this.localData = localData;
+	this.remoteData = null;
+}
 
-  public RemoteLocalOperationDataWrapper(final RemoteOperationData remoteData) {
-    this.remoteData = remoteData;
-    this.localData = null;
-  }
+public RemoteLocalOperationDataWrapper(final RemoteOperationData remoteData) {
+	this.remoteData = remoteData;
+	this.localData = null;
+}
 
-  public boolean isRemote() { return this.remoteData != null; }
+public boolean isRemote() {
+	return this.remoteData != null;
+}
 }

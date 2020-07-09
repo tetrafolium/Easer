@@ -27,40 +27,40 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class ScreenSlot extends AbstractSlot<ScreenUSourceData> {
 
-  BroadcastReceiver mReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
-        changeSatisfiedState(eventData.screenEvent ==
-                             ScreenUSourceData.ScreenEvent.on);
-      } else if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
-        changeSatisfiedState(eventData.screenEvent ==
-                             ScreenUSourceData.ScreenEvent.off);
-      } else if (Intent.ACTION_USER_PRESENT.equals(intent.getAction())) {
-        changeSatisfiedState(eventData.screenEvent ==
-                             ScreenUSourceData.ScreenEvent.unlocked);
-      }
-    }
-  };
+BroadcastReceiver mReceiver = new BroadcastReceiver() {
+	@Override
+	public void onReceive(final Context context, final Intent intent) {
+		if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
+			changeSatisfiedState(eventData.screenEvent ==
+			                     ScreenUSourceData.ScreenEvent.on);
+		} else if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
+			changeSatisfiedState(eventData.screenEvent ==
+			                     ScreenUSourceData.ScreenEvent.off);
+		} else if (Intent.ACTION_USER_PRESENT.equals(intent.getAction())) {
+			changeSatisfiedState(eventData.screenEvent ==
+			                     ScreenUSourceData.ScreenEvent.unlocked);
+		}
+	}
+};
 
-  IntentFilter intentFilter;
+IntentFilter intentFilter;
 
-  ScreenSlot(final Context context, final ScreenUSourceData data) {
-    this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
-  }
+ScreenSlot(final Context context, final ScreenUSourceData data) {
+	this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+}
 
-  ScreenSlot(final Context context, final ScreenUSourceData data,
-             final boolean retriggerable, final boolean persistent) {
-    super(context, data, retriggerable, persistent);
-  }
+ScreenSlot(final Context context, final ScreenUSourceData data,
+           final boolean retriggerable, final boolean persistent) {
+	super(context, data, retriggerable, persistent);
+}
 
-  @Override
-  public void listen() {
-    context.registerReceiver(mReceiver, intentFilter);
-  }
+@Override
+public void listen() {
+	context.registerReceiver(mReceiver, intentFilter);
+}
 
-  @Override
-  public void cancel() {
-    context.registerReceiver(mReceiver, intentFilter);
-  }
+@Override
+public void cancel() {
+	context.registerReceiver(mReceiver, intentFilter);
+}
 }

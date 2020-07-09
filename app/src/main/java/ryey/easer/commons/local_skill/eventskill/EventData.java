@@ -25,8 +25,8 @@ import ryey.easer.commons.local_skill.dynamics.Dynamics;
 
 public interface EventData extends StorageData {
 
-  @Nullable Dynamics[] dynamics();
+@Nullable Dynamics[] dynamics();
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  boolean equals(Object obj);
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+boolean equals(Object obj);
 }

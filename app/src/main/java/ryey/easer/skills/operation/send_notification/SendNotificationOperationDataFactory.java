@@ -26,28 +26,28 @@ import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class SendNotificationOperationDataFactory
-    implements OperationDataFactory<SendNotificationOperationData> {
-  @NonNull
-  @Override
-  public Class<SendNotificationOperationData> dataClass() {
-    return SendNotificationOperationData.class;
-  }
+	implements OperationDataFactory<SendNotificationOperationData> {
+@NonNull
+@Override
+public Class<SendNotificationOperationData> dataClass() {
+	return SendNotificationOperationData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public SendNotificationOperationData dummyData() {
-    String title = "my test title";
-    String content = "my test content";
-    return new SendNotificationOperationData(title, content);
-  }
+@ValidData
+@NonNull
+@Override
+public SendNotificationOperationData dummyData() {
+	String title = "my test title";
+	String content = "my test content";
+	return new SendNotificationOperationData(title, content);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public SendNotificationOperationData
-  parse(final @NonNull String data, final @NonNull PluginDataFormat format,
-        final int version) throws IllegalStorageDataException {
-    return new SendNotificationOperationData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public SendNotificationOperationData
+parse(final @NonNull String data, final @NonNull PluginDataFormat format,
+      final int version) throws IllegalStorageDataException {
+	return new SendNotificationOperationData(data, format, version);
+}
 }

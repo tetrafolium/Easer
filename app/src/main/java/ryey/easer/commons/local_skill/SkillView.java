@@ -33,42 +33,42 @@ import androidx.fragment.app.Fragment;
  */
 public abstract class SkillView<T extends StorageData> extends Fragment {
 
-  /**
-   * Normal {@link Fragment} method. Subclasses must override this method to
-   * provide the UI. The only difference is the return value is now {@link
-   * NonNull}.
-   */
-  @NonNull
-  @Override
-  public abstract View onCreateView(@NonNull LayoutInflater inflater,
-                                    @Nullable ViewGroup container,
-                                    @Nullable Bundle savedInstanceState);
+/**
+ * Normal {@link Fragment} method. Subclasses must override this method to
+ * provide the UI. The only difference is the return value is now {@link
+ * NonNull}.
+ */
+@NonNull
+@Override
+public abstract View onCreateView(@NonNull LayoutInflater inflater,
+                                  @Nullable ViewGroup container,
+                                  @Nullable Bundle savedInstanceState);
 
-  /**
-   * Get the description text from resources.
-   * Could be overridden in subclasses if needed for customized text.
-   */
-  @NonNull public abstract String desc(@NonNull Resources res);
+/**
+ * Get the description text from resources.
+ * Could be overridden in subclasses if needed for customized text.
+ */
+@NonNull public abstract String desc(@NonNull Resources res);
 
-  /**
-   * Set the UI according to the data.
-   */
-  public abstract void fill(@ValidData @NonNull T data);
+/**
+ * Set the UI according to the data.
+ */
+public abstract void fill(@ValidData @NonNull T data);
 
-  /**
-   * Construct the correct {@link StorageData} (subclass) containing the data in
-   * the UI.
-   * @throws InvalidDataInputException If the data inputted by the user is
-   *     invalid
-   */
-  @ValidData
-  @NonNull
-  public abstract T getData() throws InvalidDataInputException;
+/**
+ * Construct the correct {@link StorageData} (subclass) containing the data in
+ * the UI.
+ * @throws InvalidDataInputException If the data inputted by the user is
+ *     invalid
+ */
+@ValidData
+@NonNull
+public abstract T getData() throws InvalidDataInputException;
 
-  /**
-   * Change the interactive state of the UI components.
-   * Override this method only if the UI has other controls of the enabled
-   * state.
-   */
-  public abstract void setEnabled(boolean enabled);
+/**
+ * Change the interactive state of the UI components.
+ * Override this method only if the UI has other controls of the enabled
+ * state.
+ */
+public abstract void setEnabled(boolean enabled);
 }

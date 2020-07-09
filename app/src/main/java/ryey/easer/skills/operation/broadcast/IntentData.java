@@ -31,72 +31,73 @@ import ryey.easer.skills.operation.Extras;
 // TODO: Make fields final
 public class IntentData implements Parcelable {
 
-  String action;
-  List<String> category;
-  String type;
-  Uri data;
-  @Nullable Extras extras;
+String action;
+List<String> category;
+String type;
+Uri data;
+@Nullable Extras extras;
 
-  IntentData() {}
+IntentData() {
+}
 
-  @Override
-  public boolean equals(final Object obj) {
-    if (obj == this)
-      return true;
-    if (!(obj instanceof IntentData))
-      return false;
-    if (!Utils.nullableEqual(action, ((IntentData)obj).action))
-      return false;
-    if (!Utils.nullableEqual(category, ((IntentData)obj).category))
-      return false;
-    if (!Utils.nullableEqual(type, ((IntentData)obj).type))
-      return false;
-    if (!Utils.nullableEqual(data, ((IntentData)obj).data))
-      return false;
-    if (!Utils.nullableEqual(extras, ((IntentData)obj).extras))
-      return false;
-    return true;
-  }
+@Override
+public boolean equals(final Object obj) {
+	if (obj == this)
+		return true;
+	if (!(obj instanceof IntentData))
+		return false;
+	if (!Utils.nullableEqual(action, ((IntentData)obj).action))
+		return false;
+	if (!Utils.nullableEqual(category, ((IntentData)obj).category))
+		return false;
+	if (!Utils.nullableEqual(type, ((IntentData)obj).type))
+		return false;
+	if (!Utils.nullableEqual(data, ((IntentData)obj).data))
+		return false;
+	if (!Utils.nullableEqual(extras, ((IntentData)obj).extras))
+		return false;
+	return true;
+}
 
-  @Override
-  public String toString() {
-    return String.format("action:%s category:%s type:%s data:%s", action,
-                         category, type, data);
-  }
+@Override
+public String toString() {
+	return String.format("action:%s category:%s type:%s data:%s", action,
+	                     category, type, data);
+}
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-  @Override
-  public void writeToParcel(final Parcel dest, final int flags) {
-    dest.writeString(action);
-    dest.writeStringList(category);
-    dest.writeString(type);
-    dest.writeParcelable(data, 0);
-    dest.writeParcelable(extras, 0);
-  }
+@Override
+public void writeToParcel(final Parcel dest, final int flags) {
+	dest.writeString(action);
+	dest.writeStringList(category);
+	dest.writeString(type);
+	dest.writeParcelable(data, 0);
+	dest.writeParcelable(extras, 0);
+}
 
-  public static final Parcelable.Creator<IntentData> CREATOR =
-      new Parcelable.Creator<IntentData>() {
-        public IntentData createFromParcel(final Parcel in) {
-          return new IntentData(in);
-        }
+public static final Parcelable.Creator<IntentData> CREATOR =
+	new Parcelable.Creator<IntentData>() {
+	public IntentData createFromParcel(final Parcel in) {
+		return new IntentData(in);
+	}
 
-        public IntentData[] newArray(final int size) {
-          return new IntentData[size];
-        }
-      };
+	public IntentData[] newArray(final int size) {
+		return new IntentData[size];
+	}
+};
 
-  private IntentData(final Parcel in) {
-    action = in.readString();
-    List<String> cat = new ArrayList<>();
-    in.readStringList(cat);
-    if (cat.size() > 0)
-      category = cat;
-    type = in.readString();
-    data = in.readParcelable(Uri.class.getClassLoader());
-    extras = in.readParcelable(Extras.class.getClassLoader());
-  }
+private IntentData(final Parcel in) {
+	action = in.readString();
+	List<String> cat = new ArrayList<>();
+	in.readStringList(cat);
+	if (cat.size() > 0)
+		category = cat;
+	type = in.readString();
+	data = in.readParcelable(Uri.class.getClassLoader());
+	extras = in.readParcelable(Extras.class.getClassLoader());
+}
 }

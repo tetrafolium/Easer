@@ -30,56 +30,60 @@ import ryey.easer.plugin.PluginDataFormat;
 import ryey.easer.skills.reusable.StringData;
 
 public abstract class StringOperationData
-    extends StringData implements OperationData {
+	extends StringData implements OperationData {
 
-  protected StringOperationData() { super(); }
+protected StringOperationData() {
+	super();
+}
 
-  protected StringOperationData(final @NonNull String text) { super(text); }
+protected StringOperationData(final @NonNull String text) {
+	super(text);
+}
 
-  public StringOperationData(final @NonNull String data,
-                             final @NonNull PluginDataFormat format,
-                             final int version)
-      throws IllegalStorageDataException {
-    parse(data, format, version);
-  }
+public StringOperationData(final @NonNull String data,
+                           final @NonNull PluginDataFormat format,
+                           final int version)
+throws IllegalStorageDataException {
+	parse(data, format, version);
+}
 
-  public void parse(final @NonNull String data,
-                    final @NonNull PluginDataFormat format, final int version)
-      throws IllegalStorageDataException {
-    switch (format) {
-    default:
-      set(data);
-    }
-  }
+public void parse(final @NonNull String data,
+                  final @NonNull PluginDataFormat format, final int version)
+throws IllegalStorageDataException {
+	switch (format) {
+	default:
+		set(data);
+	}
+}
 
-  @NonNull
-  @Override
-  public String serialize(final @NonNull PluginDataFormat format) {
-    String res;
-    switch (format) {
-    default:
-      res = get();
-    }
-    return res;
-  }
+@NonNull
+@Override
+public String serialize(final @NonNull PluginDataFormat format) {
+	String res;
+	switch (format) {
+	default:
+		res = get();
+	}
+	return res;
+}
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-  @Override
-  public void writeToParcel(final @NonNull Parcel dest, final int flags) {
-    dest.writeString(text);
-  }
+@Override
+public void writeToParcel(final @NonNull Parcel dest, final int flags) {
+	dest.writeString(text);
+}
 
-  protected StringOperationData(final @NonNull Parcel in) {
-    text = in.readString();
-  }
+protected StringOperationData(final @NonNull Parcel in) {
+	text = in.readString();
+}
 
-  @Nullable
-  @Override
-  public Set<String> placeholders() {
-    return Utils.extractPlaceholder(text);
-  }
+@Nullable
+@Override
+public Set<String> placeholders() {
+	return Utils.extractPlaceholder(text);
+}
 }

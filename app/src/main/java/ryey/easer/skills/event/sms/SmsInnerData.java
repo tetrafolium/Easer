@@ -24,48 +24,49 @@ import android.os.Parcelable;
 import ryey.easer.Utils;
 
 class SmsInnerData implements Parcelable {
-  String sender;
-  String content;
+String sender;
+String content;
 
-  SmsInnerData() {}
+SmsInnerData() {
+}
 
-  @Override
-  public boolean equals(final Object obj) {
-    if (obj == this)
-      return true;
-    if (!(obj instanceof SmsInnerData))
-      return false;
-    if (!Utils.nullableEqual(sender, ((SmsInnerData)obj).sender))
-      return false;
-    if (!Utils.nullableEqual(content, ((SmsInnerData)obj).content))
-      return false;
-    return true;
-  }
+@Override
+public boolean equals(final Object obj) {
+	if (obj == this)
+		return true;
+	if (!(obj instanceof SmsInnerData))
+		return false;
+	if (!Utils.nullableEqual(sender, ((SmsInnerData)obj).sender))
+		return false;
+	if (!Utils.nullableEqual(content, ((SmsInnerData)obj).content))
+		return false;
+	return true;
+}
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-  @Override
-  public void writeToParcel(final Parcel dest, final int flags) {
-    dest.writeString(sender);
-    dest.writeString(content);
-  }
+@Override
+public void writeToParcel(final Parcel dest, final int flags) {
+	dest.writeString(sender);
+	dest.writeString(content);
+}
 
-  public static final Parcelable.Creator<SmsInnerData> CREATOR =
-      new Parcelable.Creator<SmsInnerData>() {
-        public SmsInnerData createFromParcel(final Parcel in) {
-          return new SmsInnerData(in);
-        }
+public static final Parcelable.Creator<SmsInnerData> CREATOR =
+	new Parcelable.Creator<SmsInnerData>() {
+	public SmsInnerData createFromParcel(final Parcel in) {
+		return new SmsInnerData(in);
+	}
 
-        public SmsInnerData[] newArray(final int size) {
-          return new SmsInnerData[size];
-        }
-      };
+	public SmsInnerData[] newArray(final int size) {
+		return new SmsInnerData[size];
+	}
+};
 
-  private SmsInnerData(final Parcel in) {
-    sender = in.readString();
-    content = in.readString();
-  }
+private SmsInnerData(final Parcel in) {
+	sender = in.readString();
+	content = in.readString();
+}
 }

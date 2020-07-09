@@ -36,56 +36,56 @@ import ryey.easer.skills.SkillViewFragment;
 
 public class CallSkillViewFragment extends SkillViewFragment<CallUSourceData> {
 
-  private static final CallUSourceData.CallState[] callStates = {
-      CallUSourceData.CallState.IDLE,
-      CallUSourceData.CallState.RINGING,
-      CallUSourceData.CallState.OFFHOOK,
-  };
-  @IdRes
-  private static final int[] checkBoxIds = {
-      R.id.cb_state_idle,
-      R.id.cb_state_ringing,
-      R.id.cb_state_ongoing,
-  };
+private static final CallUSourceData.CallState[] callStates = {
+	CallUSourceData.CallState.IDLE,
+	CallUSourceData.CallState.RINGING,
+	CallUSourceData.CallState.OFFHOOK,
+};
+@IdRes
+private static final int[] checkBoxIds = {
+	R.id.cb_state_idle,
+	R.id.cb_state_ringing,
+	R.id.cb_state_ongoing,
+};
 
-  private CheckBox[] stateCheckBoxes = new CheckBox[checkBoxIds.length];
-  private EditText numberEditText;
+private CheckBox[] stateCheckBoxes = new CheckBox[checkBoxIds.length];
+private EditText numberEditText;
 
-  @NonNull
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final @Nullable ViewGroup container,
-                           final @Nullable Bundle savedInstanceState) {
-    View view =
-        inflater.inflate(R.layout.skill_usource__call, container, false);
+@NonNull
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final @Nullable ViewGroup container,
+                         final @Nullable Bundle savedInstanceState) {
+	View view =
+		inflater.inflate(R.layout.skill_usource__call, container, false);
 
-    for (int i = 0; i < checkBoxIds.length; i++) {
-      stateCheckBoxes[i] = view.findViewById(checkBoxIds[i]);
-    }
-    numberEditText = view.findViewById(R.id.et_number);
+	for (int i = 0; i < checkBoxIds.length; i++) {
+		stateCheckBoxes[i] = view.findViewById(checkBoxIds[i]);
+	}
+	numberEditText = view.findViewById(R.id.et_number);
 
-    return view;
-  }
+	return view;
+}
 
-  @Override
-  protected void _fill(final @ValidData @NonNull CallUSourceData data) {
-    for (int i = 0; i < callStates.length; i++) {
-      stateCheckBoxes[i].setChecked(data.callStates.contains(callStates[i]));
-    }
-    numberEditText.setText(data.number);
-  }
+@Override
+protected void _fill(final @ValidData @NonNull CallUSourceData data) {
+	for (int i = 0; i < callStates.length; i++) {
+		stateCheckBoxes[i].setChecked(data.callStates.contains(callStates[i]));
+	}
+	numberEditText.setText(data.number);
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public CallUSourceData getData() throws InvalidDataInputException {
-    ArrayList<CallUSourceData.CallState> states = new ArrayList<>();
-    for (int i = 0; i < callStates.length; i++) {
-      if (stateCheckBoxes[i].isChecked()) {
-        states.add(callStates[i]);
-      }
-    }
-    String number = numberEditText.getText().toString();
-    return new CallUSourceData(states, number);
-  }
+@ValidData
+@NonNull
+@Override
+public CallUSourceData getData() throws InvalidDataInputException {
+	ArrayList<CallUSourceData.CallState> states = new ArrayList<>();
+	for (int i = 0; i < callStates.length; i++) {
+		if (stateCheckBoxes[i].isChecked()) {
+			states.add(callStates[i]);
+		}
+	}
+	String number = numberEditText.getText().toString();
+	return new CallUSourceData(states, number);
+}
 }

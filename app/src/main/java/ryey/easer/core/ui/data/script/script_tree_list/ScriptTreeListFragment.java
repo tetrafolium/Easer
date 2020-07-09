@@ -46,192 +46,194 @@ import tellh.com.recyclertreeview_lib.TreeNode;
 import tellh.com.recyclertreeview_lib.TreeViewAdapter;
 
 public class ScriptTreeListFragment
-    extends Fragment implements DataListInterface {
+	extends Fragment implements DataListInterface {
 
-  private static final String TAG = "[ScriptTreeList]";
+private static final String TAG = "[ScriptTreeList]";
 
-  WeakReference<DataListContainerInterface> refContainer;
+WeakReference<DataListContainerInterface> refContainer;
 
-  ScriptDataStorage scriptDataStorage;
+ScriptDataStorage scriptDataStorage;
 
-  RecyclerViewWithContext recyclerView;
-  TreeViewAdapterWithContextMenu adapter;
-  List<TreeNode> scriptTreeNodeList;
+RecyclerViewWithContext recyclerView;
+TreeViewAdapterWithContextMenu adapter;
+List<TreeNode> scriptTreeNodeList;
 
-  private EventItem mCurrentEventItem;
+private EventItem mCurrentEventItem;
 
-  @NonNull
-  @Override
-  public String title() {
-    return getString(R.string.title_script);
-  }
+@NonNull
+@Override
+public String title() {
+	return getString(R.string.title_script);
+}
 
-  @Override
-  public int helpTextRes() {
-    return R.string.help_script;
-  }
+@Override
+public int helpTextRes() {
+	return R.string.help_script;
+}
 
-  @Nullable
-  @Override
-  public Integer extraMenu() {
-    return R.menu.list_script_tree_extra;
-  }
+@Nullable
+@Override
+public Integer extraMenu() {
+	return R.menu.list_script_tree_extra;
+}
 
-  @Override
-  public boolean onOptionsItemSelected(final MenuItem item) {
-    if (item.getItemId() == R.id.action_plain_list) {
-      refContainer.get().switchContent(
-          DataListContainerInterface.ListType.script);
-      return true;
-    }
-    return false;
-  }
+@Override
+public boolean onOptionsItemSelected(final MenuItem item) {
+	if (item.getItemId() == R.id.action_plain_list) {
+		refContainer.get().switchContent(
+			DataListContainerInterface.ListType.script);
+		return true;
+	}
+	return false;
+}
 
-  @Override
-  public void onAttach(final Context context) {
-    super.onAttach(context);
-    scriptDataStorage = new ScriptDataStorage(getContext());
-  }
+@Override
+public void onAttach(final Context context) {
+	super.onAttach(context);
+	scriptDataStorage = new ScriptDataStorage(getContext());
+}
 
-  @Override
-  public void onCreate(final @Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setHasOptionsMenu(true);
-  }
+@Override
+public void onCreate(final @Nullable Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	setHasOptionsMenu(true);
+}
 
-  @Nullable
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final @Nullable ViewGroup container,
-                           final @Nullable Bundle savedInstanceState) {
-    View view =
-        inflater.inflate(R.layout.fragment_script_tree_list, container, false);
+@Nullable
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final @Nullable ViewGroup container,
+                         final @Nullable Bundle savedInstanceState) {
+	View view =
+		inflater.inflate(R.layout.fragment_script_tree_list, container, false);
 
-    recyclerView = view.findViewById(R.id.recyclerView_script);
-    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-    registerForContextMenu(recyclerView);
-    recyclerView.setOnCreateContextMenuListener(
-        new View.OnCreateContextMenuListener() {
-          @Override
-          public void onCreateContextMenu(
-              final ContextMenu menu, final View v,
-              final ContextMenu.ContextMenuInfo menuInfo) {
-            getActivity().getMenuInflater().inflate(R.menu.list_context, menu);
-          }
-        });
+	recyclerView = view.findViewById(R.id.recyclerView_script);
+	recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+	registerForContextMenu(recyclerView);
+	recyclerView.setOnCreateContextMenuListener(
+		new View.OnCreateContextMenuListener() {
+			@Override
+			public void onCreateContextMenu(
+				final ContextMenu menu, final View v,
+				final ContextMenu.ContextMenuInfo menuInfo) {
+			        getActivity().getMenuInflater().inflate(R.menu.list_context, menu);
+			}
+		});
 
-    scriptTreeNodeList =
-        convertScriptTreeToView(scriptDataStorage.getScriptTrees());
-    adapter =
-        new TreeViewAdapterWithContextMenu(scriptTreeNodeList, getContext());
-    recyclerView.setAdapter(adapter);
-    adapter.setOnLongItemClickListener(
-        new TreeViewAdapterWithContextMenu.onLongItemClickListener() {
-          @Override
-          public void ItemLongClicked(final View v, final EventItem eventItem) {
-            mCurrentEventItem = eventItem;
-            v.showContextMenu();
-          }
-        });
-    adapter.setOnTreeNodeListener(new TreeViewAdapter.OnTreeNodeListener() {
-      @Override
-      public boolean onClick(final TreeNode treeNode,
-                             final RecyclerView.ViewHolder viewHolder) {
-        if (!treeNode.isLeaf()) {
-          onToggle(!treeNode.isExpand(), viewHolder);
-        }
-        return false;
-      }
+	scriptTreeNodeList =
+		convertScriptTreeToView(scriptDataStorage.getScriptTrees());
+	adapter =
+		new TreeViewAdapterWithContextMenu(scriptTreeNodeList, getContext());
+	recyclerView.setAdapter(adapter);
+	adapter.setOnLongItemClickListener(
+		new TreeViewAdapterWithContextMenu.onLongItemClickListener() {
+			@Override
+			public void ItemLongClicked(final View v, final EventItem eventItem) {
+			        mCurrentEventItem = eventItem;
+			        v.showContextMenu();
+			}
+		});
+	adapter.setOnTreeNodeListener(new TreeViewAdapter.OnTreeNodeListener() {
+			@Override
+			public boolean onClick(final TreeNode treeNode,
+			                       final RecyclerView.ViewHolder viewHolder) {
+			        if (!treeNode.isLeaf()) {
+			                onToggle(!treeNode.isExpand(), viewHolder);
+				}
+			        return false;
+			}
 
-      @Override
-      public void onToggle(final boolean isExpand,
-                           final RecyclerView.ViewHolder viewHolder) {
-        TreeViewAdapterWithContextMenu.ViewHolder eventViewHolder =
-            (TreeViewAdapterWithContextMenu.ViewHolder)viewHolder;
-        int rotateDegree = isExpand ? 90 : -90;
-        eventViewHolder.ivArrow.animate().rotationBy(rotateDegree).start();
-      }
-    });
+			@Override
+			public void onToggle(final boolean isExpand,
+			                     final RecyclerView.ViewHolder viewHolder) {
+			        TreeViewAdapterWithContextMenu.ViewHolder eventViewHolder =
+					(TreeViewAdapterWithContextMenu.ViewHolder)viewHolder;
+			        int rotateDegree = isExpand ? 90 : -90;
+			        eventViewHolder.ivArrow.animate().rotationBy(rotateDegree).start();
+			}
+		});
 
-    return view;
-  }
+	return view;
+}
 
-  private void reloadList() {
-    scriptTreeNodeList.clear();
-    scriptTreeNodeList =
-        convertScriptTreeToView(scriptDataStorage.getScriptTrees());
-    adapter.refresh(scriptTreeNodeList);
+private void reloadList() {
+	scriptTreeNodeList.clear();
+	scriptTreeNodeList =
+		convertScriptTreeToView(scriptDataStorage.getScriptTrees());
+	adapter.refresh(scriptTreeNodeList);
 
-    if (adapter.getItemCount() == 0) {
-      Logger.d("%s: no item", TAG);
-      refContainer.get().setShowHelp(true);
-    } else {
-      Logger.d("%s: has item", TAG);
-      refContainer.get().setShowHelp(false);
-    }
-  }
+	if (adapter.getItemCount() == 0) {
+		Logger.d("%s: no item", TAG);
+		refContainer.get().setShowHelp(true);
+	} else {
+		Logger.d("%s: has item", TAG);
+		refContainer.get().setShowHelp(false);
+	}
+}
 
-  @Override
-  public void onDetach() {
-    super.onDetach();
-    scriptDataStorage = null;
-  }
+@Override
+public void onDetach() {
+	super.onDetach();
+	scriptDataStorage = null;
+}
 
-  @Override
-  public boolean onContextItemSelected(final MenuItem item) {
-    String name = mCurrentEventItem.eventName;
-    int id = item.getItemId();
-    switch (id) {
-    case R.id.action_edit:
-      refContainer.get().editData(name);
-      return true;
-    case R.id.action_delete:
-      refContainer.get().deleteData(name);
-      return true;
-    }
-    return super.onContextItemSelected(item);
-  }
+@Override
+public boolean onContextItemSelected(final MenuItem item) {
+	String name = mCurrentEventItem.eventName;
+	int id = item.getItemId();
+	switch (id) {
+	case R.id.action_edit:
+		refContainer.get().editData(name);
+		return true;
+	case R.id.action_delete:
+		refContainer.get().deleteData(name);
+		return true;
+	}
+	return super.onContextItemSelected(item);
+}
 
-  private static List<TreeNode>
-  convertScriptTreeToView(final List<ScriptTree> scriptTrees) {
-    return convertScriptTreeToView(scriptTrees, new ArrayList<TreeNode>(),
-                                   null);
-  }
+private static List<TreeNode>
+convertScriptTreeToView(final List<ScriptTree> scriptTrees) {
+	return convertScriptTreeToView(scriptTrees, new ArrayList<TreeNode>(),
+	                               null);
+}
 
-  private static List<TreeNode>
-  convertScriptTreeToView(final List<ScriptTree> scriptTrees,
-                          final List<TreeNode> nodes, final TreeNode parent) {
-    for (ScriptTree scriptTree : scriptTrees) {
-      EventItem item =
-          new EventItem(scriptTree.getName(), scriptTree.isActive(),
-                        scriptTree.getData().isValid());
-      TreeNode<EventItem> node = new TreeNode<>(item);
-      node.setParent(parent);
-      if (scriptTree.getSubs().size() != 0)
-        node.setChildList(convertScriptTreeToView(
-            scriptTree.getSubs(), new ArrayList<TreeNode>(), node));
-      nodes.add(node);
-    }
-    return nodes;
-  }
+private static List<TreeNode>
+convertScriptTreeToView(final List<ScriptTree> scriptTrees,
+                        final List<TreeNode> nodes, final TreeNode parent) {
+	for (ScriptTree scriptTree : scriptTrees) {
+		EventItem item =
+			new EventItem(scriptTree.getName(), scriptTree.isActive(),
+			              scriptTree.getData().isValid());
+		TreeNode<EventItem> node = new TreeNode<>(item);
+		node.setParent(parent);
+		if (scriptTree.getSubs().size() != 0)
+			node.setChildList(convertScriptTreeToView(
+						  scriptTree.getSubs(), new ArrayList<TreeNode>(), node));
+		nodes.add(node);
+	}
+	return nodes;
+}
 
-  @Override
-  public void registerContainer(final
-                                @NonNull DataListContainerInterface container) {
-    this.refContainer = new WeakReference<>(container);
-  }
+@Override
+public void registerContainer(final
+                              @NonNull DataListContainerInterface container) {
+	this.refContainer = new WeakReference<>(container);
+}
 
-  @Override
-  public Intent intentForEditDataActivity() {
-    return new Intent(getContext(), EditScriptActivity.class);
-  }
+@Override
+public Intent intentForEditDataActivity() {
+	return new Intent(getContext(), EditScriptActivity.class);
+}
 
-  @Override
-  public void onEditDataResultCallback(final boolean success) {
-    if (success) {
-      onDataChangedFromEditDataActivity();
-    }
-  }
+@Override
+public void onEditDataResultCallback(final boolean success) {
+	if (success) {
+		onDataChangedFromEditDataActivity();
+	}
+}
 
-  protected void onDataChangedFromEditDataActivity() { reloadList(); }
+protected void onDataChangedFromEditDataActivity() {
+	reloadList();
+}
 }

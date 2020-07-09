@@ -27,13 +27,13 @@ import ryey.easer.skills.TestHelper;
 
 public class ConditionEventEventDataTest {
 
-  @Test
-  public void testParcel() {
-    ConditionEventEventData dummyData =
-        new ConditionEventEventDataFactory().dummyData();
-    Parcel parcel = TestHelper.writeToParcel(dummyData);
-    ConditionEventEventData parceledData =
-        ConditionEventEventData.CREATOR.createFromParcel(parcel);
-    assertEquals(dummyData, parceledData);
-  }
+@Test
+public void testParcel() {
+	ConditionEventEventData dummyData =
+		new ConditionEventEventDataFactory().dummyData();
+	Parcel parcel = TestHelper.writeToParcel(dummyData);
+	ConditionEventEventData parceledData =
+		ConditionEventEventData.CREATOR.createFromParcel(parcel);
+	assertEquals(dummyData, parceledData);
+}
 }

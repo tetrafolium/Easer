@@ -26,13 +26,13 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.plugin.PluginDataFormat;
 
 public interface ConditionDataFactory<D extends ConditionData>
-    extends DataFactory<D> {
-  @NonNull Class<D> dataClass();
+	extends DataFactory<D> {
+@NonNull Class<D> dataClass();
 
-  @ValidData @NonNull D dummyData();
+@ValidData @NonNull D dummyData();
 
-  @ValidData
-  @NonNull
-  D parse(@NonNull String data, @NonNull PluginDataFormat format, int version)
-      throws IllegalStorageDataException;
+@ValidData
+@NonNull
+D parse(@NonNull String data, @NonNull PluginDataFormat format, int version)
+throws IllegalStorageDataException;
 }

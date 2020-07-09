@@ -26,15 +26,15 @@ import ryey.easer.core.ui.data.SourceSelectorDialogFragment;
 import ryey.easer.skills.LocalSkillRegistry;
 
 public class EventSelectorDialogFragment
-    extends SourceSelectorDialogFragment<EventSkill> {
-  @Override
-  protected int titleRes() {
-    return R.string.title_select_event;
-  }
+	extends SourceSelectorDialogFragment<EventSkill> {
+@Override
+protected int titleRes() {
+	return R.string.title_select_event;
+}
 
-  @Override
-  protected List<EventSkill> skillList() {
-    return LocalSkillRegistry.getInstance().event().getEnabledSkills(
-        getContext());
-  }
+@Override
+protected List<EventSkill> skillList() {
+	return LocalSkillRegistry.getInstance().event().getEnabledSkills(
+		getContext());
+}
 }

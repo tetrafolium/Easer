@@ -43,47 +43,47 @@ import ryey.easer.core.log.ActivityLogService;
 @AcraToast(resText = R.string.prompt_error_logged)
 public class EaserApplication extends Application {
 
-  static final String LOG_DIR =
-      new File(Environment.getExternalStorageDirectory(), "/logger/error")
-          .getAbsolutePath();
+static final String LOG_DIR =
+	new File(Environment.getExternalStorageDirectory(), "/logger/error")
+	.getAbsolutePath();
 
-  private final LocaleHelperApplicationDelegate localeAppDelegate =
-      new LocaleHelperApplicationDelegate();
+private final LocaleHelperApplicationDelegate localeAppDelegate =
+	new LocaleHelperApplicationDelegate();
 
-  @Override
-  public void onCreate() {
-    super.onCreate();
+@Override
+public void onCreate() {
+	super.onCreate();
 
-    Logger.addLogAdapter(new AndroidLogAdapter());
+	Logger.addLogAdapter(new AndroidLogAdapter());
 
-    if (SettingsUtils.logging(this)) {
-      if (ContextCompat.checkSelfPermission(
-              getApplicationContext(),
-              Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-          PackageManager.PERMISSION_GRANTED) {
-        Logger.addLogAdapter(new DiskLogAdapter());
-      } else {
-        PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-            .edit()
-            .putBoolean(getString(R.string.key_pref_logging), false)
-            .apply();
-      }
-    }
+	if (SettingsUtils.logging(this)) {
+		if (ContextCompat.checkSelfPermission(
+			    getApplicationContext(),
+			    Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+		    PackageManager.PERMISSION_GRANTED) {
+			Logger.addLogAdapter(new DiskLogAdapter());
+		} else {
+			PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+			.edit()
+			.putBoolean(getString(R.string.key_pref_logging), false)
+			.apply();
+		}
+	}
 
-    startService(new Intent(this, ActivityLogService.class));
+	startService(new Intent(this, ActivityLogService.class));
 
-    Logger.log(Logger.ASSERT, null, "======Easer started======", null);
-  }
+	Logger.log(Logger.ASSERT, null, "======Easer started======", null);
+}
 
-  @Override
-  public void onConfigurationChanged(final Configuration newConfig) {
-    super.onConfigurationChanged(newConfig);
-    localeAppDelegate.onConfigurationChanged(this);
-  }
+@Override
+public void onConfigurationChanged(final Configuration newConfig) {
+	super.onConfigurationChanged(newConfig);
+	localeAppDelegate.onConfigurationChanged(this);
+}
 
-  @Override
-  protected void attachBaseContext(final Context base) {
-    super.attachBaseContext(localeAppDelegate.attachBaseContext(base));
-    ACRA.init(this);
-  }
+@Override
+protected void attachBaseContext(final Context base) {
+	super.attachBaseContext(localeAppDelegate.attachBaseContext(base));
+	ACRA.init(this);
+}
 }

@@ -32,41 +32,41 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillViewFragment;
 
 public class UiModeSkillViewFragment
-    extends SkillViewFragment<UiModeOperationData> {
+	extends SkillViewFragment<UiModeOperationData> {
 
-  RadioButton rb_car, rb_normal;
+RadioButton rb_car, rb_normal;
 
-  @NonNull
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final @Nullable ViewGroup container,
-                           final @Nullable Bundle savedInstanceState) {
-    View view =
-        inflater.inflate(R.layout.plugin_operation__ui_mode, container, false);
+@NonNull
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final @Nullable ViewGroup container,
+                         final @Nullable Bundle savedInstanceState) {
+	View view =
+		inflater.inflate(R.layout.plugin_operation__ui_mode, container, false);
 
-    rb_car = view.findViewById(R.id.rb_car);
-    rb_normal = view.findViewById(R.id.rb_normal);
+	rb_car = view.findViewById(R.id.rb_car);
+	rb_normal = view.findViewById(R.id.rb_normal);
 
-    return view;
-  }
+	return view;
+}
 
-  @Override
-  protected void _fill(final @ValidData @NonNull UiModeOperationData data) {
-    if (data.ui_mode == UiModeOperationData.UiMode.car) {
-      rb_car.setChecked(true);
-    } else { // if data.ui_mode == UiModeOperationData.UiMode.normal) {
-      rb_normal.setChecked(true);
-    }
-  }
+@Override
+protected void _fill(final @ValidData @NonNull UiModeOperationData data) {
+	if (data.ui_mode == UiModeOperationData.UiMode.car) {
+		rb_car.setChecked(true);
+	} else { // if data.ui_mode == UiModeOperationData.UiMode.normal) {
+		rb_normal.setChecked(true);
+	}
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public UiModeOperationData getData() throws InvalidDataInputException {
-    if (rb_car.isChecked()) {
-      return new UiModeOperationData(UiModeOperationData.UiMode.car);
-    } else { // if (rb_normal.isChecked()) {
-      return new UiModeOperationData(UiModeOperationData.UiMode.normal);
-    }
-  }
+@ValidData
+@NonNull
+@Override
+public UiModeOperationData getData() throws InvalidDataInputException {
+	if (rb_car.isChecked()) {
+		return new UiModeOperationData(UiModeOperationData.UiMode.car);
+	} else { // if (rb_normal.isChecked()) {
+		return new UiModeOperationData(UiModeOperationData.UiMode.normal);
+	}
+}
 }

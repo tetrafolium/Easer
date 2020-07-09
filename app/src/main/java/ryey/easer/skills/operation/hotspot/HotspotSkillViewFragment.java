@@ -25,12 +25,12 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.SwitchSkillViewFragment;
 
 public class HotspotSkillViewFragment
-    extends SwitchSkillViewFragment<HotspotOperationData> {
+	extends SwitchSkillViewFragment<HotspotOperationData> {
 
-  @ValidData
-  @NonNull
-  @Override
-  public HotspotOperationData getData() throws InvalidDataInputException {
-    return new HotspotOperationData(state());
-  }
+@ValidData
+@NonNull
+@Override
+public HotspotOperationData getData() throws InvalidDataInputException {
+	return new HotspotOperationData(state());
+}
 }

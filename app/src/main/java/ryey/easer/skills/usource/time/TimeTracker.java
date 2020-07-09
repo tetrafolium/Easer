@@ -27,72 +27,72 @@ import java.util.Calendar;
 import ryey.easer.skills.condition.SelfNotifiableSkeletonTracker;
 
 public class TimeTracker
-    extends SelfNotifiableSkeletonTracker<TimeUSourceData> {
-  private static AlarmManager mAlarmManager;
+	extends SelfNotifiableSkeletonTracker<TimeUSourceData> {
+private static AlarmManager mAlarmManager;
 
-  TimeTracker(final Context context, final TimeUSourceData data,
-              final @NonNull PendingIntent event_positive,
-              final @NonNull PendingIntent event_negative) {
-    super(context, data, event_positive, event_negative);
+TimeTracker(final Context context, final TimeUSourceData data,
+            final @NonNull PendingIntent event_positive,
+            final @NonNull PendingIntent event_negative) {
+	super(context, data, event_positive, event_negative);
 
-    if (mAlarmManager == null)
-      mAlarmManager =
-          (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+	if (mAlarmManager == null)
+		mAlarmManager =
+			(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 
-    Calendar calendar = Calendar.getInstance();
-    long currentTimeMillis = System.currentTimeMillis();
-    calendar.setTimeInMillis(currentTimeMillis);
-    calendar.set(Calendar.HOUR_OF_DAY, data.time.get(Calendar.HOUR_OF_DAY));
-    calendar.set(Calendar.MINUTE, data.time.get(Calendar.MINUTE));
-    Calendar now = Calendar.getInstance();
-    now.setTimeInMillis(currentTimeMillis);
-    if (calendar.before(now)) {
-      calendar.add(Calendar.DAY_OF_YEAR, 1);
-      newSatisfiedState(true);
-    } else {
-      newSatisfiedState(false);
-    }
-  }
+	Calendar calendar = Calendar.getInstance();
+	long currentTimeMillis = System.currentTimeMillis();
+	calendar.setTimeInMillis(currentTimeMillis);
+	calendar.set(Calendar.HOUR_OF_DAY, data.time.get(Calendar.HOUR_OF_DAY));
+	calendar.set(Calendar.MINUTE, data.time.get(Calendar.MINUTE));
+	Calendar now = Calendar.getInstance();
+	now.setTimeInMillis(currentTimeMillis);
+	if (calendar.before(now)) {
+		calendar.add(Calendar.DAY_OF_YEAR, 1);
+		newSatisfiedState(true);
+	} else {
+		newSatisfiedState(false);
+	}
+}
 
-  private static Calendar[] calendarOfToday(final Calendar ref) {
-    // target time of today
-    Calendar calendar_target = Calendar.getInstance(),
-             calendar_zero = Calendar.getInstance(),
-             now = Calendar.getInstance();
-    long currentTimeMillis = System.currentTimeMillis();
-    calendar_target.setTimeInMillis(currentTimeMillis);
-    calendar_target.set(Calendar.HOUR_OF_DAY, ref.get(Calendar.HOUR_OF_DAY));
-    calendar_target.set(Calendar.MINUTE, ref.get(Calendar.MINUTE));
+private static Calendar[] calendarOfToday(final Calendar ref) {
+	// target time of today
+	Calendar calendar_target = Calendar.getInstance(),
+	         calendar_zero = Calendar.getInstance(),
+	         now = Calendar.getInstance();
+	long currentTimeMillis = System.currentTimeMillis();
+	calendar_target.setTimeInMillis(currentTimeMillis);
+	calendar_target.set(Calendar.HOUR_OF_DAY, ref.get(Calendar.HOUR_OF_DAY));
+	calendar_target.set(Calendar.MINUTE, ref.get(Calendar.MINUTE));
 
-    // 0:00 of the next day (24:00 of today)
-    calendar_zero.setTimeInMillis(currentTimeMillis);
-    calendar_zero.set(Calendar.HOUR_OF_DAY, 0);
-    calendar_zero.set(Calendar.MINUTE, 0);
-    calendar_zero.set(Calendar.SECOND, 0);
-    calendar_zero.roll(Calendar.DAY_OF_YEAR, 1);
+	// 0:00 of the next day (24:00 of today)
+	calendar_zero.setTimeInMillis(currentTimeMillis);
+	calendar_zero.set(Calendar.HOUR_OF_DAY, 0);
+	calendar_zero.set(Calendar.MINUTE, 0);
+	calendar_zero.set(Calendar.SECOND, 0);
+	calendar_zero.roll(Calendar.DAY_OF_YEAR, 1);
 
-    // current time
-    now.setTimeInMillis(currentTimeMillis);
+	// current time
+	now.setTimeInMillis(currentTimeMillis);
 
-    return new Calendar[] {calendar_target, calendar_zero, now};
-  }
+	return new Calendar[] {calendar_target, calendar_zero, now};
+}
 
-  @Override
-  public void start() {
-    Calendar[] calendars = calendarOfToday(data.time);
-    if (calendars[0].before(calendars[2]))
-      calendars[0].add(Calendar.DAY_OF_YEAR, 1);
-    mAlarmManager.setInexactRepeating(
-        AlarmManager.RTC_WAKEUP, calendars[0].getTimeInMillis(),
-        AlarmManager.INTERVAL_DAY, notifySelfIntent_positive);
-    mAlarmManager.setInexactRepeating(
-        AlarmManager.RTC_WAKEUP, calendars[1].getTimeInMillis(),
-        AlarmManager.INTERVAL_DAY, notifySelfIntent_negative);
-  }
+@Override
+public void start() {
+	Calendar[] calendars = calendarOfToday(data.time);
+	if (calendars[0].before(calendars[2]))
+		calendars[0].add(Calendar.DAY_OF_YEAR, 1);
+	mAlarmManager.setInexactRepeating(
+		AlarmManager.RTC_WAKEUP, calendars[0].getTimeInMillis(),
+		AlarmManager.INTERVAL_DAY, notifySelfIntent_positive);
+	mAlarmManager.setInexactRepeating(
+		AlarmManager.RTC_WAKEUP, calendars[1].getTimeInMillis(),
+		AlarmManager.INTERVAL_DAY, notifySelfIntent_negative);
+}
 
-  @Override
-  public void stop() {
-    mAlarmManager.cancel(notifySelfIntent_positive);
-    mAlarmManager.cancel(notifySelfIntent_negative);
-  }
+@Override
+public void stop() {
+	mAlarmManager.cancel(notifySelfIntent_positive);
+	mAlarmManager.cancel(notifySelfIntent_negative);
+}
 }

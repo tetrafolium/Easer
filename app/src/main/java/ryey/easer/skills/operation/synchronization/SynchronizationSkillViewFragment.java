@@ -25,13 +25,13 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.SwitchSkillViewFragment;
 
 public class SynchronizationSkillViewFragment
-    extends SwitchSkillViewFragment<SynchronizationOperationData> {
+	extends SwitchSkillViewFragment<SynchronizationOperationData> {
 
-  @ValidData
-  @NonNull
-  @Override
-  public SynchronizationOperationData getData()
-      throws InvalidDataInputException {
-    return new SynchronizationOperationData(state());
-  }
+@ValidData
+@NonNull
+@Override
+public SynchronizationOperationData getData()
+throws InvalidDataInputException {
+	return new SynchronizationOperationData(state());
+}
 }

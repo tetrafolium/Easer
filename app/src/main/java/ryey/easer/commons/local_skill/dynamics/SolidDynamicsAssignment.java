@@ -23,15 +23,15 @@ import java.util.HashMap;
 
 public class SolidDynamicsAssignment {
 
-  private HashMap<String, String> assignments;
+private HashMap<String, String> assignments;
 
-  SolidDynamicsAssignment(final HashMap<String, String> assignments) {
-    this.assignments = assignments;
-  }
+SolidDynamicsAssignment(final HashMap<String, String> assignments) {
+	this.assignments = assignments;
+}
 
-  public String getAssignment(final String placeholder) {
-    if (assignments.containsKey(placeholder))
-      return assignments.get(placeholder);
-    return placeholder;
-  }
+public String getAssignment(final String placeholder) {
+	if (assignments.containsKey(placeholder))
+		return assignments.get(placeholder);
+	return placeholder;
+}
 }

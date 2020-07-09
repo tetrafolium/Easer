@@ -29,62 +29,62 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class BroadcastConnSlot extends AbstractSlot<BroadcastEventData> {
 
-  private static Bundle dynamicsForCurrent(final @NonNull Intent intent) {
-    Bundle bundle = new Bundle();
-    bundle.putString(BroadcastEventData.ActionDynamics.id, intent.getAction());
-    if (intent.getCategories() != null)
-      bundle.putString(BroadcastEventData.CategoryDynamics.id,
-                       intent.getCategories().toString());
-    else
-      bundle.putStringArray(BroadcastEventData.CategoryDynamics.id, null);
-    bundle.putString(BroadcastEventData.TypeDynamics.id, intent.getType());
-    bundle.putString(BroadcastEventData.DataDynamics.id,
-                     intent.getDataString());
-    return bundle;
-  }
+private static Bundle dynamicsForCurrent(final @NonNull Intent intent) {
+	Bundle bundle = new Bundle();
+	bundle.putString(BroadcastEventData.ActionDynamics.id, intent.getAction());
+	if (intent.getCategories() != null)
+		bundle.putString(BroadcastEventData.CategoryDynamics.id,
+		                 intent.getCategories().toString());
+	else
+		bundle.putStringArray(BroadcastEventData.CategoryDynamics.id, null);
+	bundle.putString(BroadcastEventData.TypeDynamics.id, intent.getType());
+	bundle.putString(BroadcastEventData.DataDynamics.id,
+	                 intent.getDataString());
+	return bundle;
+}
 
-  private ReceiverSideIntentData intentData = null;
+private ReceiverSideIntentData intentData = null;
 
-  private final BroadcastReceiver connReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      changeSatisfiedState(true, dynamicsForCurrent(intent));
-    }
-  };
+private final BroadcastReceiver connReceiver = new BroadcastReceiver() {
+	@Override
+	public void onReceive(final Context context, final Intent intent) {
+		changeSatisfiedState(true, dynamicsForCurrent(intent));
+	}
+};
 
-  private IntentFilter filter;
+private IntentFilter filter;
 
-  { filter = new IntentFilter(); }
+{ filter = new IntentFilter(); }
 
-  public BroadcastConnSlot(final Context context,
-                           final BroadcastEventData data) {
-    this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
-  }
+public BroadcastConnSlot(final Context context,
+                         final BroadcastEventData data) {
+	this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+}
 
-  BroadcastConnSlot(final Context context, final BroadcastEventData data,
-                    final boolean retriggerable, final boolean persistent) {
-    super(context, data, retriggerable, persistent);
-    intentData = data.intentData;
-    filter = new IntentFilter();
-    if (intentData.action != null) {
-      for (String action : intentData.action) {
-        filter.addAction(action);
-      }
-    }
-    if (intentData.category != null) {
-      for (String category : intentData.category) {
-        filter.addCategory(category);
-      }
-    }
-  }
+BroadcastConnSlot(final Context context, final BroadcastEventData data,
+                  final boolean retriggerable, final boolean persistent) {
+	super(context, data, retriggerable, persistent);
+	intentData = data.intentData;
+	filter = new IntentFilter();
+	if (intentData.action != null) {
+		for (String action : intentData.action) {
+			filter.addAction(action);
+		}
+	}
+	if (intentData.category != null) {
+		for (String category : intentData.category) {
+			filter.addCategory(category);
+		}
+	}
+}
 
-  @Override
-  public void listen() {
-    context.registerReceiver(connReceiver, filter);
-  }
+@Override
+public void listen() {
+	context.registerReceiver(connReceiver, filter);
+}
 
-  @Override
-  public void cancel() {
-    context.unregisterReceiver(connReceiver);
-  }
+@Override
+public void cancel() {
+	context.unregisterReceiver(connReceiver);
+}
 }

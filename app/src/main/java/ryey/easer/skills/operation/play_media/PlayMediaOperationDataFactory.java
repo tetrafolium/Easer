@@ -26,27 +26,27 @@ import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class PlayMediaOperationDataFactory
-    implements OperationDataFactory<PlayMediaOperationData> {
-  @NonNull
-  @Override
-  public Class<PlayMediaOperationData> dataClass() {
-    return PlayMediaOperationData.class;
-  }
+	implements OperationDataFactory<PlayMediaOperationData> {
+@NonNull
+@Override
+public Class<PlayMediaOperationData> dataClass() {
+	return PlayMediaOperationData.class;
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public PlayMediaOperationData dummyData() {
-    return new PlayMediaOperationData("/sdcard/dummy.ogg");
-  }
+@ValidData
+@NonNull
+@Override
+public PlayMediaOperationData dummyData() {
+	return new PlayMediaOperationData("/sdcard/dummy.ogg");
+}
 
-  @ValidData
-  @NonNull
-  @Override
-  public PlayMediaOperationData parse(final @NonNull String data,
-                                      final @NonNull PluginDataFormat format,
-                                      final int version)
-      throws IllegalStorageDataException {
-    return new PlayMediaOperationData(data, format, version);
-  }
+@ValidData
+@NonNull
+@Override
+public PlayMediaOperationData parse(final @NonNull String data,
+                                    final @NonNull PluginDataFormat format,
+                                    final int version)
+throws IllegalStorageDataException {
+	return new PlayMediaOperationData(data, format, version);
+}
 }

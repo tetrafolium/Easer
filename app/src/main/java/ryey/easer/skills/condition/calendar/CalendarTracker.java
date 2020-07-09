@@ -40,71 +40,71 @@ import ryey.easer.skills.condition.SkeletonTracker;
 
 public class CalendarTracker extends SkeletonTracker<CalendarConditionData> {
 
-  private static final String ACTION_UPDATE =
-      "ryey.easer.skills.condition.calendar.UPDATE";
+private static final String ACTION_UPDATE =
+	"ryey.easer.skills.condition.calendar.UPDATE";
 
-  private final Intent intentUpdate = new Intent(ACTION_UPDATE);
-  private final IntentFilter intentUpdate_filter =
-      new IntentFilter(ACTION_UPDATE);
-  private final PendingIntent notifyIntent_change =
-      PendingIntent.getBroadcast(context, 0, intentUpdate, 0);
+private final Intent intentUpdate = new Intent(ACTION_UPDATE);
+private final IntentFilter intentUpdate_filter =
+	new IntentFilter(ACTION_UPDATE);
+private final PendingIntent notifyIntent_change =
+	PendingIntent.getBroadcast(context, 0, intentUpdate, 0);
 
-  private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      Logger.d("Intent received. action: %s", intent.getAction());
-      if (intent.getAction().equals(ACTION_UPDATE)) {
-        updateTracker();
-      }
-    }
-  };
+private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+	@Override
+	public void onReceive(final Context context, final Intent intent) {
+		Logger.d("Intent received. action: %s", intent.getAction());
+		if (intent.getAction().equals(ACTION_UPDATE)) {
+			updateTracker();
+		}
+	}
+};
 
-  private static AlarmManager mAlarmManager;
+private static AlarmManager mAlarmManager;
 
-  private ContentObserver calendarObserver = new ContentObserver(null) {
-    @Override
-    public void onChange(final boolean selfChange) {
-      updateTracker();
-    }
-  };
+private ContentObserver calendarObserver = new ContentObserver(null) {
+	@Override
+	public void onChange(final boolean selfChange) {
+		updateTracker();
+	}
+};
 
-  CalendarTracker(final Context context, final CalendarConditionData data,
-                  final @NonNull PendingIntent event_positive,
-                  final @NonNull PendingIntent event_negative) {
-    super(context, data, event_positive, event_negative);
-    if (mAlarmManager == null)
-      mAlarmManager =
-          (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-  }
+CalendarTracker(final Context context, final CalendarConditionData data,
+                final @NonNull PendingIntent event_positive,
+                final @NonNull PendingIntent event_negative) {
+	super(context, data, event_positive, event_negative);
+	if (mAlarmManager == null)
+		mAlarmManager =
+			(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+}
 
-  @Override
-  public void start() {
-    context.registerReceiver(mReceiver, intentUpdate_filter);
-    Uri uri = CalendarContract.Instances.CONTENT_URI;
-    context.getContentResolver().registerContentObserver(uri, true,
-                                                         calendarObserver);
-    updateTracker();
-  }
+@Override
+public void start() {
+	context.registerReceiver(mReceiver, intentUpdate_filter);
+	Uri uri = CalendarContract.Instances.CONTENT_URI;
+	context.getContentResolver().registerContentObserver(uri, true,
+	                                                     calendarObserver);
+	updateTracker();
+}
 
-  @Override
-  public void stop() {
-    context.unregisterReceiver(mReceiver);
-    context.getContentResolver().unregisterContentObserver(calendarObserver);
-    mAlarmManager.cancel(notifyIntent_change);
-  }
+@Override
+public void stop() {
+	context.unregisterReceiver(mReceiver);
+	context.getContentResolver().unregisterContentObserver(calendarObserver);
+	mAlarmManager.cancel(notifyIntent_change);
+}
 
-  private void updateTracker() {
-    Long nextRun;
-    if (activeEventsCount(context.getContentResolver(), data.data) > 0) {
-      newSatisfiedState(true);
-      nextRun = currentEvent_match_end(context.getContentResolver(), data.data);
-    } else {
-      newSatisfiedState(false);
-      nextRun = nextEvent_match_start(context.getContentResolver(), data.data);
-    }
-    if (nextRun == null)
-      nextRun =
-          Calendar.getInstance().getTimeInMillis() + DateUtils.DAY_IN_MILLIS;
-    mAlarmManager.set(AlarmManager.RTC_WAKEUP, nextRun, notifyIntent_change);
-  }
+private void updateTracker() {
+	Long nextRun;
+	if (activeEventsCount(context.getContentResolver(), data.data) > 0) {
+		newSatisfiedState(true);
+		nextRun = currentEvent_match_end(context.getContentResolver(), data.data);
+	} else {
+		newSatisfiedState(false);
+		nextRun = nextEvent_match_start(context.getContentResolver(), data.data);
+	}
+	if (nextRun == null)
+		nextRun =
+			Calendar.getInstance().getTimeInMillis() + DateUtils.DAY_IN_MILLIS;
+	mAlarmManager.set(AlarmManager.RTC_WAKEUP, nextRun, notifyIntent_change);
+}
 }

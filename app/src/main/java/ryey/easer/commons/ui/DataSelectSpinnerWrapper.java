@@ -30,65 +30,66 @@ import ryey.easer.R;
 
 public class DataSelectSpinnerWrapper {
 
-  private Context context;
-  private Spinner spinner;
+private Context context;
+private Spinner spinner;
 
-  private static final String NON = ""; // TODO: more robust
+private static final String NON = "";   // TODO: more robust
 
-  private boolean allowEmpty = false;
+private boolean allowEmpty = false;
 
-  private List<String> augmentedList = new ArrayList<>();
+private List<String> augmentedList = new ArrayList<>();
 
-  public DataSelectSpinnerWrapper(final Context context,
-                                  final Spinner spinner) {
-    this.context = context;
-    this.spinner = spinner;
-  }
+public DataSelectSpinnerWrapper(final Context context,
+                                final Spinner spinner) {
+	this.context = context;
+	this.spinner = spinner;
+}
 
-  public DataSelectSpinnerWrapper beginInit() {
-    this.augmentedList.clear();
-    return this;
-  }
+public DataSelectSpinnerWrapper beginInit() {
+	this.augmentedList.clear();
+	return this;
+}
 
-  public DataSelectSpinnerWrapper setAllowEmpty(final boolean state) {
-    this.allowEmpty = state;
-    return this;
-  }
+public DataSelectSpinnerWrapper setAllowEmpty(final boolean state) {
+	this.allowEmpty = state;
+	return this;
+}
 
-  public DataSelectSpinnerWrapper fillData(final List<String> dataList) {
-    augmentedList.addAll(dataList);
-    return this;
-  }
+public DataSelectSpinnerWrapper fillData(final List<String> dataList) {
+	augmentedList.addAll(dataList);
+	return this;
+}
 
-  public void finalizeInit() {
-    if (allowEmpty)
-      augmentedList.add(0, NON);
-    ArrayAdapter<String> adapter = new ArrayAdapter<>(
-        context, R.layout.spinner_simple, augmentedList); // TODO: change layout
-    adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-    spinner.setAdapter(adapter);
-    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-      @Override
-      public void onItemSelected(final AdapterView<?> adapterView,
-                                 final View view, final int i, final long l) {
-        adapterView.setSelection(i);
-      }
-      @Override
-      public void onNothingSelected(final AdapterView<?> adapterView) {}
-    });
-  }
+public void finalizeInit() {
+	if (allowEmpty)
+		augmentedList.add(0, NON);
+	ArrayAdapter<String> adapter = new ArrayAdapter<>(
+		context, R.layout.spinner_simple, augmentedList); // TODO: change layout
+	adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+	spinner.setAdapter(adapter);
+	spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(final AdapterView<?> adapterView,
+			                           final View view, final int i, final long l) {
+			        adapterView.setSelection(i);
+			}
+			@Override
+			public void onNothingSelected(final AdapterView<?> adapterView) {
+			}
+		});
+}
 
-  public void setSelection(final String selection) {
-    if (allowEmpty && selection == null)
-      spinner.setSelection(0);
-    else
-      spinner.setSelection(augmentedList.indexOf(selection));
-  }
+public void setSelection(final String selection) {
+	if (allowEmpty && selection == null)
+		spinner.setSelection(0);
+	else
+		spinner.setSelection(augmentedList.indexOf(selection));
+}
 
-  public String getSelection() {
-    String selection = (String)spinner.getSelectedItem();
-    if (allowEmpty && selection.equals(NON))
-      return null;
-    return selection;
-  }
+public String getSelection() {
+	String selection = (String)spinner.getSelectedItem();
+	if (allowEmpty && selection.equals(NON))
+		return null;
+	return selection;
+}
 }

@@ -29,77 +29,79 @@ import ryey.easer.plugin.PluginDataFormat;
 
 public class BluetoothEnabledUSourceData implements USourceData {
 
-  final boolean enabled;
+final boolean enabled;
 
-  BluetoothEnabledUSourceData(final boolean enabled) { this.enabled = enabled; }
+BluetoothEnabledUSourceData(final boolean enabled) {
+	this.enabled = enabled;
+}
 
-  BluetoothEnabledUSourceData(final @NonNull String data,
-                              final @NonNull PluginDataFormat format,
-                              final int version)
-      throws IllegalStorageDataException {
-    switch (format) {
-    default:
-      enabled = Boolean.parseBoolean(data);
-    }
-  }
+BluetoothEnabledUSourceData(final @NonNull String data,
+                            final @NonNull PluginDataFormat format,
+                            final int version)
+throws IllegalStorageDataException {
+	switch (format) {
+	default:
+		enabled = Boolean.parseBoolean(data);
+	}
+}
 
-  @NonNull
-  @Override
-  public String serialize(final @NonNull PluginDataFormat format) {
-    String res;
-    switch (format) {
-    default:
-      res = String.valueOf(enabled);
-    }
-    return res;
-  }
+@NonNull
+@Override
+public String serialize(final @NonNull PluginDataFormat format) {
+	String res;
+	switch (format) {
+	default:
+		res = String.valueOf(enabled);
+	}
+	return res;
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean isValid() {
-    return true;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean isValid() {
+	return true;
+}
 
-  @Nullable
-  @Override
-  public Dynamics[] dynamics() {
-    return null;
-  }
+@Nullable
+@Override
+public Dynamics[] dynamics() {
+	return null;
+}
 
-  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-  @Override
-  public boolean equals(final Object obj) {
-    if (obj == this)
-      return true;
-    if (obj == null || !(obj instanceof BluetoothEnabledUSourceData))
-      return false;
-    if (enabled != ((BluetoothEnabledUSourceData)obj).enabled)
-      return false;
-    return true;
-  }
+@SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+@Override
+public boolean equals(final Object obj) {
+	if (obj == this)
+		return true;
+	if (obj == null || !(obj instanceof BluetoothEnabledUSourceData))
+		return false;
+	if (enabled != ((BluetoothEnabledUSourceData)obj).enabled)
+		return false;
+	return true;
+}
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+@Override
+public int describeContents() {
+	return 0;
+}
 
-  @Override
-  public void writeToParcel(final Parcel dest, final int flags) {
-    dest.writeByte((byte)(enabled ? 1 : 0));
-  }
+@Override
+public void writeToParcel(final Parcel dest, final int flags) {
+	dest.writeByte((byte)(enabled ? 1 : 0));
+}
 
-  public static final Creator<BluetoothEnabledUSourceData> CREATOR =
-      new Creator<BluetoothEnabledUSourceData>() {
-        public BluetoothEnabledUSourceData createFromParcel(final Parcel in) {
-          return new BluetoothEnabledUSourceData(in);
-        }
+public static final Creator<BluetoothEnabledUSourceData> CREATOR =
+	new Creator<BluetoothEnabledUSourceData>() {
+	public BluetoothEnabledUSourceData createFromParcel(final Parcel in) {
+		return new BluetoothEnabledUSourceData(in);
+	}
 
-        public BluetoothEnabledUSourceData[] newArray(final int size) {
-          return new BluetoothEnabledUSourceData[size];
-        }
-      };
+	public BluetoothEnabledUSourceData[] newArray(final int size) {
+		return new BluetoothEnabledUSourceData[size];
+	}
+};
 
-  private BluetoothEnabledUSourceData(final Parcel in) {
-    enabled = in.readByte() != 0;
-  }
+private BluetoothEnabledUSourceData(final Parcel in) {
+	enabled = in.readByte() != 0;
+}
 }

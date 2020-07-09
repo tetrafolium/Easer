@@ -27,32 +27,34 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewWithContext extends RecyclerView {
-  private AdapterView.AdapterContextMenuInfo contextMenuInfo;
+private AdapterView.AdapterContextMenuInfo contextMenuInfo;
 
-  public RecyclerViewWithContext(final Context context) { super(context); }
+public RecyclerViewWithContext(final Context context) {
+	super(context);
+}
 
-  public RecyclerViewWithContext(final Context context,
-                                 final @Nullable AttributeSet attrs) {
-    super(context, attrs);
-  }
+public RecyclerViewWithContext(final Context context,
+                               final @Nullable AttributeSet attrs) {
+	super(context, attrs);
+}
 
-  public RecyclerViewWithContext(final Context context,
-                                 final @Nullable AttributeSet attrs,
-                                 final int defStyle) {
-    super(context, attrs, defStyle);
-  }
+public RecyclerViewWithContext(final Context context,
+                               final @Nullable AttributeSet attrs,
+                               final int defStyle) {
+	super(context, attrs, defStyle);
+}
 
-  @Override
-  public AdapterView.AdapterContextMenuInfo getContextMenuInfo() {
-    return contextMenuInfo;
-  }
+@Override
+public AdapterView.AdapterContextMenuInfo getContextMenuInfo() {
+	return contextMenuInfo;
+}
 
-  @Override
-  public boolean showContextMenuForChild(final View originalView) {
-    int position = getChildAdapterPosition(originalView);
-    long longId = getChildItemId(originalView);
-    contextMenuInfo =
-        new AdapterView.AdapterContextMenuInfo(originalView, position, longId);
-    return super.showContextMenuForChild(originalView);
-  }
+@Override
+public boolean showContextMenuForChild(final View originalView) {
+	int position = getChildAdapterPosition(originalView);
+	long longId = getChildItemId(originalView);
+	contextMenuInfo =
+		new AdapterView.AdapterContextMenuInfo(originalView, position, longId);
+	return super.showContextMenuForChild(originalView);
+}
 }

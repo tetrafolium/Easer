@@ -26,34 +26,34 @@ import ryey.easer.core.data.ConditionStructure;
 import ryey.easer.core.data.ScriptTree;
 
 class ConditionLotus extends Lotus {
-  private final ConditionStructure conditionStructure;
+private final ConditionStructure conditionStructure;
 
-  ConditionLotus(final @NonNull Context context,
-                 final @NonNull ScriptTree scriptTree,
-                 final @NonNull ExecutorService executorService,
-                 final
-                 @NonNull EHService.DelayedConditionHolderBinderJobs jobCH,
-                 final @NonNull AsyncHelper.DelayedLoadProfileJobs jobLP) {
-    super(context, scriptTree, executorService, jobCH, jobLP);
-    conditionStructure = scriptTree.getCondition();
-  }
+ConditionLotus(final @NonNull Context context,
+               final @NonNull ScriptTree scriptTree,
+               final @NonNull ExecutorService executorService,
+               final
+               @NonNull EHService.DelayedConditionHolderBinderJobs jobCH,
+               final @NonNull AsyncHelper.DelayedLoadProfileJobs jobLP) {
+	super(context, scriptTree, executorService, jobCH, jobLP);
+	conditionStructure = scriptTree.getCondition();
+}
 
-  @Override
-  protected void onListen() {
-    jobCH.doAfter(binder -> {
-      binder.registerAssociation(conditionStructure.getName(), uri);
-      Boolean state = binder.conditionState(conditionStructure.getName());
-      if (state == null) {
-      } else {
-        onStateSignal(state);
-      }
-    });
-  }
+@Override
+protected void onListen() {
+	jobCH.doAfter(binder->{
+			binder.registerAssociation(conditionStructure.getName(), uri);
+			Boolean state = binder.conditionState(conditionStructure.getName());
+			if (state == null) {
+			} else {
+			        onStateSignal(state);
+			}
+		});
+}
 
-  @Override
-  protected void onCancel() {
-    jobCH.doAfter(
-        binder
-        -> binder.unregisterAssociation(conditionStructure.getName(), uri));
-  }
+@Override
+protected void onCancel() {
+	jobCH.doAfter(
+		binder
+		->binder.unregisterAssociation(conditionStructure.getName(), uri));
+}
 }

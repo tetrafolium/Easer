@@ -41,141 +41,141 @@ import ryey.easer.R;
 import ryey.easer.core.EHService;
 
 public class OutlineFragment extends Fragment {
-  View mView;
+View mView;
 
-  TextView mIndicator;
-  ImageView mBanner;
+TextView mIndicator;
+ImageView mBanner;
 
-  final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      switch (intent.getAction()) {
-      case EHService.ACTION_STATE_CHANGED:
-        refresh();
-        break;
-      }
-    }
-  };
+final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+	@Override
+	public void onReceive(final Context context, final Intent intent) {
+		switch (intent.getAction()) {
+		case EHService.ACTION_STATE_CHANGED:
+			refresh();
+			break;
+		}
+	}
+};
 
-  @Override
-  public View onCreateView(final @NonNull LayoutInflater inflater,
-                           final ViewGroup container,
-                           final Bundle savedInstanceState) {
-    getActivity().setTitle(getString(R.string.title_outline));
-    mView = inflater.inflate(R.layout.fragment_outline, container, false);
+@Override
+public View onCreateView(final @NonNull LayoutInflater inflater,
+                         final ViewGroup container,
+                         final Bundle savedInstanceState) {
+	getActivity().setTitle(getString(R.string.title_outline));
+	mView = inflater.inflate(R.layout.fragment_outline, container, false);
 
-    mIndicator = mView.findViewById(R.id.running_ind);
-    mBanner = mView.findViewById(R.id.running_ind_banner);
+	mIndicator = mView.findViewById(R.id.running_ind);
+	mBanner = mView.findViewById(R.id.running_ind_banner);
 
-    Fragment fragment_history = ActivityHistoryFragment.compact();
-    getChildFragmentManager()
-        .beginTransaction()
-        .replace(R.id.content_fragment_loaded_history, fragment_history)
-        .commit();
+	Fragment fragment_history = ActivityHistoryFragment.compact();
+	getChildFragmentManager()
+	.beginTransaction()
+	.replace(R.id.content_fragment_loaded_history, fragment_history)
+	.commit();
 
-    mView.findViewById(R.id.holder_running_ind)
-        .setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(final View view) {
-            if (!EHService.isRunning()) {
-              EHService.start(getContext());
-            }
-          }
-        });
-    mView.findViewById(R.id.holder_running_ind)
-        .setOnLongClickListener(new View.OnLongClickListener() {
-          @Override
-          public boolean onLongClick(final View view) {
-            if (EHService.isRunning()) {
-              EHService.stop(getContext());
-              return true;
-            }
-            return false;
-          }
-        });
+	mView.findViewById(R.id.holder_running_ind)
+	.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View view) {
+			        if (!EHService.isRunning()) {
+			                EHService.start(getContext());
+				}
+			}
+		});
+	mView.findViewById(R.id.holder_running_ind)
+	.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(final View view) {
+			        if (EHService.isRunning()) {
+			                EHService.stop(getContext());
+			                return true;
+				}
+			        return false;
+			}
+		});
 
-    mView.findViewById(R.id.content_fragment_loaded_history)
-        .setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(final View view) {
-            NavigationView navigationView =
-                getActivity().findViewById(R.id.nav_view);
-            navigationView.setCheckedItem(R.id.nav_log);
-            // noinspection ConstantConditions
-            ((MainActivity)getContext()).changeUIView(R.id.nav_log);
-          }
-        });
+	mView.findViewById(R.id.content_fragment_loaded_history)
+	.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View view) {
+			        NavigationView navigationView =
+					getActivity().findViewById(R.id.nav_view);
+			        navigationView.setCheckedItem(R.id.nav_log);
+			        // noinspection ConstantConditions
+			        ((MainActivity)getContext()).changeUIView(R.id.nav_log);
+			}
+		});
 
-    FloatingActionButton fab = mView.findViewById(R.id.fab);
-    fab.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(final View view) {
-        EHService.reload(getActivity());
-      }
-    });
+	FloatingActionButton fab = mView.findViewById(R.id.fab);
+	fab.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View view) {
+			        EHService.reload(getActivity());
+			}
+		});
 
-    IntentFilter filter = new IntentFilter(EHService.ACTION_STATE_CHANGED);
-    getActivity().registerReceiver(mReceiver, filter);
+	IntentFilter filter = new IntentFilter(EHService.ACTION_STATE_CHANGED);
+	getActivity().registerReceiver(mReceiver, filter);
 
-    return mView;
-  }
+	return mView;
+}
 
-  @Override
-  public void onActivityCreated(final @Nullable Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-    setHasOptionsMenu(true);
-  }
+@Override
+public void onActivityCreated(final @Nullable Bundle savedInstanceState) {
+	super.onActivityCreated(savedInstanceState);
+	setHasOptionsMenu(true);
+}
 
-  @Override
-  public void onResume() {
-    super.onResume();
-    refresh();
-  }
+@Override
+public void onResume() {
+	super.onResume();
+	refresh();
+}
 
-  @Override
-  public void onDestroyView() {
-    super.onDestroyView();
-    getActivity().unregisterReceiver(mReceiver);
-  }
+@Override
+public void onDestroyView() {
+	super.onDestroyView();
+	getActivity().unregisterReceiver(mReceiver);
+}
 
-  @Override
-  public void onCreateOptionsMenu(final Menu menu,
-                                  final MenuInflater inflater) {
-    menu.clear();
-    inflater.inflate(R.menu.outline, menu);
-    super.onCreateOptionsMenu(menu, inflater);
-  }
+@Override
+public void onCreateOptionsMenu(final Menu menu,
+                                final MenuInflater inflater) {
+	menu.clear();
+	inflater.inflate(R.menu.outline, menu);
+	super.onCreateOptionsMenu(menu, inflater);
+}
 
-  @Override
-  public boolean onOptionsItemSelected(final MenuItem item) {
-    int id = item.getItemId();
+@Override
+public boolean onOptionsItemSelected(final MenuItem item) {
+	int id = item.getItemId();
 
-    if (id == R.id.action_start) {
-      EHService.start(getActivity());
-      return true;
-    }
-    if (id == R.id.action_stop) {
-      EHService.stop(getActivity());
-      return true;
-    }
+	if (id == R.id.action_start) {
+		EHService.start(getActivity());
+		return true;
+	}
+	if (id == R.id.action_stop) {
+		EHService.stop(getActivity());
+		return true;
+	}
 
-    return super.onOptionsItemSelected(item);
-  }
+	return super.onOptionsItemSelected(item);
+}
 
-  private void refresh() {
-    int color;
-    if (EHService.isRunning()) {
-      mIndicator.setText(
-          getResources().getString(R.string.service_indicator_positive));
-      mBanner.setImageResource(R.drawable.ic_status_positive);
-      color = getResources().getColor(R.color.color_positive);
-    } else {
-      mIndicator.setText(
-          getResources().getString(R.string.service_indicator_negative));
-      mBanner.setImageResource(R.drawable.ic_status_negative);
-      color = getResources().getColor(R.color.color_negative);
-    }
-    mIndicator.setTextColor(color);
-    mBanner.setBackgroundColor(color);
-  }
+private void refresh() {
+	int color;
+	if (EHService.isRunning()) {
+		mIndicator.setText(
+			getResources().getString(R.string.service_indicator_positive));
+		mBanner.setImageResource(R.drawable.ic_status_positive);
+		color = getResources().getColor(R.color.color_positive);
+	} else {
+		mIndicator.setText(
+			getResources().getString(R.string.service_indicator_negative));
+		mBanner.setImageResource(R.drawable.ic_status_negative);
+		color = getResources().getColor(R.color.color_negative);
+	}
+	mIndicator.setTextColor(color);
+	mBanner.setBackgroundColor(color);
+}
 }

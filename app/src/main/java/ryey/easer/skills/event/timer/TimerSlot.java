@@ -27,124 +27,124 @@ import java.util.Calendar;
 import ryey.easer.skills.event.SelfNotifiableSlot;
 
 public class TimerSlot extends SelfNotifiableSlot<TimerEventData> {
-  private static AlarmManager mAlarmManager;
+private static AlarmManager mAlarmManager;
 
-  private static final int INTERVAL_SECOND = 1000;
-  private static final int INTERVAL_MINUTE = 60 * 1000;
+private static final int INTERVAL_SECOND = 1000;
+private static final int INTERVAL_MINUTE = 60 * 1000;
 
-  //    private CountDownTimer countDownTimer;
-  private Handler handler = new Handler();
-  private Runnable job;
+//    private CountDownTimer countDownTimer;
+private Handler handler = new Handler();
+private Runnable job;
 
-  TimerSlot(final Context context, final TimerEventData data) {
-    this(context, data, isRetriggerable(data), PERSISTENT_DEFAULT);
-  }
+TimerSlot(final Context context, final TimerEventData data) {
+	this(context, data, isRetriggerable(data), PERSISTENT_DEFAULT);
+}
 
-  TimerSlot(final Context context, final TimerEventData data,
-            final boolean retriggerable, final boolean persistent) {
-    super(context, data, retriggerable, persistent);
+TimerSlot(final Context context, final TimerEventData data,
+          final boolean retriggerable, final boolean persistent) {
+	super(context, data, retriggerable, persistent);
 
-    if (mAlarmManager == null)
-      mAlarmManager =
-          (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-  }
+	if (mAlarmManager == null)
+		mAlarmManager =
+			(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+}
 
-  private static boolean isRetriggerable(final TimerEventData data) {
-    if (data.repeat) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+private static boolean isRetriggerable(final TimerEventData data) {
+	if (data.repeat) {
+		return true;
+	} else {
+		return false;
+	}
+}
 
-  @Override
-  public void listen() {
-    super.listen();
-    if (eventData != null) {
-      if (eventData.shortTime) {
-        job = new Runnable() {
-          @Override
-          public void run() {
-            changeSatisfiedState(true);
-            if (eventData.repeat)
-              handler.postDelayed(job, eventData.time * INTERVAL_SECOND);
-          }
-        };
-        handler.postDelayed(job, eventData.time * INTERVAL_SECOND);
-        //                if (eventData.repeat) {
-        //                    countDownTimer = new RepeatedTimer();
-        //                } else {
-        //                    countDownTimer = new CountDownTimer(eventData.time
-        //                    * INTERVAL_SECOND, eventData.time *
-        //                    INTERVAL_SECOND) {
-        //                        @Override
-        //                        public void onTick(long millisUntilFinished) {
-        //                            Logger.d("onTick");
-        //                        }
-        //
-        //                        @Override
-        //                        public void onFinish() {
-        //                            Logger.d("onFinish");
-        //                            changeSatisfiedState(true);
-        //                        }
-        //                    };
-        //                }
-        //                countDownTimer.start();
-      } else {
-        Calendar now = Calendar.getInstance();
-        if (eventData.exact) {
-          mAlarmManager.setRepeating(
-              AlarmManager.RTC_WAKEUP,
-              now.getTimeInMillis() + INTERVAL_MINUTE * eventData.time,
-              INTERVAL_MINUTE * eventData.time, notifySelfIntent_positive);
-        } else {
-          mAlarmManager.setInexactRepeating(
-              AlarmManager.RTC_WAKEUP,
-              now.getTimeInMillis() + INTERVAL_MINUTE * eventData.time,
-              INTERVAL_MINUTE * eventData.time, notifySelfIntent_positive);
-        }
-      }
-    }
-  }
+@Override
+public void listen() {
+	super.listen();
+	if (eventData != null) {
+		if (eventData.shortTime) {
+			job = new Runnable() {
+				@Override
+				public void run() {
+					changeSatisfiedState(true);
+					if (eventData.repeat)
+						handler.postDelayed(job, eventData.time * INTERVAL_SECOND);
+				}
+			};
+			handler.postDelayed(job, eventData.time * INTERVAL_SECOND);
+			//                if (eventData.repeat) {
+			//                    countDownTimer = new RepeatedTimer();
+			//                } else {
+			//                    countDownTimer = new CountDownTimer(eventData.time
+			//                    * INTERVAL_SECOND, eventData.time *
+			//                    INTERVAL_SECOND) {
+			//                        @Override
+			//                        public void onTick(long millisUntilFinished) {
+			//                            Logger.d("onTick");
+			//                        }
+			//
+			//                        @Override
+			//                        public void onFinish() {
+			//                            Logger.d("onFinish");
+			//                            changeSatisfiedState(true);
+			//                        }
+			//                    };
+			//                }
+			//                countDownTimer.start();
+		} else {
+			Calendar now = Calendar.getInstance();
+			if (eventData.exact) {
+				mAlarmManager.setRepeating(
+					AlarmManager.RTC_WAKEUP,
+					now.getTimeInMillis() + INTERVAL_MINUTE * eventData.time,
+					INTERVAL_MINUTE * eventData.time, notifySelfIntent_positive);
+			} else {
+				mAlarmManager.setInexactRepeating(
+					AlarmManager.RTC_WAKEUP,
+					now.getTimeInMillis() + INTERVAL_MINUTE * eventData.time,
+					INTERVAL_MINUTE * eventData.time, notifySelfIntent_positive);
+			}
+		}
+	}
+}
 
-  @Override
-  public void cancel() {
-    super.cancel();
-    if (eventData != null) {
-      if (eventData.shortTime) {
-        //                if (countDownTimer != null)
-        //                    countDownTimer.cancel();
-        handler.removeCallbacksAndMessages(job);
-      } else {
-        mAlarmManager.cancel(notifySelfIntent_positive);
-        mAlarmManager.cancel(notifySelfIntent_negative);
-      }
-    }
-  }
+@Override
+public void cancel() {
+	super.cancel();
+	if (eventData != null) {
+		if (eventData.shortTime) {
+			//                if (countDownTimer != null)
+			//                    countDownTimer.cancel();
+			handler.removeCallbacksAndMessages(job);
+		} else {
+			mAlarmManager.cancel(notifySelfIntent_positive);
+			mAlarmManager.cancel(notifySelfIntent_negative);
+		}
+	}
+}
 
-  @Override
-  protected void onPositiveNotified(final Intent intent) {
-    changeSatisfiedState(true);
-  }
+@Override
+protected void onPositiveNotified(final Intent intent) {
+	changeSatisfiedState(true);
+}
 
-  //    private class RepeatedTimer extends CountDownTimer {
-  //
-  //        RepeatedTimer() {
-  //            // Restart the timer after 100 times, to mimic infinite timer
-  //            super(eventData.time * INTERVAL_SECOND * 100, eventData.time *
-  //            INTERVAL_SECOND);
-  //        }
-  //
-  //        @Override
-  //        public void onTick(long millisUntilFinished) {
-  //            Logger.d("onTick: <%s>", millisUntilFinished);
-  //            changeSatisfiedState(true);
-  //        }
-  //
-  //        @Override
-  //        public void onFinish() {
-  //            countDownTimer = new RepeatedTimer();
-  //            countDownTimer.start();
-  //        }
-  //    }
+//    private class RepeatedTimer extends CountDownTimer {
+//
+//        RepeatedTimer() {
+//            // Restart the timer after 100 times, to mimic infinite timer
+//            super(eventData.time * INTERVAL_SECOND * 100, eventData.time *
+//            INTERVAL_SECOND);
+//        }
+//
+//        @Override
+//        public void onTick(long millisUntilFinished) {
+//            Logger.d("onTick: <%s>", millisUntilFinished);
+//            changeSatisfiedState(true);
+//        }
+//
+//        @Override
+//        public void onFinish() {
+//            countDownTimer = new RepeatedTimer();
+//            countDownTimer.start();
+//        }
+//    }
 }
