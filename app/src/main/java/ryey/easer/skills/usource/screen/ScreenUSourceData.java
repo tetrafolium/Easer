@@ -52,8 +52,8 @@ public class ScreenUSourceData implements USourceData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                res = screenEvent.name();
+        default:
+            res = screenEvent.name();
         }
         return res;
     }
@@ -93,7 +93,7 @@ public class ScreenUSourceData implements USourceData {
     }
 
     public static final Creator<ScreenUSourceData> CREATOR
-            = new Creator<ScreenUSourceData>() {
+    = new Creator<ScreenUSourceData>() {
         public ScreenUSourceData createFromParcel(Parcel in) {
             return new ScreenUSourceData(in);
         }

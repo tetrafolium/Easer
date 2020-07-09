@@ -88,6 +88,6 @@ public class NfcTagSkillViewFragment extends SkillViewFragment<NfcTagEventData> 
     private void enableWaiterActivity() {
         PackageManager pm = getContext().getPackageManager();
         pm.setComponentEnabledSetting(new ComponentName(getContext(), WaitForNfcActivity.class),
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+                                      PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
     }
 }

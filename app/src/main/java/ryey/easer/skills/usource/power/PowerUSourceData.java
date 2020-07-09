@@ -62,41 +62,41 @@ public class PowerUSourceData implements USourceData {
 
     PowerUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                if (version < C.VERSION_RENAME_BATTERY_USOURCE) {
-                    try {
-                        int battery_status = Integer.parseInt(data);
-                        switch (battery_status) {
-                            case BatteryStatus_Old.charging:
-                                batteryStatus = BatteryStatus.charging;
-                                chargingMethods.add(ChargingMethod.any);
-                                break;
-                            case BatteryStatus_Old.discharging:
-                                batteryStatus = BatteryStatus.discharging;
-                                break;
-                            default:
-                                throw new IllegalStorageDataException("unknown battery status representation");
-                        }
-                    } catch (NumberFormatException e) {
-                        throw new IllegalStorageDataException(e);
+        default:
+            if (version < C.VERSION_RENAME_BATTERY_USOURCE) {
+                try {
+                    int battery_status = Integer.parseInt(data);
+                    switch (battery_status) {
+                    case BatteryStatus_Old.charging:
+                        batteryStatus = BatteryStatus.charging;
+                        chargingMethods.add(ChargingMethod.any);
+                        break;
+                    case BatteryStatus_Old.discharging:
+                        batteryStatus = BatteryStatus.discharging;
+                        break;
+                    default:
+                        throw new IllegalStorageDataException("unknown battery status representation");
                     }
-                } else {
-                    try {
-                        JSONObject jsonObject = new JSONObject(data);
-                        batteryStatus = BatteryStatus.valueOf(jsonObject.getString(K_STATUS));
-                        if (batteryStatus == BatteryStatus.charging) {
-                            JSONArray jsonArray = jsonObject.getJSONArray(K_CHARGING_THROUGH);
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                chargingMethods.add(ChargingMethod.valueOf(jsonArray.getString(0)));
-                            }
-                        }
-                    } catch (JSONException e) {
-                        throw new IllegalStorageDataException(e);
-                    } catch (IllegalArgumentException e) {
-                        throw new IllegalStorageDataException(e);
-                    }
+                } catch (NumberFormatException e) {
+                    throw new IllegalStorageDataException(e);
                 }
-                break;
+            } else {
+                try {
+                    JSONObject jsonObject = new JSONObject(data);
+                    batteryStatus = BatteryStatus.valueOf(jsonObject.getString(K_STATUS));
+                    if (batteryStatus == BatteryStatus.charging) {
+                        JSONArray jsonArray = jsonObject.getJSONArray(K_CHARGING_THROUGH);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            chargingMethods.add(ChargingMethod.valueOf(jsonArray.getString(0)));
+                        }
+                    }
+                } catch (JSONException e) {
+                    throw new IllegalStorageDataException(e);
+                } catch (IllegalArgumentException e) {
+                    throw new IllegalStorageDataException(e);
+                }
+            }
+            break;
         }
     }
 
@@ -105,22 +105,22 @@ public class PowerUSourceData implements USourceData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(K_STATUS, batteryStatus.toString());
-                    if (batteryStatus == BatteryStatus.charging) {
-                        JSONArray jsonArray = new JSONArray();
-                        for (ChargingMethod method : chargingMethods) {
-                            jsonArray.put(method.toString());
-                        }
-                        jsonObject.put(K_CHARGING_THROUGH, jsonArray);
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put(K_STATUS, batteryStatus.toString());
+                if (batteryStatus == BatteryStatus.charging) {
+                    JSONArray jsonArray = new JSONArray();
+                    for (ChargingMethod method : chargingMethods) {
+                        jsonArray.put(method.toString());
                     }
-                    res = jsonObject.toString();
-                } catch (JSONException e) {
-                    throw new IllegalStateException(e);
+                    jsonObject.put(K_CHARGING_THROUGH, jsonArray);
                 }
-                break;
+                res = jsonObject.toString();
+            } catch (JSONException e) {
+                throw new IllegalStateException(e);
+            }
+            break;
         }
         return res;
     }
@@ -165,7 +165,7 @@ public class PowerUSourceData implements USourceData {
     }
 
     public static final Creator<PowerUSourceData> CREATOR
-            = new Creator<PowerUSourceData>() {
+    = new Creator<PowerUSourceData>() {
         public PowerUSourceData createFromParcel(Parcel in) {
             return new PowerUSourceData(in);
         }

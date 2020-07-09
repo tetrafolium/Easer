@@ -58,7 +58,7 @@ public class BrightnessOperationData extends IntegerOperationData {
     }
 
     public static final Parcelable.Creator<BrightnessOperationData> CREATOR
-            = new Parcelable.Creator<BrightnessOperationData>() {
+    = new Parcelable.Creator<BrightnessOperationData>() {
         public BrightnessOperationData createFromParcel(Parcel in) {
             return new BrightnessOperationData(in);
         }

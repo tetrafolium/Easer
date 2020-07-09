@@ -47,10 +47,10 @@ public class ConditionEventSkillViewFragment extends SkillViewFragment<Condition
         View view = inflater.inflate(R.layout.plugin_event__condition_event, container, false);
         sw_condition = new DataSelectSpinnerWrapper(getContext(), (Spinner) view.findViewById(R.id.spinner_condition));
         sw_condition
-                .beginInit()
-                .setAllowEmpty(false)
-                .fillData(new ConditionDataStorage(getContext()).list())
-                .finalizeInit();
+        .beginInit()
+        .setAllowEmpty(false)
+        .fillData(new ConditionDataStorage(getContext()).list())
+        .finalizeInit();
         rg_condition_event = view.findViewById(R.id.rg_condition_event);
         return view;
     }
@@ -71,9 +71,9 @@ public class ConditionEventSkillViewFragment extends SkillViewFragment<Condition
     public ConditionEventEventData getData() throws InvalidDataInputException {
         String condition_name = sw_condition.getSelection();
         ConditionEventEventData.ConditionEvent conditionEvent =
-                rg_condition_event.getCheckedRadioButtonId() == R.id.rb_enter ?
-                        ConditionEventEventData.ConditionEvent.enter :
-                        ConditionEventEventData.ConditionEvent.leave;
+            rg_condition_event.getCheckedRadioButtonId() == R.id.rb_enter ?
+            ConditionEventEventData.ConditionEvent.enter :
+            ConditionEventEventData.ConditionEvent.leave;
         return new ConditionEventEventData(condition_name, conditionEvent);
     }
 }

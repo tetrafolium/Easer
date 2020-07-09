@@ -54,7 +54,7 @@ public class WaitForNfcActivity extends CommonBaseActivity {
         }
 
         mPendingIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+                         new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 
     }
 
@@ -89,7 +89,7 @@ public class WaitForNfcActivity extends CommonBaseActivity {
     private void disableWaiterActivity() {
         PackageManager pm = getPackageManager();
         pm.setComponentEnabledSetting(new ComponentName(this, WaitForNfcActivity.class),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+                                      PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
     }
 
     @Override

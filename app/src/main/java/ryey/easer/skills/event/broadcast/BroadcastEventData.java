@@ -63,21 +63,21 @@ public class BroadcastEventData extends AbstractEventData {
     public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         intentData = new ReceiverSideIntentData();
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    JSONArray jsonArray_action = jsonObject.getJSONArray(K_ACTION);
-                    for (int i = 0; i < jsonArray_action.length(); i++) {
-                        intentData.action.add(jsonArray_action.getString(i));
-                    }
-                    JSONArray jsonArray_category = jsonObject.getJSONArray(K_CATEGORY);
-                    for (int i = 0; i < jsonArray_category.length(); i++) {
-                        intentData.category.add(jsonArray_category.getString(i));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStorageDataException(e);
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                JSONArray jsonArray_action = jsonObject.getJSONArray(K_ACTION);
+                for (int i = 0; i < jsonArray_action.length(); i++) {
+                    intentData.action.add(jsonArray_action.getString(i));
                 }
+                JSONArray jsonArray_category = jsonObject.getJSONArray(K_CATEGORY);
+                for (int i = 0; i < jsonArray_category.length(); i++) {
+                    intentData.category.add(jsonArray_category.getString(i));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -86,28 +86,28 @@ public class BroadcastEventData extends AbstractEventData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject();
-                    JSONArray jsonArray_action = new JSONArray();
-                    if (intentData.action != null) {
-                        for (String action : intentData.action) {
-                            jsonArray_action.put(action);
-                        }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject();
+                JSONArray jsonArray_action = new JSONArray();
+                if (intentData.action != null) {
+                    for (String action : intentData.action) {
+                        jsonArray_action.put(action);
                     }
-                    jsonObject.put(K_ACTION, jsonArray_action);
-                    JSONArray jsonArray_category = new JSONArray();
-                    if (intentData.category != null) {
-                        for (String category : intentData.category) {
-                            jsonArray_category.put(category);
-                        }
-                    }
-                    jsonObject.put(K_CATEGORY, jsonArray_category);
-                    res = jsonObject.toString();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStateException(e.getMessage());
                 }
+                jsonObject.put(K_ACTION, jsonArray_action);
+                JSONArray jsonArray_category = new JSONArray();
+                if (intentData.category != null) {
+                    for (String category : intentData.category) {
+                        jsonArray_category.put(category);
+                    }
+                }
+                jsonObject.put(K_CATEGORY, jsonArray_category);
+                res = jsonObject.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStateException(e.getMessage());
+            }
         }
         return res;
     }
@@ -115,7 +115,7 @@ public class BroadcastEventData extends AbstractEventData {
     @Nullable
     @Override
     public Dynamics[] dynamics() {
-        return new Dynamics[]{new ActionDynamics(), new CategoryDynamics(), new TypeDynamics(), new DataDynamics()};
+        return new Dynamics[] {new ActionDynamics(), new CategoryDynamics(), new TypeDynamics(), new DataDynamics()};
     }
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
@@ -144,7 +144,7 @@ public class BroadcastEventData extends AbstractEventData {
     }
 
     public static final Parcelable.Creator<BroadcastEventData> CREATOR
-            = new Parcelable.Creator<BroadcastEventData>() {
+    = new Parcelable.Creator<BroadcastEventData>() {
         public BroadcastEventData createFromParcel(Parcel in) {
             return new BroadcastEventData(in);
         }

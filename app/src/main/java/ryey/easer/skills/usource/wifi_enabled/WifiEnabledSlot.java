@@ -39,12 +39,12 @@ public class WifiEnabledSlot extends AbstractSlot<WifiEnabledUSourceData> {
 
                 switch (extraWifiState)
                 {
-                    case WifiManager.WIFI_STATE_DISABLED:
-                        changeSatisfiedState(!eventData.enabled);
-                        break;
-                    case WifiManager.WIFI_STATE_ENABLED:
-                        changeSatisfiedState(eventData.enabled);
-                        break;
+                case WifiManager.WIFI_STATE_DISABLED:
+                    changeSatisfiedState(!eventData.enabled);
+                    break;
+                case WifiManager.WIFI_STATE_ENABLED:
+                    changeSatisfiedState(eventData.enabled);
+                    break;
                 }
             }
         }

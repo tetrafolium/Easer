@@ -41,15 +41,15 @@ public class BrightnessLoader extends OperationLoader<BrightnessOperationData> {
         Integer level = data.get();
         if (data.isAuto())
             Settings.System.putInt(context.getContentResolver(),
-                    Settings.System.SCREEN_BRIGHTNESS_MODE,
-                    Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
+                                   Settings.System.SCREEN_BRIGHTNESS_MODE,
+                                   Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
         else {
             Settings.System.putInt(context.getContentResolver(),
-                    Settings.System.SCREEN_BRIGHTNESS_MODE,
-                    Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
+                                   Settings.System.SCREEN_BRIGHTNESS_MODE,
+                                   Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
             Settings.System.putInt(context.getContentResolver(),
-                    Settings.System.SCREEN_BRIGHTNESS,
-                    level);
+                                   Settings.System.SCREEN_BRIGHTNESS,
+                                   level);
         }
 
         DumbSettingBrightnessActivity.applyBrightness(context, ((float) level) / 255);

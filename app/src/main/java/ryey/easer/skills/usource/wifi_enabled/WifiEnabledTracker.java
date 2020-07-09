@@ -42,14 +42,14 @@ public class WifiEnabledTracker extends SkeletonTracker<WifiEnabledUSourceData> 
 
                 switch (extraWifiState)
                 {
-                    case WifiManager.WIFI_STATE_DISABLED:
-                        newSatisfiedState(!data.enabled);
-                        break;
-                    case WifiManager.WIFI_STATE_ENABLED:
-                        newSatisfiedState(data.enabled);
-                        break;
-                    default:
-                        newSatisfiedState(null);
+                case WifiManager.WIFI_STATE_DISABLED:
+                    newSatisfiedState(!data.enabled);
+                    break;
+                case WifiManager.WIFI_STATE_ENABLED:
+                    newSatisfiedState(data.enabled);
+                    break;
+                default:
+                    newSatisfiedState(null);
                 }
             }
         }
@@ -57,8 +57,8 @@ public class WifiEnabledTracker extends SkeletonTracker<WifiEnabledUSourceData> 
     private final IntentFilter intentFilter = new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION);
 
     WifiEnabledTracker(Context context, WifiEnabledUSourceData data,
-                   @NonNull PendingIntent event_positive,
-                   @NonNull PendingIntent event_negative) {
+                       @NonNull PendingIntent event_positive,
+                       @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
 
         wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);

@@ -84,20 +84,20 @@ public class CallUSourceData implements USourceData {
 
     CallUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
 //                    direction = Direction.valueOf(jsonObject.getString(K_DIRECTION));
-                    if (jsonObject.has(K_STATE)) {
-                        JSONArray jsonArray = jsonObject.getJSONArray(K_STATE);
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            callStates.add(CallState.valueOf(jsonArray.getString(i)));
-                        }
+                if (jsonObject.has(K_STATE)) {
+                    JSONArray jsonArray = jsonObject.getJSONArray(K_STATE);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        callStates.add(CallState.valueOf(jsonArray.getString(i)));
                     }
-                    number = jsonObject.optString(K_NUMBER, null);
-                } catch (JSONException e) {
-                    throw new IllegalStorageDataException(e);
                 }
+                number = jsonObject.optString(K_NUMBER, null);
+            } catch (JSONException e) {
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -106,24 +106,24 @@ public class CallUSourceData implements USourceData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject();
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject();
 //                    jsonObject.put(K_DIRECTION, direction);
-                    if (callStates.size() > 0) {
-                        JSONArray jsonArray = new JSONArray();
-                        for (CallState state : callStates) {
-                            jsonArray.put(state.toString());
-                        }
-                        jsonObject.put(K_STATE, jsonArray);
+                if (callStates.size() > 0) {
+                    JSONArray jsonArray = new JSONArray();
+                    for (CallState state : callStates) {
+                        jsonArray.put(state.toString());
                     }
-                    if (Utils.isBlank(number)) {
-                        jsonObject.put(K_NUMBER, number);
-                    }
-                    res = jsonObject.toString();
-                } catch (JSONException e) {
-                    throw new IllegalStateException(e);
+                    jsonObject.put(K_STATE, jsonArray);
                 }
+                if (Utils.isBlank(number)) {
+                    jsonObject.put(K_NUMBER, number);
+                }
+                res = jsonObject.toString();
+            } catch (JSONException e) {
+                throw new IllegalStateException(e);
+            }
         }
         return res;
     }
@@ -171,7 +171,7 @@ public class CallUSourceData implements USourceData {
     }
 
     public static final Creator<CallUSourceData> CREATOR
-            = new Creator<CallUSourceData>() {
+    = new Creator<CallUSourceData>() {
         public CallUSourceData createFromParcel(Parcel in) {
             return new CallUSourceData(in);
         }

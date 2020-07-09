@@ -69,19 +69,19 @@ public class HeadsetUSourceData implements USourceData {
 
     HeadsetUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                String name;
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    hs_state = getHSState(jsonObject, version);
-                    name = jsonObject.optString(K_HS_TYPE);
-                    if (name != null)
-                        hs_type = HeadsetType.valueOf(name);
-                    else
-                        hs_type = HeadsetType.any;
-                } catch (JSONException e) {
-                    throw new IllegalStorageDataException(e);
-                }
+        default:
+            String name;
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                hs_state = getHSState(jsonObject, version);
+                name = jsonObject.optString(K_HS_TYPE);
+                if (name != null)
+                    hs_type = HeadsetType.valueOf(name);
+                else
+                    hs_type = HeadsetType.any;
+            } catch (JSONException e) {
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -98,8 +98,8 @@ public class HeadsetUSourceData implements USourceData {
                 hs_state = HeadsetState.valueOf(name);
             }
         } else {
-                name = jsonObject.getString(K_HS_STATE);
-                hs_state = HeadsetState.valueOf(name);
+            name = jsonObject.getString(K_HS_STATE);
+            hs_state = HeadsetState.valueOf(name);
         }
         if (version < C.VERSION_UNIFORMED_SOURCE) {
             if (hs_state == HeadsetState.plugged_in) {
@@ -148,20 +148,20 @@ public class HeadsetUSourceData implements USourceData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    HeadsetState hs_state = this.hs_state;
-                    if (hs_state == HeadsetState.plugged_in)
-                        hs_state = HeadsetState.plug_in;
-                    if (hs_state == HeadsetState.plugged_out)
-                        hs_state = HeadsetState.plug_out;
-                    jsonObject.put(K_HS_STATE, hs_state.name());
-                    jsonObject.put(K_HS_TYPE, hs_type.name());
-                } catch (JSONException e) {
-                    throw new IllegalStateException(e);
-                }
-                res = jsonObject.toString();
+        default:
+            JSONObject jsonObject = new JSONObject();
+            try {
+                HeadsetState hs_state = this.hs_state;
+                if (hs_state == HeadsetState.plugged_in)
+                    hs_state = HeadsetState.plug_in;
+                if (hs_state == HeadsetState.plugged_out)
+                    hs_state = HeadsetState.plug_out;
+                jsonObject.put(K_HS_STATE, hs_state.name());
+                jsonObject.put(K_HS_TYPE, hs_type.name());
+            } catch (JSONException e) {
+                throw new IllegalStateException(e);
+            }
+            res = jsonObject.toString();
         }
         return res;
     }
@@ -178,7 +178,7 @@ public class HeadsetUSourceData implements USourceData {
     }
 
     public static final Creator<HeadsetUSourceData> CREATOR
-            = new Creator<HeadsetUSourceData>() {
+    = new Creator<HeadsetUSourceData>() {
         public HeadsetUSourceData createFromParcel(Parcel in) {
             return new HeadsetUSourceData(in);
         }

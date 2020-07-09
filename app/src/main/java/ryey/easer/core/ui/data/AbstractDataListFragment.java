@@ -115,12 +115,12 @@ public abstract class AbstractDataListFragment extends ListFragment implements D
         String name = wrapper.name;
         int id = item.getItemId();
         switch (id) {
-            case R.id.action_edit:
-                refContainer.get().editData(name);
-                return true;
-            case R.id.action_delete:
-                refContainer.get().deleteData(name);
-                return true;
+        case R.id.action_edit:
+            refContainer.get().editData(name);
+            return true;
+        case R.id.action_delete:
+            refContainer.get().deleteData(name);
+            return true;
         }
         return super.onContextItemSelected(item);
     }

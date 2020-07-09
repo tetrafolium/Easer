@@ -34,27 +34,27 @@ import ryey.easer.commons.local_skill.Skill;
 import ryey.easer.commons.local_skill.StorageData;
 
 public abstract class SourceSkillViewContainerFragment<D extends StorageData, S extends Skill>
-        extends SkillViewContainerFragment<D> {
+    extends SkillViewContainerFragment<D> {
 
     private static final String EXTRA_SKILL = "skill";
 
     protected static <D extends StorageData, S extends Skill<D>, F extends SourceSkillViewContainerFragment<D, S>> F createInstance(
-            @NonNull S skill,
-            @NonNull F fragment) {
+        @NonNull S skill,
+        @NonNull F fragment) {
         return createInstance(skill, fragment, null);
     }
 
     protected static <D extends StorageData, S extends Skill<D>, F extends SourceSkillViewContainerFragment<D, S>> F createInstance(
-            @NonNull S skill,
-            @NonNull F fragment,
-            @Nullable Bundle bundle) {
+        @NonNull S skill,
+        @NonNull F fragment,
+        @Nullable Bundle bundle) {
         return createInstance(skill.id(), fragment, bundle);
     }
 
     protected static <D extends StorageData, S extends Skill<D>, F extends SourceSkillViewContainerFragment<D, S>> F createInstance(
-            @NonNull String skillId,
-            @NonNull F fragment,
-            @Nullable Bundle bundle) {
+        @NonNull String skillId,
+        @NonNull F fragment,
+        @Nullable Bundle bundle) {
         if (bundle == null)
             bundle = new Bundle();
         bundle.putString(EXTRA_SKILL, skillId);
@@ -79,8 +79,8 @@ public abstract class SourceSkillViewContainerFragment<D extends StorageData, S 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_skillview_container_source, container, false);
         getChildFragmentManager().beginTransaction()
-                .replace(R.id.content_pluginview, pluginViewFragment)
-                .commit();
+        .replace(R.id.content_pluginview, pluginViewFragment)
+        .commit();
         return v;
     }
 

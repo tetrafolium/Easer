@@ -71,7 +71,7 @@ public class CommonSkillUtils {
      */
     public static boolean isEnabled(Context context, int type, String id) {
         SharedPreferences settingsPreference =
-                PreferenceManager.getDefaultSharedPreferences(context);
+            PreferenceManager.getDefaultSharedPreferences(context);
         return settingsPreference.getBoolean(CommonSkillUtils.pluginEnabledKey(type, id), true);
     }
 

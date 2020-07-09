@@ -37,7 +37,7 @@ public class Utils {
             calendar.roll(Calendar.YEAR, 1);
         // calendar == Tomorrow 00:00
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, pendingIntent);
+                                         AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
     static boolean isSatisfied(Collection<Integer> days) {

@@ -43,9 +43,9 @@ public class ConnectivityTracker extends SkeletonTracker<ConnectivityEventData> 
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
-                case ConnectivityManager.CONNECTIVITY_ACTION:
-                    check();
-                    break;
+            case ConnectivityManager.CONNECTIVITY_ACTION:
+                check();
+                break;
             }
         }
     };
@@ -75,7 +75,7 @@ public class ConnectivityTracker extends SkeletonTracker<ConnectivityEventData> 
 
     private void check() {
         ConnectivityManager connectivityManager
-                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         determineAndNotify(convertType(activeNetworkInfo));
     }
@@ -85,16 +85,16 @@ public class ConnectivityTracker extends SkeletonTracker<ConnectivityEventData> 
             return TYPE_NOT_CONNECTED;
         }
         switch (activeNetworkInfo.getType()) {
-            case ConnectivityManager.TYPE_WIFI:
-                return TYPE_WIFI;
-            case ConnectivityManager.TYPE_MOBILE:
-                return TYPE_MOBILE;
-            case ConnectivityManager.TYPE_ETHERNET:
-                return TYPE_ETHERNET;
-            case ConnectivityManager.TYPE_BLUETOOTH:
-                return TYPE_BLUETOOTH;
-            case ConnectivityManager.TYPE_VPN:
-                return TYPE_VPN;
+        case ConnectivityManager.TYPE_WIFI:
+            return TYPE_WIFI;
+        case ConnectivityManager.TYPE_MOBILE:
+            return TYPE_MOBILE;
+        case ConnectivityManager.TYPE_ETHERNET:
+            return TYPE_ETHERNET;
+        case ConnectivityManager.TYPE_BLUETOOTH:
+            return TYPE_BLUETOOTH;
+        case ConnectivityManager.TYPE_VPN:
+            return TYPE_VPN;
         }
         return -1;
     }

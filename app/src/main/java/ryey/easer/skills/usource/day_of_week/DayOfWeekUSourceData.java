@@ -77,16 +77,16 @@ public class DayOfWeekUSourceData implements USourceData {
     public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         days.clear();
         switch (format) {
-            default:
-                try {
-                    JSONArray jsonArray = new JSONArray(data);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        days.add(jsonArray.getInt(i));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStorageDataException(e);
+        default:
+            try {
+                JSONArray jsonArray = new JSONArray(data);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    days.add(jsonArray.getInt(i));
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -95,12 +95,12 @@ public class DayOfWeekUSourceData implements USourceData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                JSONArray jsonArray = new JSONArray();
-                for (Integer v : days) {
-                    jsonArray.put(v);
-                }
-                res = jsonArray.toString();
+        default:
+            JSONArray jsonArray = new JSONArray();
+            for (Integer v : days) {
+                jsonArray.put(v);
+            }
+            res = jsonArray.toString();
         }
         return res;
     }
@@ -116,7 +116,7 @@ public class DayOfWeekUSourceData implements USourceData {
     }
 
     public static final Parcelable.Creator<DayOfWeekUSourceData> CREATOR
-            = new Parcelable.Creator<DayOfWeekUSourceData>() {
+    = new Parcelable.Creator<DayOfWeekUSourceData>() {
         public DayOfWeekUSourceData createFromParcel(Parcel in) {
             return new DayOfWeekUSourceData(in);
         }

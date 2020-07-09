@@ -24,9 +24,9 @@ import androidx.collection.ArraySet;
 import java.util.Set;
 
 class CalendarData {
-    static final String[] condition_name = new String[]{
-            "start",
-            "end",
+    static final String[] condition_name = new String[] {
+        "start",
+        "end",
     };
 
     long calendar_id;

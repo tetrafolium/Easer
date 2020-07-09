@@ -53,14 +53,14 @@ public class SendNotificationOperationData implements OperationData {
 
     public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    title = jsonObject.getString(K_TITLE);
-                    content = jsonObject.getString(K_CONTENT);
-                } catch (JSONException e) {
-                    throw new IllegalStorageDataException(e);
-                }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                title = jsonObject.getString(K_TITLE);
+                content = jsonObject.getString(K_CONTENT);
+            } catch (JSONException e) {
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -69,15 +69,15 @@ public class SendNotificationOperationData implements OperationData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put(K_TITLE, title);
-                    jsonObject.put(K_CONTENT, content);
-                } catch (JSONException e) {
-                    throw new IllegalStateException(e);
-                }
-                res = jsonObject.toString();
+        default:
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put(K_TITLE, title);
+                jsonObject.put(K_CONTENT, content);
+            } catch (JSONException e) {
+                throw new IllegalStateException(e);
+            }
+            res = jsonObject.toString();
         }
         return res;
     }
@@ -102,10 +102,10 @@ public class SendNotificationOperationData implements OperationData {
         if (!((SendNotificationOperationData) obj).isValid())
             return false;
         if (!Utils.nullableEqual(title,
-                ((SendNotificationOperationData) obj).title))
+                                 ((SendNotificationOperationData) obj).title))
             return false;
         if (!Utils.nullableEqual(content,
-                ((SendNotificationOperationData) obj).content))
+                                 ((SendNotificationOperationData) obj).content))
             return false;
         return true;
     }
@@ -122,7 +122,7 @@ public class SendNotificationOperationData implements OperationData {
     }
 
     public static final Creator<SendNotificationOperationData> CREATOR
-            = new Creator<SendNotificationOperationData>() {
+    = new Creator<SendNotificationOperationData>() {
         public SendNotificationOperationData createFromParcel(Parcel in) {
             return new SendNotificationOperationData(in);
         }

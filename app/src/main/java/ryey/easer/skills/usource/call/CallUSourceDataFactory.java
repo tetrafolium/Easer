@@ -41,9 +41,9 @@ class CallUSourceDataFactory implements USourceDataFactory<CallUSourceData> {
     public CallUSourceData dummyData() {
         return new CallUSourceData(
 //                CallUSourceData.Direction.both,
-                Collections.singletonList(CallUSourceData.CallState.OFFHOOK),
-                "1234"
-        );
+                   Collections.singletonList(CallUSourceData.CallState.OFFHOOK),
+                   "1234"
+               );
     }
 
     @ValidData

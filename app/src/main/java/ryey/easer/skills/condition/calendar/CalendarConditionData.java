@@ -69,18 +69,18 @@ public class CalendarConditionData implements ConditionData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put(T_calendar_id, data.calendar_id);
-                    jsonObject.put(T_match_type, data.matchType.getId());
-                    jsonObject.put(T_match_pattern, data.matchPattern);
-                    jsonObject.put(T_all_day, data.isAllDayEvent);
-                } catch (JSONException e) {
-                    Logger.e(e, "Error putting %s data", getClass().getSimpleName());
-                    e.printStackTrace();
-                }
-                res = jsonObject.toString();
+        default:
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put(T_calendar_id, data.calendar_id);
+                jsonObject.put(T_match_type, data.matchType.getId());
+                jsonObject.put(T_match_pattern, data.matchPattern);
+                jsonObject.put(T_all_day, data.isAllDayEvent);
+            } catch (JSONException e) {
+                Logger.e(e, "Error putting %s data", getClass().getSimpleName());
+                e.printStackTrace();
+            }
+            res = jsonObject.toString();
         }
         return res;
     }
@@ -118,7 +118,7 @@ public class CalendarConditionData implements ConditionData {
     }
 
     public static final Creator<CalendarConditionData> CREATOR
-            = new Creator<CalendarConditionData>() {
+    = new Creator<CalendarConditionData>() {
         public CalendarConditionData createFromParcel(Parcel in) {
             return new CalendarConditionData(in);
         }

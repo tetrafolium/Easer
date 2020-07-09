@@ -64,36 +64,36 @@ public class BroadcastOperationData implements OperationData {
 
     public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    IntentData intentData = new IntentData();
-                    intentData.action = jsonObject.optString(ACTION, null);
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                IntentData intentData = new IntentData();
+                intentData.action = jsonObject.optString(ACTION, null);
 
-                    JSONArray jsonArray = jsonObject.optJSONArray(CATEGORY);
-                    if ((jsonArray != null) && (jsonArray.length() > 0)) {
-                        intentData.category = new ArrayList<>(jsonArray.length());
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            intentData.category.add(jsonArray.getString(i));
-                        }
+                JSONArray jsonArray = jsonObject.optJSONArray(CATEGORY);
+                if ((jsonArray != null) && (jsonArray.length() > 0)) {
+                    intentData.category = new ArrayList<>(jsonArray.length());
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        intentData.category.add(jsonArray.getString(i));
                     }
-
-                    intentData.type = jsonObject.optString(TYPE, null);
-
-                    String uri = jsonObject.optString(DATA, null);
-                    if (uri != null)
-                        intentData.data = Uri.parse(uri);
-
-                    String strExtras = jsonObject.optString(EXTRAS);
-                    if (strExtras != null) {
-                        intentData.extras = new Extras(strExtras, format, version);
-                    }
-
-                    this.data = intentData;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStorageDataException(e);
                 }
+
+                intentData.type = jsonObject.optString(TYPE, null);
+
+                String uri = jsonObject.optString(DATA, null);
+                if (uri != null)
+                    intentData.data = Uri.parse(uri);
+
+                String strExtras = jsonObject.optString(EXTRAS);
+                if (strExtras != null) {
+                    intentData.extras = new Extras(strExtras, format, version);
+                }
+
+                this.data = intentData;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -102,34 +102,34 @@ public class BroadcastOperationData implements OperationData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res = "";
         switch (format) {
-            default:
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put(ACTION, data.action);
+        default:
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put(ACTION, data.action);
 
-                    if (data.category != null && data.category.size() > 0) {
-                        JSONArray jsonArray_category = new JSONArray();
-                        for (String category : data.category) {
-                            jsonArray_category.put(category);
-                        }
-                        jsonObject.put(CATEGORY, jsonArray_category);
+                if (data.category != null && data.category.size() > 0) {
+                    JSONArray jsonArray_category = new JSONArray();
+                    for (String category : data.category) {
+                        jsonArray_category.put(category);
                     }
-
-                    if (!Utils.isBlank(data.type))
-                        jsonObject.put(TYPE, data.type);
-                    if (data.data != null)
-                        jsonObject.put(DATA, data.data.toString());
-
-                    if (data.extras != null) {
-                        if (data.extras.extras.size() > 0) { // Safety check, because old versions may serialise null extras. Should be removed in future.
-                            jsonObject.put(EXTRAS, data.extras.serialize(format));
-                        }
-                    }
-
-                    res = jsonObject.toString();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    jsonObject.put(CATEGORY, jsonArray_category);
                 }
+
+                if (!Utils.isBlank(data.type))
+                    jsonObject.put(TYPE, data.type);
+                if (data.data != null)
+                    jsonObject.put(DATA, data.data.toString());
+
+                if (data.extras != null) {
+                    if (data.extras.extras.size() > 0) { // Safety check, because old versions may serialise null extras. Should be removed in future.
+                        jsonObject.put(EXTRAS, data.extras.serialize(format));
+                    }
+                }
+
+                res = jsonObject.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         return res;
     }
@@ -169,7 +169,7 @@ public class BroadcastOperationData implements OperationData {
     }
 
     public static final Parcelable.Creator<BroadcastOperationData> CREATOR
-            = new Parcelable.Creator<BroadcastOperationData>() {
+    = new Parcelable.Creator<BroadcastOperationData>() {
         public BroadcastOperationData createFromParcel(Parcel in) {
             return new BroadcastOperationData(in);
         }

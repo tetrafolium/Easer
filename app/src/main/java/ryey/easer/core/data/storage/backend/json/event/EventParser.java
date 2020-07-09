@@ -49,7 +49,7 @@ public class EventParser implements Parser<EventStructure> {
             if (plugin == null)
                 throw new IllegalStorageDataException("Event skill not found");
             EventData eventData = plugin.dataFactory()
-                    .parse(jsonObject_situation.getString(C.DATA), PluginDataFormat.JSON, version);
+                                  .parse(jsonObject_situation.getString(C.DATA), PluginDataFormat.JSON, version);
             return new EventStructure(version, name, eventData);
         } catch (JSONException e) {
             throw new IllegalStorageDataException(e);

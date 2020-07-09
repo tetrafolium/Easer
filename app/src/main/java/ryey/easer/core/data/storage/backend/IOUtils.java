@@ -44,11 +44,10 @@ public class IOUtils {
                 throw new IllegalStateException("Given path exists and is not a dir:" + sub);
             else
                 return subdir;
+        else if (!subdir.mkdir())
+            throw new IllegalStateException("Unable to create subdir in the given path:" + sub);
         else
-            if (!subdir.mkdir())
-                throw new IllegalStateException("Unable to create subdir in the given path:" + sub);
-            else
-                return subdir;
+            return subdir;
     }
 
     public static boolean fileExists(File dir, String name) {

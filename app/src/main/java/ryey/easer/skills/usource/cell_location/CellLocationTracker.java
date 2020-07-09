@@ -37,8 +37,8 @@ public class CellLocationTracker extends SkeletonTracker<CellLocationUSourceData
     private CellLocationListener cellLocationListener = new CellLocationListener();
 
     CellLocationTracker(Context context, CellLocationUSourceData data,
-                   @NonNull PendingIntent event_positive,
-                   @NonNull PendingIntent event_negative) {
+                        @NonNull PendingIntent event_positive,
+                        @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
 
         if (telephonyManager == null) {

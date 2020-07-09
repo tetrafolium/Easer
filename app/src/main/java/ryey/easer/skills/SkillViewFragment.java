@@ -88,9 +88,9 @@ public abstract class SkillViewFragment<T extends StorageData> extends SkillView
      */
     private void checkDataType(@ValidData @NonNull T data) throws IllegalArgumentTypeException {
         Class expectedDataClass = LocalSkillRegistry.getInstance()
-                .all().findSkill(this)
-                .dataFactory()
-                .dataClass();
+                                  .all().findSkill(this)
+                                  .dataFactory()
+                                  .dataClass();
         if (data.getClass().equals(expectedDataClass))
             return;
         throw new IllegalArgumentTypeException(data.getClass(), expectedDataClass);

@@ -37,7 +37,7 @@ class BTDeviceUSourceDataFactory implements USourceDataFactory<BTDeviceUSourceDa
     @NonNull
     @Override
     public BTDeviceUSourceData dummyData() {
-        return new BTDeviceUSourceData(new String[]{"device1", "dev2"});
+        return new BTDeviceUSourceData(new String[] {"device1", "dev2"});
     }
 
     @ValidData

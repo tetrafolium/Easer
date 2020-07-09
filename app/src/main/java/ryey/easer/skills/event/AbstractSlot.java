@@ -107,8 +107,8 @@ public abstract class AbstractSlot<T extends EventData> implements Slot<T> {
         satisfied = newSatisfiedState;
         //FIXME: remove the explicit use of core package (Lotus)
         Intent notifyLotusIntent = satisfied
-                ? Lotus.NotifyIntentPrototype.obtainPositiveIntent(notifyLotusData)
-                : Lotus.NotifyIntentPrototype.obtainNegativeIntent(notifyLotusData);
+                                   ? Lotus.NotifyIntentPrototype.obtainPositiveIntent(notifyLotusData)
+                                   : Lotus.NotifyIntentPrototype.obtainNegativeIntent(notifyLotusData);
         notifyLotusIntent.putExtra(Lotus.EXTRA_DYNAMICS_PROPERTIES, dynamics);
         context.sendBroadcast(notifyLotusIntent);
         Logger.d("finished changeSatisfiedState to %s", newSatisfiedState);

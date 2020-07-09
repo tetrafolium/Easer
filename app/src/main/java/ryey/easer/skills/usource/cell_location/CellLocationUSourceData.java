@@ -45,18 +45,18 @@ public class CellLocationUSourceData implements USourceData {
 
     CellLocationUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                try {
-                    JSONArray jsonArray = new JSONArray(data);
-                    String[] strings = new String[jsonArray.length()];
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        strings[i] = jsonArray.getString(i);
-                    }
-                    setFromMultiple(strings);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStorageDataException(e);
+        default:
+            try {
+                JSONArray jsonArray = new JSONArray(data);
+                String[] strings = new String[jsonArray.length()];
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    strings[i] = jsonArray.getString(i);
                 }
+                setFromMultiple(strings);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -75,12 +75,12 @@ public class CellLocationUSourceData implements USourceData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                JSONArray jsonArray = new JSONArray();
-                for (CellLocationSingleData singleData : data) {
-                    jsonArray.put(singleData.toString());
-                }
-                res = jsonArray.toString();
+        default:
+            JSONArray jsonArray = new JSONArray();
+            for (CellLocationSingleData singleData : data) {
+                jsonArray.put(singleData.toString());
+            }
+            res = jsonArray.toString();
         }
         return res;
     }
@@ -96,7 +96,7 @@ public class CellLocationUSourceData implements USourceData {
     @Nullable
     @Override
     public Dynamics[] dynamics() {
-        return new Dynamics[]{new CellLocationDynamics()};
+        return new Dynamics[] {new CellLocationDynamics()};
     }
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
@@ -134,7 +134,7 @@ public class CellLocationUSourceData implements USourceData {
     }
 
     public static final Creator<CellLocationUSourceData> CREATOR
-            = new Creator<CellLocationUSourceData>() {
+    = new Creator<CellLocationUSourceData>() {
         public CellLocationUSourceData createFromParcel(Parcel in) {
             return new CellLocationUSourceData(in);
         }

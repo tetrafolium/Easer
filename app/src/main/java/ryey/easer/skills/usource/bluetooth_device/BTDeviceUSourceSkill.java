@@ -61,7 +61,7 @@ public class BTDeviceUSourceSkill implements USourceSkill<BTDeviceUSourceData> {
     @Override
     public Boolean checkPermissions(@NonNull Context context) {
         return SkillUtils.checkPermission(context,
-                Manifest.permission.BLUETOOTH);
+                                          Manifest.permission.BLUETOOTH);
     }
 
     @Override

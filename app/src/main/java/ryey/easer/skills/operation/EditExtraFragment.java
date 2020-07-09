@@ -55,8 +55,8 @@ public class EditExtraFragment extends Fragment {
             public void onClick(View v) {
                 ExtraItemFragment fragment = new ExtraItemFragment();
                 getChildFragmentManager().beginTransaction()
-                        .add(R.id.layout_extras, fragment)
-                        .commit();
+                .add(R.id.layout_extras, fragment)
+                .commit();
                 m_fragment_extra.add(fragment);
             }
         });

@@ -35,8 +35,8 @@ public class ConditionDataStorage extends AbstractDataStorage<ConditionStructure
 
     public ConditionDataStorage(Context context) {
         super(context, new ConditionDataStorageBackendInterface[] {
-                new JsonConditionDataStorageBackend(context),
-        });
+                  new JsonConditionDataStorageBackend(context),
+              });
     }
 
     @Override
@@ -91,7 +91,7 @@ public class ConditionDataStorage extends AbstractDataStorage<ConditionStructure
             if (eventData instanceof ConditionEventEventData) {
                 if (oldName.equals(((ConditionEventEventData) eventData).conditionName)) {
                     ConditionEventEventData newEventData =
-                            new ConditionEventEventData((ConditionEventEventData) eventData, newName);
+                        new ConditionEventEventData((ConditionEventEventData) eventData, newName);
                     event.setEventData(newEventData);
                     eventDataStorage.update(event);
                 }
@@ -108,7 +108,7 @@ public class ConditionDataStorage extends AbstractDataStorage<ConditionStructure
                     EventData eventData = event.getEventData();
                     if (eventData instanceof ConditionEventEventData) {
                         ConditionEventEventData newEventData =
-                                new ConditionEventEventData((ConditionEventEventData) eventData, newName);
+                            new ConditionEventEventData((ConditionEventEventData) eventData, newName);
                         event.setEventData(newEventData);
                         script.setEvent(event);
                         scriptDataStorage.update(script);

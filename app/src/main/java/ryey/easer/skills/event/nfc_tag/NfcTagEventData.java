@@ -56,7 +56,7 @@ public class NfcTagEventData extends AbstractEventData {
         byte[] data = new byte[len / 2];
         for (int i = 0; i < len; i += 2) {
             data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
-                    + Character.digit(s.charAt(i+1), 16));
+                                  + Character.digit(s.charAt(i+1), 16));
         }
         return data;
     }
@@ -100,15 +100,15 @@ public class NfcTagEventData extends AbstractEventData {
 
     public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    String tag_id_str = jsonObject.getString(K_ID);
-                    id = hexString2byteArray(tag_id_str);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStorageDataException(e);
-                }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                String tag_id_str = jsonObject.getString(K_ID);
+                id = hexString2byteArray(tag_id_str);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -117,15 +117,15 @@ public class NfcTagEventData extends AbstractEventData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put(K_ID, byteArray2hexString(id));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStateException();
-                }
-                res = jsonObject.toString();
+        default:
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put(K_ID, byteArray2hexString(id));
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStateException();
+            }
+            res = jsonObject.toString();
         }
         return res;
     }
@@ -142,7 +142,7 @@ public class NfcTagEventData extends AbstractEventData {
     }
 
     public static final Creator<NfcTagEventData> CREATOR
-            = new Creator<NfcTagEventData>() {
+    = new Creator<NfcTagEventData>() {
         public NfcTagEventData createFromParcel(Parcel in) {
             return new NfcTagEventData(in);
         }

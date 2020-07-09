@@ -53,5 +53,5 @@ public interface EventSkill<T extends EventData> extends Skill<T>, SourceCategor
      * See {@link Slot} for more information
      */
     Slot<T> slot(@NonNull Context context, @ValidData @NonNull T data,
-                         boolean retriggerable, boolean persistent);
+                 boolean retriggerable, boolean persistent);
 }

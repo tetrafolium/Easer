@@ -38,21 +38,21 @@ public class ReusableDataTest {
 
     @Test
     public void testSetAndGet() throws Exception {
-        for (Boolean state : new Boolean[]{true, false}) {
+        for (Boolean state : new Boolean[] {true, false}) {
             class IBooleanOperationData extends BooleanOperationData {}
             BooleanOperationData data0 = new IBooleanOperationData();
             data0.set(state);
             assertEquals(data0.state, state);
         }
 
-        for (int level : new int[]{-100, 10, 101}) {
+        for (int level : new int[] {-100, 10, 101}) {
             class IIntegerOperationData extends IntegerOperationData {}
             IntegerOperationData data0 = new IIntegerOperationData();
             data0.set(level);
             assertEquals((int) data0.get(), level);
         }
 
-        for (String str : new String[]{"mystr1", "mystr2"}) {
+        for (String str : new String[] {"mystr1", "mystr2"}) {
             class IStringOperationData extends StringOperationData {
                 @NonNull
                 @Override
@@ -69,7 +69,7 @@ public class ReusableDataTest {
 
     @Test
     public void testIsValid() throws Exception {
-        for (Boolean state : new Boolean[]{true, false, null}) {
+        for (Boolean state : new Boolean[] {true, false, null}) {
             class IBooleanOperationData extends BooleanOperationData {}
             BooleanOperationData data0 = new IBooleanOperationData();
             if (state != null)
@@ -77,9 +77,9 @@ public class ReusableDataTest {
             assertTrue(data0.isValid() == (state != null));
         }
 
-        for (final int ilbound : new int[]{0, 4}) {
-            for (final int irbound : new int[]{90, 100}) {
-                for (int level : new int[]{-100, ilbound, 10, irbound, 101}) {
+        for (final int ilbound : new int[] {0, 4}) {
+            for (final int irbound : new int[] {90, 100}) {
+                for (int level : new int[] {-100, ilbound, 10, irbound, 101}) {
                     class IIntegerOperationData extends IntegerOperationData {
                         IIntegerOperationData(int lbound, int rbound) {
                             this.lbound = lbound;

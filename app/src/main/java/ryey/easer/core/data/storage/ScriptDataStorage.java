@@ -40,8 +40,8 @@ public class ScriptDataStorage extends AbstractDataStorage<ScriptStructure, Scri
 
     public ScriptDataStorage(Context context) {
         super(context, new ScriptDataStorageBackendInterface[] {
-            new JsonScriptDataStorageBackend(context),
-        });
+                  new JsonScriptDataStorageBackend(context),
+              });
     }
 
     @Override

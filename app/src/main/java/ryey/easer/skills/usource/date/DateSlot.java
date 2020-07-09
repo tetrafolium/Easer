@@ -62,7 +62,7 @@ public class DateSlot extends SelfNotifiableSlot<DateUSourceData> {
         super.listen();
         if (calendar != null) {
             mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_DAY, notifySelfIntent_positive);
+                                              AlarmManager.INTERVAL_DAY, notifySelfIntent_positive);
         }
     }
 

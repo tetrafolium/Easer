@@ -34,13 +34,13 @@ class CalendarHelper {
 
     static String getCalendarName(ContentResolver contentResolver, long calendar_id) {
         Uri uri = CalendarContract.Calendars.CONTENT_URI;
-        String[] PROJECTION = new String[]{
-                CalendarContract.Calendars._ID,
-                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+        String[] PROJECTION = new String[] {
+            CalendarContract.Calendars._ID,
+            CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
         };
         String SELECTION = "((" + CalendarContract.Calendars._ID + " = ?))";
-        String[] ARGS = new String[]{
-                String.valueOf(calendar_id),
+        String[] ARGS = new String[] {
+            String.valueOf(calendar_id),
         };
         Cursor cur = contentResolver.query(uri, PROJECTION, SELECTION, ARGS, null);
         if (cur == null)
@@ -83,24 +83,24 @@ class CalendarHelper {
         ContentUris.appendId(instance_uri, current_time + DateUtils.DAY_IN_MILLIS * days);
 
         final String[] INSTANCE_PROJECTION = new String[] {
-                CalendarContract.Instances.TITLE,
-                CalendarContract.Instances.BEGIN,
-                CalendarContract.Instances.END,
-                CalendarContract.Instances.ALL_DAY,
+            CalendarContract.Instances.TITLE,
+            CalendarContract.Instances.BEGIN,
+            CalendarContract.Instances.END,
+            CalendarContract.Instances.ALL_DAY,
         };
         String allDayValues = data.isAllDayEvent ? "1" : "%";
         String instance_selection = "((" + CalendarContract.Instances.CALENDAR_ID + " IS ?)" +
-                " AND (" + CalendarContract.Instances.TITLE + " LIKE ?)" +
-                " AND (" + CalendarContract.Instances.ALL_DAY + " LIKE ?)" +
-                ")";
+                                    " AND (" + CalendarContract.Instances.TITLE + " LIKE ?)" +
+                                    " AND (" + CalendarContract.Instances.ALL_DAY + " LIKE ?)" +
+                                    ")";
         String[] instance_selectionArgs = new String[] {
-                String.valueOf(data.calendar_id),
-                data.matchPattern,
-                allDayValues,
+            String.valueOf(data.calendar_id),
+            data.matchPattern,
+            allDayValues,
         };
         Uri uri = instance_uri.build();
         Cursor cur = cr.query(uri, INSTANCE_PROJECTION, instance_selection, instance_selectionArgs,
-                sortMethod);
+                              sortMethod);
         if (cur == null)
             return null;
 
@@ -109,10 +109,10 @@ class CalendarHelper {
         cur.moveToFirst();
         for (int i = 0; i < len; i++) {
             res[i] = new CalendarEvent(
-                    cur.getString(0),
-                    cur.getLong(1),
-                    cur.getLong(2),
-                    cur.getInt(3) == 1
+                cur.getString(0),
+                cur.getLong(1),
+                cur.getLong(2),
+                cur.getInt(3) == 1
             );
             cur.moveToNext();
         }

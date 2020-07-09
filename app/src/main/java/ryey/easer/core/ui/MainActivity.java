@@ -48,7 +48,7 @@ import ryey.easer.core.ui.version_n_info.Info;
 import ryey.easer.core.ui.version_n_info.Version;
 
 public class MainActivity extends CommonBaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+    implements NavigationView.OnNavigationItemSelectedListener {
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
@@ -80,19 +80,19 @@ public class MainActivity extends CommonBaseActivity
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             navigationView.setCheckedItem(R.id.nav_outline);
             Fragment fragment = new OutlineFragment();
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content_main, fragment, FRAGMENT_OUTLINE)
-                    .commit();
+            .replace(R.id.content_main, fragment, FRAGMENT_OUTLINE)
+            .commit();
         }
 
         Info.INSTANCE.welcome(this);
@@ -152,25 +152,25 @@ public class MainActivity extends CommonBaseActivity
             if (fragment == null)
                 fragment = new OutlineFragment();
             manager.beginTransaction()
-                    .replace(R.id.content_main, fragment, tag)
-                    .addToBackStack(bs_tag)
-                    .commit();
+            .replace(R.id.content_main, fragment, tag)
+            .addToBackStack(bs_tag)
+            .commit();
         } else if (id == R.id.nav_pivot) {
             fragment = manager.findFragmentByTag(tag);
             if (fragment == null)
                 fragment = new PivotFragment();
             manager.beginTransaction()
-                    .replace(R.id.content_main, fragment, tag)
-                    .addToBackStack(bs_tag)
-                    .commit();
+            .replace(R.id.content_main, fragment, tag)
+            .addToBackStack(bs_tag)
+            .commit();
         } else if (id == R.id.nav_data) {
             fragment = manager.findFragmentByTag(tag);
             if (fragment == null)
                 fragment = new DataCollectionFragment();
             manager.beginTransaction()
-                    .replace(R.id.content_main, fragment, tag)
-                    .addToBackStack(bs_tag)
-                    .commit();
+            .replace(R.id.content_main, fragment, tag)
+            .addToBackStack(bs_tag)
+            .commit();
         } else if (id == R.id.nav_about) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
@@ -182,24 +182,24 @@ public class MainActivity extends CommonBaseActivity
             if (fragment == null)
                 fragment = ActivityHistoryFragment.full();
             manager.beginTransaction()
-                    .replace(R.id.content_main, fragment, tag)
-                    .addToBackStack(bs_tag)
-                    .commit();
+            .replace(R.id.content_main, fragment, tag)
+            .addToBackStack(bs_tag)
+            .commit();
         }
     }
 
     private static class NavTag {
         private static final int[] nav_ids = {
-                R.id.nav_outline,
-                R.id.nav_pivot,
-                R.id.nav_data,
-                R.id.nav_log,
+            R.id.nav_outline,
+            R.id.nav_pivot,
+            R.id.nav_data,
+            R.id.nav_log,
         };
         private static final String[] fragment_tags = {
-                FRAGMENT_OUTLINE,
-                FRAGMENT_PIVOT,
-                FRAGMENT_DATA,
-                FRAGMENT_LOG,
+            FRAGMENT_OUTLINE,
+            FRAGMENT_PIVOT,
+            FRAGMENT_DATA,
+            FRAGMENT_LOG,
         };
 
         private @Nullable Integer findId(String tag) {

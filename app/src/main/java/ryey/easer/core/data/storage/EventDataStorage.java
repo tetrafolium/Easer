@@ -32,8 +32,8 @@ public class EventDataStorage extends AbstractDataStorage<EventStructure, EventD
 
     public EventDataStorage(Context context) {
         super(context, new EventDataStorageBackendInterface[] {
-                new JsonEventDataStorageBackend(context),
-        });
+                  new JsonEventDataStorageBackend(context),
+              });
     }
 
     @Override

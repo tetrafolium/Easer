@@ -113,9 +113,9 @@ public final class DataListContainerFragment extends Fragment implements DataLis
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_help) {
             Dialog dialog = new AlertDialog.Builder(getContext())
-                    .setNeutralButton(R.string.button_ok, null)
-                    .setMessage(currentDataList.helpTextRes())
-                    .create();
+            .setNeutralButton(R.string.button_ok, null)
+            .setMessage(currentDataList.helpTextRes())
+            .create();
             dialog.show();
             ((TextView) dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
             return true;
@@ -155,31 +155,31 @@ public final class DataListContainerFragment extends Fragment implements DataLis
     public void switchContent(@NonNull ListType type) {
         this.listType = type;
         switch (type) {
-            case script:
-                currentFragment = new ScriptListFragment();
-                break;
-            case script_tree:
-                currentFragment = new ScriptTreeListFragment();
-                break;
-            case event:
-                currentFragment = new EventListFragment();
-                break;
-            case condition:
-                currentFragment = new ConditionListFragment();
-                break;
-            case profile:
-                currentFragment = new ProfileListFragment();
-                break;
-            default:
-                throw new IllegalStateException("Unexpected List Fragment type");
+        case script:
+            currentFragment = new ScriptListFragment();
+            break;
+        case script_tree:
+            currentFragment = new ScriptTreeListFragment();
+            break;
+        case event:
+            currentFragment = new EventListFragment();
+            break;
+        case condition:
+            currentFragment = new ConditionListFragment();
+            break;
+        case profile:
+            currentFragment = new ProfileListFragment();
+            break;
+        default:
+            throw new IllegalStateException("Unexpected List Fragment type");
         }
         currentDataList = (DataListInterface) currentFragment;
         currentDataList.registerContainer(this);
 
         FragmentManager fragmentManager = getChildFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.data_list, currentFragment)
-                .commit();
+        .replace(R.id.data_list, currentFragment)
+        .commit();
     }
 
     @Override

@@ -142,7 +142,7 @@ public final class AsyncHelper {
                     binder.triggerProfile(taskSpec.profileName);
                 } else {
                     binder.triggerProfile(taskSpec.profileName, taskSpec.scriptName,
-                            taskSpec.dynamicsProperties, taskSpec.dynamicsLink);
+                                          taskSpec.dynamicsProperties, taskSpec.dynamicsLink);
                 }
                 return null;
             });

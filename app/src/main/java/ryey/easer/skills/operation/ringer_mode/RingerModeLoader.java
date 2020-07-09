@@ -56,18 +56,18 @@ public class RingerModeLoader extends OperationLoader<RingerModeOperationData> {
     private static boolean amSetMode(AudioManager audioManager, RingerMode mode) {
         int am_mode;
         switch (mode) {
-            case silent:
-                am_mode = AudioManager.RINGER_MODE_SILENT;
-                break;
-            case vibrate:
-                am_mode = AudioManager.RINGER_MODE_VIBRATE;
-                break;
-            case normal:
-                am_mode = AudioManager.RINGER_MODE_NORMAL;
-                break;
-            default:
-                Logger.w("Running on below Lollipop, but ringer mode %s found", mode);
-                return false;
+        case silent:
+            am_mode = AudioManager.RINGER_MODE_SILENT;
+            break;
+        case vibrate:
+            am_mode = AudioManager.RINGER_MODE_VIBRATE;
+            break;
+        case normal:
+            am_mode = AudioManager.RINGER_MODE_NORMAL;
+            break;
+        default:
+            Logger.w("Running on below Lollipop, but ringer mode %s found", mode);
+            return false;
         }
         audioManager.setRingerMode(am_mode);
         if (audioManager.getRingerMode() == am_mode) {

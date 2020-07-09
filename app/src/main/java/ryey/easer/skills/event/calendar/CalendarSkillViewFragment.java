@@ -92,20 +92,20 @@ public class CalendarSkillViewFragment extends SkillViewFragment<CalendarEventDa
 
                 final CursorLoader cursorLoader = new CursorLoader(getContext(),
                         CalendarContract.Calendars.CONTENT_URI,
-                        new String[]{
-                                CalendarContract.Calendars._ID,
-                                CalendarContract.Calendars.ACCOUNT_NAME,
-                                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+                        new String[] {
+                            CalendarContract.Calendars._ID,
+                            CalendarContract.Calendars.ACCOUNT_NAME,
+                            CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
                         },
                         null, null, null);
                 final SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(
-                        getContext(), android.R.layout.simple_list_item_2,
-                        cursorLoader.loadInBackground(),
-                        new String[]{
-                                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
-                                CalendarContract.Calendars.ACCOUNT_NAME,
-                        },
-                        new int[]{android.R.id.text1, android.R.id.text2}, 0) {
+                    getContext(), android.R.layout.simple_list_item_2,
+                    cursorLoader.loadInBackground(),
+                    new String[] {
+                        CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+                        CalendarContract.Calendars.ACCOUNT_NAME,
+                    },
+                new int[] {android.R.id.text1, android.R.id.text2}, 0) {
                     @Override
                     public void setViewText(TextView v, String text) {
                         if (v.getId() == android.R.id.text2)
@@ -150,7 +150,7 @@ public class CalendarSkillViewFragment extends SkillViewFragment<CalendarEventDa
         CalendarData calendarData = data.data;
         calendar_id = calendarData.calendar_id;
         tv_calendar_name.setText(CalendarHelper.getCalendarName(
-                getContext().getContentResolver(), calendar_id));
+                                     getContext().getContentResolver(), calendar_id));
         for (int i = 0; i < CalendarData.condition_name.length; i++) {
             cb_conditions[i].setChecked(calendarData.conditions.contains(CalendarData.condition_name[i]));
         }

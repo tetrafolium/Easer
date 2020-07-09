@@ -59,9 +59,9 @@ public abstract class AbstractEditDataActivity<T extends Named & Verifiable & Wi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_save:
-                persistChange();
-                return true;
+        case R.id.action_save:
+            persistChange();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -157,15 +157,15 @@ public abstract class AbstractEditDataActivity<T extends Named & Verifiable & Wi
                         return false;
                     }
                     switch (purpose) {
-                        case add:
-                            success = storage.add(newData);
-                            break;
-                        case edit:
-                            success = storage.edit(oldName, newData);
-                            break;
-                        default:
-                            Logger.wtf("Unexpected purpose: %s", purpose);
-                            throw new UnsupportedOperationException("Unknown Purpose");
+                    case add:
+                        success = storage.add(newData);
+                        break;
+                    case edit:
+                        success = storage.edit(oldName, newData);
+                        break;
+                    default:
+                        Logger.wtf("Unexpected purpose: %s", purpose);
+                        throw new UnsupportedOperationException("Unknown Purpose");
                     }
                 } catch (InvalidDataInputException e) {
                     Toast.makeText(this, getString(R.string.prompt_data_illegal), Toast.LENGTH_LONG).show();

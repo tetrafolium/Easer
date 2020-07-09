@@ -68,11 +68,11 @@ public class NotificationEventData extends AbstractEventData {
     @Nullable
     @Override
     public Dynamics[] dynamics() {
-        return new Dynamics[]{
-                new AppDynamics(),
-                new TitleDynamics(),
-                new ContentDynamics(),
-        };
+        return new Dynamics[] {
+                   new AppDynamics(),
+                   new TitleDynamics(),
+                   new ContentDynamics(),
+               };
     }
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
@@ -95,15 +95,15 @@ public class NotificationEventData extends AbstractEventData {
 
     public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    app = jsonObject.optString(K_APP, null);
-                    title = jsonObject.optString(K_TITLE, null);
-                    content = jsonObject.optString(K_CONTENT, null);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                app = jsonObject.optString(K_APP, null);
+                title = jsonObject.optString(K_TITLE, null);
+                content = jsonObject.optString(K_CONTENT, null);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -112,19 +112,19 @@ public class NotificationEventData extends AbstractEventData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    if (!Utils.isBlank(app))
-                        jsonObject.put(K_APP, app);
-                    if (!Utils.isBlank(title))
-                        jsonObject.put(K_TITLE, title);
-                    if (!Utils.isBlank(content))
-                        jsonObject.put(K_CONTENT, content);
-                } catch (JSONException e) {
-                    throw new IllegalStateException(e);
-                }
-                res = jsonObject.toString();
+        default:
+            JSONObject jsonObject = new JSONObject();
+            try {
+                if (!Utils.isBlank(app))
+                    jsonObject.put(K_APP, app);
+                if (!Utils.isBlank(title))
+                    jsonObject.put(K_TITLE, title);
+                if (!Utils.isBlank(content))
+                    jsonObject.put(K_CONTENT, content);
+            } catch (JSONException e) {
+                throw new IllegalStateException(e);
+            }
+            res = jsonObject.toString();
         }
         return res;
     }
@@ -142,7 +142,7 @@ public class NotificationEventData extends AbstractEventData {
     }
 
     public static final Creator<NotificationEventData> CREATOR
-            = new Creator<NotificationEventData>() {
+    = new Creator<NotificationEventData>() {
         public NotificationEventData createFromParcel(Parcel in) {
             return new NotificationEventData(in);
         }

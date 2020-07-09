@@ -42,7 +42,7 @@ public class CommandOperationData extends StringOperationData {
     }
 
     public static final Parcelable.Creator<CommandOperationData> CREATOR
-            = new Parcelable.Creator<CommandOperationData>() {
+    = new Parcelable.Creator<CommandOperationData>() {
         public CommandOperationData createFromParcel(Parcel in) {
             return new CommandOperationData(in);
         }

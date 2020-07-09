@@ -34,7 +34,9 @@ import ryey.easer.skills.reusable.IntegerData;
 
 public abstract class IntegerOperationData extends IntegerData implements OperationData {
 
-    protected IntegerOperationData() {super();}
+    protected IntegerOperationData() {
+        super();
+    }
 
     protected IntegerOperationData(@NonNull Integer level) {
         super(level);
@@ -46,9 +48,9 @@ public abstract class IntegerOperationData extends IntegerData implements Operat
 
     public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                Integer level = Integer.valueOf(data);
-                set(level);
+        default:
+            Integer level = Integer.valueOf(data);
+            set(level);
         }
     }
 
@@ -57,8 +59,8 @@ public abstract class IntegerOperationData extends IntegerData implements Operat
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                res = get().toString();
+        default:
+            res = get().toString();
         }
         return res;
     }

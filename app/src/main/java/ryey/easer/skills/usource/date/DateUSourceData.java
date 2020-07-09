@@ -69,27 +69,27 @@ public class DateUSourceData implements USourceData {
 
     DateUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
                 try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    try {
-                        this.date = TextToDate(jsonObject.getString(K_DATE));
-                    } catch (ParseException e) {
-                        throw new IllegalStorageDataException(e);
-                    }
-                    this.rel = Rel.valueOf(jsonObject.getString(K_REL));
-                } catch (JSONException e) {
-                    if (version < C.VERSION_UNIFORMED_SOURCE) {
-                        try {
-                            this.date = TextToDate(data);
-                        } catch (ParseException e1) {
-                            throw new IllegalStorageDataException(e1);
-                        }
-                        this.rel = Rel.after;
-                    } else {
-                        throw new IllegalStorageDataException(e);
-                    }
+                    this.date = TextToDate(jsonObject.getString(K_DATE));
+                } catch (ParseException e) {
+                    throw new IllegalStorageDataException(e);
                 }
+                this.rel = Rel.valueOf(jsonObject.getString(K_REL));
+            } catch (JSONException e) {
+                if (version < C.VERSION_UNIFORMED_SOURCE) {
+                    try {
+                        this.date = TextToDate(data);
+                    } catch (ParseException e1) {
+                        throw new IllegalStorageDataException(e1);
+                    }
+                    this.rel = Rel.after;
+                } else {
+                    throw new IllegalStorageDataException(e);
+                }
+            }
         }
 
     }
@@ -127,16 +127,16 @@ public class DateUSourceData implements USourceData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(K_DATE, DateToText(date));
-                    jsonObject.put(K_REL, rel.name());
-                    res = jsonObject.toString();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStateException("Failed to serialize DateConditionData");
-                }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put(K_DATE, DateToText(date));
+                jsonObject.put(K_REL, rel.name());
+                res = jsonObject.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStateException("Failed to serialize DateConditionData");
+            }
         }
         return res;
     }
@@ -153,7 +153,7 @@ public class DateUSourceData implements USourceData {
     }
 
     public static final Parcelable.Creator<DateUSourceData> CREATOR
-            = new Parcelable.Creator<DateUSourceData>() {
+    = new Parcelable.Creator<DateUSourceData>() {
         public DateUSourceData createFromParcel(Parcel in) {
             return new DateUSourceData(in);
         }

@@ -45,7 +45,9 @@ public class CalendarConditionSkill implements ConditionSkill<CalendarConditionD
     }
 
     @Override
-    public int name() { return R.string.event_calendar; }
+    public int name() {
+        return R.string.event_calendar;
+    }
 
     @Override
     public boolean isCompatible(@NonNull final Context context) {
@@ -84,9 +86,9 @@ public class CalendarConditionSkill implements ConditionSkill<CalendarConditionD
     @NonNull
     @Override
     public Tracker<CalendarConditionData> tracker(@NonNull Context context,
-                                                 @ValidData @NonNull CalendarConditionData data,
-                                                 @NonNull PendingIntent event_positive,
-                                                 @NonNull PendingIntent event_negative) {
+            @ValidData @NonNull CalendarConditionData data,
+            @NonNull PendingIntent event_positive,
+            @NonNull PendingIntent event_negative) {
         return new CalendarTracker(context, data, event_positive, event_negative);
     }
 

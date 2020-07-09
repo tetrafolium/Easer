@@ -37,7 +37,7 @@ class CellLocationUSourceDataFactory implements USourceDataFactory<CellLocationU
     @NonNull
     @Override
     public CellLocationUSourceData dummyData() {
-        return new CellLocationUSourceData(new String[]{"1-2", "2-3"});
+        return new CellLocationUSourceData(new String[] {"1-2", "2-3"});
     }
 
     @ValidData

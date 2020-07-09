@@ -93,7 +93,7 @@ public class UiModeOperationData implements OperationData {
     }
 
     public static final Creator<UiModeOperationData> CREATOR
-            = new Creator<UiModeOperationData>() {
+    = new Creator<UiModeOperationData>() {
         public UiModeOperationData createFromParcel(Parcel in) {
             return new UiModeOperationData(in);
         }

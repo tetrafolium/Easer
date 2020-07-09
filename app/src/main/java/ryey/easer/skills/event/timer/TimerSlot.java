@@ -92,14 +92,14 @@ public class TimerSlot extends SelfNotifiableSlot<TimerEventData> {
                 Calendar now = Calendar.getInstance();
                 if (eventData.exact) {
                     mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                            now.getTimeInMillis() + INTERVAL_MINUTE * eventData.time,
-                            INTERVAL_MINUTE * eventData.time,
-                            notifySelfIntent_positive);
+                                               now.getTimeInMillis() + INTERVAL_MINUTE * eventData.time,
+                                               INTERVAL_MINUTE * eventData.time,
+                                               notifySelfIntent_positive);
                 } else {
                     mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
-                            now.getTimeInMillis() + INTERVAL_MINUTE * eventData.time,
-                            INTERVAL_MINUTE * eventData.time,
-                            notifySelfIntent_positive);
+                                                      now.getTimeInMillis() + INTERVAL_MINUTE * eventData.time,
+                                                      INTERVAL_MINUTE * eventData.time,
+                                                      notifySelfIntent_positive);
                 }
             }
         }

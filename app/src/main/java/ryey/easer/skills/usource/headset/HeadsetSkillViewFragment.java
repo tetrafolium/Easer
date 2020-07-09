@@ -36,14 +36,14 @@ import ryey.easer.skills.SkillViewFragment;
 
 public class HeadsetSkillViewFragment extends SkillViewFragment<HeadsetUSourceData> {
     private static final int[] ids_hs_state = {
-            R.id.radioButton_plug_in,
-            R.id.radioButton_plug_out,
-            R.id.radioButton_plug_any,
+        R.id.radioButton_plug_in,
+        R.id.radioButton_plug_out,
+        R.id.radioButton_plug_any,
     };
     private static final int[] ids_hs_type = {
-            R.id.radioButton_micro_true,
-            R.id.radioButton_micro_false,
-            R.id.radioButton_micro_any,
+        R.id.radioButton_micro_true,
+        R.id.radioButton_micro_false,
+        R.id.radioButton_micro_any,
     };
 
     private RadioButton[] radioButtons_hs_action = new RadioButton[ids_hs_state.length];
@@ -82,8 +82,8 @@ public class HeadsetSkillViewFragment extends SkillViewFragment<HeadsetUSourceDa
     @Override
     public HeadsetUSourceData getData() throws InvalidDataInputException {
         return new HeadsetUSourceData(
-                HeadsetUSourceData.HeadsetState.values()[Utils.checkedIndexFirst(radioButtons_hs_action)],
-                HeadsetUSourceData.HeadsetType.values()[Utils.checkedIndexFirst(radioButtons_hs_type)]
-        );
+                   HeadsetUSourceData.HeadsetState.values()[Utils.checkedIndexFirst(radioButtons_hs_action)],
+                   HeadsetUSourceData.HeadsetType.values()[Utils.checkedIndexFirst(radioButtons_hs_type)]
+               );
     }
 }

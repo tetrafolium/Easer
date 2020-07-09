@@ -66,12 +66,12 @@ public class MediaControlOperationData implements OperationData {
 
     public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                try {
-                    this.choice = ControlChoice.valueOf(data);
-                } catch (Exception e) {
-                    throw new IllegalStorageDataException(e);
-                }
+        default:
+            try {
+                this.choice = ControlChoice.valueOf(data);
+            } catch (Exception e) {
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -80,8 +80,8 @@ public class MediaControlOperationData implements OperationData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                res = choice.toString();
+        default:
+            res = choice.toString();
         }
         return res;
     }
@@ -116,7 +116,7 @@ public class MediaControlOperationData implements OperationData {
     }
 
     public static final Parcelable.Creator<MediaControlOperationData> CREATOR
-            = new Parcelable.Creator<MediaControlOperationData>() {
+    = new Parcelable.Creator<MediaControlOperationData>() {
         public MediaControlOperationData createFromParcel(Parcel in) {
             return new MediaControlOperationData(in);
         }

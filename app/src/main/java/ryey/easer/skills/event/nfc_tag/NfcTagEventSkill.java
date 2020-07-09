@@ -59,7 +59,7 @@ public class NfcTagEventSkill implements EventSkill<NfcTagEventData> {
     @Override
     public Boolean checkPermissions(@NonNull Context context) {
         return SkillUtils.checkPermission(context,
-                Manifest.permission.NFC);
+                                          Manifest.permission.NFC);
     }
 
     @Override

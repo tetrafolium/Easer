@@ -73,7 +73,7 @@ public class NotificationEventSkill implements EventSkill<NotificationEventData>
                 activity.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
             } else {
                 SkillUtils.requestPermission(activity, requestCode,
-                        Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE);
+                                             Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE);
             }
         }
         SkillUtils.reenableComponent(activity, NotificationEventListenerService.class);

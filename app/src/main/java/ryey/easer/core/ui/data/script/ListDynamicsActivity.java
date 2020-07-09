@@ -170,25 +170,25 @@ public class ListDynamicsActivity extends CommonBaseActivity {
         LinkItem linkItem = (LinkItem) listView.getItemAtPosition(info.position);
         int id = item.getItemId();
         switch (id) {
-            case R.id.action_delete:
-                new AlertDialog.Builder(this)
-                        .setMessage(String.format(getString(R.string.prompt_delete), linkItem.placeholder))
-                        .setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
-                            }
-                        })
-                        .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dynamicsLinkList.remove(info.position);
-                                adapter.notifyDataSetChanged();
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .show();
-                return true;
+        case R.id.action_delete:
+            new AlertDialog.Builder(this)
+            .setMessage(String.format(getString(R.string.prompt_delete), linkItem.placeholder))
+            .setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            })
+            .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dynamicsLinkList.remove(info.position);
+                    adapter.notifyDataSetChanged();
+                    dialogInterface.dismiss();
+                }
+            })
+            .show();
+            return true;
         }
         return super.onContextItemSelected(item);
     }

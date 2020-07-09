@@ -48,16 +48,16 @@ public class RingerModeConditionData implements ConditionData {
 
     RingerModeConditionData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    this.ringerMode = jsonObject.optInt(T_ringerMode);
-                    this.ringerLevel = jsonObject.optInt(T_ringerLevel);
-                    this.compareMode = jsonObject.optInt(T_compareMode);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStorageDataException(e);
-                }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                this.ringerMode = jsonObject.optInt(T_ringerMode);
+                this.ringerLevel = jsonObject.optInt(T_ringerLevel);
+                this.compareMode = jsonObject.optInt(T_compareMode);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -72,17 +72,17 @@ public class RingerModeConditionData implements ConditionData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put(T_ringerMode, ringerMode);
-                    jsonObject.put(T_ringerLevel, ringerLevel);
-                    jsonObject.put(T_compareMode, compareMode);
-                } catch (JSONException e) {
-                    Logger.e(e, "Error putting %s data", getClass().getSimpleName());
-                    e.printStackTrace();
-                }
-                res = jsonObject.toString();
+        default:
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put(T_ringerMode, ringerMode);
+                jsonObject.put(T_ringerLevel, ringerLevel);
+                jsonObject.put(T_compareMode, compareMode);
+            } catch (JSONException e) {
+                Logger.e(e, "Error putting %s data", getClass().getSimpleName());
+                e.printStackTrace();
+            }
+            res = jsonObject.toString();
         }
         return res;
     }
@@ -127,12 +127,12 @@ public class RingerModeConditionData implements ConditionData {
                 return true;
             } else {
                 switch (compareMode) {
-                    case COMPARE_MODE_LOWER_OR_EQUAL:
-                        return ringerLevel <= this.ringerLevel;
-                    case COMPARE_MODE_HIGHER_OR_EQUAL:
-                        return ringerLevel >= this.ringerLevel;
-                    case COMPARE_MODE_EQUALS:
-                        return ringerLevel == this.ringerLevel;
+                case COMPARE_MODE_LOWER_OR_EQUAL:
+                    return ringerLevel <= this.ringerLevel;
+                case COMPARE_MODE_HIGHER_OR_EQUAL:
+                    return ringerLevel >= this.ringerLevel;
+                case COMPARE_MODE_EQUALS:
+                    return ringerLevel == this.ringerLevel;
                 }
             }
         }
@@ -153,7 +153,7 @@ public class RingerModeConditionData implements ConditionData {
     }
 
     public static final Creator<RingerModeConditionData> CREATOR
-            = new Creator<RingerModeConditionData>() {
+    = new Creator<RingerModeConditionData>() {
         public RingerModeConditionData createFromParcel(Parcel in) {
             return new RingerModeConditionData(in);
         }

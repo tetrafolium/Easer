@@ -39,8 +39,8 @@ public class BluetoothEnabledUSourceData implements USourceData {
 
     BluetoothEnabledUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                enabled = Boolean.parseBoolean(data);
+        default:
+            enabled = Boolean.parseBoolean(data);
         }
     }
 
@@ -49,8 +49,8 @@ public class BluetoothEnabledUSourceData implements USourceData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                res = String.valueOf(enabled);
+        default:
+            res = String.valueOf(enabled);
         }
         return res;
     }
@@ -90,7 +90,7 @@ public class BluetoothEnabledUSourceData implements USourceData {
     }
 
     public static final Creator<BluetoothEnabledUSourceData> CREATOR
-            = new Creator<BluetoothEnabledUSourceData>() {
+    = new Creator<BluetoothEnabledUSourceData>() {
         public BluetoothEnabledUSourceData createFromParcel(Parcel in) {
             return new BluetoothEnabledUSourceData(in);
         }

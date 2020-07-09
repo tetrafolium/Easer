@@ -57,8 +57,8 @@ public class SmsEventSkill implements EventSkill<SmsEventData> {
     @Override
     public Boolean checkPermissions(@NonNull Context context) {
         return SkillUtils.checkPermission(context,
-                Manifest.permission.READ_SMS,
-                Manifest.permission.RECEIVE_SMS);
+                                          Manifest.permission.READ_SMS,
+                                          Manifest.permission.RECEIVE_SMS);
     }
 
     @Override
@@ -67,8 +67,8 @@ public class SmsEventSkill implements EventSkill<SmsEventData> {
         boolean can_receive_sms = SkillUtils.checkPermission(activity, Manifest.permission.RECEIVE_SMS);
         if (!can_read_sms && !can_receive_sms) {
             SkillUtils.requestPermission(activity, requestCode,
-                    Manifest.permission.READ_SMS,
-                    Manifest.permission.RECEIVE_SMS);
+                                         Manifest.permission.READ_SMS,
+                                         Manifest.permission.RECEIVE_SMS);
         } else if (!can_read_sms) {
             SkillUtils.requestPermission(activity, requestCode, Manifest.permission.READ_SMS);
         } else {

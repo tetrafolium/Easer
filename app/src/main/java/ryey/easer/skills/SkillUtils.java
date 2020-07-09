@@ -43,7 +43,7 @@ public class SkillUtils {
     public static boolean useRootFeature(@NonNull Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getBoolean(
-                context.getString(R.string.key_pref_use_root), false);
+                   context.getString(R.string.key_pref_use_root), false);
     }
 
     public static Process executeCommandAsRoot(Context context, String command) throws IOException {
@@ -96,10 +96,10 @@ public class SkillUtils {
         ComponentName componentName = new ComponentName(context, cls);
 
         pm.setComponentEnabledSetting(componentName,
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+                                      PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
 
         pm.setComponentEnabledSetting(componentName,
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+                                      PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
     }
 
     public static boolean isServiceEnabled(Context context, Class<? extends Service> serviceClass) {
@@ -109,7 +109,7 @@ public class SkillUtils {
     }
 
     public static boolean isPermissionGrantedForNotificationListenerService(
-            Context context, Class<? extends NotificationListenerService> serviceClass) {
+        Context context, Class<? extends NotificationListenerService> serviceClass) {
         ComponentName serviceComponentName = new ComponentName(context, serviceClass);
         String list = Settings.Secure.getString(context.getContentResolver(), "enabled_notification_listeners");
         return list != null && list.contains(serviceComponentName.flattenToString());

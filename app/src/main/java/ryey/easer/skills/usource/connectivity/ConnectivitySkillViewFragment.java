@@ -40,12 +40,12 @@ import ryey.easer.skills.SkillViewFragment;
 public class ConnectivitySkillViewFragment extends SkillViewFragment<ConnectivityEventData> {
     String []mode_names;
     final int []values = {
-            ConnectivityType.TYPE_NOT_CONNECTED,
-            ConnectivityType.TYPE_WIFI,
-            ConnectivityType.TYPE_MOBILE,
-            ConnectivityType.TYPE_ETHERNET,
-            ConnectivityType.TYPE_BLUETOOTH,
-            ConnectivityType.TYPE_VPN,
+        ConnectivityType.TYPE_NOT_CONNECTED,
+        ConnectivityType.TYPE_WIFI,
+        ConnectivityType.TYPE_MOBILE,
+        ConnectivityType.TYPE_ETHERNET,
+        ConnectivityType.TYPE_BLUETOOTH,
+        ConnectivityType.TYPE_VPN,
     };
     final CheckBox[] checkBoxes = new CheckBox[values.length];
 

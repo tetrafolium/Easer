@@ -56,6 +56,6 @@ public class ConditionParser implements Parser<ConditionStructure> {
         if (plugin == null)
             throw new IllegalStorageDataException("Condition skill not found");
         return plugin.dataFactory()
-                .parse(json_condition.getString(C.DATA), PluginDataFormat.JSON, version);
+               .parse(json_condition.getString(C.DATA), PluginDataFormat.JSON, version);
     }
 }

@@ -35,7 +35,9 @@ import ryey.easer.skills.reusable.BooleanData;
 
 public abstract class BooleanOperationData extends BooleanData implements OperationData {
 
-    protected BooleanOperationData() {super();}
+    protected BooleanOperationData() {
+        super();
+    }
 
     protected BooleanOperationData(@NonNull Boolean state) {
         super(state);
@@ -47,17 +49,17 @@ public abstract class BooleanOperationData extends BooleanData implements Operat
 
     public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
+        default:
+            switch (data) {
+            case C.ON:
+                set(true);
+                break;
+            case C.OFF:
+                set(false);
+                break;
             default:
-                switch (data) {
-                    case C.ON:
-                        set(true);
-                        break;
-                    case C.OFF:
-                        set(false);
-                        break;
-                    default:
-                        throw new IllegalStorageDataException("Unknown data");
-                }
+                throw new IllegalStorageDataException("Unknown data");
+            }
         }
     }
 
@@ -66,12 +68,12 @@ public abstract class BooleanOperationData extends BooleanData implements Operat
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                Boolean state = get();
-                if (state)
-                    res = C.ON;
-                else
-                    res = C.OFF;
+        default:
+            Boolean state = get();
+            if (state)
+                res = C.ON;
+            else
+                res = C.OFF;
         }
         return res;
     }

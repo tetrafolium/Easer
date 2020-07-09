@@ -34,7 +34,9 @@ import ryey.easer.skills.reusable.StringData;
 
 public abstract class StringOperationData extends StringData implements OperationData {
 
-    protected StringOperationData() {super();}
+    protected StringOperationData() {
+        super();
+    }
 
     protected StringOperationData(@NonNull String text) {
         super(text);
@@ -46,8 +48,8 @@ public abstract class StringOperationData extends StringData implements Operatio
 
     public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                set(data);
+        default:
+            set(data);
         }
     }
 
@@ -56,8 +58,8 @@ public abstract class StringOperationData extends StringData implements Operatio
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                res = get();
+        default:
+            res = get();
         }
         return res;
     }

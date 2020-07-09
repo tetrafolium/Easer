@@ -38,22 +38,22 @@ public enum SourceCategory {
     @NonNull
     public String toString(Resources resources) {
         switch (this) {
-            case android:
-                return resources.getString(R.string.category_source_android);
-            case date_time:
-                return resources.getString(R.string.category_source_date_time);
-            case easer:
-                return resources.getString(R.string.category_source_easer);
-            case data_communication:
-                return resources.getString(R.string.category_source_data_communication);
-            case personal:
-                return resources.getString(R.string.category_source_personal);
-            case device:
-                return resources.getString(R.string.category_source_device);
-            case misc:
-                return resources.getString(R.string.category_source_misc);
-            case unknown:
-                return resources.getString(R.string.category_source_unknown);
+        case android:
+            return resources.getString(R.string.category_source_android);
+        case date_time:
+            return resources.getString(R.string.category_source_date_time);
+        case easer:
+            return resources.getString(R.string.category_source_easer);
+        case data_communication:
+            return resources.getString(R.string.category_source_data_communication);
+        case personal:
+            return resources.getString(R.string.category_source_personal);
+        case device:
+            return resources.getString(R.string.category_source_device);
+        case misc:
+            return resources.getString(R.string.category_source_misc);
+        case unknown:
+            return resources.getString(R.string.category_source_unknown);
         }
         throw new IllegalStateException("Category isn't caught in switch statement");
     }

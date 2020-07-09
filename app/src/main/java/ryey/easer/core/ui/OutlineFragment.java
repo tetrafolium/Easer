@@ -53,9 +53,9 @@ public class OutlineFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
-                case EHService.ACTION_STATE_CHANGED:
-                    refresh();
-                    break;
+            case EHService.ACTION_STATE_CHANGED:
+                refresh();
+                break;
             }
         }
     };
@@ -70,8 +70,8 @@ public class OutlineFragment extends Fragment {
 
         Fragment fragment_history = ActivityHistoryFragment.compact();
         getChildFragmentManager().beginTransaction()
-                .replace(R.id.content_fragment_loaded_history, fragment_history)
-                .commit();
+        .replace(R.id.content_fragment_loaded_history, fragment_history)
+        .commit();
 
         mView.findViewById(R.id.holder_running_ind).setOnClickListener(new View.OnClickListener() {
             @Override

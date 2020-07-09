@@ -68,21 +68,21 @@ public class HttpRequestLoader extends OperationLoader<HttpRequestOperationData>
                 }
 
                 switch (data.requestMethod) {
-                    case GET:
-                        break;
+                case GET:
+                    break;
 
-                    case POST:
-                        // set header for POST request
-                        urlConnection.setDoOutput(true);
-                        urlConnection.addRequestProperty("Content-Type", data.contentType);
-                        urlConnection.setFixedLengthStreamingMode(data.postData.length());
+                case POST:
+                    // set header for POST request
+                    urlConnection.setDoOutput(true);
+                    urlConnection.addRequestProperty("Content-Type", data.contentType);
+                    urlConnection.setFixedLengthStreamingMode(data.postData.length());
 
-                        // send POST data
-                        try (final DataOutputStream out = new DataOutputStream(urlConnection.getOutputStream())) {
-                            out.writeBytes(data.postData);
-                            out.flush();
-                        }
-                        break;
+                    // send POST data
+                    try (final DataOutputStream out = new DataOutputStream(urlConnection.getOutputStream())) {
+                        out.writeBytes(data.postData);
+                        out.flush();
+                    }
+                    break;
                 }
 
                 // read response

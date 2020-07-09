@@ -40,14 +40,14 @@ import ryey.easer.skills.SkillViewFragment;
 public class PowerSkillViewFragment extends SkillViewFragment<PowerUSourceData> {
 
     final ChargingMethod []values = {
-            ChargingMethod.any,
-            ChargingMethod.ac,
-            ChargingMethod.usb,
+        ChargingMethod.any,
+        ChargingMethod.ac,
+        ChargingMethod.usb,
     };
     final int []checkBoxIds = {
-            R.id.cb_any,
-            R.id.cb_ac,
-            R.id.cb_usb,
+        R.id.cb_any,
+        R.id.cb_ac,
+        R.id.cb_usb,
     };
     final CheckBox []checkBoxes = new CheckBox[checkBoxIds.length];
 

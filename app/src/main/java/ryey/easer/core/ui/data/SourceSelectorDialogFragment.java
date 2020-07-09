@@ -66,10 +66,10 @@ public abstract class SourceSelectorDialogFragment<S extends Skill & SourceCateg
         availableLocalPluginList = new ArrayList<>(localSkillList.size());
         for (S operationSkill : localSkillList) {
             availableLocalPluginList.add(new SkillItemWrapper<>(operationSkill.id(),
-                    operationSkill.view().desc(getResources()),
-                    operationSkill.category(),
-                    operationSkill)
-            );
+                                         operationSkill.view().desc(getResources()),
+                                         operationSkill.category(),
+                                         operationSkill)
+                                        );
         }
         PluginListAdapter adapter = new PluginListAdapter(getContext(), availableLocalPluginList);
         list.setAdapter(adapter);

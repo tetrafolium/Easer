@@ -39,7 +39,7 @@ public class WifiOperationData extends BooleanOperationData {
     }
 
     public static final Parcelable.Creator<WifiOperationData> CREATOR
-            = new Parcelable.Creator<WifiOperationData>() {
+    = new Parcelable.Creator<WifiOperationData>() {
         public WifiOperationData createFromParcel(Parcel in) {
             return new WifiOperationData(in);
         }

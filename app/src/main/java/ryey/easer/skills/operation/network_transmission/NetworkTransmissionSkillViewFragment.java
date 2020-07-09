@@ -57,14 +57,14 @@ public class NetworkTransmissionSkillViewFragment extends SkillViewFragment<Netw
     @Override
     protected void _fill(@ValidData @NonNull NetworkTransmissionOperationData data) {
         switch (data.protocol) {
-            case tcp:
-                rb_tcp.setChecked(true);
-                break;
-            case udp:
-                rb_udp.setChecked(true);
-                break;
-            default:
-                throw new IllegalAccessError();
+        case tcp:
+            rb_tcp.setChecked(true);
+            break;
+        case udp:
+            rb_udp.setChecked(true);
+            break;
+        default:
+            throw new IllegalAccessError();
         }
         editText_remote_address.setText(data.remote_address);
         editText_remote_port.setText(String.valueOf(data.remote_port));

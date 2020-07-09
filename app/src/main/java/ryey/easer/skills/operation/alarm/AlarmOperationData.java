@@ -44,7 +44,7 @@ public class AlarmOperationData implements OperationData {
     private static final String K_MESSAGE = "message";
     private static final String K_ABSOLUTE_BOOL = "absolute?";
 
-    private static final int[] TIME_FIELDS = new int[]{Calendar.HOUR_OF_DAY, Calendar.MINUTE};
+    private static final int[] TIME_FIELDS = new int[] {Calendar.HOUR_OF_DAY, Calendar.MINUTE};
 
     private static final SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm", Locale.US);
 
@@ -74,21 +74,21 @@ public class AlarmOperationData implements OperationData {
 
     public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
                 try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    try {
-                        time = TextToTime(jsonObject.getString(K_TIME));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        throw new IllegalStorageDataException(e);
-                    }
-                    message = jsonObject.optString(K_MESSAGE, null);
-                    absolute = jsonObject.optBoolean(K_ABSOLUTE_BOOL, true);
-                } catch (JSONException e) {
+                    time = TextToTime(jsonObject.getString(K_TIME));
+                } catch (ParseException e) {
                     e.printStackTrace();
                     throw new IllegalStorageDataException(e);
                 }
+                message = jsonObject.optString(K_MESSAGE, null);
+                absolute = jsonObject.optBoolean(K_ABSOLUTE_BOOL, true);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -97,16 +97,16 @@ public class AlarmOperationData implements OperationData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res = "";
         switch (format) {
-            default:
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put(K_TIME, TimeToText(time));
-                    jsonObject.put(K_MESSAGE, message);
-                    jsonObject.put(K_ABSOLUTE_BOOL, absolute);
-                    res = jsonObject.toString();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        default:
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put(K_TIME, TimeToText(time));
+                jsonObject.put(K_MESSAGE, message);
+                jsonObject.put(K_ABSOLUTE_BOOL, absolute);
+                res = jsonObject.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         return res;
     }
@@ -151,7 +151,7 @@ public class AlarmOperationData implements OperationData {
     }
 
     public static final Creator<AlarmOperationData> CREATOR
-            = new Creator<AlarmOperationData>() {
+    = new Creator<AlarmOperationData>() {
         public AlarmOperationData createFromParcel(Parcel in) {
             return new AlarmOperationData(in);
         }

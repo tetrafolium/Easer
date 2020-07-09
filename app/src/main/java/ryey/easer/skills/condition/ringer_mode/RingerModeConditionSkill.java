@@ -83,9 +83,9 @@ public class RingerModeConditionSkill implements ConditionSkill<RingerModeCondit
     @NonNull
     @Override
     public Tracker<RingerModeConditionData> tracker(@NonNull Context context,
-                                                 @ValidData @NonNull RingerModeConditionData data,
-                                                 @NonNull PendingIntent event_positive,
-                                                 @NonNull PendingIntent event_negative) {
+            @ValidData @NonNull RingerModeConditionData data,
+            @NonNull PendingIntent event_positive,
+            @NonNull PendingIntent event_negative) {
         return new RingerModeTracker(context, data, event_positive, event_negative);
     }
 

@@ -58,21 +58,21 @@ public class MediaControlSkillViewFragment extends SkillViewFragment<MediaContro
     protected void _fill(@ValidData @NonNull MediaControlOperationData data) {
         MediaControlOperationData.ControlChoice choice = data.choice;
         switch (choice) {
-            case play_pause:
-                radioButton_play_pause.setChecked(true);
-                break;
-            case play:
-                radioButton_play.setChecked(true);
-                break;
-            case pause:
-                radioButton_pause.setChecked(true);
-                break;
-            case previous:
-                radioButton_previous.setChecked(true);
-                break;
-            case next:
-                radioButton_next.setChecked(true);
-                break;
+        case play_pause:
+            radioButton_play_pause.setChecked(true);
+            break;
+        case play:
+            radioButton_play.setChecked(true);
+            break;
+        case pause:
+            radioButton_pause.setChecked(true);
+            break;
+        case previous:
+            radioButton_previous.setChecked(true);
+            break;
+        case next:
+            radioButton_next.setChecked(true);
+            break;
         }
     }
 

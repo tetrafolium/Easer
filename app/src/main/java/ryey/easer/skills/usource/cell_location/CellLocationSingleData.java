@@ -168,7 +168,7 @@ class CellLocationSingleData implements Parcelable {
     }
 
     public static final Creator<CellLocationSingleData> CREATOR
-            = new Creator<CellLocationSingleData>() {
+    = new Creator<CellLocationSingleData>() {
         public CellLocationSingleData createFromParcel(Parcel in) {
             return new CellLocationSingleData(in);
         }

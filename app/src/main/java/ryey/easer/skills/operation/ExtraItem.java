@@ -64,7 +64,7 @@ public class ExtraItem implements Parcelable {
     }
 
     public static final Creator<ExtraItem> CREATOR
-            = new Creator<ExtraItem>() {
+    = new Creator<ExtraItem>() {
         public ExtraItem createFromParcel(Parcel in) {
             return new ExtraItem(in);
         }

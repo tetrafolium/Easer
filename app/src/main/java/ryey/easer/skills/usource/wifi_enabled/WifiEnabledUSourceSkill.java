@@ -59,15 +59,15 @@ public class WifiEnabledUSourceSkill implements USourceSkill<WifiEnabledUSourceD
     @Override
     public Boolean checkPermissions(@NonNull Context context) {
         return SkillUtils.checkPermission(context,
-                Manifest.permission.ACCESS_WIFI_STATE,
-                Manifest.permission.CHANGE_WIFI_STATE);
+                                          Manifest.permission.ACCESS_WIFI_STATE,
+                                          Manifest.permission.CHANGE_WIFI_STATE);
     }
 
     @Override
     public void requestPermissions(@NonNull Activity activity, int requestCode) {
         SkillUtils.requestPermission(activity, requestCode,
-                Manifest.permission.ACCESS_WIFI_STATE,
-                Manifest.permission.CHANGE_WIFI_STATE);
+                                     Manifest.permission.ACCESS_WIFI_STATE,
+                                     Manifest.permission.CHANGE_WIFI_STATE);
     }
 
     @NonNull
@@ -101,9 +101,9 @@ public class WifiEnabledUSourceSkill implements USourceSkill<WifiEnabledUSourceD
     @NonNull
     @Override
     public Tracker<WifiEnabledUSourceData> tracker(@NonNull Context context,
-                                                   @ValidData @NonNull WifiEnabledUSourceData data,
-                                                   @NonNull PendingIntent event_positive,
-                                                   @NonNull PendingIntent event_negative) {
+            @ValidData @NonNull WifiEnabledUSourceData data,
+            @NonNull PendingIntent event_positive,
+            @NonNull PendingIntent event_negative) {
         return new WifiEnabledTracker(context, data, event_positive, event_negative);
     }
 

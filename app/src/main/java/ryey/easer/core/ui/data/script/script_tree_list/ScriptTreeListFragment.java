@@ -140,9 +140,9 @@ public class ScriptTreeListFragment extends Fragment implements DataListInterfac
                 TreeViewAdapterWithContextMenu.ViewHolder eventViewHolder = (TreeViewAdapterWithContextMenu.ViewHolder) viewHolder;
                 int rotateDegree = isExpand ? 90 : -90;
                 eventViewHolder.ivArrow
-                        .animate()
-                        .rotationBy(rotateDegree)
-                        .start();
+                .animate()
+                .rotationBy(rotateDegree)
+                .start();
             }
         });
 
@@ -174,12 +174,12 @@ public class ScriptTreeListFragment extends Fragment implements DataListInterfac
         String name = mCurrentEventItem.eventName;
         int id = item.getItemId();
         switch (id) {
-            case R.id.action_edit:
-                refContainer.get().editData(name);
-                return true;
-            case R.id.action_delete:
-                refContainer.get().deleteData(name);
-                return true;
+        case R.id.action_edit:
+            refContainer.get().editData(name);
+            return true;
+        case R.id.action_delete:
+            refContainer.get().deleteData(name);
+            return true;
         }
         return super.onContextItemSelected(item);
     }

@@ -70,8 +70,8 @@ public class CalendarTracker extends SkeletonTracker<CalendarConditionData> {
     };
 
     CalendarTracker(Context context, CalendarConditionData data,
-                   @NonNull PendingIntent event_positive,
-                   @NonNull PendingIntent event_negative) {
+                    @NonNull PendingIntent event_positive,
+                    @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
         if (mAlarmManager == null)
             mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

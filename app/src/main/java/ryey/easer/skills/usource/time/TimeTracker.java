@@ -73,7 +73,7 @@ public class TimeTracker extends SelfNotifiableSkeletonTracker<TimeUSourceData> 
         // current time
         now.setTimeInMillis(currentTimeMillis);
 
-        return new Calendar[]{calendar_target, calendar_zero, now};
+        return new Calendar[] {calendar_target, calendar_zero, now};
     }
 
     @Override
@@ -82,9 +82,9 @@ public class TimeTracker extends SelfNotifiableSkeletonTracker<TimeUSourceData> 
         if (calendars[0].before(calendars[2]))
             calendars[0].add(Calendar.DAY_OF_YEAR, 1);
         mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendars[0].getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, notifySelfIntent_positive);
+                                          AlarmManager.INTERVAL_DAY, notifySelfIntent_positive);
         mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendars[1].getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, notifySelfIntent_negative);
+                                          AlarmManager.INTERVAL_DAY, notifySelfIntent_negative);
     }
 
     @Override

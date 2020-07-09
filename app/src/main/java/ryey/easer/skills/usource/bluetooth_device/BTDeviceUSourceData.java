@@ -47,21 +47,21 @@ public class BTDeviceUSourceData implements USourceData {
 
     BTDeviceUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
+        default:
+            hwAddresses.clear();
+            switch (format) {
             default:
-                hwAddresses.clear();
-                switch (format) {
-                    default:
-                        try {
-                            JSONArray jsonArray = new JSONArray(data);
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                String hwAddr = jsonArray.getString(i);
-                                hwAddresses.add(hwAddr);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            throw new IllegalStorageDataException(e);
-                        }
+                try {
+                    JSONArray jsonArray = new JSONArray(data);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        String hwAddr = jsonArray.getString(i);
+                        hwAddresses.add(hwAddr);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    throw new IllegalStorageDataException(e);
                 }
+            }
         }
     }
 
@@ -83,7 +83,7 @@ public class BTDeviceUSourceData implements USourceData {
     @Nullable
     @Override
     public Dynamics[] dynamics() {
-        return new Dynamics[]{new DeviceNameDynamics(), new DeviceAddressDynamics()};
+        return new Dynamics[] {new DeviceNameDynamics(), new DeviceAddressDynamics()};
     }
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
@@ -101,12 +101,12 @@ public class BTDeviceUSourceData implements USourceData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                JSONArray jsonArray = new JSONArray();
-                for (String hwaddr : hwAddresses) {
-                    jsonArray.put(hwaddr);
-                }
-                res = jsonArray.toString();
+        default:
+            JSONArray jsonArray = new JSONArray();
+            for (String hwaddr : hwAddresses) {
+                jsonArray.put(hwaddr);
+            }
+            res = jsonArray.toString();
         }
         return res;
     }
@@ -129,7 +129,7 @@ public class BTDeviceUSourceData implements USourceData {
     }
 
     public static final Creator<BTDeviceUSourceData> CREATOR
-            = new Creator<BTDeviceUSourceData>() {
+    = new Creator<BTDeviceUSourceData>() {
         public BTDeviceUSourceData createFromParcel(Parcel in) {
             return new BTDeviceUSourceData(in);
         }

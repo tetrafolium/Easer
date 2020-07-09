@@ -48,7 +48,7 @@ public class ScreenTracker extends SkeletonTracker<ScreenUSourceData> {
     };
 
     private final IntentFilter intentFilter;
-    
+
     {
         intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
@@ -60,7 +60,7 @@ public class ScreenTracker extends SkeletonTracker<ScreenUSourceData> {
                   @NonNull PendingIntent event_positive,
                   @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
-        
+
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         if (pm == null) {
             Logger.e("ScreenTracker can't get PowerManager");

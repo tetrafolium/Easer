@@ -63,15 +63,15 @@ public class SmsEventData extends AbstractEventData {
     public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         innerData = new SmsInnerData();
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    innerData.sender = jsonObject.optString(K_SENDER, null);
-                    innerData.content = jsonObject.optString(K_CONTENT, null);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStorageDataException(e);
-                }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                innerData.sender = jsonObject.optString(K_SENDER, null);
+                innerData.content = jsonObject.optString(K_CONTENT, null);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -80,18 +80,18 @@ public class SmsEventData extends AbstractEventData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject();
-                    if (!Utils.isBlank(innerData.sender))
-                        jsonObject.put(K_SENDER, innerData.sender);
-                    if (!Utils.isBlank(innerData.content))
-                        jsonObject.put(K_CONTENT, innerData.content);
-                    res = jsonObject.toString();
-                } catch (JSONException e) {
-                    Logger.e(e, "Error serializing %s", getClass().getSimpleName());
-                    throw new IllegalStateException(e.getMessage());
-                }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject();
+                if (!Utils.isBlank(innerData.sender))
+                    jsonObject.put(K_SENDER, innerData.sender);
+                if (!Utils.isBlank(innerData.content))
+                    jsonObject.put(K_CONTENT, innerData.content);
+                res = jsonObject.toString();
+            } catch (JSONException e) {
+                Logger.e(e, "Error serializing %s", getClass().getSimpleName());
+                throw new IllegalStateException(e.getMessage());
+            }
         }
         return res;
     }
@@ -99,7 +99,7 @@ public class SmsEventData extends AbstractEventData {
     @Nullable
     @Override
     public Dynamics[] dynamics() {
-        return new Dynamics[]{new SenderDynamics(), new ContentDynamics()};
+        return new Dynamics[] {new SenderDynamics(), new ContentDynamics()};
     }
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
@@ -123,7 +123,7 @@ public class SmsEventData extends AbstractEventData {
     }
 
     public static final Parcelable.Creator<SmsEventData> CREATOR
-            = new Parcelable.Creator<SmsEventData>() {
+    = new Parcelable.Creator<SmsEventData>() {
         public SmsEventData createFromParcel(Parcel in) {
             return new SmsEventData(in);
         }

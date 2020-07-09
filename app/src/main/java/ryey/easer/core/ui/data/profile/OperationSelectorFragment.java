@@ -86,10 +86,10 @@ public class OperationSelectorFragment extends DialogFragment {
                 }
             }
             availableLocalPluginList.add(new OperationPluginItemWrapper(operationSkill.id(),
-                    operationSkill.view().desc(getResources()),
-                    operationSkill.category(),
-                    operationSkill)
-            );
+                                         operationSkill.view().desc(getResources()),
+                                         operationSkill.category(),
+                                         operationSkill)
+                                        );
         }
         PluginListAdapter adapter = new PluginListAdapter(getContext(), availableLocalPluginList);
         list.setAdapter(adapter);
@@ -123,10 +123,10 @@ public class OperationSelectorFragment extends DialogFragment {
                 List<OperationPluginItemWrapper> descList = new ArrayList<>(availableLocalPluginList);
                 for (RemoteOperationPluginInfo remotePluginInfo : operationPluginInfos) {
                     descList.add(new OperationPluginItemWrapper(
-                            remotePluginInfo.getPluginId(),
-                            remotePluginInfo.getPluginName(),
-                            remotePluginInfo.getCategory(),
-                            null));
+                                     remotePluginInfo.getPluginId(),
+                                     remotePluginInfo.getPluginName(),
+                                     remotePluginInfo.getCategory(),
+                                     null));
                 }
                 PluginListAdapter adapter = new PluginListAdapter(getContext(), descList);
                 list.setAdapter(adapter);

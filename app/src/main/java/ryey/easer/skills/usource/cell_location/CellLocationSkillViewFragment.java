@@ -86,7 +86,7 @@ public class CellLocationSkillViewFragment extends SkillViewFragment<CellLocatio
         StringBuilder stringBuilder = new StringBuilder(display_str);
         for (CellLocationSingleData singleData : singleDataList) {
             stringBuilder.append('\n')
-                    .append(singleData.toString());
+            .append(singleData.toString());
         }
         if (stringBuilder.charAt(0) == '\n')
             stringBuilder.deleteCharAt(0);

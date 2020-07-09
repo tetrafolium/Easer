@@ -48,14 +48,14 @@ public class ConditionEventEventData extends AbstractEventData {
 
     ConditionEventEventData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    conditionName = jsonObject.getString(K_CONDITION_NAME);
-                    conditionEvent = ConditionEvent.valueOf(jsonObject.getString(K_CONDITION_EVENT));
-                } catch (JSONException e) {
-                    throw new IllegalStorageDataException(e);
-                }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                conditionName = jsonObject.getString(K_CONDITION_NAME);
+                conditionEvent = ConditionEvent.valueOf(jsonObject.getString(K_CONDITION_EVENT));
+            } catch (JSONException e) {
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -74,16 +74,16 @@ public class ConditionEventEventData extends AbstractEventData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(K_CONDITION_NAME, conditionName);
-                    jsonObject.put(K_CONDITION_EVENT, conditionEvent.name());
-                    res = jsonObject.toString();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStateException(e);
-                }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put(K_CONDITION_NAME, conditionName);
+                jsonObject.put(K_CONDITION_EVENT, conditionEvent.name());
+                res = jsonObject.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStateException(e);
+            }
         }
         return res;
     }
@@ -97,7 +97,7 @@ public class ConditionEventEventData extends AbstractEventData {
     @Nullable
     @Override
     public Dynamics[] dynamics() {
-        return new Dynamics[]{new ConditionNameDynamics()};
+        return new Dynamics[] {new ConditionNameDynamics()};
     }
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
@@ -120,7 +120,7 @@ public class ConditionEventEventData extends AbstractEventData {
     }
 
     public static final Creator<ConditionEventEventData> CREATOR
-            = new Creator<ConditionEventEventData>() {
+    = new Creator<ConditionEventEventData>() {
         public ConditionEventEventData createFromParcel(Parcel in) {
             return new ConditionEventEventData(in);
         }

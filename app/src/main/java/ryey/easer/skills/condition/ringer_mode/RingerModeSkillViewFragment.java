@@ -104,25 +104,25 @@ public class RingerModeSkillViewFragment extends SkillViewFragment<RingerModeCon
     @Override
     protected void _fill(@ValidData @NonNull RingerModeConditionData data) {
         switch (data.ringerMode) {
-            case AudioManager.RINGER_MODE_VIBRATE:
-                rg_ringer_mode.check(R.id.rb_ringer_mode_vibrate);
-                break;
-            case AudioManager.RINGER_MODE_NORMAL:
-                rg_ringer_mode.check(R.id.rb_ringer_mode_normal);
-                break;
-            default:
-                rg_ringer_mode.check(R.id.rb_ringer_mode_silent);
+        case AudioManager.RINGER_MODE_VIBRATE:
+            rg_ringer_mode.check(R.id.rb_ringer_mode_vibrate);
+            break;
+        case AudioManager.RINGER_MODE_NORMAL:
+            rg_ringer_mode.check(R.id.rb_ringer_mode_normal);
+            break;
+        default:
+            rg_ringer_mode.check(R.id.rb_ringer_mode_silent);
         }
         if (data.ringerMode == AudioManager.RINGER_MODE_NORMAL) {
             switch (data.compareMode) {
-                case RingerModeConditionData.COMPARE_MODE_HIGHER_OR_EQUAL:
-                    rg_volume_match_type.check(R.id.rb_volume_match_above);
-                    break;
-                case RingerModeConditionData.COMPARE_MODE_EQUALS:
-                    rg_volume_match_type.check(R.id.rb_volume_match_equals);
-                    break;
-                default:
-                    rg_volume_match_type.check(R.id.rb_volume_match_below);
+            case RingerModeConditionData.COMPARE_MODE_HIGHER_OR_EQUAL:
+                rg_volume_match_type.check(R.id.rb_volume_match_above);
+                break;
+            case RingerModeConditionData.COMPARE_MODE_EQUALS:
+                rg_volume_match_type.check(R.id.rb_volume_match_equals);
+                break;
+            default:
+                rg_volume_match_type.check(R.id.rb_volume_match_below);
             }
             sb_volume_match_value.setProgress(data.ringerLevel);
         }
@@ -134,24 +134,24 @@ public class RingerModeSkillViewFragment extends SkillViewFragment<RingerModeCon
     public RingerModeConditionData getData() throws InvalidDataInputException {
         int ringerMode, compareType, ringerLevel;
         switch (rg_ringer_mode.getCheckedRadioButtonId()) {
-            case R.id.rb_ringer_mode_vibrate:
-                ringerMode = AudioManager.RINGER_MODE_VIBRATE;
-                break;
-            case R.id.rb_ringer_mode_normal:
-                ringerMode = AudioManager.RINGER_MODE_NORMAL;
-                break;
-            default:
-                ringerMode = AudioManager.RINGER_MODE_SILENT;
+        case R.id.rb_ringer_mode_vibrate:
+            ringerMode = AudioManager.RINGER_MODE_VIBRATE;
+            break;
+        case R.id.rb_ringer_mode_normal:
+            ringerMode = AudioManager.RINGER_MODE_NORMAL;
+            break;
+        default:
+            ringerMode = AudioManager.RINGER_MODE_SILENT;
         }
         switch (rg_volume_match_type.getCheckedRadioButtonId()) {
-            case R.id.rb_volume_match_below:
-                compareType = RingerModeConditionData.COMPARE_MODE_LOWER_OR_EQUAL;
-                break;
-            case R.id.rb_volume_match_equals:
-                compareType = RingerModeConditionData.COMPARE_MODE_EQUALS;
-                break;
-            default:
-                compareType = RingerModeConditionData.COMPARE_MODE_HIGHER_OR_EQUAL;
+        case R.id.rb_volume_match_below:
+            compareType = RingerModeConditionData.COMPARE_MODE_LOWER_OR_EQUAL;
+            break;
+        case R.id.rb_volume_match_equals:
+            compareType = RingerModeConditionData.COMPARE_MODE_EQUALS;
+            break;
+        default:
+            compareType = RingerModeConditionData.COMPARE_MODE_HIGHER_OR_EQUAL;
         }
         ringerLevel = sb_volume_match_value.getProgress();
         return new RingerModeConditionData(ringerMode, ringerLevel, compareType);

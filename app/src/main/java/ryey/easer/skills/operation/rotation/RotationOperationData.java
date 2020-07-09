@@ -39,7 +39,7 @@ public class RotationOperationData extends BooleanOperationData {
     }
 
     public static final Parcelable.Creator<RotationOperationData> CREATOR
-            = new Parcelable.Creator<RotationOperationData>() {
+    = new Parcelable.Creator<RotationOperationData>() {
         public RotationOperationData createFromParcel(Parcel in) {
             return new RotationOperationData(in);
         }

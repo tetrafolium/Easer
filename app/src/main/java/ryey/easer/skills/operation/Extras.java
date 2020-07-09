@@ -69,21 +69,21 @@ public class Extras implements Parcelable {
             return;
         }
         switch (format) {
-            default:
-                try {
-                    JSONArray jsonArray_extras = new JSONArray(data);
-                    extras = new ArrayList<>(jsonArray_extras.length());
-                    for (int i = 0; i < jsonArray_extras.length(); i++) {
-                        JSONObject jsonObject_extra = jsonArray_extras.getJSONObject(i);
-                        String key = jsonObject_extra.getString(KEY);
-                        String value = jsonObject_extra.getString(VALUE);
-                        String type = jsonObject_extra.getString(V_TYPE);
-                        extras.add(new ExtraItem(key, value, type));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStorageDataException(e);
+        default:
+            try {
+                JSONArray jsonArray_extras = new JSONArray(data);
+                extras = new ArrayList<>(jsonArray_extras.length());
+                for (int i = 0; i < jsonArray_extras.length(); i++) {
+                    JSONObject jsonObject_extra = jsonArray_extras.getJSONObject(i);
+                    String key = jsonObject_extra.getString(KEY);
+                    String value = jsonObject_extra.getString(VALUE);
+                    String type = jsonObject_extra.getString(V_TYPE);
+                    extras.add(new ExtraItem(key, value, type));
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -91,23 +91,23 @@ public class Extras implements Parcelable {
     public String serialize(@NonNull PluginDataFormat format) {
         String res = "";
         switch (format) {
-            default:
-                try {
-                    if (extras.size() > 0) {
-                        JSONArray jsonArray_extras = new JSONArray();
-                        for (ExtraItem item : extras) {
-                            JSONObject jsonObject_extra = new JSONObject();
-                            jsonObject_extra.put(KEY, item.key);
-                            jsonObject_extra.put(VALUE, item.value);
-                            jsonObject_extra.put(V_TYPE, item.type);
-                            jsonArray_extras.put(jsonObject_extra);
-                        }
-                        res = jsonArray_extras.toString();
+        default:
+            try {
+                if (extras.size() > 0) {
+                    JSONArray jsonArray_extras = new JSONArray();
+                    for (ExtraItem item : extras) {
+                        JSONObject jsonObject_extra = new JSONObject();
+                        jsonObject_extra.put(KEY, item.key);
+                        jsonObject_extra.put(VALUE, item.value);
+                        jsonObject_extra.put(V_TYPE, item.type);
+                        jsonArray_extras.put(jsonObject_extra);
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStateException(e);
+                    res = jsonArray_extras.toString();
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStateException(e);
+            }
         }
         return res;
     }
@@ -117,12 +117,12 @@ public class Extras implements Parcelable {
         Bundle bundle = new Bundle();
         for (ExtraItem item : extras) {
             switch (item.type) {
-                case "string":
-                    bundle.putString(item.key, item.value);
-                    break;
-                case "int":
-                    bundle.putInt(item.key, Integer.parseInt(item.value));
-                    break;
+            case "string":
+                bundle.putString(item.key, item.value);
+                break;
+            case "int":
+                bundle.putInt(item.key, Integer.parseInt(item.value));
+                break;
             }
         }
         return bundle;

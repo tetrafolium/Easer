@@ -38,7 +38,7 @@ public class CellularOperationData extends BooleanOperationData {
     }
 
     public static final Parcelable.Creator<CellularOperationData> CREATOR
-            = new Parcelable.Creator<CellularOperationData>() {
+    = new Parcelable.Creator<CellularOperationData>() {
         public CellularOperationData createFromParcel(Parcel in) {
             return new CellularOperationData(in);
         }

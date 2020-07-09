@@ -45,13 +45,13 @@ public class PlayMediaOperationData implements OperationData {
 
     PlayMediaOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    filePath = jsonObject.getString(K_TARGET);
-                } catch (JSONException e) {
-                    throw new IllegalStorageDataException(e);
-                }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                filePath = jsonObject.getString(K_TARGET);
+            } catch (JSONException e) {
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -60,14 +60,14 @@ public class PlayMediaOperationData implements OperationData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res = "";
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(K_TARGET, filePath);
-                    res = jsonObject.toString();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put(K_TARGET, filePath);
+                res = jsonObject.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
         }
         return res;
@@ -114,7 +114,7 @@ public class PlayMediaOperationData implements OperationData {
     }
 
     public static final Creator<PlayMediaOperationData> CREATOR
-            = new Creator<PlayMediaOperationData>() {
+    = new Creator<PlayMediaOperationData>() {
         public PlayMediaOperationData createFromParcel(Parcel in) {
             return new PlayMediaOperationData(in);
         }

@@ -97,9 +97,9 @@ public class CellLocationUSourceSkill implements USourceSkill<CellLocationUSourc
     @NonNull
     @Override
     public Tracker<CellLocationUSourceData> tracker(@NonNull Context context,
-                                                    @ValidData @NonNull CellLocationUSourceData data,
-                                                    @NonNull PendingIntent event_positive,
-                                                    @NonNull PendingIntent event_negative) {
+            @ValidData @NonNull CellLocationUSourceData data,
+            @NonNull PendingIntent event_positive,
+            @NonNull PendingIntent event_negative) {
         return new CellLocationTracker(context, data, event_positive, event_negative);
     }
 

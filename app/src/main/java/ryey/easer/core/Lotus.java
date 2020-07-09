@@ -176,7 +176,7 @@ public abstract class Lotus {
             if (extras == null)
                 extras = new Bundle();
             jobLP.triggerProfile(profileName, scriptTree.getName(),
-                    extras, scriptTree.getData().getDynamicsLink());
+                                 extras, scriptTree.getData().getDynamicsLink());
         }
 
         triggerAndPromote();

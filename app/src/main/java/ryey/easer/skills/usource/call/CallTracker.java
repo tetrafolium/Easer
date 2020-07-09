@@ -33,8 +33,8 @@ public class CallTracker extends SkeletonTracker<CallUSourceData> implements Cal
     private CallReceiver callReceiver = new CallReceiver(this);
 
     CallTracker(Context context, CallUSourceData data,
-                   @NonNull PendingIntent event_positive,
-                   @NonNull PendingIntent event_negative) {
+                @NonNull PendingIntent event_positive,
+                @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
     }
 

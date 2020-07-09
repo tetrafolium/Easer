@@ -85,18 +85,18 @@ public class HttpRequestOperationData implements OperationData {
 
     HttpRequestOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    requestMethod = RequestMethod.valueOf(jsonObject.getString(K_REQUEST_METHOD));
-                    url = jsonObject.getString(K_URL);
-                    requestHeader = jsonObject.getString(K_REQUEST_HEADER);
-                    contentType = jsonObject.getString(K_CONTENT_TYPE);
-                    postData = jsonObject.getString(K_POST_DATA);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStorageDataException(e);
-                }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                requestMethod = RequestMethod.valueOf(jsonObject.getString(K_REQUEST_METHOD));
+                url = jsonObject.getString(K_URL);
+                requestHeader = jsonObject.getString(K_REQUEST_HEADER);
+                contentType = jsonObject.getString(K_CONTENT_TYPE);
+                postData = jsonObject.getString(K_POST_DATA);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -137,10 +137,10 @@ public class HttpRequestOperationData implements OperationData {
         if (o == null || getClass() != o.getClass()) return false;
         HttpRequestOperationData that = (HttpRequestOperationData) o;
         return requestMethod.equals(that.requestMethod) &&
-                url.equals(that.url) &&
-                requestHeader.equals(that.requestHeader) &&
-                contentType.equals(that.contentType) &&
-                postData.equals(that.postData);
+               url.equals(that.url) &&
+               requestHeader.equals(that.requestHeader) &&
+               contentType.equals(that.contentType) &&
+               postData.equals(that.postData);
     }
 
     @Override
@@ -149,10 +149,10 @@ public class HttpRequestOperationData implements OperationData {
             return Objects.hash(requestMethod, url, requestHeader, contentType, postData);
         } else {
             return requestHeader.hashCode() * 31 * 31 * 31 * 31
-                    + url.hashCode() * 31 * 31 * 31
-                    + requestHeader.hashCode() * 31 * 31
-                    + contentType.hashCode() * 31
-                    + postData.hashCode();
+                   + url.hashCode() * 31 * 31 * 31
+                   + requestHeader.hashCode() * 31 * 31
+                   + contentType.hashCode() * 31
+                   + postData.hashCode();
         }
     }
 

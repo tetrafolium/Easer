@@ -63,7 +63,7 @@ public class CallUSourceSkill implements USourceSkill<CallUSourceData> {
     @Override
     public Boolean checkPermissions(@NonNull Context context) {
         return SkillUtils.checkPermission(context,
-                Manifest.permission.READ_CALL_LOG );
+                                          Manifest.permission.READ_CALL_LOG );
     }
 
     @Override

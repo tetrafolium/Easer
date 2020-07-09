@@ -38,7 +38,7 @@ public class BluetoothOperationData extends BooleanOperationData {
     }
 
     public static final Parcelable.Creator<BluetoothOperationData> CREATOR
-            = new Parcelable.Creator<BluetoothOperationData>() {
+    = new Parcelable.Creator<BluetoothOperationData>() {
         public BluetoothOperationData createFromParcel(Parcel in) {
             return new BluetoothOperationData(in);
         }

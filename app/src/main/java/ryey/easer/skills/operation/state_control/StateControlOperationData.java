@@ -58,18 +58,18 @@ public class StateControlOperationData implements OperationData {
 
     StateControlOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    if (version < C.VERSION_RENAME_STATE_CONTROL) {
-                        scriptName = jsonObject.getString(K_EVENTNAME);
-                    } else {
-                        scriptName = jsonObject.getString(K_SCRIPTNAME);
-                    }
-                    newStatus = jsonObject.getBoolean(K_NEWSTATUS);
-                } catch (JSONException e) {
-                    throw new IllegalStorageDataException(e);
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                if (version < C.VERSION_RENAME_STATE_CONTROL) {
+                    scriptName = jsonObject.getString(K_EVENTNAME);
+                } else {
+                    scriptName = jsonObject.getString(K_SCRIPTNAME);
                 }
+                newStatus = jsonObject.getBoolean(K_NEWSTATUS);
+            } catch (JSONException e) {
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -78,15 +78,15 @@ public class StateControlOperationData implements OperationData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put(K_SCRIPTNAME, scriptName);
-                    jsonObject.put(K_NEWSTATUS, newStatus);
-                    res = jsonObject.toString();
-                } catch (JSONException e) {
-                    throw new IllegalStateException(e);
-                }
+        default:
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put(K_SCRIPTNAME, scriptName);
+                jsonObject.put(K_NEWSTATUS, newStatus);
+                res = jsonObject.toString();
+            } catch (JSONException e) {
+                throw new IllegalStateException(e);
+            }
         }
         return res;
     }
@@ -133,7 +133,7 @@ public class StateControlOperationData implements OperationData {
     }
 
     public static final Creator<StateControlOperationData> CREATOR
-            = new Creator<StateControlOperationData>() {
+    = new Creator<StateControlOperationData>() {
         public StateControlOperationData createFromParcel(Parcel in) {
             return new StateControlOperationData(in);
         }

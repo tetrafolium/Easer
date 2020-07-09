@@ -57,44 +57,44 @@ public class NetworkTransmissionLoader extends OperationLoader<NetworkTransmissi
             try {
                 InetAddress remote_address = InetAddress.getByName(data.remote_address);
                 switch (data.protocol) {
-                    case tcp:
+                case tcp:
+                    try {
+                        Socket socket = new Socket(remote_address, data.remote_port);
                         try {
-                            Socket socket = new Socket(remote_address, data.remote_port);
+                            OutputStream outputStream = socket.getOutputStream();
                             try {
-                                OutputStream outputStream = socket.getOutputStream();
+                                DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
                                 try {
-                                    DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
-                                    try {
-                                        dataOutputStream.writeBytes(data.data);
-                                    } finally {
-                                        dataOutputStream.flush();
-                                        dataOutputStream.close();
-                                    }
+                                    dataOutputStream.writeBytes(data.data);
                                 } finally {
-                                    outputStream.flush();
-                                    outputStream.close();
+                                    dataOutputStream.flush();
+                                    dataOutputStream.close();
                                 }
                             } finally {
-                                socket.close();
+                                outputStream.flush();
+                                outputStream.close();
                             }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            return false;
-                        }
-                        break;
-                    case udp:
-                        DatagramPacket datagramPacket = new DatagramPacket(data.data.getBytes(), data.data.length(), remote_address, data.remote_port);
-                        try {
-                            DatagramSocket socket = new DatagramSocket();
-                            socket.send(datagramPacket);
+                        } finally {
                             socket.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            return false;
                         }
-                        break;
-                    default:
-                        throw new IllegalAccessError("data should be valid when calling this method");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                    break;
+                case udp:
+                    DatagramPacket datagramPacket = new DatagramPacket(data.data.getBytes(), data.data.length(), remote_address, data.remote_port);
+                    try {
+                        DatagramSocket socket = new DatagramSocket();
+                        socket.send(datagramPacket);
+                        socket.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                    break;
+                default:
+                    throw new IllegalAccessError("data should be valid when calling this method");
                 }
             } catch (UnknownHostException e) {
                 e.printStackTrace();

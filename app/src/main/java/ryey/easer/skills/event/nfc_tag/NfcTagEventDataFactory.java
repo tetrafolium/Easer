@@ -38,7 +38,7 @@ class NfcTagEventDataFactory implements EventDataFactory<NfcTagEventData> {
     @Override
     public NfcTagEventData dummyData() {
         NfcTagEventData dummyData = new NfcTagEventData();
-        dummyData.id = new byte[]{1, 47, 92, 63};
+        dummyData.id = new byte[] {1, 47, 92, 63};
         return dummyData;
     }
 

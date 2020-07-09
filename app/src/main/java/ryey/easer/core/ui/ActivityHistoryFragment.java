@@ -85,9 +85,9 @@ public class ActivityHistoryFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
-                case EHService.ACTION_PROFILE_UPDATED:
-                    refreshHistoryDisplay();
-                    break;
+            case EHService.ACTION_PROFILE_UPDATED:
+                refreshHistoryDisplay();
+                break;
             }
         }
     };
@@ -209,7 +209,7 @@ public class ActivityHistoryFragment extends Fragment {
         @Override
         public HistoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_activity_log, parent, false);
+                     .inflate(R.layout.item_activity_log, parent, false);
             return new HistoryViewHolder(v, new WeakReference<>(parent.getContext()));
         }
 
@@ -220,18 +220,18 @@ public class ActivityHistoryFragment extends Fragment {
         }
 
         static final DiffUtil.ItemCallback<ActivityLog> DIFF_CALLBACK =
-                new DiffUtil.ItemCallback<ActivityLog>() {
-                    @Override
-                    public boolean areItemsTheSame(
-                            @NonNull ActivityLog oldActivityLog, @NonNull ActivityLog newActivityLog) {
-                        return oldActivityLog.equals(newActivityLog);
-                    }
-                    @Override
-                    public boolean areContentsTheSame(
-                            @NonNull ActivityLog oldActivityLog, @NonNull ActivityLog newActivityLog) {
-                        return oldActivityLog.equals(newActivityLog);
-                    }
-                };
+        new DiffUtil.ItemCallback<ActivityLog>() {
+            @Override
+            public boolean areItemsTheSame(
+                @NonNull ActivityLog oldActivityLog, @NonNull ActivityLog newActivityLog) {
+                return oldActivityLog.equals(newActivityLog);
+            }
+            @Override
+            public boolean areContentsTheSame(
+                @NonNull ActivityLog oldActivityLog, @NonNull ActivityLog newActivityLog) {
+                return oldActivityLog.equals(newActivityLog);
+            }
+        };
 
     }
 
@@ -289,8 +289,8 @@ public class ActivityHistoryFragment extends Fragment {
                 }
                 binding.cStatus.setVisibility(View.VISIBLE);
                 binding.tvStatus.setText(log.getSatisfaction()
-                        ? R.string.activity_history__satisfied
-                        : R.string.activity_history__unsatisfied);
+                                         ? R.string.activity_history__satisfied
+                                         : R.string.activity_history__unsatisfied);
             } else {
                 if (activityLog instanceof ProfileLoadedLog) {
                     ProfileLoadedLog log = (ProfileLoadedLog) activityLog;
@@ -305,8 +305,8 @@ public class ActivityHistoryFragment extends Fragment {
                     binding.tvService.setText(serviceName);
                     binding.cStatus.setVisibility(View.VISIBLE);
                     binding.tvStatus.setText(start
-                            ? R.string.activity_history__start
-                            : R.string.activity_history__stop);
+                                             ? R.string.activity_history__start
+                                             : R.string.activity_history__stop);
                 }
             }
         }

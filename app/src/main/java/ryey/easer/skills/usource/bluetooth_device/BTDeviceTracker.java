@@ -70,7 +70,7 @@ public class BTDeviceTracker extends SkeletonTracker<BTDeviceUSourceData> {
         super(context, data, event_positive, event_negative);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
             BluetoothManager bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
-            for (int profile : new int[]{BluetoothProfile.GATT, BluetoothProfile.GATT_SERVER}) {
+            for (int profile : new int[] {BluetoothProfile.GATT, BluetoothProfile.GATT_SERVER}) {
                 for (BluetoothDevice btDevice : bluetoothManager.getConnectedDevices(profile)) {
                     if (is_target(btDevice)) {
                         matched_devices++;

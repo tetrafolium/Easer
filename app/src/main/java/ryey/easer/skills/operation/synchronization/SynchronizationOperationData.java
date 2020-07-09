@@ -39,7 +39,7 @@ public class SynchronizationOperationData extends BooleanOperationData {
     }
 
     public static final Parcelable.Creator<SynchronizationOperationData> CREATOR
-            = new Parcelable.Creator<SynchronizationOperationData>() {
+    = new Parcelable.Creator<SynchronizationOperationData>() {
         public SynchronizationOperationData createFromParcel(Parcel in) {
             return new SynchronizationOperationData(in);
         }

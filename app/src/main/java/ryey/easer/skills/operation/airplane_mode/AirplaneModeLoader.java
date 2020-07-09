@@ -66,8 +66,8 @@ public class AirplaneModeLoader extends OperationLoader<AirplaneModeOperationDat
 
     private boolean switchBefore17(boolean newState) {
         Settings.System.putInt(
-                context.getContentResolver(),
-                Settings.System.AIRPLANE_MODE_ON, newState ? 1 : 0);
+            context.getContentResolver(),
+            Settings.System.AIRPLANE_MODE_ON, newState ? 1 : 0);
 
         Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
         intent.putExtra("state", !newState);

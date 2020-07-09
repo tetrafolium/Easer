@@ -36,11 +36,11 @@ enum RingerMode {
     static RingerMode compatible(RingerMode mode) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             switch (mode) {
-                case dnd_all:
-                case dnd_priority:
-                case dnd_none:
-                case dnd_alarms:
-                    mode = silent;
+            case dnd_all:
+            case dnd_priority:
+            case dnd_none:
+            case dnd_alarms:
+                mode = silent;
             }
         } else {
             if (mode == silent)

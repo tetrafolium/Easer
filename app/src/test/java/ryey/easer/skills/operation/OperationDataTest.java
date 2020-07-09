@@ -48,7 +48,7 @@ public class OperationDataTest {
 
     @Test
     public void testParseAndSerializeMatch() throws Exception {
-        for (Boolean state : new Boolean[]{true, false}) {
+        for (Boolean state : new Boolean[] {true, false}) {
             class IBooleanOperationData extends BooleanOperationData {
                 IBooleanOperationData(Boolean state) {
                     super(state);
@@ -61,7 +61,7 @@ public class OperationDataTest {
             testParseAndSerializeMatch(data0);
         }
 
-        for (int[] arr : new int[][]{{0,90,10}, {4,100,20}}) {
+        for (int[] arr : new int[][] {{0,90,10}, {4,100,20}}) {
             final int ilbound = arr[0];
             final int irbound = arr[1];
             int level = arr[2];
@@ -85,7 +85,7 @@ public class OperationDataTest {
             }
         }
 
-        for (String str : new String[]{"mystr1", "mystr2"}) {
+        for (String str : new String[] {"mystr1", "mystr2"}) {
             class IStringOperationData extends StringOperationData {
                 IStringOperationData(String data) {
                     super(data);

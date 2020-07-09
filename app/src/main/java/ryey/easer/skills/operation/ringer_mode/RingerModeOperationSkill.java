@@ -80,8 +80,8 @@ public class RingerModeOperationSkill implements OperationSkill<RingerModeOperat
             return SkillUtils.checkPermission(context, Manifest.permission.MODIFY_AUDIO_SETTINGS);
         } else {
             return SkillUtils.checkPermission(context, Manifest.permission.MODIFY_AUDIO_SETTINGS)
-                    && SkillUtils.isPermissionGrantedForNotificationListenerService(
-                            context, InterruptionFilterSwitcherService.class);
+                   && SkillUtils.isPermissionGrantedForNotificationListenerService(
+                       context, InterruptionFilterSwitcherService.class);
         }
     }
 
@@ -95,7 +95,7 @@ public class RingerModeOperationSkill implements OperationSkill<RingerModeOperat
                     activity.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
                 } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     SkillUtils.requestPermission(activity, requestCode,
-                            Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE);
+                                                 Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE);
                 }
                 SkillUtils.reenableComponent(activity, InterruptionFilterSwitcherService.class);
             }

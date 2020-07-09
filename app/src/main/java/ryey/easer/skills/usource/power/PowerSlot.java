@@ -32,12 +32,12 @@ public class PowerSlot extends AbstractSlot<PowerUSourceData> {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
-                case Intent.ACTION_POWER_CONNECTED:
-                    determineAndNotify(true);
-                    break;
-                case Intent.ACTION_POWER_DISCONNECTED:
-                    determineAndNotify(false);
-                    break;
+            case Intent.ACTION_POWER_CONNECTED:
+                determineAndNotify(true);
+                break;
+            case Intent.ACTION_POWER_DISCONNECTED:
+                determineAndNotify(false);
+                break;
             }
         }
     };

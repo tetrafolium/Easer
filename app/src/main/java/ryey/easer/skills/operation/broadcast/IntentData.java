@@ -84,7 +84,7 @@ public class IntentData implements Parcelable {
     }
 
     public static final Parcelable.Creator<IntentData> CREATOR
-            = new Parcelable.Creator<IntentData>() {
+    = new Parcelable.Creator<IntentData>() {
         public IntentData createFromParcel(Parcel in) {
             return new IntentData(in);
         }

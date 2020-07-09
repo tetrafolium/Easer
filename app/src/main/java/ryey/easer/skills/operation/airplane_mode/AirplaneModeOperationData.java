@@ -39,7 +39,7 @@ public class AirplaneModeOperationData extends BooleanOperationData {
     }
 
     public static final Parcelable.Creator<AirplaneModeOperationData> CREATOR
-            = new Parcelable.Creator<AirplaneModeOperationData>() {
+    = new Parcelable.Creator<AirplaneModeOperationData>() {
         public AirplaneModeOperationData createFromParcel(Parcel in) {
             return new AirplaneModeOperationData(in);
         }

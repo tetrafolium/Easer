@@ -67,7 +67,7 @@ public class DayOfWeekTracker extends SelfNotifiableSkeletonTracker<DayOfWeekUSo
         }
 
         mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                0, pendingIntent);
+                                          0, pendingIntent);
     }
 
     @Override

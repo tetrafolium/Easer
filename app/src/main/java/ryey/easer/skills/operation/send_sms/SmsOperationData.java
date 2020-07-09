@@ -71,16 +71,16 @@ public class SmsOperationData implements OperationData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(K_DEST, destination);
-                    jsonObject.put(K_CONTENT, content);
-                    res = jsonObject.toString();
-                } catch (JSONException e) {
-                    Logger.e(e, "error");
-                    throw new IllegalStateException(e);
-                }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put(K_DEST, destination);
+                jsonObject.put(K_CONTENT, content);
+                res = jsonObject.toString();
+            } catch (JSONException e) {
+                Logger.e(e, "error");
+                throw new IllegalStateException(e);
+            }
         }
         return res;
     }
@@ -123,7 +123,7 @@ public class SmsOperationData implements OperationData {
     }
 
     public static final Parcelable.Creator<SmsOperationData> CREATOR
-            = new Parcelable.Creator<SmsOperationData>() {
+    = new Parcelable.Creator<SmsOperationData>() {
         public SmsOperationData createFromParcel(Parcel in) {
             return new SmsOperationData(in);
         }

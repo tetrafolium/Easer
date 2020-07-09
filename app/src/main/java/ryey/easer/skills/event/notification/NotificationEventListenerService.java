@@ -111,8 +111,8 @@ public class NotificationEventListenerService extends NotificationListenerServic
         for (CompoundData compoundData : dataList) {
             NotificationEventData eventData = compoundData.notificationEventData;
             Intent intent = match(sbn, eventData.app, eventData.title, eventData.content)
-                    ? NotificationSlot.NotifyIntentPrototype.obtainPositiveIntent(compoundData.uri)
-                    : NotificationSlot.NotifyIntentPrototype.obtainNegativeIntent(compoundData.uri);
+                            ? NotificationSlot.NotifyIntentPrototype.obtainPositiveIntent(compoundData.uri)
+                            : NotificationSlot.NotifyIntentPrototype.obtainNegativeIntent(compoundData.uri);
             intent.putExtra(NotificationEventData.AppDynamics.id, sbn.getPackageName());
             Bundle extras = sbn.getNotification().extras;
             String title = extras.getString(Notification.EXTRA_TITLE);
@@ -146,24 +146,24 @@ public class NotificationEventListenerService extends NotificationListenerServic
         LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(mReceiver);
         if (dataList.size() > 0) {
             Logger.w("Listener to notifications not cleaned up completely: %d left",
-                    dataList.size());
+                     dataList.size());
         }
     }
 
     private void addListenToNotification(
-            NotificationEventData notificationEventData,
-            Uri uri) {
+        NotificationEventData notificationEventData,
+        Uri uri) {
         dataList.add(new CompoundData(
-                notificationEventData,
-                uri));
+                         notificationEventData,
+                         uri));
     }
 
     private void delListenToNotification(
-            NotificationEventData notificationEventData,
-            Uri uri) {
+        NotificationEventData notificationEventData,
+        Uri uri) {
         CompoundData compoundData = new CompoundData(
-                notificationEventData,
-                uri);
+            notificationEventData,
+            uri);
         dataList.remove(compoundData);
     }
 
@@ -171,8 +171,8 @@ public class NotificationEventListenerService extends NotificationListenerServic
         final NotificationEventData notificationEventData;
         final Uri uri;
         private CompoundData(
-                NotificationEventData notificationEventData,
-                Uri uri) {
+            NotificationEventData notificationEventData,
+            Uri uri) {
             this.notificationEventData = notificationEventData;
             this.uri = uri;
         }

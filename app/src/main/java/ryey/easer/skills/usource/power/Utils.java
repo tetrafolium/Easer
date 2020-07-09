@@ -27,12 +27,12 @@ import android.os.BatteryManager;
 final class Utils {
 
     static final int []pair1 = {
-            BatteryManager.BATTERY_PLUGGED_AC,
-            BatteryManager.BATTERY_PLUGGED_USB,
+        BatteryManager.BATTERY_PLUGGED_AC,
+        BatteryManager.BATTERY_PLUGGED_USB,
     };
     static final ChargingMethod []pair2 = {
-            ChargingMethod.ac,
-            ChargingMethod.usb,
+        ChargingMethod.ac,
+        ChargingMethod.usb,
     };
 
     static Intent getBatteryStickyIntent(Context context) {

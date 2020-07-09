@@ -56,8 +56,8 @@ public class RingerModeTracker extends SkeletonTracker<RingerModeConditionData> 
     private static IntentFilter intentFilter = new IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION);
 
     RingerModeTracker(Context context, RingerModeConditionData data,
-                   @NonNull PendingIntent event_positive,
-                   @NonNull PendingIntent event_negative) {
+                      @NonNull PendingIntent event_positive,
+                      @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
         this.condition = data;
         this.am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);

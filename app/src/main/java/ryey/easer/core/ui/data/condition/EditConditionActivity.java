@@ -33,7 +33,7 @@ public class EditConditionActivity extends AbstractEditDataActivity<ConditionStr
 
     EditText mEditText_name = null;
     EditConditionDataFragment editConditionDataFragment = null;
-    
+
     @Override
     protected ConditionDataStorage retDataStorage() {
         return new ConditionDataStorage(this);

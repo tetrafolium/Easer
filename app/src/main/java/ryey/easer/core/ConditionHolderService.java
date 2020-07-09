@@ -138,7 +138,7 @@ public class ConditionHolderService extends Service {
             ConditionStructure conditionStructure = conditionDataStorage.get(name);
             ConditionData conditionData = conditionStructure.getData();
             Tracker tracker = LocalSkillRegistry.getInstance().condition().findSkill(conditionData)
-                    .tracker(this, conditionData, positive, negative);
+                              .tracker(this, conditionData, positive, negative);
             tracker.start();
             trackerMap.put(name, tracker);
             associateMap.put(name, new ArraySet<Uri>());

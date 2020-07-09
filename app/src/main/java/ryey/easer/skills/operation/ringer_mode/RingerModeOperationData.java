@@ -50,30 +50,30 @@ public class RingerModeOperationData implements OperationData {
 
     public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                if (version < C.VERSION_GRANULAR_RINGER_MODE) {
-                    // backward compatible
-                    // was IntegerOperationData, [0, 2]
-                    Integer level = Integer.valueOf(data);
-                    switch (level) {
-                        case AudioManager.RINGER_MODE_SILENT:
-                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
-                                ringerMode = RingerMode.silent;
-                            else
-                                ringerMode = RingerMode.dnd_none;
-                            break;
-                        case AudioManager.RINGER_MODE_VIBRATE:
-                            ringerMode = RingerMode.vibrate;
-                            break;
-                        case AudioManager.RINGER_MODE_NORMAL:
-                            ringerMode = RingerMode.normal;
-                            break;
-                        default:
-                            throw new IllegalStateException("Compatibility for RingerMode shouldn't run out of cases");
-                    }
-                } else {
-                    ringerMode = RingerMode.valueOf(data);
+        default:
+            if (version < C.VERSION_GRANULAR_RINGER_MODE) {
+                // backward compatible
+                // was IntegerOperationData, [0, 2]
+                Integer level = Integer.valueOf(data);
+                switch (level) {
+                case AudioManager.RINGER_MODE_SILENT:
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+                        ringerMode = RingerMode.silent;
+                    else
+                        ringerMode = RingerMode.dnd_none;
+                    break;
+                case AudioManager.RINGER_MODE_VIBRATE:
+                    ringerMode = RingerMode.vibrate;
+                    break;
+                case AudioManager.RINGER_MODE_NORMAL:
+                    ringerMode = RingerMode.normal;
+                    break;
+                default:
+                    throw new IllegalStateException("Compatibility for RingerMode shouldn't run out of cases");
                 }
+            } else {
+                ringerMode = RingerMode.valueOf(data);
+            }
         }
     }
 
@@ -82,8 +82,8 @@ public class RingerModeOperationData implements OperationData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res = "";
         switch (format) {
-            default:
-                res = RingerMode.compatible(ringerMode).name();
+        default:
+            res = RingerMode.compatible(ringerMode).name();
         }
         return res;
     }
@@ -105,7 +105,7 @@ public class RingerModeOperationData implements OperationData {
     }
 
     public static final Parcelable.Creator<RingerModeOperationData> CREATOR
-            = new Parcelable.Creator<RingerModeOperationData>() {
+    = new Parcelable.Creator<RingerModeOperationData>() {
         public RingerModeOperationData createFromParcel(Parcel in) {
             return new RingerModeOperationData(in);
         }

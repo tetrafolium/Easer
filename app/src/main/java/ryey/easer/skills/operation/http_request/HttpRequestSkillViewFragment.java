@@ -59,14 +59,14 @@ public class HttpRequestSkillViewFragment extends SkillViewFragment<HttpRequestO
     @Override
     protected void _fill(@ValidData @NonNull HttpRequestOperationData data) {
         switch (data.requestMethod) {
-            case GET:
-                rb_get.setChecked(true);
-                break;
-            case POST:
-                rb_post.setChecked(true);
-                break;
-            default:
-                throw new IllegalAccessError();
+        case GET:
+            rb_get.setChecked(true);
+            break;
+        case POST:
+            rb_post.setChecked(true);
+            break;
+        default:
+            throw new IllegalAccessError();
         }
         editText_url.setText(data.url);
         editText_header.setText(data.requestHeader);

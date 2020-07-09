@@ -95,20 +95,20 @@ public class TcpTripEventData extends AbstractEventData {
 
     public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    rAddr = jsonObject.getString(K_RADDR);
-                    rPort = jsonObject.getInt(K_RPORT);
-                    send_data = jsonObject.optString(K_SEND_DATA, null);
-                    check_reply = jsonObject.getBoolean(K_CHECK_REPLY);
-                    if (check_reply) {
-                        reply_data = jsonObject.getString(K_REPLY_DATA);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStorageDataException(e);
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                rAddr = jsonObject.getString(K_RADDR);
+                rPort = jsonObject.getInt(K_RPORT);
+                send_data = jsonObject.optString(K_SEND_DATA, null);
+                check_reply = jsonObject.getBoolean(K_CHECK_REPLY);
+                if (check_reply) {
+                    reply_data = jsonObject.getString(K_REPLY_DATA);
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -117,23 +117,23 @@ public class TcpTripEventData extends AbstractEventData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put(K_RADDR, rAddr);
-                    jsonObject.put(K_RPORT, rPort);
-                    if (!Utils.isBlank(send_data)) {
-                        jsonObject.put(K_SEND_DATA, send_data);
-                    }
-                    jsonObject.put(K_CHECK_REPLY, check_reply);
-                    if (check_reply) {
-                        jsonObject.put(K_REPLY_DATA, reply_data);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStateException(e);
+        default:
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put(K_RADDR, rAddr);
+                jsonObject.put(K_RPORT, rPort);
+                if (!Utils.isBlank(send_data)) {
+                    jsonObject.put(K_SEND_DATA, send_data);
                 }
-                res = jsonObject.toString();
+                jsonObject.put(K_CHECK_REPLY, check_reply);
+                if (check_reply) {
+                    jsonObject.put(K_REPLY_DATA, reply_data);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStateException(e);
+            }
+            res = jsonObject.toString();
 
         }
         return res;
@@ -156,7 +156,7 @@ public class TcpTripEventData extends AbstractEventData {
     }
 
     public static final Creator<TcpTripEventData> CREATOR
-            = new Creator<TcpTripEventData>() {
+    = new Creator<TcpTripEventData>() {
         public TcpTripEventData createFromParcel(Parcel in) {
             return new TcpTripEventData(in);
         }

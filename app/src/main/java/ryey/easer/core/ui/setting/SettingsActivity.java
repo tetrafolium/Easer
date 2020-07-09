@@ -82,8 +82,8 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
         if (ContextCompat.checkSelfPermission(context, permission)
                 != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(context, String.format(
-                    context.getString(R.string.prompt_prevented_for_permission), permission),
-                    Toast.LENGTH_LONG).show();
+                               context.getString(R.string.prompt_prevented_for_permission), permission),
+                           Toast.LENGTH_LONG).show();
             return false;
         } else
             return true;
@@ -99,13 +99,13 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
             startPage = args.getInt(ARG_PAGE, PAGE_DEFAULT);
         }
         switch (startPage) {
-            case PAGE_SKILL:
-                setSkillFragment(getFragmentManager(), false);
-                break;
-            default:
-                getFragmentManager().beginTransaction()
-                        .replace(android.R.id.content, new SettingsFragment())
-                        .commit();
+        case PAGE_SKILL:
+            setSkillFragment(getFragmentManager(), false);
+            break;
+        default:
+            getFragmentManager().beginTransaction()
+            .replace(android.R.id.content, new SettingsFragment())
+            .commit();
         }
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -114,9 +114,9 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
+        case android.R.id.home:
+            onBackPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -128,24 +128,24 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
             PackageManager pm = getPackageManager();
             if (sharedPreferences.getBoolean(key, false)) {
                 pm.setComponentEnabledSetting(componentName,
-                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                        PackageManager.DONT_KILL_APP);
+                                              PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                                              PackageManager.DONT_KILL_APP);
             } else {
                 pm.setComponentEnabledSetting(componentName,
-                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                        PackageManager.DONT_KILL_APP);
+                                              PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                                              PackageManager.DONT_KILL_APP);
             }
         } else if (key.equals(getString(R.string.key_pref_restart_after_upgrade))) {
             ComponentName componentName = new ComponentName(this, UpgradeCompleteReceiver.class);
             PackageManager pm = getPackageManager();
             if (sharedPreferences.getBoolean(key, false)) {
                 pm.setComponentEnabledSetting(componentName,
-                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                        PackageManager.DONT_KILL_APP);
+                                              PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                                              PackageManager.DONT_KILL_APP);
             } else {
                 pm.setComponentEnabledSetting(componentName,
-                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                        PackageManager.DONT_KILL_APP);
+                                              PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                                              PackageManager.DONT_KILL_APP);
             }
         } else if (key.equals(getString(R.string.key_pref_use_root))) {
             if (sharedPreferences.getBoolean(key, false)) {
@@ -162,7 +162,7 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
     static void setSkillFragment(FragmentManager fragmentManager, boolean addToBackStack) {
         SkillSettingsPreferenceFragment fragment = new SkillSettingsPreferenceFragment();
         FragmentTransaction transaction = fragmentManager.beginTransaction()
-                .replace(android.R.id.content, fragment);
+                                          .replace(android.R.id.content, fragment);
         if (addToBackStack) {
             transaction.addToBackStack(BS_NAME_PLUGIN_ENABLED);
         }
@@ -198,8 +198,8 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
                 public boolean onPreferenceClick(Preference preference) {
                     if (!hasPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                         ActivityCompat.requestPermissions(getActivity(),
-                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                REQCODE_PERM_EXPORT);
+                                                          new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                                          REQCODE_PERM_EXPORT);
                     } else {
                         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.KITKAT) {
                             export_data(getActivity());
@@ -222,8 +222,8 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
                     if (!hasPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                             ActivityCompat.requestPermissions(getActivity(),
-                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                                    REQCODE_PERM_IMPORT);
+                                                              new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
+                                                              REQCODE_PERM_IMPORT);
                             return false;
                         }
                     } else {
@@ -242,10 +242,10 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
                     if ((Boolean) newValue) {
                         if (!hasPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                             Logger.i("Permission <%s> not granted. Requesting...",
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                                     Manifest.permission.WRITE_EXTERNAL_STORAGE);
                             ActivityCompat.requestPermissions(getActivity(),
-                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                    REQCODE_PERM_STORAGE);
+                                                              new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                                              REQCODE_PERM_STORAGE);
                             return false;
                         }
                     }
@@ -254,28 +254,28 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
             });
 
             findPreference(getString(R.string.key_pref_cooldown))
-                    .setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                        @Override
-                        public boolean onPreferenceChange(Preference preference, Object newValue) {
-                            if (BuildConfig.DEBUG && !(newValue instanceof String))
-                                throw new AssertionError();
-                            String interval_str = (String) newValue;
-                            try {
-                                int interval = Integer.parseInt(interval_str);
-                                if (interval < 0)
-                                    throw new NumberFormatException();
-                                return true;
-                            } catch (NumberFormatException e) {
-                                Toast.makeText(getActivity(),
-                                        R.string.cooldown_time_illformed, Toast.LENGTH_SHORT)
-                                        .show();
-                                return false;
-                            }
-                        }
-                    });
+            .setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    if (BuildConfig.DEBUG && !(newValue instanceof String))
+                        throw new AssertionError();
+                    String interval_str = (String) newValue;
+                    try {
+                        int interval = Integer.parseInt(interval_str);
+                        if (interval < 0)
+                            throw new NumberFormatException();
+                        return true;
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(getActivity(),
+                                       R.string.cooldown_time_illformed, Toast.LENGTH_SHORT)
+                        .show();
+                        return false;
+                    }
+                }
+            });
 
             findPreference(getString(R.string.key_pref_plugins))
-                    .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     setSkillFragment(getFragmentManager(), true);
@@ -284,7 +284,7 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
             });
 
             findPreference(getString(R.string.key_pref_convert_data))
-                    .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     if (!StorageHelper.convertToNewData(getActivity())) {
@@ -295,35 +295,35 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
             });
 
             findPreference(getString(R.string.key_pref_show_notification))
-                    .setEnabled(Build.VERSION.SDK_INT <= Build.VERSION_CODES.O);
+            .setEnabled(Build.VERSION.SDK_INT <= Build.VERSION_CODES.O);
 
             findPreference(getString(R.string.key_pref_foreground))
-                    .setEnabled(Build.VERSION.SDK_INT <= Build.VERSION_CODES.O);
+            .setEnabled(Build.VERSION.SDK_INT <= Build.VERSION_CODES.O);
 
             ((ListPreference) findPreference(getString(R.string.key_pref_locale_lang)))
-                    .setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                        @Override
-                        public boolean onPreferenceChange(Preference preference, Object newValue) {
-                            String locale_str = (String) newValue;
-                            Locale locale;
-                            if ("_".equals(locale_str)) {
-                                locale = Resources.getSystem().getConfiguration().locale;
-                            } else if ("zh".equals(locale_str)) {
-                                locale = Locale.CHINESE;
-                            } else {
-                                locale = new Locale(locale_str);
-                            }
-                            Logger.d("Locale changing to %s, based on %s", locale, locale_str);
-                            Context context;
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                context = getContext();
-                            } else {
-                                context = getActivity();
-                            }
-                            LocaleHelper.INSTANCE.setLocale(context, locale);
-                            return true;
-                        }
-                    });
+            .setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    String locale_str = (String) newValue;
+                    Locale locale;
+                    if ("_".equals(locale_str)) {
+                        locale = Resources.getSystem().getConfiguration().locale;
+                    } else if ("zh".equals(locale_str)) {
+                        locale = Locale.CHINESE;
+                    } else {
+                        locale = new Locale(locale_str);
+                    }
+                    Logger.d("Locale changing to %s, based on %s", locale, locale_str);
+                    Context context;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        context = getContext();
+                    } else {
+                        context = getActivity();
+                    }
+                    LocaleHelper.INSTANCE.setLocale(context, locale);
+                    return true;
+                }
+            });
 
         }
 
@@ -331,14 +331,14 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
         public void onResume() {
             super.onResume();
             getPreferenceScreen().getSharedPreferences()
-                    .registerOnSharedPreferenceChangeListener((SettingsActivity) getActivity());
+            .registerOnSharedPreferenceChangeListener((SettingsActivity) getActivity());
         }
 
         @Override
         public void onPause() {
             super.onPause();
             getPreferenceScreen().getSharedPreferences()
-                    .unregisterOnSharedPreferenceChangeListener((SettingsActivity) getActivity());
+            .unregisterOnSharedPreferenceChangeListener((SettingsActivity) getActivity());
         }
 
         @Override
@@ -354,9 +354,9 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
                         e.printStackTrace();
                     } catch (InvalidExportedDataException e) {
                         Toast.makeText(getActivity(),
-                                R.string.message_importing_invalid_data,
-                                Toast.LENGTH_LONG)
-                                .show();
+                                       R.string.message_importing_invalid_data,
+                                       Toast.LENGTH_LONG)
+                        .show();
                         e.printStackTrace();
                     }
                 } else if (requestCode == REQCODE_PICK_FILE_EXPORT) {
@@ -374,19 +374,19 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
         @Override
         public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
             switch (requestCode) {
-                case REQCODE_PERM_STORAGE:
-                case REQCODE_PERM_EXPORT:
-                case REQCODE_PERM_IMPORT:
-                    if (grantResults.length == 0) {
-                        Logger.wtf("Request permission result with ZERO length!!!");
-                        return;
-                    }
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        Logger.i("Request for permission <%s> granted", permissions[0]);
-                    } else {
-                        Logger.i("Request for permission <%s> denied", permissions[0]);
-                    }
-                    break;
+            case REQCODE_PERM_STORAGE:
+            case REQCODE_PERM_EXPORT:
+            case REQCODE_PERM_IMPORT:
+                if (grantResults.length == 0) {
+                    Logger.wtf("Request permission result with ZERO length!!!");
+                    return;
+                }
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Logger.i("Request for permission <%s> granted", permissions[0]);
+                } else {
+                    Logger.i("Request for permission <%s> denied", permissions[0]);
+                }
+                break;
             }
         }
 
@@ -404,8 +404,8 @@ public class SettingsActivity extends CommonBaseActivity implements SharedPrefer
                 Logger.v("Export destination: %s", dest);
                 Helper.export_data(context, dest);
                 Toast.makeText(context,
-                        String.format(context.getString(R.string.template_export), dest.getName()),
-                        Toast.LENGTH_SHORT).show();
+                               String.format(context.getString(R.string.template_export), dest.getName()),
+                               Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 e.printStackTrace();
             }

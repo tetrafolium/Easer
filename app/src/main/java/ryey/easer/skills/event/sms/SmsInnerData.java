@@ -57,7 +57,7 @@ class SmsInnerData implements Parcelable {
     }
 
     public static final Parcelable.Creator<SmsInnerData> CREATOR
-            = new Parcelable.Creator<SmsInnerData>() {
+    = new Parcelable.Creator<SmsInnerData>() {
         public SmsInnerData createFromParcel(Parcel in) {
             return new SmsInnerData(in);
         }

@@ -78,17 +78,17 @@ public class NetworkTransmissionOperationData implements OperationData {
 
     public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    protocol = Protocol.valueOf(jsonObject.getString(K_PROTOCOL));
-                    remote_address = jsonObject.getString(K_REMOTE_ADDRESS);
-                    remote_port = jsonObject.getInt(K_REMOTE_PORT);
-                    this.data = jsonObject.getString(K_DATA);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStorageDataException(e);
-                }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                protocol = Protocol.valueOf(jsonObject.getString(K_PROTOCOL));
+                remote_address = jsonObject.getString(K_REMOTE_ADDRESS);
+                remote_port = jsonObject.getInt(K_REMOTE_PORT);
+                this.data = jsonObject.getString(K_DATA);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -97,18 +97,18 @@ public class NetworkTransmissionOperationData implements OperationData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put(K_PROTOCOL, protocol.toString());
-                    jsonObject.put(K_REMOTE_ADDRESS, remote_address);
-                    jsonObject.put(K_REMOTE_PORT, remote_port);
-                    jsonObject.put(K_DATA, data);
-                    res = jsonObject.toString();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStateException(e.getMessage());
-                }
+        default:
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put(K_PROTOCOL, protocol.toString());
+                jsonObject.put(K_REMOTE_ADDRESS, remote_address);
+                jsonObject.put(K_REMOTE_PORT, remote_port);
+                jsonObject.put(K_DATA, data);
+                res = jsonObject.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStateException(e.getMessage());
+            }
         }
         return res;
     }
@@ -157,7 +157,7 @@ public class NetworkTransmissionOperationData implements OperationData {
     }
 
     public static final Parcelable.Creator<NetworkTransmissionOperationData> CREATOR
-            = new Parcelable.Creator<NetworkTransmissionOperationData>() {
+    = new Parcelable.Creator<NetworkTransmissionOperationData>() {
         public NetworkTransmissionOperationData createFromParcel(Parcel in) {
             return new NetworkTransmissionOperationData(in);
         }

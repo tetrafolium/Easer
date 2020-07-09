@@ -77,18 +77,18 @@ public class VolumeOperationData implements OperationData {
 
     public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    vol_ring = optInteger(jsonObject, K_VOL_RING);
-                    vol_media = optInteger(jsonObject, K_VOL_MEDIA);
-                    vol_alarm = optInteger(jsonObject, K_VOL_ALARM);
-                    vol_notification = optInteger(jsonObject, K_VOL_NOTIFICATION);
-                    vol_bt = optInteger(jsonObject, K_VOL_BT);
-                    bt_delay = optInteger(jsonObject, K_BT_DELAY);
-                } catch (JSONException e) {
-                    throw new IllegalStorageDataException(e);
-                }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                vol_ring = optInteger(jsonObject, K_VOL_RING);
+                vol_media = optInteger(jsonObject, K_VOL_MEDIA);
+                vol_alarm = optInteger(jsonObject, K_VOL_ALARM);
+                vol_notification = optInteger(jsonObject, K_VOL_NOTIFICATION);
+                vol_bt = optInteger(jsonObject, K_VOL_BT);
+                bt_delay = optInteger(jsonObject, K_BT_DELAY);
+            } catch (JSONException e) {
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -97,19 +97,19 @@ public class VolumeOperationData implements OperationData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    writeNonNull(jsonObject, vol_ring, K_VOL_RING);
-                    writeNonNull(jsonObject, vol_media, K_VOL_MEDIA);
-                    writeNonNull(jsonObject, vol_alarm, K_VOL_ALARM);
-                    writeNonNull(jsonObject, vol_notification, K_VOL_NOTIFICATION);
-                    writeNonNull(jsonObject, vol_bt, K_VOL_BT);
-                    writeNonNull(jsonObject, bt_delay, K_BT_DELAY);
-                    res = jsonObject.toString();
-                } catch (JSONException e) {
-                    throw new IllegalStateException(e);
-                }
+        default:
+            JSONObject jsonObject = new JSONObject();
+            try {
+                writeNonNull(jsonObject, vol_ring, K_VOL_RING);
+                writeNonNull(jsonObject, vol_media, K_VOL_MEDIA);
+                writeNonNull(jsonObject, vol_alarm, K_VOL_ALARM);
+                writeNonNull(jsonObject, vol_notification, K_VOL_NOTIFICATION);
+                writeNonNull(jsonObject, vol_bt, K_VOL_BT);
+                writeNonNull(jsonObject, bt_delay, K_BT_DELAY);
+                res = jsonObject.toString();
+            } catch (JSONException e) {
+                throw new IllegalStateException(e);
+            }
         }
         return res;
     }
@@ -138,12 +138,12 @@ public class VolumeOperationData implements OperationData {
     @Override
     public boolean isValid() {
         return (isNotNegative(vol_ring)
-                        || isNotNegative(vol_media)
-                        || isNotNegative(vol_alarm)
-                        || isNotNegative(vol_notification)
-                        || isNotNegative(vol_bt)
-                        || isNotNegative(bt_delay))
-                && ((vol_bt == null) == (bt_delay == null));
+                || isNotNegative(vol_media)
+                || isNotNegative(vol_alarm)
+                || isNotNegative(vol_notification)
+                || isNotNegative(vol_bt)
+                || isNotNegative(bt_delay))
+               && ((vol_bt == null) == (bt_delay == null));
     }
 
     @Override
@@ -162,7 +162,7 @@ public class VolumeOperationData implements OperationData {
     }
 
     public static final Creator<VolumeOperationData> CREATOR
-            = new Creator<VolumeOperationData>() {
+    = new Creator<VolumeOperationData>() {
         public VolumeOperationData createFromParcel(Parcel in) {
             return new VolumeOperationData(in);
         }

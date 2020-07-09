@@ -44,7 +44,7 @@ import java.io.File;
 import ryey.easer.core.log.ActivityLogService;
 
 @AcraCore(buildConfigClass = BuildConfig.class,
-        reportSenderFactoryClasses = ErrorSenderFactory.class)
+          reportSenderFactoryClasses = ErrorSenderFactory.class)
 @AcraToast(resText=R.string.prompt_error_logged)
 public class EaserApplication extends Application {
 
@@ -60,12 +60,12 @@ public class EaserApplication extends Application {
 
         if (SettingsUtils.logging(this)) {
             if (ContextCompat.checkSelfPermission(getApplicationContext(),
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                                                  Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 Logger.addLogAdapter(new DiskLogAdapter());
             } else {
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                        .putBoolean(getString(R.string.key_pref_logging), false)
-                        .apply();
+                .putBoolean(getString(R.string.key_pref_logging), false)
+                .apply();
             }
         }
 

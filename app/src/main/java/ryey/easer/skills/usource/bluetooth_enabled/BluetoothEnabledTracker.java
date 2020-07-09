@@ -39,14 +39,14 @@ public class BluetoothEnabledTracker extends SkeletonTracker<BluetoothEnabledUSo
         public void onReceive(Context context, Intent intent) {
             if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(intent.getAction())) {
                 switch (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1)) {
-                    case BluetoothAdapter.STATE_ON:
-                        newSatisfiedState(data.enabled);
-                        break;
-                    case BluetoothAdapter.STATE_OFF:
-                        newSatisfiedState(!data.enabled);
-                        break;
-                    default:
-                        newSatisfiedState(null);
+                case BluetoothAdapter.STATE_ON:
+                    newSatisfiedState(data.enabled);
+                    break;
+                case BluetoothAdapter.STATE_OFF:
+                    newSatisfiedState(!data.enabled);
+                    break;
+                default:
+                    newSatisfiedState(null);
                 }
             }
         }
@@ -54,8 +54,8 @@ public class BluetoothEnabledTracker extends SkeletonTracker<BluetoothEnabledUSo
     private static IntentFilter intentFilter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
 
     BluetoothEnabledTracker(Context context, BluetoothEnabledUSourceData data,
-                   @NonNull PendingIntent event_positive,
-                   @NonNull PendingIntent event_negative) {
+                            @NonNull PendingIntent event_positive,
+                            @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();

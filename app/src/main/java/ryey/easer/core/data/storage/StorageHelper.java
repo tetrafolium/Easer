@@ -51,10 +51,10 @@ public class StorageHelper {
 
     public static boolean hasOldData(Context context) {
         AbstractDataStorage<?, ?> []dataStorages = {
-                new ProfileDataStorage(context),
-                new ScriptDataStorage(context),
-                new EventDataStorage(context),
-                new ConditionDataStorage(context),
+            new ProfileDataStorage(context),
+            new ScriptDataStorage(context),
+            new EventDataStorage(context),
+            new ConditionDataStorage(context),
         };
         for (AbstractDataStorage<?, ?> dataStorage : dataStorages) {
             for (String name : dataStorage.list()) {
@@ -102,16 +102,16 @@ public class StorageHelper {
         }
 
         AbstractDataStorage<?, ?> []dataStorages = {
-                new ProfileDataStorage(context),
-                new ScriptDataStorage(context),
-                new EventDataStorage(context),
-                new ConditionDataStorage(context),
+            new ProfileDataStorage(context),
+            new ScriptDataStorage(context),
+            new EventDataStorage(context),
+            new ConditionDataStorage(context),
         };
         String []tags = {
-                "Profile",
-                "Script",
-                "Scenario",
-                "Condition",
+            "Profile",
+            "Script",
+            "Scenario",
+            "Condition",
         };
         for (int i = 0; i < dataStorages.length; i++) {
             AbstractDataStorage<?, ?> dataStorage = dataStorages[i];
@@ -163,9 +163,9 @@ public class StorageHelper {
             for (ScriptStructure int_node : scriptStructureList) {
                 if (int_node.isValid()) { //TODO: Move this check to EHService and/or Lotus
                     treeList.add(new ScriptTree(
-                            int_node,
-                            mapToTreeList(eventIntermediateDataMap, int_node.getName())
-                    ));
+                                     int_node,
+                                     mapToTreeList(eventIntermediateDataMap, int_node.getName())
+                                 ));
                 }
             }
         }

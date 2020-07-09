@@ -95,10 +95,10 @@ public class EditScriptActivity extends AbstractEditDataActivity<ScriptStructure
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_toggle_active:
-                isActive = !item.isChecked();
-                item.setChecked(isActive);
-                return true;
+        case R.id.action_toggle_active:
+            isActive = !item.isChecked();
+            item.setChecked(isActive);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -123,17 +123,17 @@ public class EditScriptActivity extends AbstractEditDataActivity<ScriptStructure
 
         sw_parent = new DataSelectSpinnerWrapper(this, (Spinner) findViewById(R.id.spinner_parent));
         sw_parent
-                .beginInit()
-                .setAllowEmpty(true)
-                .fillData(new ScriptDataStorage(this).list())
-                .finalizeInit();
+        .beginInit()
+        .setAllowEmpty(true)
+        .fillData(new ScriptDataStorage(this).list())
+        .finalizeInit();
 
         sw_profile = new DataSelectSpinnerWrapper(this, (Spinner) findViewById(R.id.spinner_profile));
         sw_profile
-                .beginInit()
-                .setAllowEmpty(true)
-                .fillData(new ProfileDataStorage(this).list())
-                .finalizeInit();
+        .beginInit()
+        .setAllowEmpty(true)
+        .fillData(new ProfileDataStorage(this).list())
+        .finalizeInit();
 
         mSwitch_reverse = findViewById(R.id.switch_reverse);
 
@@ -142,20 +142,20 @@ public class EditScriptActivity extends AbstractEditDataActivity<ScriptStructure
         layout_use_event = findViewById(R.id.layout_use_event);
         sw_event = new DataSelectSpinnerWrapper(this, (Spinner) findViewById(R.id.spinner_event));
         sw_event
-                .beginInit()
-                .setAllowEmpty(false)
-                .fillData(new EventDataStorage(this).list())
-                .finalizeInit();
+        .beginInit()
+        .setAllowEmpty(false)
+        .fillData(new EventDataStorage(this).list())
+        .finalizeInit();
         mSwitch_repeatable = findViewById(R.id.switch_repeatable);
         mSwitch_persistent = findViewById(R.id.switch_persistent);
 
         layout_use_condition = findViewById(R.id.layout_use_condition);
         sw_condition = new DataSelectSpinnerWrapper(this, (Spinner) findViewById(R.id.spinner_condition));
         sw_condition
-                .beginInit()
-                .setAllowEmpty(false)
-                .fillData(new ConditionDataStorage(this).list())
-                .finalizeInit();
+        .beginInit()
+        .setAllowEmpty(false)
+        .fillData(new ConditionDataStorage(this).list())
+        .finalizeInit();
 
         rg_mode = findViewById(R.id.rg_trigger);
         rg_mode.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

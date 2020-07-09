@@ -106,7 +106,7 @@ public class ProfileLoaderService extends Service {
             handleActionLoadProfile(profileName, null, extras);
         }
         public void triggerProfile(String profileName, String scriptName,
-                                          Bundle dynamicsProperties, DynamicsLink dynamicsLink) {
+                                   Bundle dynamicsProperties, DynamicsLink dynamicsLink) {
             Bundle extras = new Bundle();
             extras.putString(ProfileLoaderService.EXTRA_PROFILE_NAME, profileName);
             extras.putString(ProfileLoaderService.EXTRA_SCRIPT_NAME, scriptName);

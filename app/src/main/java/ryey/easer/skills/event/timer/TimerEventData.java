@@ -62,21 +62,21 @@ public class TimerEventData extends AbstractEventData {
 
     TimerEventData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    shortTime = jsonObject.optBoolean(K_SHORT, false);
-                    if (shortTime) {
-                        time = jsonObject.getInt(K_SECONDS);
-                        exact = null;
-                    } else {
-                        time = jsonObject.getInt(K_MINUTES);
-                        exact = jsonObject.getBoolean(K_EXACT_BOOL);
-                    }
-                    repeat = jsonObject.getBoolean(K_REPEAT_BOOL);
-                } catch (JSONException e) {
-                    throw new IllegalStorageDataException(e);
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                shortTime = jsonObject.optBoolean(K_SHORT, false);
+                if (shortTime) {
+                    time = jsonObject.getInt(K_SECONDS);
+                    exact = null;
+                } else {
+                    time = jsonObject.getInt(K_MINUTES);
+                    exact = jsonObject.getBoolean(K_EXACT_BOOL);
                 }
+                repeat = jsonObject.getBoolean(K_REPEAT_BOOL);
+            } catch (JSONException e) {
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -115,22 +115,22 @@ public class TimerEventData extends AbstractEventData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put(K_SHORT, shortTime);
-                    if (shortTime)
-                        jsonObject.put(K_SECONDS, time);
-                    else {
-                        jsonObject.put(K_MINUTES, time);
-                        jsonObject.put(K_EXACT_BOOL, exact);
-                    }
-                    jsonObject.put(K_REPEAT_BOOL, repeat);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStateException(e);
+        default:
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put(K_SHORT, shortTime);
+                if (shortTime)
+                    jsonObject.put(K_SECONDS, time);
+                else {
+                    jsonObject.put(K_MINUTES, time);
+                    jsonObject.put(K_EXACT_BOOL, exact);
                 }
-                res = jsonObject.toString();
+                jsonObject.put(K_REPEAT_BOOL, repeat);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStateException(e);
+            }
+            res = jsonObject.toString();
         }
         return res;
     }
@@ -151,7 +151,7 @@ public class TimerEventData extends AbstractEventData {
     }
 
     public static final Creator<TimerEventData> CREATOR
-            = new Creator<TimerEventData>() {
+    = new Creator<TimerEventData>() {
         public TimerEventData createFromParcel(Parcel in) {
             return new TimerEventData(in);
         }

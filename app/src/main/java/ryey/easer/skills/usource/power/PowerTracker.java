@@ -38,12 +38,12 @@ public class PowerTracker extends SkeletonTracker<PowerUSourceData> {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
-                case Intent.ACTION_POWER_CONNECTED:
-                    determineAndNotify(true);
-                    break;
-                case Intent.ACTION_POWER_DISCONNECTED:
-                    determineAndNotify(false);
-                    break;
+            case Intent.ACTION_POWER_CONNECTED:
+                determineAndNotify(true);
+                break;
+            case Intent.ACTION_POWER_DISCONNECTED:
+                determineAndNotify(false);
+                break;
             }
         }
     };
@@ -81,7 +81,7 @@ public class PowerTracker extends SkeletonTracker<PowerUSourceData> {
         Intent batteryStickyIntent = Utils.getBatteryStickyIntent(context);
         int status = batteryStickyIntent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
         boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
-                status == BatteryManager.BATTERY_STATUS_FULL;
+                             status == BatteryManager.BATTERY_STATUS_FULL;
         return Utils.determine(isCharging, data, batteryStickyIntent);
     }
 

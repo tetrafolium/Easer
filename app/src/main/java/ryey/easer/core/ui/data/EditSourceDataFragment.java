@@ -71,8 +71,8 @@ public abstract class EditSourceDataFragment<D extends StorageData, S extends Sk
         S skill = findSkill(data);
         assert skill != null;
         setSkill(skillViewContainerFragment(skill),
-                getString(skill.name()),
-                data);
+                 getString(skill.name()),
+                 data);
     }
 
     public D saveToData() throws InvalidDataInputException {
@@ -94,8 +94,8 @@ public abstract class EditSourceDataFragment<D extends StorageData, S extends Sk
         mButtonSelect.setText(name);
         this.skillViewContainerFragment = skillViewContainerFragment;
         getChildFragmentManager().beginTransaction()
-                .replace(R.id.skill_view, skillViewContainerFragment)
-                .commit();
+        .replace(R.id.skill_view, skillViewContainerFragment)
+        .commit();
         if (data != null)
             skillViewContainerFragment.fill(data);
     }

@@ -55,25 +55,25 @@ public class WifiUSourceData implements USourceData {
 
     WifiUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                try {
-                    if (version < C.VERSION_WIFI_ADD_BSSID) {
-                        JSONArray jsonArray = new JSONArray(data);
-                        readFromJsonArray(jsonArray);
+        default:
+            try {
+                if (version < C.VERSION_WIFI_ADD_BSSID) {
+                    JSONArray jsonArray = new JSONArray(data);
+                    readFromJsonArray(jsonArray);
+                } else {
+                    JSONObject jsonObject = new JSONObject(data);
+                    if (jsonObject.has(K_ESSID)) {
+                        mode_essid = true;
+                        readFromJsonArray(jsonObject.getJSONArray(K_ESSID));
                     } else {
-                        JSONObject jsonObject = new JSONObject(data);
-                        if (jsonObject.has(K_ESSID)) {
-                            mode_essid = true;
-                            readFromJsonArray(jsonObject.getJSONArray(K_ESSID));
-                        } else {
-                            mode_essid = false;
-                            readFromJsonArray(jsonObject.getJSONArray(K_BSSID));
-                        }
+                        mode_essid = false;
+                        readFromJsonArray(jsonObject.getJSONArray(K_BSSID));
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStorageDataException(e);
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -122,22 +122,22 @@ public class WifiUSourceData implements USourceData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject();
-                    JSONArray jsonArray = new JSONArray();
-                    for (String ssid : ssids) {
-                        jsonArray.put(ssid);
-                    }
-                    if (mode_essid)
-                        jsonObject.put(K_ESSID, jsonArray);
-                    else
-                        jsonObject.put(K_BSSID, jsonArray);
-                    res = jsonObject.toString();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStateException();
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject();
+                JSONArray jsonArray = new JSONArray();
+                for (String ssid : ssids) {
+                    jsonArray.put(ssid);
                 }
+                if (mode_essid)
+                    jsonObject.put(K_ESSID, jsonArray);
+                else
+                    jsonObject.put(K_BSSID, jsonArray);
+                res = jsonObject.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStateException();
+            }
         }
         return res;
     }
@@ -161,7 +161,7 @@ public class WifiUSourceData implements USourceData {
     }
 
     public static final Parcelable.Creator<WifiUSourceData> CREATOR
-            = new Parcelable.Creator<WifiUSourceData>() {
+    = new Parcelable.Creator<WifiUSourceData>() {
         public WifiUSourceData createFromParcel(Parcel in) {
             return new WifiUSourceData(in);
         }

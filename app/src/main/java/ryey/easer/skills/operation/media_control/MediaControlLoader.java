@@ -91,18 +91,18 @@ public class MediaControlLoader extends OperationLoader<MediaControlOperationDat
 
     private static int toKeyCode(MediaControlOperationData.ControlChoice choice) {
         switch (choice) {
-            case play_pause:
-                return KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE;
-            case play:
-                return KeyEvent.KEYCODE_MEDIA_PLAY;
-            case pause:
-                return KeyEvent.KEYCODE_MEDIA_PAUSE;
-            case previous:
-                return KeyEvent.KEYCODE_MEDIA_PREVIOUS;
-            case next:
-                return KeyEvent.KEYCODE_MEDIA_NEXT;
-            default:
-                throw new IllegalAccessError();
+        case play_pause:
+            return KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE;
+        case play:
+            return KeyEvent.KEYCODE_MEDIA_PLAY;
+        case pause:
+            return KeyEvent.KEYCODE_MEDIA_PAUSE;
+        case previous:
+            return KeyEvent.KEYCODE_MEDIA_PREVIOUS;
+        case next:
+            return KeyEvent.KEYCODE_MEDIA_NEXT;
+        default:
+            throw new IllegalAccessError();
         }
     }
 }

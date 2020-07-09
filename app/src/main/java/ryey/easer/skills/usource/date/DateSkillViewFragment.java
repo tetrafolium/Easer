@@ -56,7 +56,7 @@ public class DateSkillViewFragment extends SkillViewFragment<DateUSourceData> {
 
     private static void setDatePicker(DatePicker datePicker, Calendar calendar) {
         datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH), null);
+                        calendar.get(Calendar.DAY_OF_MONTH), null);
     }
 
     @Override

@@ -102,20 +102,20 @@ public class CalendarSkillViewFragment extends SkillViewFragment<CalendarConditi
 
                 final CursorLoader cursorLoader = new CursorLoader(getContext(),
                         CalendarContract.Calendars.CONTENT_URI,
-                        new String[]{
-                                CalendarContract.Calendars._ID,
-                                CalendarContract.Calendars.ACCOUNT_NAME,
-                                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+                        new String[] {
+                            CalendarContract.Calendars._ID,
+                            CalendarContract.Calendars.ACCOUNT_NAME,
+                            CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
                         },
                         null, null, null);
                 final SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(
-                        getContext(), android.R.layout.simple_list_item_2,
-                        cursorLoader.loadInBackground(),
-                        new String[]{
-                                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
-                                CalendarContract.Calendars.ACCOUNT_NAME,
-                        },
-                        new int[]{android.R.id.text1, android.R.id.text2}, 0) {
+                    getContext(), android.R.layout.simple_list_item_2,
+                    cursorLoader.loadInBackground(),
+                    new String[] {
+                        CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+                        CalendarContract.Calendars.ACCOUNT_NAME,
+                    },
+                new int[] {android.R.id.text1, android.R.id.text2}, 0) {
                     @Override
                     public void setViewText(TextView v, String text) {
                         if (v.getId() == android.R.id.text2)
@@ -127,26 +127,26 @@ public class CalendarSkillViewFragment extends SkillViewFragment<CalendarConditi
                 cursorLoader.registerListener(0, (loader, data) -> { simpleCursorAdapter.swapCursor(data); });
 
                 builderSingle.setAdapter(simpleCursorAdapter, (dialog, which) -> {
-                        Cursor cursor = (Cursor) simpleCursorAdapter.getItem(which);
-                        long id = cursor.getLong(0);
-                        String name = cursor.getString(2);
-                        Intent intent = new Intent(ACTION_RETURN);
-                        intent.putExtra(EXTRA_CALENDAR_ID, id);
-                        intent.putExtra(EXTRA_CALENDAR_NAME, name);
-                        getContext().sendBroadcast(intent);
-                    });
+                    Cursor cursor = (Cursor) simpleCursorAdapter.getItem(which);
+                    long id = cursor.getLong(0);
+                    String name = cursor.getString(2);
+                    Intent intent = new Intent(ACTION_RETURN);
+                    intent.putExtra(EXTRA_CALENDAR_ID, id);
+                    intent.putExtra(EXTRA_CALENDAR_NAME, name);
+                    getContext().sendBroadcast(intent);
+                });
 
                 builderSingle.show();
             }
         });
 
         rg_event_title.setOnCheckedChangeListener((group, checkedId) -> {
-                if (checkedId == rb_event_title_pattern.getId()) {
-                    ti_event_title_pattern.setEnabled(true);
-                } else {
-                    ti_event_title_pattern.setEnabled(false);
-                }
-            });
+            if (checkedId == rb_event_title_pattern.getId()) {
+                ti_event_title_pattern.setEnabled(true);
+            } else {
+                ti_event_title_pattern.setEnabled(false);
+            }
+        });
 
         return view;
     }
@@ -156,7 +156,7 @@ public class CalendarSkillViewFragment extends SkillViewFragment<CalendarConditi
         CalendarData calendarData = data.data;
         calendar_id = calendarData.calendar_id;
         tv_calendar_name.setText(CalendarHelper.getCalendarName(
-                getContext().getContentResolver(), calendar_id));
+                                     getContext().getContentResolver(), calendar_id));
         if (calendarData.matchType == EVENT_TITLE) {
             rg_event_title.check(rb_event_title_pattern.getId());
             ti_event_title_pattern.setEnabled(true);

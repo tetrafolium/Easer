@@ -60,7 +60,7 @@ public class BluetoothEnabledUSourceSkill implements USourceSkill<BluetoothEnabl
     @Override
     public Boolean checkPermissions(@NonNull Context context) {
         return SkillUtils.checkPermission(context,
-                Manifest.permission.BLUETOOTH);
+                                          Manifest.permission.BLUETOOTH);
     }
 
     @Override
@@ -99,9 +99,9 @@ public class BluetoothEnabledUSourceSkill implements USourceSkill<BluetoothEnabl
     @NonNull
     @Override
     public Tracker<BluetoothEnabledUSourceData> tracker(@NonNull Context context,
-                                                        @ValidData @NonNull BluetoothEnabledUSourceData data,
-                                                        @NonNull PendingIntent event_positive,
-                                                        @NonNull PendingIntent event_negative) {
+            @ValidData @NonNull BluetoothEnabledUSourceData data,
+            @NonNull PendingIntent event_positive,
+            @NonNull PendingIntent event_negative) {
         return new BluetoothEnabledTracker(context, data, event_positive, event_negative);
     }
 

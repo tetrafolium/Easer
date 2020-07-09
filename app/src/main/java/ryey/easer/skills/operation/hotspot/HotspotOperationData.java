@@ -39,7 +39,7 @@ public class HotspotOperationData extends BooleanOperationData {
     }
 
     public static final Parcelable.Creator<HotspotOperationData> CREATOR
-            = new Parcelable.Creator<HotspotOperationData>() {
+    = new Parcelable.Creator<HotspotOperationData>() {
         public HotspotOperationData createFromParcel(Parcel in) {
             return new HotspotOperationData(in);
         }

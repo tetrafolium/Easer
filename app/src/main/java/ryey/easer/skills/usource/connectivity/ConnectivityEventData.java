@@ -52,16 +52,16 @@ public class ConnectivityEventData implements USourceData {
     public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         connectivity_type.clear();
         switch (format) {
-            default:
-                try {
-                    JSONArray jsonArray = new JSONArray(data);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        connectivity_type.add(jsonArray.getInt(i));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new IllegalStorageDataException(e);
+        default:
+            try {
+                JSONArray jsonArray = new JSONArray(data);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    connectivity_type.add(jsonArray.getInt(i));
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -70,12 +70,12 @@ public class ConnectivityEventData implements USourceData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                JSONArray jsonArray = new JSONArray();
-                for (Integer v : connectivity_type) {
-                    jsonArray.put(v);
-                }
-                res = jsonArray.toString();
+        default:
+            JSONArray jsonArray = new JSONArray();
+            for (Integer v : connectivity_type) {
+                jsonArray.put(v);
+            }
+            res = jsonArray.toString();
         }
         return res;
     }
@@ -115,7 +115,7 @@ public class ConnectivityEventData implements USourceData {
     }
 
     public static final Parcelable.Creator<ConnectivityEventData> CREATOR
-            = new Parcelable.Creator<ConnectivityEventData>() {
+    = new Parcelable.Creator<ConnectivityEventData>() {
         public ConnectivityEventData createFromParcel(Parcel in) {
             return new ConnectivityEventData(in);
         }

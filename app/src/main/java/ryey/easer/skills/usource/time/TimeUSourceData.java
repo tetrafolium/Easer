@@ -69,27 +69,27 @@ public class TimeUSourceData implements USourceData {
 
     TimeUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
                 try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    try {
-                        time = TextToTime(jsonObject.getString(K_TIME));
-                    } catch (ParseException e) {
-                        throw new IllegalStorageDataException(e);
-                    }
-                    rel = Rel.valueOf(jsonObject.getString(K_REL));
-                } catch (JSONException e) {
-                    if (version < C.VERSION_UNIFORMED_SOURCE) {
-                        try {
-                            time = TextToTime(data);
-                        } catch (ParseException e1) {
-                            throw new IllegalStorageDataException(e1);
-                        }
-                        rel = Rel.after;
-                    } else {
-                        throw new IllegalStorageDataException(e);
-                    }
+                    time = TextToTime(jsonObject.getString(K_TIME));
+                } catch (ParseException e) {
+                    throw new IllegalStorageDataException(e);
                 }
+                rel = Rel.valueOf(jsonObject.getString(K_REL));
+            } catch (JSONException e) {
+                if (version < C.VERSION_UNIFORMED_SOURCE) {
+                    try {
+                        time = TextToTime(data);
+                    } catch (ParseException e1) {
+                        throw new IllegalStorageDataException(e1);
+                    }
+                    rel = Rel.after;
+                } else {
+                    throw new IllegalStorageDataException(e);
+                }
+            }
         }
     }
 
@@ -124,15 +124,15 @@ public class TimeUSourceData implements USourceData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res;
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(K_TIME, TimeToText(time));
-                    jsonObject.put(K_REL, rel.name());
-                    res = jsonObject.toString();
-                } catch (JSONException e) {
-                    throw new IllegalStateException(e);
-                }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put(K_TIME, TimeToText(time));
+                jsonObject.put(K_REL, rel.name());
+                res = jsonObject.toString();
+            } catch (JSONException e) {
+                throw new IllegalStateException(e);
+            }
         }
         return res;
     }
@@ -149,7 +149,7 @@ public class TimeUSourceData implements USourceData {
     }
 
     public static final Parcelable.Creator<TimeUSourceData> CREATOR
-            = new Parcelable.Creator<TimeUSourceData>() {
+    = new Parcelable.Creator<TimeUSourceData>() {
         public TimeUSourceData createFromParcel(Parcel in) {
             return new TimeUSourceData(in);
         }

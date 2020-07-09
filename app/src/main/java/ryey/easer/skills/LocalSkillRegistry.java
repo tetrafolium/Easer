@@ -98,35 +98,35 @@ import ryey.easer.skills.usource.wifi_enabled.WifiEnabledUSourceSkill;
  */
 final public class LocalSkillRegistry {
 
-    private final Registry<EventSkill, EventData> eventSkillRegistry = new Registry<>(CommonSkillUtils.TYPE_EVENT, new String[][]{
-            {"battery", "power_status"}, // v0.7.8
+    private final Registry<EventSkill, EventData> eventSkillRegistry = new Registry<>(CommonSkillUtils.TYPE_EVENT, new String[][] {
+        {"battery", "power_status"}, // v0.7.8
     });
-    private final Registry<OperationSkill, OperationData> operationSkillRegistry = new Registry<>(CommonSkillUtils.TYPE_OPERATION, new String[][]{
-            {"event control", "state control"}, // (don't remember when)
+    private final Registry<OperationSkill, OperationData> operationSkillRegistry = new Registry<>(CommonSkillUtils.TYPE_OPERATION, new String[][] {
+        {"event control", "state control"}, // (don't remember when)
     });
-    private final Registry<ConditionSkill, ConditionData> conditionSkillRegistry = new Registry<>(CommonSkillUtils.TYPE_CONDITION, new String[][]{
-            {"battery", "power_status"}, // v0.7.8
+    private final Registry<ConditionSkill, ConditionData> conditionSkillRegistry = new Registry<>(CommonSkillUtils.TYPE_CONDITION, new String[][] {
+        {"battery", "power_status"}, // v0.7.8
     });
     private final OverallRegistry overallRegistry = new OverallRegistry(new SkillLookupper<?, ?>[] {
-            eventSkillRegistry, operationSkillRegistry, conditionSkillRegistry,
-    });
+                eventSkillRegistry, operationSkillRegistry, conditionSkillRegistry,
+            });
 
     {
         for (USourceSkill skill : new USourceSkill[] {
-                new PowerUSourceSkill(),
-                new BTDeviceUSourceSkill(),
-                new BluetoothEnabledUSourceSkill(),
-                new CallUSourceSkill(),
-                new CellLocationUSourceSkill(),
-                new ConnectivityUSourceSkill(),
-                new DateUSourceSkill(),
-                new DayOfWeekEventSkill(),
-                new HeadsetUSourceSkill(),
-                new ScreenUSourceSkill(),
-                new TimeUSourceSkill(),
-                new WifiUSourceSkill(),
-                new WifiEnabledUSourceSkill(),
-        }) {
+                    new PowerUSourceSkill(),
+                    new BTDeviceUSourceSkill(),
+                    new BluetoothEnabledUSourceSkill(),
+                    new CallUSourceSkill(),
+                    new CellLocationUSourceSkill(),
+                    new ConnectivityUSourceSkill(),
+                    new DateUSourceSkill(),
+                    new DayOfWeekEventSkill(),
+                    new HeadsetUSourceSkill(),
+                    new ScreenUSourceSkill(),
+                    new TimeUSourceSkill(),
+                    new WifiUSourceSkill(),
+                    new WifiEnabledUSourceSkill(),
+                }) {
             event().registerSkill(skill.event());
             condition().registerSkill(skill.condition());
         }
@@ -245,7 +245,7 @@ final public class LocalSkillRegistry {
         public List<T> getEnabledSkills(@NonNull Context context) {
             List<T> enabledPlugins = new ArrayList<>(skillList.size());
             SharedPreferences settingsPreference =
-                    PreferenceManager.getDefaultSharedPreferences(context);
+                PreferenceManager.getDefaultSharedPreferences(context);
             for (T plugin : skillList) {
                 if (settingsPreference.getBoolean(CommonSkillUtils.pluginEnabledKey(plugin), true)
                         && plugin.isCompatible(context)) {

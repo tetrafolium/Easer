@@ -45,10 +45,10 @@ public class StateControlSkillViewFragment extends SkillViewFragment<StateContro
         View view = inflater.inflate(R.layout.plugin_operation__event_control, container, false);
         sw_script = new DataSelectSpinnerWrapper(getContext(), (Spinner) view.findViewById(R.id.spinner_event));
         sw_script
-                .beginInit()
-                .setAllowEmpty(false)
-                .fillData(new ScriptDataStorage(getContext()).list())
-                .finalizeInit();
+        .beginInit()
+        .setAllowEmpty(false)
+        .fillData(new ScriptDataStorage(getContext()).list())
+        .finalizeInit();
         return view;
     }
 

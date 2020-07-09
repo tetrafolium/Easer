@@ -48,7 +48,9 @@ final public class ScriptStructure implements Renameable, Verifiable, WithCreate
     @Nullable protected String profileName;
     @Nullable protected String parentName;
 
-    public ScriptStructure(int createdVersion) {this.createdVersion = createdVersion;}
+    public ScriptStructure(int createdVersion) {
+        this.createdVersion = createdVersion;
+    }
 
     public String getName() {
         return name;

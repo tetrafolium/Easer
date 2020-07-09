@@ -102,26 +102,26 @@ class ScriptParser implements Parser<ScriptStructure> {
         try {
             String trigger_type = jsonObject_trigger.getString(C.TYPE);
             switch (trigger_type) {
-                case C.TriggerType.T_RAW:
-                    EventData eventData = parse_eventData(jsonObject_trigger, version);
-                    scriptStructure.setEventData(eventData);
-                    break;
-                case C.TriggerType.T_PRE:
-                    String event_name;
-                    if (version < C.VERSION_RENAME_SCENARIO_TO_EVENT)
-                        event_name = jsonObject_trigger.getString(C.SCENARIO);
-                    else
-                        event_name = jsonObject_trigger.getString(C.EVENT);
-                    EventStructure event = new EventDataStorage(context).get(event_name);
-                    scriptStructure.setEvent(event);
-                    break;
-                case C.TriggerType.T_CONDITION:
-                    String condition_name = jsonObject_trigger.getString(C.CONDITION);
-                    ConditionStructure condition = new ConditionDataStorage(context).get(condition_name);
-                    scriptStructure.setCondition(condition);
-                    break;
-                default:
-                    throw new IllegalStorageDataException("Unexpected trigger type");
+            case C.TriggerType.T_RAW:
+                EventData eventData = parse_eventData(jsonObject_trigger, version);
+                scriptStructure.setEventData(eventData);
+                break;
+            case C.TriggerType.T_PRE:
+                String event_name;
+                if (version < C.VERSION_RENAME_SCENARIO_TO_EVENT)
+                    event_name = jsonObject_trigger.getString(C.SCENARIO);
+                else
+                    event_name = jsonObject_trigger.getString(C.EVENT);
+                EventStructure event = new EventDataStorage(context).get(event_name);
+                scriptStructure.setEvent(event);
+                break;
+            case C.TriggerType.T_CONDITION:
+                String condition_name = jsonObject_trigger.getString(C.CONDITION);
+                ConditionStructure condition = new ConditionDataStorage(context).get(condition_name);
+                scriptStructure.setCondition(condition);
+                break;
+            default:
+                throw new IllegalStorageDataException("Unexpected trigger type");
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -137,8 +137,8 @@ class ScriptParser implements Parser<ScriptStructure> {
             JSONObject jsonObject_situation = jsonObject_trigger.getJSONObject(C.SIT);
             String spec = jsonObject_situation.getString(C.SPEC);
             return LocalSkillRegistry.getInstance().event().findSkill(spec)
-                    .dataFactory()
-                    .parse(jsonObject_situation.getString(C.DATA), PluginDataFormat.JSON, version);
+                   .dataFactory()
+                   .parse(jsonObject_situation.getString(C.DATA), PluginDataFormat.JSON, version);
         } catch (JSONException e) {
             throw new IllegalStorageDataException(e);
         }

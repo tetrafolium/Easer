@@ -38,8 +38,8 @@ class HeadsetUSourceDataFactory implements USourceDataFactory<HeadsetUSourceData
     @Override
     public HeadsetUSourceData dummyData() {
         return new HeadsetUSourceData(
-                HeadsetUSourceData.HeadsetState.plug_in,
-                HeadsetUSourceData.HeadsetType.without_microphone);
+                   HeadsetUSourceData.HeadsetState.plug_in,
+                   HeadsetUSourceData.HeadsetType.without_microphone);
     }
 
     @ValidData

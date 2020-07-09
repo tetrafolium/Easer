@@ -32,8 +32,8 @@ public class ProfileDataStorage extends AbstractDataStorage<ProfileStructure, Pr
 
     public ProfileDataStorage(Context context) {
         super(context, new ProfileDataStorageBackendInterface[] {
-                new JsonProfileDataStorageBackend(context),
-        });
+                  new JsonProfileDataStorageBackend(context),
+              });
     }
 
     @Override

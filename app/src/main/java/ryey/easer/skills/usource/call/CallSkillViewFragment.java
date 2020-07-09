@@ -40,15 +40,15 @@ import ryey.easer.skills.SkillViewFragment;
 public class CallSkillViewFragment extends SkillViewFragment<CallUSourceData> {
 
     private static final CallUSourceData.CallState []callStates = {
-            CallUSourceData.CallState.IDLE,
-            CallUSourceData.CallState.RINGING,
-            CallUSourceData.CallState.OFFHOOK,
+        CallUSourceData.CallState.IDLE,
+        CallUSourceData.CallState.RINGING,
+        CallUSourceData.CallState.OFFHOOK,
     };
     @IdRes
     private static final int []checkBoxIds = {
-            R.id.cb_state_idle,
-            R.id.cb_state_ringing,
-            R.id.cb_state_ongoing,
+        R.id.cb_state_idle,
+        R.id.cb_state_ringing,
+        R.id.cb_state_ongoing,
     };
 
     private CheckBox []stateCheckBoxes = new CheckBox[checkBoxIds.length];

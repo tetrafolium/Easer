@@ -65,8 +65,8 @@ public class OperationSkillViewContainerFragment<T extends OperationData> extend
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_skillview_container_operation_profile, container, false);
         getChildFragmentManager().beginTransaction()
-                .replace(R.id.content_pluginview, pluginViewFragment)
-                .commit();
+        .replace(R.id.content_pluginview, pluginViewFragment)
+        .commit();
         getChildFragmentManager().executePendingTransactions();
         mCheckBox = view.findViewById(R.id.checkbox_pluginview_enabled);
         pluginViewFragment.setEnabled(false);

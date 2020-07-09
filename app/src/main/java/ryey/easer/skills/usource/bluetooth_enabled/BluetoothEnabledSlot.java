@@ -36,12 +36,12 @@ public class BluetoothEnabledSlot extends AbstractSlot<BluetoothEnabledUSourceDa
         public void onReceive(Context context, Intent intent) {
             if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(intent.getAction())) {
                 switch (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1)) {
-                    case BluetoothAdapter.STATE_ON:
-                        changeSatisfiedState(eventData.enabled);
-                        break;
-                    case BluetoothAdapter.STATE_OFF:
-                        changeSatisfiedState(!eventData.enabled);
-                        break;
+                case BluetoothAdapter.STATE_ON:
+                    changeSatisfiedState(eventData.enabled);
+                    break;
+                case BluetoothAdapter.STATE_OFF:
+                    changeSatisfiedState(!eventData.enabled);
+                    break;
                 }
             }
         }

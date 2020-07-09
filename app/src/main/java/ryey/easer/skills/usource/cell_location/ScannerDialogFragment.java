@@ -91,12 +91,12 @@ public class ScannerDialogFragment extends DialogFragment {
         listView.setAdapter(cellLocationDataListAdapter);
 
         builder.setView(v)
-                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        ((ScannerListener) getTargetFragment()).onPositiveClicked(singleDataList);
-                        dismiss();
-                    }
-                });
+        .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                ((ScannerListener) getTargetFragment()).onPositiveClicked(singleDataList);
+                dismiss();
+            }
+        });
 
         Dialog dialog = builder.create();
 

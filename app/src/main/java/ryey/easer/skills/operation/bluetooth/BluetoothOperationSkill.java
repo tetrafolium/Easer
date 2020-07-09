@@ -76,8 +76,8 @@ public class BluetoothOperationSkill implements OperationSkill<BluetoothOperatio
     @Override
     public Boolean checkPermissions(@NonNull Context context) {
         return SkillUtils.checkPermission(context,
-                Manifest.permission.BLUETOOTH,
-                Manifest.permission.BLUETOOTH_ADMIN);
+                                          Manifest.permission.BLUETOOTH,
+                                          Manifest.permission.BLUETOOTH_ADMIN);
     }
 
     @Override
@@ -86,14 +86,14 @@ public class BluetoothOperationSkill implements OperationSkill<BluetoothOperatio
         boolean can_bluetooth_admin = SkillUtils.checkPermission(activity, Manifest.permission.BLUETOOTH_ADMIN);
         if (!can_access_bluetooth && !can_bluetooth_admin) {
             SkillUtils.requestPermission(activity, requestCode,
-                    Manifest.permission.BLUETOOTH,
-                    Manifest.permission.BLUETOOTH_ADMIN);
+                                         Manifest.permission.BLUETOOTH,
+                                         Manifest.permission.BLUETOOTH_ADMIN);
         } else if (!can_access_bluetooth) {
             SkillUtils.requestPermission(activity, requestCode,
-                    Manifest.permission.BLUETOOTH);
+                                         Manifest.permission.BLUETOOTH);
         } else {
             SkillUtils.requestPermission(activity, requestCode,
-                    Manifest.permission.BLUETOOTH_ADMIN);
+                                         Manifest.permission.BLUETOOTH_ADMIN);
         }
     }
 

@@ -53,15 +53,15 @@ public class LaunchAppOperationData implements OperationData {
 
     LaunchAppOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    app_package = jsonObject.getString(K_APP_PACKAGE);
-                    app_class = jsonObject.optString(K_CLASS);
-                    extras = Extras.mayParse(jsonObject.optString(K_EXTRAS), format, version);
-                } catch (JSONException e) {
-                    throw new IllegalStorageDataException(e);
-                }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                app_package = jsonObject.getString(K_APP_PACKAGE);
+                app_class = jsonObject.optString(K_CLASS);
+                extras = Extras.mayParse(jsonObject.optString(K_EXTRAS), format, version);
+            } catch (JSONException e) {
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -70,17 +70,17 @@ public class LaunchAppOperationData implements OperationData {
     public String serialize(@NonNull PluginDataFormat format) {
         String ret;
         switch (format) {
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(K_APP_PACKAGE, app_package);
-                    jsonObject.put(K_CLASS, app_class);
-                    if (extras != null)
-                        jsonObject.put(K_EXTRAS, extras.serialize(format));
-                    ret = jsonObject.toString();
-                } catch (JSONException e) {
-                    throw new IllegalStateException(e);
-                }
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put(K_APP_PACKAGE, app_package);
+                jsonObject.put(K_CLASS, app_class);
+                if (extras != null)
+                    jsonObject.put(K_EXTRAS, extras.serialize(format));
+                ret = jsonObject.toString();
+            } catch (JSONException e) {
+                throw new IllegalStateException(e);
+            }
         }
         return ret;
     }
@@ -120,7 +120,7 @@ public class LaunchAppOperationData implements OperationData {
     }
 
     public static final Creator<LaunchAppOperationData> CREATOR
-            = new Creator<LaunchAppOperationData>() {
+    = new Creator<LaunchAppOperationData>() {
         public LaunchAppOperationData createFromParcel(Parcel in) {
             return new LaunchAppOperationData(in);
         }

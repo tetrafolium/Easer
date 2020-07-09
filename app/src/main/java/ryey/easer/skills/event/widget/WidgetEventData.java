@@ -44,14 +44,14 @@ public class WidgetEventData extends AbstractEventData {
 
     WidgetEventData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
         switch (format) {
-            case JSON:
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    widgetTag = jsonObject.getString(K_WIDGET_TAG);
-                } catch (JSONException e) {
-                    throw new IllegalStorageDataException(e);
-                }
+        case JSON:
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                widgetTag = jsonObject.getString(K_WIDGET_TAG);
+            } catch (JSONException e) {
+                throw new IllegalStorageDataException(e);
+            }
         }
     }
 
@@ -60,15 +60,15 @@ public class WidgetEventData extends AbstractEventData {
     public String serialize(@NonNull PluginDataFormat format) {
         String res = "";
         switch (format) {
-            case JSON:
-            default:
-                try {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(K_WIDGET_TAG, widgetTag);
-                    res = jsonObject.toString();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        case JSON:
+        default:
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put(K_WIDGET_TAG, widgetTag);
+                res = jsonObject.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         return res;
     }
@@ -106,7 +106,7 @@ public class WidgetEventData extends AbstractEventData {
     }
 
     public static final Creator<WidgetEventData> CREATOR
-            = new Creator<WidgetEventData>() {
+    = new Creator<WidgetEventData>() {
         public WidgetEventData createFromParcel(Parcel in) {
             return new WidgetEventData(in);
         }
