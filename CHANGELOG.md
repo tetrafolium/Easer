@@ -31,7 +31,7 @@ CHANGELOG
 
 * v0.7.7.7: Bug fixes & i18n update
 	* Fix ConnectivityUSource causes crash by StackOverflow (#217, fixed in PR #239 by @GuepardoApps)
-	* Fix Aquiring Cell Towers crashes app (#216)
+	* Fix Acquiring Cell Towers crashes app (#216)
 	* New language: Turkish
 
 * v0.7.7.6: LaunchAppOperation now allows extras && fixes && i18n update
@@ -259,7 +259,7 @@ CHANGELOG
 	* Add Dynamics for Sms Event (for #164)
 
 * v0.6.9.1: Allow multiple Ringer Modes && Update translations && Bug fix
-	* Allow to set mutliple Runger Modes in one Profile (close #155)
+	* Allow to set multiple Runger Modes in one Profile (close #155)
 	* Update translations
 		* Update Danish translation
 		* Update Chinese translation
@@ -524,7 +524,7 @@ CHANGELOG
 		* due to the wrong handling of directory entry in zip)
 	* Fix crash when trying to open an existing Profile
 		* due to the wrong design of `DelayedJob`
-	* Fix incorrect convertion of data formats
+	* Fix incorrect conversion of data formats
 		* Inline `Scenario`s should be kept when editing an `EventStructure`
 
 * v0.5.3: Add `Scenario` to allow reuse of event data && Add more configurations to events && Fix import not working correctly && Code refactor
@@ -627,7 +627,7 @@ CHANGELOG
 	* Introduce `SynchronizationOperationPlugin` to control the *account synchronization* setting
 	* Introduce `NetworkTransmissionOperationPlugin` to send network packets
 	* Introduce the ability to use rooted-only features
-		* Some functions don't have exposed APIs so using reflections is the way to implement them previously. However such reflection is not guarenteed to work on all devices so these functions are not reliable. Using root permission could help to solve (at least part of) this problem by using root-only actions (e.g. executing special commands).
+		* Some functions don't have exposed APIs so using reflections is the way to implement them previously. However such reflection is not guaranteed to work on all devices so these functions are not reliable. Using root permission could help to solve (at least part of) this problem by using root-only actions (e.g. executing special commands).
 		* Add a section in the settings page to control the enabling state
 		* Introduce a way to mark each plugin's needs of using root permission (to use in the future)
 		* Adopt rooted features to `CellularOperationPlugin` (to turn mobile data on and off)
@@ -641,7 +641,7 @@ CHANGELOG
 		* Serializing always yields the newest version of data format
 		* The old interface is deprecated and will be completely removed in the future
 	* Add JSON as a backend (co-exists with XML)
-		* JSON is now prefered and used by default
+		* JSON is now preferred and used by default
 		* Compatibility to old data (XML format) is kept
 			* When saving (editing) from a old data, it will be stored to JSON format
 		* The old XML backend exists and there isn't a current plan to remove it
@@ -672,7 +672,7 @@ CHANGELOG
 
 * v0.4.0.1: Use generic on `PluginRegistry` && Remove unneeded codes && class name changes
 	* `PluginRegistry` change
-		* Make the component in `PluginRegistry` generic to ease maintainance
+		* Make the component in `PluginRegistry` generic to ease maintenance
 		* Use query on `PluginRegistry` to get information
 		* Replace all manual check of plugins with methods in `PluginRegistry.Registry`
 			* Remove the need of `EventData.pluginClass()`

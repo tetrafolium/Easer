@@ -17,7 +17,7 @@ You can use the provided scripts in the "utils" directory to automatically gener
 Under "utils" directory, two scripts are provided (`new_event.py` and `new_operation.py`) to automatically generate the skeleton of a new Event/Operation skill, as well as other related resources (e.g. tests).
 After executing the script, you only need to fill in each of the "TODO"s in the directory for the new skill. Then, after registering in `LocalSkillRegistry` (see below), the new skill will appear in Easer.
 
-Detailed explaination of each component are presented below.
+Detailed explanation of each component are presented below.
 
 ### Detailed steps
 

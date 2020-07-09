@@ -1,6 +1,6 @@
 # Donation
 
-Software development is a continuing process. It is kindly hoped to receive continuing development / maintainance allowance.  
+Software development is a continuing process. It is kindly hoped to receive continuing development / maintenance allowance.  
 Currently, Easer is maintained by myself in my spare time. It's unfortunate that I couldn't make any promise about the time spent in maintaining Easer (though I really like it and put a lot of effort into it).
 
 If you like Easer or would like to see it growing well, please consider donation -- that I could, maybe, buy a better pack of food so that I won't easily get a stomachache LOL. Any amout is welcome, and I kindly appreciate your support.

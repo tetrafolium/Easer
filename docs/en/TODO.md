@@ -21,7 +21,7 @@ TODO
 	* Draw / Describe the structure of the app for easier understanding
 	* All TODO(s) in the code
 	* Test coverage
-	* Find a way to make Plugin(s) seperate apks, rather than narrow them together in the mainframe of Easer
+	* Find a way to make Plugin(s) separate apks, rather than narrow them together in the mainframe of Easer
 * Issues around
 	* Better description of Easer
 	* Better documents
