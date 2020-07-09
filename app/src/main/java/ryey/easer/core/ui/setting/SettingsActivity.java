@@ -154,14 +154,12 @@ public class SettingsActivity extends CommonBaseActivity
             componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
             PackageManager.DONT_KILL_APP);
       }
-    } else if (key.equals(getString(R.string.key_pref_use_root))) {
-      if (sharedPreferences.getBoolean(key, false)) {
-        try {
-          Process p = Runtime.getRuntime().exec("su");
-        } catch (IOException e) {
-          e.printStackTrace();
-          sharedPreferences.edit().putBoolean(key, false).apply();
-        }
+    } else if ((key.equals(getString(R.string.key_pref_use_root))) && (sharedPreferences.getBoolean(key, false))) {
+      try {
+        Process p = Runtime.getRuntime().exec("su");
+      } catch (IOException e) {
+        e.printStackTrace();
+        sharedPreferences.edit().putBoolean(key, false).apply();
       }
     }
   }
@@ -263,18 +261,16 @@ public class SettingsActivity extends CommonBaseActivity
             @Override
             public boolean onPreferenceChange(final Preference preference,
                                               final Object newValue) {
-              if ((Boolean)newValue) {
-                if (!hasPermission(
+              if (((Boolean)newValue) && (!hasPermission(
                         getActivity(),
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                  Logger.i("Permission <%s> not granted. Requesting...",
-                           Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                  ActivityCompat.requestPermissions(
-                      getActivity(),
-                      new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                      REQCODE_PERM_STORAGE);
-                  return false;
-                }
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE))) {
+                Logger.i("Permission <%s> not granted. Requesting...",
+                         Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                ActivityCompat.requestPermissions(
+                    getActivity(),
+                    new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQCODE_PERM_STORAGE);
+                return false;
               }
               return true;
             }

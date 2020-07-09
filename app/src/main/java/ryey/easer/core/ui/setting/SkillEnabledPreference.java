@@ -68,11 +68,9 @@ class SkillEnabledPreference extends CheckBoxPreference
                                     final Object newValue) {
     if (BuildConfig.DEBUG && !(newValue instanceof Boolean))
       throw new AssertionError();
-    if ((Boolean)newValue) {
-      if (skill.checkPermissions(getContext()) == Boolean.FALSE) {
-        skill.requestPermissions((Activity)getContext(), REQCODE);
-        return false;
-      }
+    if (((Boolean)newValue) && (skill.checkPermissions(getContext()) == Boolean.FALSE)) {
+      skill.requestPermissions((Activity)getContext(), REQCODE);
+      return false;
     }
     if (in_use) {
       return false;

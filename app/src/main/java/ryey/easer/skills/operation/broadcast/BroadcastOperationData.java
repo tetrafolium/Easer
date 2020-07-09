@@ -118,12 +118,10 @@ public class BroadcastOperationData implements OperationData {
         if (data.data != null)
           jsonObject.put(DATA, data.data.toString());
 
-        if (data.extras != null) {
-          if (data.extras.extras.size() >
-              0) { // Safety check, because old versions may serialise null
-                   // extras. Should be removed in future.
-            jsonObject.put(EXTRAS, data.extras.serialize(format));
-          }
+        if ((data.extras != null) && (data.extras.extras.size() >
+              0)) { // Safety check, because old versions may serialise null
+                 // extras. Should be removed in future.
+          jsonObject.put(EXTRAS, data.extras.serialize(format));
         }
 
         res = jsonObject.toString();

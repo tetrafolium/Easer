@@ -92,21 +92,15 @@ public class NotificationEventListenerService
                                final String t_app, final String t_title,
                                final String t_content) {
     Logger.d("app: <%s> <%s>", t_app, sbn.getPackageName());
-    if (t_app != null) {
-      if (!t_app.equals(sbn.getPackageName()))
-        return false;
-    }
+    if ((t_app != null) && (!t_app.equals(sbn.getPackageName())))
+      return false;
     Bundle extras = sbn.getNotification().extras;
     String title = extras.getString(Notification.EXTRA_TITLE);
     String contentText = extras.getString(Notification.EXTRA_TEXT);
-    if (t_title != null) {
-      if (title == null || !title.contains(t_title))
-        return false;
-    }
-    if (t_content != null) {
-      if (contentText == null || !contentText.contains(t_content))
-        return false;
-    }
+    if ((t_title != null) && (title == null || !title.contains(t_title)))
+      return false;
+    if ((t_content != null) && (contentText == null || !contentText.contains(t_content)))
+      return false;
     return true;
   }
 

@@ -45,10 +45,8 @@ enum RingerMode {
     } else {
       if (mode == silent)
         mode = dnd_priority;
-      else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-        if (mode == dnd_alarms)
-          mode = dnd_priority;
-      }
+      else if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.M) && (mode == dnd_alarms))
+        mode = dnd_priority;
     }
     return mode;
   }

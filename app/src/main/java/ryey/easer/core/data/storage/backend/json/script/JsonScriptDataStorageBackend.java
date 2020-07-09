@@ -97,10 +97,8 @@ public class JsonScriptDataStorageBackend
     File[] files = dir.listFiles(new FileFilter() {
       @Override
       public boolean accept(final File pathname) {
-        if (pathname.isFile()) {
-          if (pathname.getName().endsWith(NC.SUFFIX)) {
-            return true;
-          }
+        if ((pathname.isFile()) && (pathname.getName().endsWith(NC.SUFFIX))) {
+          return true;
         }
         return false;
       }

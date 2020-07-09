@@ -106,12 +106,10 @@ class EventLotus extends Lotus {
   private boolean checkAndSetCooldown(final String eventName) {
     if (cooldownInMillisecond > 0) {
       Calendar now = Calendar.getInstance();
-      if (lastSatisfied != null) {
-        if (now.getTimeInMillis() - lastSatisfied.getTimeInMillis() <
-            cooldownInMillisecond) {
-          Logger.d("event <%s> is within cooldown time", eventName);
-          return false;
-        }
+      if ((lastSatisfied != null) && (now.getTimeInMillis() - lastSatisfied.getTimeInMillis() <
+            cooldownInMillisecond)) {
+        Logger.d("event <%s> is within cooldown time", eventName);
+        return false;
       }
       Logger.d("event <%s> is not within cooldown time", eventName);
       lastSatisfied = now;
