@@ -43,7 +43,7 @@ final public class ProfileStructure implements Named, Verifiable, WithCreatedVer
 
     final Multimap<String, RemoteLocalOperationDataWrapper> data = LinkedListMultimap.create();
 
-    public ProfileStructure(int createdVersion) {
+    public ProfileStructure(final int createdVersion) {
         this.createdVersion = createdVersion;
     }
 
@@ -51,7 +51,7 @@ final public class ProfileStructure implements Named, Verifiable, WithCreatedVer
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -59,16 +59,16 @@ final public class ProfileStructure implements Named, Verifiable, WithCreatedVer
     public Set<String> pluginIds() {
         return data.keySet();
     }
-    public Collection<RemoteLocalOperationDataWrapper> get(String key) {
+    public Collection<RemoteLocalOperationDataWrapper> get(final String key) {
         return data.get(key);
     }
-    public void put(String key, RemoteOperationData value) {
+    public void put(final String key, final RemoteOperationData value) {
         data.put(key, new RemoteLocalOperationDataWrapper(value));
     }
-    public void put(String key, OperationData value) {
+    public void put(final String key, final OperationData value) {
         data.put(key, new RemoteLocalOperationDataWrapper(value));
     }
-    public void set(String key, Collection<OperationData> dataCollection) {
+    public void set(final String key, final Collection<OperationData> dataCollection) {
         Collection<RemoteLocalOperationDataWrapper> wrapperCollection = new ArrayList<>(dataCollection.size());
         for (OperationData operationData : dataCollection) {
             wrapperCollection.add(new RemoteLocalOperationDataWrapper(operationData));
@@ -94,7 +94,7 @@ final public class ProfileStructure implements Named, Verifiable, WithCreatedVer
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (!(o instanceof ProfileStructure))
             return false;
         ProfileStructure ot = (ProfileStructure) o;

@@ -45,14 +45,13 @@ class CellLocationSingleData implements Parcelable {
     private Integer lac = null;
 
     @Nullable
-    static CellLocationSingleData fromCellLocation(@Nullable CellLocation location) {
+    static CellLocationSingleData fromCellLocation(final @Nullable CellLocation location) {
         int cid, lac;
         if (location != null) {
             if (location instanceof GsmCellLocation) {
                 cid = ((GsmCellLocation) location).getCid();
                 lac = ((GsmCellLocation) location).getLac();
-            }
-            else if (location instanceof CdmaCellLocation) {
+            } else if (location instanceof CdmaCellLocation) {
                 cid = ((CdmaCellLocation) location).getBaseStationId();
                 lac = ((CdmaCellLocation) location).getSystemId();
             } else {
@@ -66,7 +65,7 @@ class CellLocationSingleData implements Parcelable {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Nullable
-    static CellLocationSingleData fromCellInfo(@NonNull CellInfo cellInfo) {
+    static CellLocationSingleData fromCellInfo(final @NonNull CellInfo cellInfo) {
         int cid, lac;
         if (cellInfo instanceof CellInfoGsm) {
             CellIdentityGsm cellIdentity = ((CellInfoGsm) cellInfo).getCellIdentity();
@@ -90,14 +89,14 @@ class CellLocationSingleData implements Parcelable {
         return new CellLocationSingleData(cid, lac);
     }
 
-    CellLocationSingleData() {}
+    CellLocationSingleData() { }
 
-    private CellLocationSingleData(int cid, int lac) {
+    private CellLocationSingleData(final int cid, final int lac) {
         this.cid = cid;
         this.lac = lac;
     }
 
-    public void set(Object obj) {
+    public void set(final Object obj) {
         if (obj instanceof List) {
             for (Object d : (List) obj) {
                 if (!(d instanceof Integer))
@@ -112,14 +111,14 @@ class CellLocationSingleData implements Parcelable {
         }
     }
 
-    private void set(List<Integer> obj) {
+    private void set(final List<Integer> obj) {
         if (obj.size() != 2)
             throw new RuntimeException("illegal data");
         cid = obj.get(0);
         lac = obj.get(1);
     }
 
-    private void set(String repr) {
+    private void set(final String repr) {
         String[] parts = repr.split("-");
         if (parts.length != 2)
             return;
@@ -138,7 +137,7 @@ class CellLocationSingleData implements Parcelable {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -162,23 +161,23 @@ class CellLocationSingleData implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeInt(cid);
         dest.writeInt(lac);
     }
 
     public static final Creator<CellLocationSingleData> CREATOR
     = new Creator<CellLocationSingleData>() {
-        public CellLocationSingleData createFromParcel(Parcel in) {
+        public CellLocationSingleData createFromParcel(final Parcel in) {
             return new CellLocationSingleData(in);
         }
 
-        public CellLocationSingleData[] newArray(int size) {
+        public CellLocationSingleData[] newArray(final int size) {
             return new CellLocationSingleData[size];
         }
     };
 
-    private CellLocationSingleData(Parcel in) {
+    private CellLocationSingleData(final Parcel in) {
         cid = in.readInt();
         lac = in.readInt();
     }

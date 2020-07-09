@@ -33,12 +33,12 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class HttpRequestLoader extends OperationLoader<HttpRequestOperationData> {
-    public HttpRequestLoader(Context context) {
+    public HttpRequestLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull HttpRequestOperationData data) {
+    public boolean load(final @ValidData @NonNull HttpRequestOperationData data) {
         //TODO: Async and correctly report
         HttpTask task = new HttpTask();
         task.execute(data);
@@ -48,7 +48,7 @@ public class HttpRequestLoader extends OperationLoader<HttpRequestOperationData>
     private static class HttpTask extends AsyncTask<HttpRequestOperationData, Void, Boolean> {
 
         @Override
-        protected Boolean doInBackground(HttpRequestOperationData... httpRequestOperationData) {
+        protected Boolean doInBackground(final HttpRequestOperationData... httpRequestOperationData) {
             final HttpRequestOperationData data = httpRequestOperationData[0];
 
             HttpURLConnection urlConnection = null;

@@ -45,7 +45,7 @@ public class CommonSkillUtils {
     public static final int TYPE_CONDITION = 2;
     private static final String[] TYPE_NAMES = {"operation", "event", "condition"};
 
-    public static String pluginEnabledKey(Skill plugin) {
+    public static String pluginEnabledKey(final Skill plugin) {
         String type_name;
         if (plugin instanceof OperationSkill)
             type_name = TYPE_NAMES[0];
@@ -58,7 +58,7 @@ public class CommonSkillUtils {
         return String.format(Locale.US, "%s_plugin_enabled_%s", type_name, plugin.id());
     }
 
-    public static String pluginEnabledKey(int type, String id) {
+    public static String pluginEnabledKey(final int type, final String id) {
         return String.format(Locale.US, "%s_plugin_enabled_%s", TYPE_NAMES[type], id);
     }
 
@@ -69,7 +69,7 @@ public class CommonSkillUtils {
      * @param id
      * @return
      */
-    public static boolean isEnabled(Context context, int type, String id) {
+    public static boolean isEnabled(final Context context, final int type, final String id) {
         SharedPreferences settingsPreference =
             PreferenceManager.getDefaultSharedPreferences(context);
         return settingsPreference.getBoolean(CommonSkillUtils.pluginEnabledKey(type, id), true);
@@ -77,7 +77,7 @@ public class CommonSkillUtils {
 
     public static class IO {
 
-        public static <T extends Enum<?>> void writeEnumCollectionToParcel(@NonNull Parcel dest, int flags, @Nullable Collection<T> enumArray) {
+        public static <T extends Enum<?>> void writeEnumCollectionToParcel(final @NonNull Parcel dest, final int flags, final @Nullable Collection<T> enumArray) {
             if (enumArray == null || enumArray.size() == 0) {
                 dest.writeInt(0);
             } else {
@@ -89,7 +89,7 @@ public class CommonSkillUtils {
         }
 
         @NonNull
-        public static <T extends Enum<T>> Collection<T> readEnumCollectionFromParcel(@NonNull Parcel in, @NonNull T[] values) {
+        public static <T extends Enum<T>> Collection<T> readEnumCollectionFromParcel(final @NonNull Parcel in, final @NonNull T[] values) {
             List<T> list = new ArrayList<>();
             int length = in.readByte();
             for (int i = 0; i < length; i++)

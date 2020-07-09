@@ -43,7 +43,7 @@ public class HeadsetSlot extends AbstractSlot<HeadsetUSourceData> {
     private final IntentFilter mFilter = new IntentFilter(expected_action);
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             final Bundle extras = intent.getExtras();
             if (expected_action.equals(intent.getAction()) && extras != null) {
                 final int state = extras.getInt("state");
@@ -54,11 +54,11 @@ public class HeadsetSlot extends AbstractSlot<HeadsetUSourceData> {
         }
     };
 
-    HeadsetSlot(Context context, HeadsetUSourceData data) {
+    HeadsetSlot(final Context context, final HeadsetUSourceData data) {
         this(context, data, true, PERSISTENT_DEFAULT);
     }
 
-    HeadsetSlot(Context context, HeadsetUSourceData data, boolean retriggerable, boolean persistent) {
+    HeadsetSlot(final Context context, final HeadsetUSourceData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
     }
 
@@ -72,7 +72,7 @@ public class HeadsetSlot extends AbstractSlot<HeadsetUSourceData> {
         context.unregisterReceiver(mReceiver);
     }
 
-    private static boolean determine_match(HeadsetUSourceData eventData, boolean plug_in, boolean has_microphone) {
+    private static boolean determine_match(final HeadsetUSourceData eventData, final boolean plug_in, final boolean has_microphone) {
         //noinspection ConstantConditions
         return HeadsetTracker.determine_match(eventData, plug_in, has_microphone);
     }

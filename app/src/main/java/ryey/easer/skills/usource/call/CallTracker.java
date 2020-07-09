@@ -32,9 +32,9 @@ public class CallTracker extends SkeletonTracker<CallUSourceData> implements Cal
 
     private CallReceiver callReceiver = new CallReceiver(this);
 
-    CallTracker(Context context, CallUSourceData data,
-                @NonNull PendingIntent event_positive,
-                @NonNull PendingIntent event_negative) {
+    CallTracker(final Context context, final CallUSourceData data,
+                final @NonNull PendingIntent event_positive,
+                final @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
     }
 
@@ -49,17 +49,17 @@ public class CallTracker extends SkeletonTracker<CallUSourceData> implements Cal
     }
 
     @Override
-    public void onIdle(@NotNull String number) {
+    public void onIdle(final @NotNull String number) {
         newSatisfiedState(CallReceiver.Companion.handleIdle(data, number));
     }
 
     @Override
-    public void onRinging(@NotNull String number) {
+    public void onRinging(final @NotNull String number) {
         newSatisfiedState(CallReceiver.Companion.handleRinging(data, number));
     }
 
     @Override
-    public void onOffHook(@NotNull String number) {
+    public void onOffHook(final @NotNull String number) {
         newSatisfiedState(CallReceiver.Companion.handleOffHook(data, number));
     }
 }

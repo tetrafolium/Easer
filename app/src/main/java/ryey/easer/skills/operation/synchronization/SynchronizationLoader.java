@@ -28,12 +28,12 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class SynchronizationLoader extends OperationLoader<SynchronizationOperationData> {
-    public SynchronizationLoader(Context context) {
+    public SynchronizationLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull SynchronizationOperationData data) {
+    public boolean load(final @ValidData @NonNull SynchronizationOperationData data) {
         Boolean state = data.get();
         ContentResolver.setMasterSyncAutomatically(state);
         return true;

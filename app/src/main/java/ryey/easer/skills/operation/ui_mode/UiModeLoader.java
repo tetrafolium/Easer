@@ -30,12 +30,12 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class UiModeLoader extends OperationLoader<UiModeOperationData> {
-    UiModeLoader(Context context) {
+    UiModeLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull UiModeOperationData data) {
+    public boolean load(final @ValidData @NonNull UiModeOperationData data) {
         UiModeManager uiModeManager = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
         if (uiModeManager == null) {
             Logger.wtf("Can't get UiModeManager???");

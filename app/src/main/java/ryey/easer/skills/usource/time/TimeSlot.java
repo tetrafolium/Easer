@@ -32,11 +32,11 @@ public class TimeSlot extends SelfNotifiableSlot<TimeUSourceData> {
 
     private final Calendar calendar;
 
-    public TimeSlot(Context context, TimeUSourceData data) {
+    public TimeSlot(final Context context, final TimeUSourceData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    TimeSlot(Context context, TimeUSourceData data, boolean retriggerable, boolean persistent) {
+    TimeSlot(final Context context, final TimeUSourceData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
 
         calendar = Calendar.getInstance();
@@ -73,11 +73,11 @@ public class TimeSlot extends SelfNotifiableSlot<TimeUSourceData> {
     }
 
     @Override
-    protected void onPositiveNotified(Intent intent) {
+    protected void onPositiveNotified(final Intent intent) {
         changeSatisfiedState(true);
     }
 
     @Override
-    protected void onNegativeNotified(Intent intent) {
+    protected void onNegativeNotified(final Intent intent) {
     }
 }

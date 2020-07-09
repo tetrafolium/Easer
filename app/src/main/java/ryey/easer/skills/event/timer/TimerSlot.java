@@ -38,18 +38,18 @@ public class TimerSlot extends SelfNotifiableSlot<TimerEventData> {
     private Handler handler = new Handler();
     private Runnable job;
 
-    TimerSlot(Context context, TimerEventData data) {
+    TimerSlot(final Context context, final TimerEventData data) {
         this(context, data, isRetriggerable(data), PERSISTENT_DEFAULT);
     }
 
-    TimerSlot(Context context, TimerEventData data, boolean retriggerable, boolean persistent) {
+    TimerSlot(final Context context, final TimerEventData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
 
         if (mAlarmManager == null)
             mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     }
 
-    private static boolean isRetriggerable(TimerEventData data) {
+    private static boolean isRetriggerable(final TimerEventData data) {
         if (data.repeat) {
             return true;
         } else {
@@ -121,7 +121,7 @@ public class TimerSlot extends SelfNotifiableSlot<TimerEventData> {
     }
 
     @Override
-    protected void onPositiveNotified(Intent intent) {
+    protected void onPositiveNotified(final Intent intent) {
         changeSatisfiedState(true);
     }
 

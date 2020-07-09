@@ -43,7 +43,7 @@ class StateControlDataFactory implements OperationDataFactory<StateControlOperat
     @ValidData
     @NonNull
     @Override
-    public StateControlOperationData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public StateControlOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new StateControlOperationData(data, format, version);
     }
 }

@@ -55,12 +55,12 @@ public class TimeUSourceSkill implements USourceSkill<TimeUSourceData> {
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return null;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
 
     }
 
@@ -89,17 +89,17 @@ public class TimeUSourceSkill implements USourceSkill<TimeUSourceData> {
     }
 
     @Override
-    public AbstractSlot<TimeUSourceData> slot(@NonNull Context context, @ValidData @NonNull TimeUSourceData data) {
+    public AbstractSlot<TimeUSourceData> slot(final @NonNull Context context, final @ValidData @NonNull TimeUSourceData data) {
         return new TimeSlot(context, data);
     }
 
     @Override
-    public AbstractSlot<TimeUSourceData> slot(@NonNull Context context, @NonNull TimeUSourceData data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot<TimeUSourceData> slot(final @NonNull Context context, final @NonNull TimeUSourceData data, final boolean retriggerable, final boolean persistent) {
         return new TimeSlot(context, data, retriggerable, persistent);
     }
 
     @Override
-    public Tracker<TimeUSourceData> tracker(@NonNull Context context, @NonNull TimeUSourceData data, @NonNull PendingIntent event_positive, @NonNull PendingIntent event_negative) {
+    public Tracker<TimeUSourceData> tracker(final @NonNull Context context, final @NonNull TimeUSourceData data, final @NonNull PendingIntent event_positive, final @NonNull PendingIntent event_negative) {
         return new TimeTracker(context, data, event_positive, event_negative);
     }
 

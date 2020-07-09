@@ -40,7 +40,7 @@ public class ScriptNameDynamics implements CoreDynamicsInterface {
     }
 
     @Override
-    public String invoke(@NonNull Context context, @NonNull Bundle extras) {
+    public String invoke(final @NonNull Context context, final @NonNull Bundle extras) {
         return extras.getString(EXTRA_SCRIPT_NAME);
     }
 }

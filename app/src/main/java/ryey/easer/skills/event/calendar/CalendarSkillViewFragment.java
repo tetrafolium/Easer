@@ -60,7 +60,7 @@ public class CalendarSkillViewFragment extends SkillViewFragment<CalendarEventDa
     private final IntentFilter mFilter = new IntentFilter(ACTION_RETURN);
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             if (intent.getAction().equals(ACTION_RETURN)) {
                 calendar_id = intent.getLongExtra(EXTRA_CALENDAR_ID, -1);
                 tv_calendar_name.setText(intent.getStringExtra(EXTRA_CALENDAR_NAME));
@@ -69,14 +69,14 @@ public class CalendarSkillViewFragment extends SkillViewFragment<CalendarEventDa
     };
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(final Context context) {
         super.onAttach(context);
         getContext().registerReceiver(mReceiver, mFilter);
     }
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_event__calendar, container, false);
         tv_calendar_name = view.findViewById(R.id.text_calendar_name);
         cb_conditions[0] = view.findViewById(R.id.checkBox_start);
@@ -84,7 +84,7 @@ public class CalendarSkillViewFragment extends SkillViewFragment<CalendarEventDa
 
         view.findViewById(R.id.calendar_picker).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 if (!SkillUtils.checkPermission(getContext(), Manifest.permission.READ_CALENDAR))
                     return;
                 AlertDialog.Builder builderSingle = new AlertDialog.Builder(getContext());
@@ -107,7 +107,7 @@ public class CalendarSkillViewFragment extends SkillViewFragment<CalendarEventDa
                     },
                 new int[] {android.R.id.text1, android.R.id.text2}, 0) {
                     @Override
-                    public void setViewText(TextView v, String text) {
+                    public void setViewText(final TextView v, final String text) {
                         if (v.getId() == android.R.id.text2)
                             text = "(" + text + ")";
                         super.setViewText(v, text);
@@ -115,13 +115,13 @@ public class CalendarSkillViewFragment extends SkillViewFragment<CalendarEventDa
                 };
                 cursorLoader.registerListener(0, new Loader.OnLoadCompleteListener<Cursor>() {
                     @Override
-                    public void onLoadComplete(Loader<Cursor> loader, Cursor data) {
+                    public void onLoadComplete(final Loader<Cursor> loader, final Cursor data) {
                         simpleCursorAdapter.swapCursor(data);
                     }
                 });
                 builderSingle.setAdapter(simpleCursorAdapter, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(final DialogInterface dialog, final int which) {
                         Cursor cursor = (Cursor) simpleCursorAdapter.getItem(which);
                         long id = cursor.getLong(0);
                         String name = cursor.getString(2);
@@ -146,7 +146,7 @@ public class CalendarSkillViewFragment extends SkillViewFragment<CalendarEventDa
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull CalendarEventData data) {
+    protected void _fill(final @ValidData @NonNull CalendarEventData data) {
         CalendarData calendarData = data.data;
         calendar_id = calendarData.calendar_id;
         tv_calendar_name.setText(CalendarHelper.getCalendarName(

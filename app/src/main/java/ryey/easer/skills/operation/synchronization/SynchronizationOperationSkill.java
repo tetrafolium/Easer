@@ -72,12 +72,12 @@ public class SynchronizationOperationSkill implements OperationSkill<Synchroniza
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.checkPermission(context, Manifest.permission.WRITE_SYNC_SETTINGS);
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         SkillUtils.requestPermission(activity, requestCode, Manifest.permission.WRITE_SYNC_SETTINGS);
     }
 
@@ -96,7 +96,7 @@ public class SynchronizationOperationSkill implements OperationSkill<Synchroniza
 
     @NonNull
     @Override
-    public OperationLoader<SynchronizationOperationData> loader(@NonNull Context context) {
+    public OperationLoader<SynchronizationOperationData> loader(final @NonNull Context context) {
         return new SynchronizationLoader(context);
     }
 

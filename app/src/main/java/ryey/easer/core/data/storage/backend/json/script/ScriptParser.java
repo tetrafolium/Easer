@@ -49,11 +49,11 @@ class ScriptParser implements Parser<ScriptStructure> {
 
     private ScriptStructure scriptStructure;
 
-    ScriptParser(Context context) {
+    ScriptParser(final Context context) {
         this.context = context;
     }
 
-    public ScriptStructure parse(InputStream in) throws IOException, IllegalStorageDataException {
+    public ScriptStructure parse(final InputStream in) throws IOException, IllegalStorageDataException {
         try {
             JSONObject jsonObject = new JSONObject(IOUtils.inputStreamToString(in));
             int version = jsonObject.optInt(C.VERSION, C.VERSION_ADD_JSON);
@@ -98,7 +98,7 @@ class ScriptParser implements Parser<ScriptStructure> {
         }
     }
 
-    private void parseAndSet_trigger(JSONObject jsonObject_trigger, int version) throws IllegalStorageDataException {
+    private void parseAndSet_trigger(final JSONObject jsonObject_trigger, final int version) throws IllegalStorageDataException {
         try {
             String trigger_type = jsonObject_trigger.getString(C.TYPE);
             switch (trigger_type) {
@@ -129,7 +129,7 @@ class ScriptParser implements Parser<ScriptStructure> {
         }
     }
 
-    EventData parse_eventData(JSONObject jsonObject_trigger, int version) throws IllegalStorageDataException {
+    EventData parse_eventData(final JSONObject jsonObject_trigger, final int version) throws IllegalStorageDataException {
         try {
             String type = jsonObject_trigger.getString(C.TYPE);
             if (BuildConfig.DEBUG && !type.equals(C.TriggerType.T_RAW))

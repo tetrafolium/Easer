@@ -38,11 +38,11 @@ public class WidgetEventData extends AbstractEventData {
 
     final String widgetTag;
 
-    WidgetEventData(String widgetTag) {
+    WidgetEventData(final String widgetTag) {
         this.widgetTag = widgetTag;
     }
 
-    WidgetEventData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    WidgetEventData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
         case JSON:
         default:
@@ -57,7 +57,7 @@ public class WidgetEventData extends AbstractEventData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res = "";
         switch (format) {
         case JSON:
@@ -87,7 +87,7 @@ public class WidgetEventData extends AbstractEventData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (!(obj instanceof WidgetEventData))
             return false;
         if (!widgetTag.equals(((WidgetEventData) obj).widgetTag))
@@ -101,22 +101,22 @@ public class WidgetEventData extends AbstractEventData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeString(widgetTag);
     }
 
     public static final Creator<WidgetEventData> CREATOR
     = new Creator<WidgetEventData>() {
-        public WidgetEventData createFromParcel(Parcel in) {
+        public WidgetEventData createFromParcel(final Parcel in) {
             return new WidgetEventData(in);
         }
 
-        public WidgetEventData[] newArray(int size) {
+        public WidgetEventData[] newArray(final int size) {
             return new WidgetEventData[size];
         }
     };
 
-    private WidgetEventData(Parcel in) {
+    private WidgetEventData(final Parcel in) {
         widgetTag = in.readString();
     }
 }

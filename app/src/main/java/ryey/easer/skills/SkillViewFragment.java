@@ -69,7 +69,7 @@ public abstract class SkillViewFragment<T extends StorageData> extends SkillView
      */
     @CallSuper
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final @NonNull View view, final @Nullable Bundle savedInstanceState) {
         jobFillData.tick(0);
         jobSetEnabled.tick(0);
     }
@@ -79,14 +79,14 @@ public abstract class SkillViewFragment<T extends StorageData> extends SkillView
      * Could be overridden in subclasses if needed for customized text.
      */
     @NonNull
-    public String desc(@NonNull Resources res) {
+    public String desc(final @NonNull Resources res) {
         return res.getString(LocalSkillRegistry.getInstance().all().findSkill(this).name());
     }
 
     /**
      * Check whether the to-be-filled data is of the correct type.
      */
-    private void checkDataType(@ValidData @NonNull T data) throws IllegalArgumentTypeException {
+    private void checkDataType(final @ValidData @NonNull T data) throws IllegalArgumentTypeException {
         Class expectedDataClass = LocalSkillRegistry.getInstance()
                                   .all().findSkill(this)
                                   .dataFactory()
@@ -108,7 +108,7 @@ public abstract class SkillViewFragment<T extends StorageData> extends SkillView
      * This methods takes care of synchronization (see {@link #jobFillData}).
      * Skill implementors normally only need to implement {@link #_fill} method.
      */
-    public void fill(@ValidData @NonNull T data) {
+    public void fill(final @ValidData @NonNull T data) {
         try {
             checkDataType(data);
             jobFillData.passed_data = data;
@@ -131,7 +131,7 @@ public abstract class SkillViewFragment<T extends StorageData> extends SkillView
      * Change the interactive state of the UI components.
      * Override this method only if the UI has other controls of the enabled state.
      */
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(final boolean enabled) {
         jobSetEnabled.enabled = enabled;
         jobSetEnabled.tick(1);
     }
@@ -139,7 +139,7 @@ public abstract class SkillViewFragment<T extends StorageData> extends SkillView
     /**
      * Recursively change the interactive state of the UI components.
      */
-    protected static void setEnabled(@NonNull View v, boolean enabled) {
+    protected static void setEnabled(final @NonNull View v, final boolean enabled) {
         v.setEnabled(enabled);
         if (v instanceof ViewGroup) {
             View child;
@@ -153,7 +153,7 @@ public abstract class SkillViewFragment<T extends StorageData> extends SkillView
     private class FillDataJob extends DelayedJob {
         private T passed_data = null;
 
-        FillDataJob(String tag) {
+        FillDataJob(final String tag) {
             super(2, tag);
         }
 
@@ -168,7 +168,7 @@ public abstract class SkillViewFragment<T extends StorageData> extends SkillView
     private class SetEnabledJob extends DelayedJob {
         private boolean enabled = true;
 
-        SetEnabledJob(String tag) {
+        SetEnabledJob(final String tag) {
             super(2, tag);
         }
 

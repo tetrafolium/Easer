@@ -43,7 +43,7 @@ class PlayMediaOperationDataFactory implements OperationDataFactory<PlayMediaOpe
     @ValidData
     @NonNull
     @Override
-    public PlayMediaOperationData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public PlayMediaOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new PlayMediaOperationData(data, format, version);
     }
 }

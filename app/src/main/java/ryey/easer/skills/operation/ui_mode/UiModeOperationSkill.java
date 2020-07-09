@@ -70,12 +70,12 @@ public class UiModeOperationSkill implements OperationSkill<UiModeOperationData>
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return null;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
     }
 
     @NonNull
@@ -93,7 +93,7 @@ public class UiModeOperationSkill implements OperationSkill<UiModeOperationData>
 
     @NonNull
     @Override
-    public OperationLoader<UiModeOperationData> loader(@NonNull Context context) {
+    public OperationLoader<UiModeOperationData> loader(final @NonNull Context context) {
         return new UiModeLoader(context);
     }
 

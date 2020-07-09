@@ -51,13 +51,13 @@ public abstract class AbstractEditDataActivity<T extends Named & Verifiable & Wi
     protected String oldName = null;
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.edit_data, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
         case R.id.action_save:
             persistChange();
@@ -80,7 +80,7 @@ public abstract class AbstractEditDataActivity<T extends Named & Verifiable & Wi
     protected abstract int contentViewRes();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         storage = retDataStorage();
         purpose = (EditDataProto.Purpose) getIntent().getSerializableExtra(EditDataProto.PURPOSE);
@@ -89,20 +89,20 @@ public abstract class AbstractEditDataActivity<T extends Named & Verifiable & Wi
         if (purpose == EditDataProto.Purpose.delete) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
+                public void onClick(final DialogInterface dialog, final int id) {
                     setResult(RESULT_CANCELED);
                     dialog.cancel();
                 }
             }).setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
+                public void onClick(final DialogInterface dialogInterface, final int i) {
                     persistChange();
                 }
             });
             builder.setMessage(getString(R.string.prompt_delete, oldName));
             builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
-                public void onCancel(DialogInterface dialog) {
+                public void onCancel(final DialogInterface dialog) {
                     finish();
                 }
             });

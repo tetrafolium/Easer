@@ -43,7 +43,7 @@ class ConditionEventEventDataFactory implements EventDataFactory<ConditionEventE
     @ValidData
     @NonNull
     @Override
-    public ConditionEventEventData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public ConditionEventEventData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new ConditionEventEventData(data, format, version);
     }
 }

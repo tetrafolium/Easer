@@ -45,7 +45,7 @@ public class HttpRequestSkillViewFragment extends SkillViewFragment<HttpRequestO
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_operation__http_request, container, false);
         rb_get = view.findViewById(R.id.radioButton_get);
         rb_post = view.findViewById(R.id.radioButton_post);
@@ -57,7 +57,7 @@ public class HttpRequestSkillViewFragment extends SkillViewFragment<HttpRequestO
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull HttpRequestOperationData data) {
+    protected void _fill(final @ValidData @NonNull HttpRequestOperationData data) {
         switch (data.requestMethod) {
         case GET:
             rb_get.setChecked(true);

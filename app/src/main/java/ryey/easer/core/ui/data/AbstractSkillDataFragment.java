@@ -45,7 +45,7 @@ public abstract class AbstractSkillDataFragment<T> extends Fragment {
 
     @CallSuper
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final @NonNull View view, final @Nullable Bundle savedInstanceState) {
         initial_background = view.getBackground();
         if (passed_data != null) {
             _fill(passed_data);
@@ -54,7 +54,7 @@ public abstract class AbstractSkillDataFragment<T> extends Fragment {
 
     abstract protected void _fill(@NonNull T data);
 
-    public void fill(@Nullable T data) {
+    public void fill(final @Nullable T data) {
         if (data != null) {
             passed_data = data;
             if (getView() != null) {
@@ -66,7 +66,7 @@ public abstract class AbstractSkillDataFragment<T> extends Fragment {
     @NonNull
     public abstract T getData() throws InvalidDataInputException;
 
-    public void setHighlight(boolean state) {
+    public void setHighlight(final boolean state) {
         if (state) {
             getView().setBackgroundResource(R.drawable.boarder_alert);
         } else {

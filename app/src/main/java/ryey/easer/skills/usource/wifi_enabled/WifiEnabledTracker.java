@@ -36,7 +36,7 @@ public class WifiEnabledTracker extends SkeletonTracker<WifiEnabledUSourceData> 
 
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(intent.getAction())) {
                 int extraWifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, WifiManager.WIFI_STATE_UNKNOWN);
 
@@ -56,9 +56,9 @@ public class WifiEnabledTracker extends SkeletonTracker<WifiEnabledUSourceData> 
     };
     private final IntentFilter intentFilter = new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION);
 
-    WifiEnabledTracker(Context context, WifiEnabledUSourceData data,
-                       @NonNull PendingIntent event_positive,
-                       @NonNull PendingIntent event_negative) {
+    WifiEnabledTracker(final Context context, final WifiEnabledUSourceData data,
+                       final @NonNull PendingIntent event_positive,
+                       final @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
 
         wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);

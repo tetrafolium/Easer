@@ -39,17 +39,17 @@ public class ScreenUSourceData implements USourceData {
 
     final ScreenEvent screenEvent;
 
-    ScreenUSourceData(ScreenEvent screenEvent) {
+    ScreenUSourceData(final ScreenEvent screenEvent) {
         this.screenEvent = screenEvent;
     }
 
-    ScreenUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    ScreenUSourceData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         screenEvent = ScreenEvent.valueOf(data);
     }
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
         default:
@@ -74,7 +74,7 @@ public class ScreenUSourceData implements USourceData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null || !(obj instanceof ScreenUSourceData))
             return false;
         if (!screenEvent.equals(((ScreenUSourceData) obj).screenEvent))
@@ -88,22 +88,22 @@ public class ScreenUSourceData implements USourceData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         screenEvent.ordinal();
     }
 
     public static final Creator<ScreenUSourceData> CREATOR
     = new Creator<ScreenUSourceData>() {
-        public ScreenUSourceData createFromParcel(Parcel in) {
+        public ScreenUSourceData createFromParcel(final Parcel in) {
             return new ScreenUSourceData(in);
         }
 
-        public ScreenUSourceData[] newArray(int size) {
+        public ScreenUSourceData[] newArray(final int size) {
             return new ScreenUSourceData[size];
         }
     };
 
-    private ScreenUSourceData(Parcel in) {
+    private ScreenUSourceData(final Parcel in) {
         screenEvent = ScreenEvent.values()[in.readInt()];
     }
 }

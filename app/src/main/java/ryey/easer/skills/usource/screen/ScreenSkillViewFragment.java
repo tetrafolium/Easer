@@ -39,7 +39,7 @@ public class ScreenSkillViewFragment extends SkillViewFragment<ScreenUSourceData
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_usource__screen, container, false);
         rb_screen_on = view.findViewById(R.id.radioButton_screen_on);
         rb_screen_off = view.findViewById(R.id.radioButton_screen_off);
@@ -48,7 +48,7 @@ public class ScreenSkillViewFragment extends SkillViewFragment<ScreenUSourceData
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull ScreenUSourceData data) {
+    protected void _fill(final @ValidData @NonNull ScreenUSourceData data) {
         if (data.screenEvent == ScreenUSourceData.ScreenEvent.on)
             rb_screen_on.setChecked(true);
         else if (data.screenEvent == ScreenUSourceData.ScreenEvent.off)

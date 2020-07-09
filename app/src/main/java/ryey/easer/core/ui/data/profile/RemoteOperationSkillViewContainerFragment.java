@@ -45,7 +45,7 @@ public class RemoteOperationSkillViewContainerFragment extends AbstractSkillData
     public static final String ARG_ID = "ryey.easer.core.ui.data.profile.RemoteOperationSkillViewContainerFragment.args.ID";
     public static final String ARG_DATA = "ryey.easer.core.ui.data.profile.RemoteOperationSkillViewContainerFragment.args.TYPE";
 
-    public static RemoteOperationSkillViewContainerFragment createInstance(String pluginId, @Nullable RemoteOperationData data) {
+    public static RemoteOperationSkillViewContainerFragment createInstance(final String pluginId, final @Nullable RemoteOperationData data) {
         RemoteOperationSkillViewContainerFragment fragment = new RemoteOperationSkillViewContainerFragment();
         Bundle bundle = new Bundle();
         bundle.putString(ARG_ID, pluginId);
@@ -61,7 +61,7 @@ public class RemoteOperationSkillViewContainerFragment extends AbstractSkillData
     RemotePluginCommunicationHelper helper;
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (requestCode == REQCODE_EDIT_DATA) {
             if (resultCode == Activity.RESULT_OK) {
                 data.setExtrasClassLoader(RemoteOperationData.class.getClassLoader());
@@ -72,7 +72,7 @@ public class RemoteOperationSkillViewContainerFragment extends AbstractSkillData
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(final @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //noinspection ConstantConditions
         helper = new RemotePluginCommunicationHelper(getContext());
@@ -81,7 +81,7 @@ public class RemoteOperationSkillViewContainerFragment extends AbstractSkillData
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_remote_plugin, container, false);
 
         mCheckBox = view.findViewById(R.id.checkbox_pluginview_enabled);
@@ -91,10 +91,10 @@ public class RemoteOperationSkillViewContainerFragment extends AbstractSkillData
         final String id = getArguments().getString(ARG_ID);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 helper.asyncRemoteEditOperationData(id, new RemotePluginCommunicationHelper.OnEditDataIntentObtainedCallback() {
                     @Override
-                    public void onEditDataIntentObtained(@NonNull Intent editDataIntent) {
+                    public void onEditDataIntentObtained(final @NonNull Intent editDataIntent) {
                         editDataIntent.putExtra(RemotePlugin.EXTRA_DATA, passed_data);
                         startActivityForResult(editDataIntent, REQCODE_EDIT_DATA);
                     }
@@ -106,20 +106,20 @@ public class RemoteOperationSkillViewContainerFragment extends AbstractSkillData
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final @NonNull View view, final @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final TextView tv_name = view.findViewById(R.id.tv_plugin_name);
         final String id = getArguments().getString(ARG_ID);
         helper.asyncFindPlugin(id, new RemotePluginCommunicationHelper.OnPluginFoundCallback() {
             @Override
-            public void onPluginFound(@Nullable RemotePluginInfo info) {
+            public void onPluginFound(final @Nullable RemotePluginInfo info) {
                 tv_name.setText(info.getPluginName());
             }
         });
     }
 
     @Override
-    protected void _fill(@NonNull RemoteOperationData data) {
+    protected void _fill(final @NonNull RemoteOperationData data) {
         mCheckBox.setChecked(true);
         passed_data = data;
     }

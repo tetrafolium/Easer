@@ -32,9 +32,9 @@ import ryey.easer.skills.condition.SelfNotifiableSkeletonTracker;
 public class TimeTracker extends SelfNotifiableSkeletonTracker<TimeUSourceData> {
     private static AlarmManager mAlarmManager;
 
-    TimeTracker(Context context, TimeUSourceData data,
-                @NonNull PendingIntent event_positive,
-                @NonNull PendingIntent event_negative) {
+    TimeTracker(final Context context, final TimeUSourceData data,
+                final @NonNull PendingIntent event_positive,
+                final @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
 
         if (mAlarmManager == null)
@@ -55,7 +55,7 @@ public class TimeTracker extends SelfNotifiableSkeletonTracker<TimeUSourceData> 
         }
     }
 
-    private static Calendar[] calendarOfToday(Calendar ref) {
+    private static Calendar[] calendarOfToday(final Calendar ref) {
         // target time of today
         Calendar calendar_target = Calendar.getInstance(), calendar_zero = Calendar.getInstance(), now = Calendar.getInstance();
         long currentTimeMillis = System.currentTimeMillis();

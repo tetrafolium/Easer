@@ -41,16 +41,16 @@ public abstract class SkeletonTracker<D extends ConditionData> implements Tracke
     Lock lck_satisfied = new ReentrantLock();
     protected Boolean satisfied;
 
-    protected SkeletonTracker(Context context, D data,
-                              @NonNull PendingIntent event_positive,
-                              @NonNull PendingIntent event_negative) {
+    protected SkeletonTracker(final Context context, final D data,
+                              final @NonNull PendingIntent event_positive,
+                              final @NonNull PendingIntent event_negative) {
         this.context = context;
         this.data = data;
         this.event_positive = event_positive;
         this.event_negative = event_negative;
     }
 
-    protected final void newSatisfiedState(Boolean newState) {
+    protected final void newSatisfiedState(final Boolean newState) {
         lck_satisfied.lock();
         try {
             if (satisfied == newState) {

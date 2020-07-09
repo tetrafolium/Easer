@@ -33,12 +33,12 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class RingerModeLoader extends OperationLoader<RingerModeOperationData> {
-    public RingerModeLoader(Context context) {
+    public RingerModeLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull RingerModeOperationData data) {
+    public boolean load(final @ValidData @NonNull RingerModeOperationData data) {
         RingerMode mode = RingerMode.compatible(data.ringerMode);
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
@@ -53,7 +53,7 @@ public class RingerModeLoader extends OperationLoader<RingerModeOperationData> {
         }
     }
 
-    private static boolean amSetMode(AudioManager audioManager, RingerMode mode) {
+    private static boolean amSetMode(final AudioManager audioManager, final RingerMode mode) {
         int am_mode;
         switch (mode) {
         case silent:
@@ -79,7 +79,7 @@ public class RingerModeLoader extends OperationLoader<RingerModeOperationData> {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private boolean setDoNotDisturbForLollipop(RingerMode mode) {
+    private boolean setDoNotDisturbForLollipop(final RingerMode mode) {
         int mode_num;
         if (mode == RingerMode.dnd_all) {
             mode_num = NotificationListenerService.INTERRUPTION_FILTER_ALL;

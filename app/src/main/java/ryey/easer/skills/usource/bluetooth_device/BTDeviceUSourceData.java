@@ -41,11 +41,11 @@ import ryey.easer.plugin.PluginDataFormat;
 public class BTDeviceUSourceData implements USourceData {
     final List<String> hwAddresses = new ArrayList<>();
 
-    BTDeviceUSourceData(String[] hardware_addresses) {
+    BTDeviceUSourceData(final String[] hardware_addresses) {
         setMultiple(hardware_addresses);
     }
 
-    BTDeviceUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    BTDeviceUSourceData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
         default:
             hwAddresses.clear();
@@ -65,7 +65,7 @@ public class BTDeviceUSourceData implements USourceData {
         }
     }
 
-    private void setMultiple(String[] hardware_addresses) {
+    private void setMultiple(final String[] hardware_addresses) {
         for (String hardware_address : hardware_addresses) {
             if (!Utils.isBlank(hardware_address))
                 this.hwAddresses.add(hardware_address.trim());
@@ -88,7 +88,7 @@ public class BTDeviceUSourceData implements USourceData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null || !(obj instanceof BTDeviceUSourceData))
             return false;
         if (!hwAddresses.equals(((BTDeviceUSourceData) obj).hwAddresses))
@@ -98,7 +98,7 @@ public class BTDeviceUSourceData implements USourceData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
         default:
@@ -111,7 +111,7 @@ public class BTDeviceUSourceData implements USourceData {
         return res;
     }
 
-    public boolean match(@NonNull Object obj) {
+    public boolean match(final @NonNull Object obj) {
         if (obj instanceof String) {
             return hwAddresses.contains(((String) obj).trim());
         }
@@ -124,22 +124,22 @@ public class BTDeviceUSourceData implements USourceData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeStringList(hwAddresses);
     }
 
     public static final Creator<BTDeviceUSourceData> CREATOR
     = new Creator<BTDeviceUSourceData>() {
-        public BTDeviceUSourceData createFromParcel(Parcel in) {
+        public BTDeviceUSourceData createFromParcel(final Parcel in) {
             return new BTDeviceUSourceData(in);
         }
 
-        public BTDeviceUSourceData[] newArray(int size) {
+        public BTDeviceUSourceData[] newArray(final int size) {
             return new BTDeviceUSourceData[size];
         }
     };
 
-    private BTDeviceUSourceData(Parcel in) {
+    private BTDeviceUSourceData(final Parcel in) {
         in.readStringList(hwAddresses);
     }
 

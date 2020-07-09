@@ -33,7 +33,7 @@ public class BluetoothEnabledSlot extends AbstractSlot<BluetoothEnabledUSourceDa
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(intent.getAction())) {
                 switch (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1)) {
                 case BluetoothAdapter.STATE_ON:
@@ -48,11 +48,11 @@ public class BluetoothEnabledSlot extends AbstractSlot<BluetoothEnabledUSourceDa
     };
     private static IntentFilter intentFilter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
 
-    public BluetoothEnabledSlot(Context context, BluetoothEnabledUSourceData data) {
+    public BluetoothEnabledSlot(final Context context, final BluetoothEnabledUSourceData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    public BluetoothEnabledSlot(@NonNull Context context, @NonNull BluetoothEnabledUSourceData data, boolean retriggerable, boolean persistent) {
+    public BluetoothEnabledSlot(final @NonNull Context context, final @NonNull BluetoothEnabledUSourceData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
     }
 

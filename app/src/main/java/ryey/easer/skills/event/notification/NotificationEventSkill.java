@@ -61,13 +61,13 @@ public class NotificationEventSkill implements EventSkill<NotificationEventData>
     @Nullable
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.isPermissionGrantedForNotificationListenerService(context, NotificationEventListenerService.class);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         if (!SkillUtils.isPermissionGrantedForNotificationListenerService(activity, NotificationEventListenerService.class)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
                 activity.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
@@ -99,12 +99,12 @@ public class NotificationEventSkill implements EventSkill<NotificationEventData>
     }
 
     @Override
-    public AbstractSlot<NotificationEventData> slot(@NonNull Context context, @ValidData @NonNull NotificationEventData data) {
+    public AbstractSlot<NotificationEventData> slot(final @NonNull Context context, final @ValidData @NonNull NotificationEventData data) {
         return new NotificationSlot(context, data);
     }
 
     @Override
-    public AbstractSlot<NotificationEventData> slot(@NonNull Context context, @NonNull NotificationEventData data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot<NotificationEventData> slot(final @NonNull Context context, final @NonNull NotificationEventData data, final boolean retriggerable, final boolean persistent) {
         return new NotificationSlot(context, data, retriggerable, persistent);
     }
 

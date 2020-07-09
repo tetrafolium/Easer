@@ -45,7 +45,7 @@ class RingerModeConditionDataFactory implements ConditionDataFactory<RingerModeC
     @ValidData
     @NonNull
     @Override
-    public RingerModeConditionData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public RingerModeConditionData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new RingerModeConditionData(data, format, version);
     }
 }

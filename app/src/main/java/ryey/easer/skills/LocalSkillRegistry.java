@@ -175,7 +175,7 @@ final public class LocalSkillRegistry {
         return instance;
     }
 
-    private LocalSkillRegistry() {}
+    private LocalSkillRegistry() { }
 
     public Registry<EventSkill, EventData> event() {
         return eventSkillRegistry;
@@ -209,18 +209,18 @@ final public class LocalSkillRegistry {
         //TODO: use Set instead of List for the above two variables && add an "ordered" method to return a List
         final Map<String, String> backwardNameMap = new ArrayMap<>(); // Backward-compatible name conversion
 
-        private Registry(int type) {
+        private Registry(final int type) {
             this.type = type;
         }
 
-        private Registry(int type, String[][] backwardNameMap) {
+        private Registry(final int type, final String[][] backwardNameMap) {
             this(type);
             for (String[] pair : backwardNameMap) {
                 this.backwardNameMap.put(pair[0], pair[1]);
             }
         }
 
-        synchronized void registerSkill(T skill) {
+        synchronized void registerSkill(final T skill) {
             String id = skill.id();
             for (String eid : skillIdList) {
                 if (id.equals(eid))
@@ -230,7 +230,7 @@ final public class LocalSkillRegistry {
             skillIdList.add(skill.id());
         }
 
-        synchronized void registerSkill(Class<? extends T> skillClass) {
+        synchronized void registerSkill(final Class<? extends T> skillClass) {
             try {
                 T skill = skillClass.newInstance();
                 skillList.add(skill);
@@ -242,7 +242,7 @@ final public class LocalSkillRegistry {
             }
         }
 
-        public List<T> getEnabledSkills(@NonNull Context context) {
+        public List<T> getEnabledSkills(final @NonNull Context context) {
             List<T> enabledPlugins = new ArrayList<>(skillList.size());
             SharedPreferences settingsPreference =
                 PreferenceManager.getDefaultSharedPreferences(context);
@@ -267,14 +267,14 @@ final public class LocalSkillRegistry {
          * @return
          */
         @Override
-        public boolean hasSkill(String id) {
+        public boolean hasSkill(final String id) {
             if (findSkill(id) == null)
                 return false;
             return true;
         }
 
         @Nullable
-        public T findSkill(T_data data) {
+        public T findSkill(final T_data data) {
             for (T plugin : getAllSkills()) {
                 if (data.getClass() == plugin.dataFactory().dataClass()) {
                     return plugin;
@@ -284,7 +284,7 @@ final public class LocalSkillRegistry {
         }
 
         @Nullable
-        public T findSkill(String id) {
+        public T findSkill(final String id) {
             if (backwardNameMap.size() > 0)
                 Logger.d(backwardNameMap);
             if (backwardNameMap.containsKey(id))
@@ -299,7 +299,7 @@ final public class LocalSkillRegistry {
 
         @Nullable
         @Override
-        public T findSkill(SkillView view) {
+        public T findSkill(final SkillView view) {
             for (T plugin : getAllSkills()) {
                 if (view.getClass().equals(plugin.view().getClass()))
                     return plugin;
@@ -313,11 +313,11 @@ final public class LocalSkillRegistry {
 
         final SkillLookupper<? extends Skill, ? extends StorageData>[] lookupers;
 
-        OverallRegistry(SkillLookupper<? extends Skill, ? extends StorageData>[] lookupers) {
+        OverallRegistry(final SkillLookupper<? extends Skill, ? extends StorageData>[] lookupers) {
             this.lookupers = lookupers;
         }
 
-        public List<Skill> getEnabledSkills(@NonNull Context context) {
+        public List<Skill> getEnabledSkills(final @NonNull Context context) {
             List<Skill> list = new ArrayList<>();
             for (SkillLookupper<? extends Skill, ? extends StorageData> lookupper : lookupers) {
                 list.addAll(lookupper.getEnabledSkills(context));
@@ -335,7 +335,7 @@ final public class LocalSkillRegistry {
         }
 
         @Override
-        public boolean hasSkill(String id) {
+        public boolean hasSkill(final String id) {
             if (findSkill(id) == null)
                 return false;
             return true;
@@ -343,7 +343,7 @@ final public class LocalSkillRegistry {
 
         @Nullable
         @Override
-        public Skill findSkill(StorageData storageData) {
+        public Skill findSkill(final StorageData storageData) {
             for (Skill plugin : getAllSkills()) {
                 if (storageData.getClass().equals(plugin.dataFactory().dataClass()))
                     return plugin;
@@ -353,7 +353,7 @@ final public class LocalSkillRegistry {
 
         @Nullable
         @Override
-        public Skill findSkill(String id) {
+        public Skill findSkill(final String id) {
             for (Skill plugin : getAllSkills()) {
                 if (id.equals(plugin.id()))
                     return plugin;
@@ -363,7 +363,7 @@ final public class LocalSkillRegistry {
 
         @Nullable
         @Override
-        public Skill findSkill(SkillView view) {
+        public Skill findSkill(final SkillView view) {
             for (Skill plugin : getAllSkills()) {
                 if (view.getClass().equals(plugin.view().getClass()))
                     return plugin;

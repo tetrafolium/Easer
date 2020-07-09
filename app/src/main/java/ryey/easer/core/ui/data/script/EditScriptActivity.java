@@ -86,14 +86,14 @@ public class EditScriptActivity extends AbstractEditDataActivity<ScriptStructure
     DynamicsLink dynamicsLink;
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.edit_event, menu);
         menu.findItem(R.id.action_toggle_active).setChecked(isActive);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
         case R.id.action_toggle_active:
             isActive = !item.isChecked();
@@ -160,7 +160,7 @@ public class EditScriptActivity extends AbstractEditDataActivity<ScriptStructure
         rg_mode = findViewById(R.id.rg_trigger);
         rg_mode.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int id) {
+            public void onCheckedChanged(final RadioGroup radioGroup, final int id) {
                 int v_inline = View.GONE, v_event = View.GONE, v_condition = View.GONE;
                 if (id == R.id.radioButton_inline_event) {
                     v_inline = View.VISIBLE;
@@ -189,7 +189,7 @@ public class EditScriptActivity extends AbstractEditDataActivity<ScriptStructure
         dynamics = findViewById(R.id.btn_dynamics);
         dynamics.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 Intent intent = new Intent(EditScriptActivity.this, ListDynamicsActivity.class);
                 intent.putExtra(ListDynamicsActivity.EXTRA_DYNAMICS_LINK, dynamicsLink);
                 ArrayList<String> placeholders = new ArrayList<>();
@@ -234,7 +234,7 @@ public class EditScriptActivity extends AbstractEditDataActivity<ScriptStructure
     }
 
     @Override
-    protected void loadFromData(ScriptStructure script) {
+    protected void loadFromData(final ScriptStructure script) {
         rb_inline.setVisibility(View.GONE);
 
         oldName = script.getName();
@@ -303,7 +303,7 @@ public class EditScriptActivity extends AbstractEditDataActivity<ScriptStructure
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (requestCode == REQ_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 this.dynamicsLink = data.getParcelableExtra(ListDynamicsActivity.EXTRA_DYNAMICS_LINK);

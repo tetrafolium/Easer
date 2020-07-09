@@ -39,7 +39,7 @@ public class SmsConnSlot extends AbstractSlot<SmsEventData> {
 
     private final BroadcastReceiver connReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             if (intent.getAction().equals(Telephony.Sms.Intents.SMS_RECEIVED_ACTION)) {
                 try {
                     Bundle bundle = intent.getExtras();
@@ -67,7 +67,7 @@ public class SmsConnSlot extends AbstractSlot<SmsEventData> {
                     }
                     changeSatisfiedState(false);
                 } catch (Exception e) {
-                    Logger.d("Exception caught",e.getMessage());
+                    Logger.d("Exception caught", e.getMessage());
                 }
             }
         }
@@ -83,11 +83,11 @@ public class SmsConnSlot extends AbstractSlot<SmsEventData> {
         }
     }
 
-    public SmsConnSlot(Context context, SmsEventData data) {
+    public SmsConnSlot(final Context context, final SmsEventData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    SmsConnSlot(Context context, SmsEventData data, boolean retriggerable, boolean persistent) {
+    SmsConnSlot(final Context context, final SmsEventData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
         smsInnerData = data.innerData;
     }

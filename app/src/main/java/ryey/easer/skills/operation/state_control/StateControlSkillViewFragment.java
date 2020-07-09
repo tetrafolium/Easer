@@ -41,7 +41,7 @@ public class StateControlSkillViewFragment extends SkillViewFragment<StateContro
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_operation__event_control, container, false);
         sw_script = new DataSelectSpinnerWrapper(getContext(), (Spinner) view.findViewById(R.id.spinner_event));
         sw_script
@@ -53,7 +53,7 @@ public class StateControlSkillViewFragment extends SkillViewFragment<StateContro
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull StateControlOperationData data) {
+    protected void _fill(final @ValidData @NonNull StateControlOperationData data) {
         sw_script.setSelection(data.scriptName);
     }
 

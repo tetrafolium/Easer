@@ -30,14 +30,14 @@ import ryey.easer.core.data.storage.backend.json.event.JsonEventDataStorageBacke
 
 public class EventDataStorage extends AbstractDataStorage<EventStructure, EventDataStorageBackendInterface> {
 
-    public EventDataStorage(Context context) {
+    public EventDataStorage(final Context context) {
         super(context, new EventDataStorageBackendInterface[] {
                   new JsonEventDataStorageBackend(context),
               });
     }
 
     @Override
-    boolean isSafeToDelete(String name) {
+    boolean isSafeToDelete(final String name) {
         ScriptDataStorage scriptDataStorage = new ScriptDataStorage(context);
         for (ScriptStructure scriptStructure : scriptDataStorage.allScripts()) {
             if (scriptStructure.isEvent() && name.equals(scriptStructure.getEvent().getName()))
@@ -46,7 +46,7 @@ public class EventDataStorage extends AbstractDataStorage<EventStructure, EventD
         return true;
     }
 
-    protected void handleRename(String oldName, EventStructure newEvent) throws IOException {
+    protected void handleRename(final String oldName, final EventStructure newEvent) throws IOException {
         ScriptDataStorage scriptDataStorage = new ScriptDataStorage(context);
         for (ScriptStructure scriptStructure : scriptDataStorage.allScripts()) {
             if (scriptStructure.isEvent() && !scriptStructure.getEvent().isTmpEvent()

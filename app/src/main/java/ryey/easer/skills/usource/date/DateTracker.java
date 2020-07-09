@@ -32,9 +32,9 @@ import ryey.easer.skills.condition.SelfNotifiableSkeletonTracker;
 public class DateTracker extends SelfNotifiableSkeletonTracker<DateUSourceData> {
     private static AlarmManager mAlarmManager;
 
-    DateTracker(Context context, DateUSourceData data,
-                @NonNull PendingIntent event_positive,
-                @NonNull PendingIntent event_negative) {
+    DateTracker(final Context context, final DateUSourceData data,
+                final @NonNull PendingIntent event_positive,
+                final @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
 
         if (mAlarmManager == null)

@@ -45,7 +45,7 @@ public class BroadcastSkillViewFragment extends SkillViewFragment<BroadcastOpera
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_operation__broadcast, container, false);
         m_text_action = view.findViewById(R.id.text_action);
         m_text_category = view.findViewById(R.id.text_category);
@@ -57,7 +57,7 @@ public class BroadcastSkillViewFragment extends SkillViewFragment<BroadcastOpera
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull BroadcastOperationData data) {
+    protected void _fill(final @ValidData @NonNull BroadcastOperationData data) {
         IntentData rdata = data.data;
         m_text_action.setText(rdata.action);
         m_text_category.setText(Utils.StringCollectionToString(rdata.category, false));

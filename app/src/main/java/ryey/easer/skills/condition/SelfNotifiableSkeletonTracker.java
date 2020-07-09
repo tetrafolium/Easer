@@ -54,7 +54,7 @@ public abstract class SelfNotifiableSkeletonTracker<D extends ConditionData> ext
     private final IntentFilter filter;
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             Logger.d("self notifying Intent received. action: %s", intent.getAction());
             if (intent.getAction().equals(ACTION_SATISFIED)) {
                 onPositiveNotified();
@@ -81,7 +81,7 @@ public abstract class SelfNotifiableSkeletonTracker<D extends ConditionData> ext
         notifySelfIntent_negative = PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 
-    protected SelfNotifiableSkeletonTracker(Context context, D data, @NonNull PendingIntent event_positive, @NonNull PendingIntent event_negative) {
+    protected SelfNotifiableSkeletonTracker(final Context context, final D data, final @NonNull PendingIntent event_positive, final @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
     }
 

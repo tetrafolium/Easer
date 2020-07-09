@@ -59,13 +59,13 @@ public class BTDeviceUSourceSkill implements USourceSkill<BTDeviceUSourceData> {
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.checkPermission(context,
                                           Manifest.permission.BLUETOOTH);
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         SkillUtils.requestPermission(activity, requestCode, Manifest.permission.BLUETOOTH);
     }
 
@@ -88,17 +88,17 @@ public class BTDeviceUSourceSkill implements USourceSkill<BTDeviceUSourceData> {
     }
 
     @Override
-    public AbstractSlot<BTDeviceUSourceData> slot(@NonNull Context context, @ValidData @NonNull BTDeviceUSourceData data) {
+    public AbstractSlot<BTDeviceUSourceData> slot(final @NonNull Context context, final @ValidData @NonNull BTDeviceUSourceData data) {
         return new BTDeviceSlot(context, data);
     }
 
     @Override
-    public AbstractSlot<BTDeviceUSourceData> slot(@NonNull Context context, @NonNull BTDeviceUSourceData data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot<BTDeviceUSourceData> slot(final @NonNull Context context, final @NonNull BTDeviceUSourceData data, final boolean retriggerable, final boolean persistent) {
         return new BTDeviceSlot(context, data, retriggerable, persistent);
     }
 
     @Override
-    public Tracker<BTDeviceUSourceData> tracker(@NonNull Context context, @NonNull BTDeviceUSourceData data, @NonNull PendingIntent event_positive, @NonNull PendingIntent event_negative) {
+    public Tracker<BTDeviceUSourceData> tracker(final @NonNull Context context, final @NonNull BTDeviceUSourceData data, final @NonNull PendingIntent event_positive, final @NonNull PendingIntent event_negative) {
         return new BTDeviceTracker(context, data, event_positive, event_negative);
     }
 

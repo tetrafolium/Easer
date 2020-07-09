@@ -44,7 +44,7 @@ public class NetworkTransmissionSkillViewFragment extends SkillViewFragment<Netw
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_operation__network_transmission, container, false);
         rb_tcp = view.findViewById(R.id.radioButton_tcp);
         rb_udp = view.findViewById(R.id.radioButton_udp);
@@ -55,7 +55,7 @@ public class NetworkTransmissionSkillViewFragment extends SkillViewFragment<Netw
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull NetworkTransmissionOperationData data) {
+    protected void _fill(final @ValidData @NonNull NetworkTransmissionOperationData data) {
         switch (data.protocol) {
         case tcp:
             rb_tcp.setChecked(true);

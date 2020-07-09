@@ -38,14 +38,14 @@ public class PlayMediaSkillViewFragment extends SkillViewFragment<PlayMediaOpera
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.plugin_operation__play_media, container, false);
         et_file = v.findViewById(R.id.editText_file);
         return v;
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull PlayMediaOperationData data) {
+    protected void _fill(final @ValidData @NonNull PlayMediaOperationData data) {
         et_file.setText(data.filePath);
     }
 

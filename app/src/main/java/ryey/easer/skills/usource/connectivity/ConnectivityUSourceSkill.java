@@ -58,12 +58,12 @@ public class ConnectivityUSourceSkill implements USourceSkill<ConnectivityEventD
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.checkPermission(context, Manifest.permission.ACCESS_NETWORK_STATE);
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         SkillUtils.requestPermission(activity, requestCode, Manifest.permission.ACCESS_NETWORK_STATE);
     }
 
@@ -86,17 +86,17 @@ public class ConnectivityUSourceSkill implements USourceSkill<ConnectivityEventD
     }
 
     @Override
-    public AbstractSlot<ConnectivityEventData> slot(@NonNull Context context, @ValidData @NonNull ConnectivityEventData data) {
+    public AbstractSlot<ConnectivityEventData> slot(final @NonNull Context context, final @ValidData @NonNull ConnectivityEventData data) {
         return new ConnectivitySlot(context, data);
     }
 
     @Override
-    public AbstractSlot<ConnectivityEventData> slot(@NonNull Context context, @NonNull ConnectivityEventData data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot<ConnectivityEventData> slot(final @NonNull Context context, final @NonNull ConnectivityEventData data, final boolean retriggerable, final boolean persistent) {
         return new ConnectivitySlot(context, data, retriggerable, persistent);
     }
 
     @Override
-    public Tracker<ConnectivityEventData> tracker(@NonNull Context context, @NonNull ConnectivityEventData data, @NonNull PendingIntent event_positive, @NonNull PendingIntent event_negative) {
+    public Tracker<ConnectivityEventData> tracker(final @NonNull Context context, final @NonNull ConnectivityEventData data, final @NonNull PendingIntent event_positive, final @NonNull PendingIntent event_negative) {
         return new ConnectivityTracker(context, data, event_positive, event_negative);
     }
 }

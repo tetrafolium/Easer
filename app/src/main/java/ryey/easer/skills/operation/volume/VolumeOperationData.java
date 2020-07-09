@@ -50,7 +50,7 @@ public class VolumeOperationData implements OperationData {
     Integer vol_bt;
     Integer bt_delay;
 
-    VolumeOperationData(Integer vol_ring, Integer vol_media, Integer vol_alarm, Integer vol_notification, Integer vol_bt, Integer bt_delay) {
+    VolumeOperationData(final Integer vol_ring, final Integer vol_media, final Integer vol_alarm, final Integer vol_notification, final Integer vol_bt, final Integer bt_delay) {
         this.vol_ring = vol_ring;
         this.vol_media = vol_media;
         this.vol_alarm = vol_alarm;
@@ -59,23 +59,23 @@ public class VolumeOperationData implements OperationData {
         this.bt_delay = bt_delay;
     }
 
-    VolumeOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    VolumeOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         parse(data, format, version);
     }
 
-    private static Integer optInteger(JSONObject jsonObject, String key) {
+    private static Integer optInteger(final JSONObject jsonObject, final String key) {
         int value = jsonObject.optInt(key, -1);
         if (value == -1)
             return null;
         return value;
     }
 
-    private static void writeNonNull(JSONObject jsonObject, Integer value, String key) throws JSONException {
+    private static void writeNonNull(final JSONObject jsonObject, final Integer value, final String key) throws JSONException {
         if (value != null)
             jsonObject.put(key, value);
     }
 
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
         default:
             try {
@@ -94,7 +94,7 @@ public class VolumeOperationData implements OperationData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
         default:
@@ -115,7 +115,7 @@ public class VolumeOperationData implements OperationData {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (obj == null || !(obj instanceof VolumeOperationData))
@@ -152,7 +152,7 @@ public class VolumeOperationData implements OperationData {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
+    public void writeToParcel(final Parcel parcel, final int i) {
         parcel.writeValue(vol_ring);
         parcel.writeValue(vol_media);
         parcel.writeValue(vol_alarm);
@@ -163,16 +163,16 @@ public class VolumeOperationData implements OperationData {
 
     public static final Creator<VolumeOperationData> CREATOR
     = new Creator<VolumeOperationData>() {
-        public VolumeOperationData createFromParcel(Parcel in) {
+        public VolumeOperationData createFromParcel(final Parcel in) {
             return new VolumeOperationData(in);
         }
 
-        public VolumeOperationData[] newArray(int size) {
+        public VolumeOperationData[] newArray(final int size) {
             return new VolumeOperationData[size];
         }
     };
 
-    private VolumeOperationData(Parcel in) {
+    private VolumeOperationData(final Parcel in) {
         vol_ring = (Integer) in.readValue(Integer.class.getClassLoader());
         vol_media = (Integer) in.readValue(Integer.class.getClassLoader());
         vol_alarm = (Integer) in.readValue(Integer.class.getClassLoader());
@@ -181,7 +181,7 @@ public class VolumeOperationData implements OperationData {
         bt_delay = (Integer) in.readValue(Integer.class.getClassLoader());
     }
 
-    private static boolean isNotNegative(@Nullable Integer value) {
+    private static boolean isNotNegative(final @Nullable Integer value) {
         return value == null || value >= 0;
     }
 
@@ -193,7 +193,7 @@ public class VolumeOperationData implements OperationData {
 
     @NonNull
     @Override
-    public OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment) {
+    public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
         return this;
     }
 }

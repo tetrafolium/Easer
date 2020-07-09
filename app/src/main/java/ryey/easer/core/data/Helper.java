@@ -35,17 +35,17 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 public class Helper {
-    public static void export_data(Context context, Uri uri) throws IOException {
+    public static void export_data(final Context context, final Uri uri) throws IOException {
         OutputStream outputStream = context.getContentResolver().openOutputStream(uri);
         export_data(context, outputStream);
     }
 
-    public static void export_data(Context context, File dest) throws IOException {
+    public static void export_data(final Context context, final File dest) throws IOException {
         FileOutputStream fileOutputStream = new FileOutputStream(dest);
         export_data(context, fileOutputStream);
     }
 
-    public static void export_data(Context context, OutputStream outputStream) throws IOException {
+    public static void export_data(final Context context, final OutputStream outputStream) throws IOException {
         ZipOutputStream zip = new ZipOutputStream(outputStream);
 
         File parent_dir = context.getFilesDir();
@@ -58,7 +58,7 @@ public class Helper {
         zip.close();
     }
 
-    private static boolean is_valid_easer_export_data(Context context, Uri uri) throws IOException {
+    private static boolean is_valid_easer_export_data(final Context context, final Uri uri) throws IOException {
         final String re_top_level = "^[^/]+$";
         final String re_any_of_valid_dirs = "^(?:(?:event)|(?:script)|(?:profile)|(?:scenario)|(?:condition))(?:/.*)?$";
 
@@ -82,7 +82,7 @@ public class Helper {
         return true;
     }
 
-    public static void import_data(Context context, Uri uri) throws IOException, InvalidExportedDataException {
+    public static void import_data(final Context context, final Uri uri) throws IOException, InvalidExportedDataException {
         if (!is_valid_easer_export_data(context, uri)) {
             throw new InvalidExportedDataException("exported data is not valid");
         }
@@ -128,7 +128,7 @@ public class Helper {
         zip.close();
     }
 
-    private static void addDirToZip(ZipOutputStream zip, File dir, String subdir_name) throws IOException {
+    private static void addDirToZip(final ZipOutputStream zip, final File dir, final String subdir_name) throws IOException {
         File subdir = new File(dir, subdir_name);
         for (File file : subdir.listFiles()) {
             byte[] buffer = new byte[1024];

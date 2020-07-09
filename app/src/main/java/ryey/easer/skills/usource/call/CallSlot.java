@@ -29,11 +29,11 @@ public class CallSlot extends AbstractSlot<CallUSourceData> implements CallRecei
 
     private CallReceiver receiver = new CallReceiver(this);
 
-    public CallSlot(Context context, CallUSourceData data) {
+    public CallSlot(final Context context, final CallUSourceData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    CallSlot(Context context, CallUSourceData data, boolean retriggerable, boolean persistent) {
+    CallSlot(final Context context, final CallUSourceData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
     }
 
@@ -48,17 +48,17 @@ public class CallSlot extends AbstractSlot<CallUSourceData> implements CallRecei
     }
 
     @Override
-    public void onIdle(@NotNull String number) {
+    public void onIdle(final @NotNull String number) {
         changeSatisfiedState(CallReceiver.Companion.handleIdle(eventData, number));
     }
 
     @Override
-    public void onRinging(@NotNull String number) {
+    public void onRinging(final @NotNull String number) {
         changeSatisfiedState(CallReceiver.Companion.handleRinging(eventData, number));
     }
 
     @Override
-    public void onOffHook(@NotNull String number) {
+    public void onOffHook(final @NotNull String number) {
         changeSatisfiedState(CallReceiver.Companion.handleOffHook(eventData, number));
     }
 }

@@ -48,11 +48,11 @@ public class AlarmOperationData implements OperationData {
 
     private static final SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm", Locale.US);
 
-    static String TimeToText(Calendar calendar) {
+    static String TimeToText(final Calendar calendar) {
         return sdf_time.format(calendar.getTime());
     }
 
-    static Calendar TextToTime(String text) throws ParseException {
+    static Calendar TextToTime(final String text) throws ParseException {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(sdf_time.parse(text));
         return calendar;
@@ -62,17 +62,17 @@ public class AlarmOperationData implements OperationData {
     String message;
     boolean absolute = true;
 
-    AlarmOperationData(Calendar time, String message, boolean absolute) {
+    AlarmOperationData(final Calendar time, final String message, final boolean absolute) {
         this.time = time;
         this.message = message;
         this.absolute = absolute;
     }
 
-    AlarmOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    AlarmOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         parse(data, format, version);
     }
 
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
         default:
             try {
@@ -94,7 +94,7 @@ public class AlarmOperationData implements OperationData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res = "";
         switch (format) {
         default:
@@ -121,7 +121,7 @@ public class AlarmOperationData implements OperationData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (!(obj instanceof AlarmOperationData))
@@ -142,7 +142,7 @@ public class AlarmOperationData implements OperationData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         for (int field : TIME_FIELDS) {
             dest.writeInt(time.get(field));
         }
@@ -152,16 +152,16 @@ public class AlarmOperationData implements OperationData {
 
     public static final Creator<AlarmOperationData> CREATOR
     = new Creator<AlarmOperationData>() {
-        public AlarmOperationData createFromParcel(Parcel in) {
+        public AlarmOperationData createFromParcel(final Parcel in) {
             return new AlarmOperationData(in);
         }
 
-        public AlarmOperationData[] newArray(int size) {
+        public AlarmOperationData[] newArray(final int size) {
             return new AlarmOperationData[size];
         }
     };
 
-    private AlarmOperationData(Parcel in) {
+    private AlarmOperationData(final Parcel in) {
         time = Calendar.getInstance();
         for (int field : TIME_FIELDS) {
             time.set(field, in.readInt());
@@ -178,7 +178,7 @@ public class AlarmOperationData implements OperationData {
 
     @NonNull
     @Override
-    public OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment) {
+    public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
         String new_message = Utils.applyDynamics(message, dynamicsAssignment);
         return new AlarmOperationData(time, new_message, absolute);
     }

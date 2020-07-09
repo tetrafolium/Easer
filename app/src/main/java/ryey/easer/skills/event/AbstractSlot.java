@@ -72,7 +72,7 @@ public abstract class AbstractSlot<T extends EventData> implements Slot<T> {
      */
     protected Uri notifyLotusData;
 
-    public AbstractSlot(@NonNull Context context, @ValidData @NonNull T data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot(final @NonNull Context context, final @ValidData @NonNull T data, final boolean retriggerable, final boolean persistent) {
         this.context = context;
         this.eventData = data;
         this.retriggerable = retriggerable;
@@ -83,7 +83,7 @@ public abstract class AbstractSlot<T extends EventData> implements Slot<T> {
      * Set where to notify (the holder {@link ryey.easer.core.Lotus}).
      */
     @Override
-    public void register(Uri data) {
+    public void register(final Uri data) {
         this.notifyLotusData = data;
     }
 
@@ -93,7 +93,7 @@ public abstract class AbstractSlot<T extends EventData> implements Slot<T> {
      *
      * This method sets the {@link #satisfied} variable.
      */
-    protected synchronized void changeSatisfiedState(boolean newSatisfiedState, Bundle dynamics) {
+    protected synchronized void changeSatisfiedState(final boolean newSatisfiedState, final Bundle dynamics) {
         if (satisfied != null) {
             if (persistent && satisfied && !newSatisfiedState) {
                 Logger.v("prevent from resetting a persistent slot back to unsatisfied");
@@ -114,7 +114,7 @@ public abstract class AbstractSlot<T extends EventData> implements Slot<T> {
         Logger.d("finished changeSatisfiedState to %s", newSatisfiedState);
     }
 
-    protected void changeSatisfiedState(boolean newSatisfiedState) {
+    protected void changeSatisfiedState(final boolean newSatisfiedState) {
         changeSatisfiedState(newSatisfiedState, null);
     }
 }

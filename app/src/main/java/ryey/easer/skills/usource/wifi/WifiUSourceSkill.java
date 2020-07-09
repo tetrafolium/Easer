@@ -57,14 +57,14 @@ public class WifiUSourceSkill implements USourceSkill<WifiUSourceData> {
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.checkPermission(context,
                                           Manifest.permission.ACCESS_WIFI_STATE,
                                           Manifest.permission.CHANGE_WIFI_STATE);
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         SkillUtils.requestPermission(activity, requestCode,
                                      Manifest.permission.ACCESS_WIFI_STATE,
                                      Manifest.permission.CHANGE_WIFI_STATE);
@@ -89,17 +89,17 @@ public class WifiUSourceSkill implements USourceSkill<WifiUSourceData> {
     }
 
     @Override
-    public AbstractSlot<WifiUSourceData> slot(@NonNull Context context, @ValidData @NonNull WifiUSourceData data) {
+    public AbstractSlot<WifiUSourceData> slot(final @NonNull Context context, final @ValidData @NonNull WifiUSourceData data) {
         return new WifiConnSlot(context, data);
     }
 
     @Override
-    public AbstractSlot<WifiUSourceData> slot(@NonNull Context context, @NonNull WifiUSourceData data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot<WifiUSourceData> slot(final @NonNull Context context, final @NonNull WifiUSourceData data, final boolean retriggerable, final boolean persistent) {
         return new WifiConnSlot(context, data, retriggerable, persistent);
     }
 
     @Override
-    public Tracker<WifiUSourceData> tracker(@NonNull Context context, @NonNull WifiUSourceData data, @NonNull PendingIntent event_positive, @NonNull PendingIntent event_negative) {
+    public Tracker<WifiUSourceData> tracker(final @NonNull Context context, final @NonNull WifiUSourceData data, final @NonNull PendingIntent event_positive, final @NonNull PendingIntent event_negative) {
         return new WifiTracker(context, data, event_positive, event_negative);
     }
 

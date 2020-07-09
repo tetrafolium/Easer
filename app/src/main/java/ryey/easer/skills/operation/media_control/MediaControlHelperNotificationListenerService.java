@@ -29,12 +29,12 @@ import androidx.annotation.RequiresApi;
 public class MediaControlHelperNotificationListenerService extends NotificationListenerService {
 
     @Override
-    public void onNotificationPosted(StatusBarNotification sbn) {
+    public void onNotificationPosted(final StatusBarNotification sbn) {
         super.onNotificationPosted(sbn);
     }
 
     @Override
-    public void onNotificationRemoved(StatusBarNotification sbn) {
+    public void onNotificationRemoved(final StatusBarNotification sbn) {
         super.onNotificationRemoved(sbn);
     }
 }

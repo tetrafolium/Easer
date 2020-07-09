@@ -34,11 +34,11 @@ public class CellLocationSlot extends AbstractSlot<CellLocationUSourceData> {
 
     private CellLocationSingleData curr = null;
 
-    public CellLocationSlot(Context context, CellLocationUSourceData data) {
+    public CellLocationSlot(final Context context, final CellLocationUSourceData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    CellLocationSlot(Context context, CellLocationUSourceData data, boolean retriggerable, boolean persistent) {
+    CellLocationSlot(final Context context, final CellLocationUSourceData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
 
         if (telephonyManager == null) {
@@ -58,7 +58,7 @@ public class CellLocationSlot extends AbstractSlot<CellLocationUSourceData> {
             telephonyManager.listen(cellLocationListener, PhoneStateListener.LISTEN_NONE);
     }
 
-    private static Bundle dynamicsForCurrent(CellLocation location) {
+    private static Bundle dynamicsForCurrent(final CellLocation location) {
         Bundle dynamics = new Bundle();
         dynamics.putString(CellLocationUSourceData.CellLocationDynamics.id, location.toString());
         return dynamics;
@@ -66,7 +66,7 @@ public class CellLocationSlot extends AbstractSlot<CellLocationUSourceData> {
 
     class CellLocationListener extends PhoneStateListener {
         @Override
-        synchronized public void onCellLocationChanged(CellLocation location) {
+        synchronized public void onCellLocationChanged(final CellLocation location) {
             super.onCellLocationChanged(location);
             curr = CellLocationSingleData.fromCellLocation(location);
             if (curr != null)

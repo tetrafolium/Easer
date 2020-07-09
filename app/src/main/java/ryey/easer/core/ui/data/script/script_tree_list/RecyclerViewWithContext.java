@@ -30,15 +30,15 @@ import androidx.recyclerview.widget.RecyclerView;
 public class RecyclerViewWithContext extends RecyclerView {
     private AdapterView.AdapterContextMenuInfo contextMenuInfo;
 
-    public RecyclerViewWithContext(Context context) {
+    public RecyclerViewWithContext(final Context context) {
         super(context);
     }
 
-    public RecyclerViewWithContext(Context context, @Nullable AttributeSet attrs) {
+    public RecyclerViewWithContext(final Context context, final @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public RecyclerViewWithContext(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public RecyclerViewWithContext(final Context context, final @Nullable AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -48,7 +48,7 @@ public class RecyclerViewWithContext extends RecyclerView {
     }
 
     @Override
-    public boolean showContextMenuForChild(View originalView) {
+    public boolean showContextMenuForChild(final View originalView) {
         int position = getChildAdapterPosition(originalView);
         long longId = getChildItemId(originalView);
         contextMenuInfo = new AdapterView.AdapterContextMenuInfo(originalView, position, longId);

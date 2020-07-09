@@ -45,7 +45,7 @@ public class DayOfWeekSkillViewFragment extends SkillViewFragment<DayOfWeekUSour
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_usource__day_of_week, container, false);
         ViewGroup vg = view.findViewById(R.id.plugin__day_of_week_container);
         SimpleDateFormat sdf = new SimpleDateFormat("E", Locale.getDefault());
@@ -64,7 +64,7 @@ public class DayOfWeekSkillViewFragment extends SkillViewFragment<DayOfWeekUSour
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull DayOfWeekUSourceData data) {
+    protected void _fill(final @ValidData @NonNull DayOfWeekUSourceData data) {
         Set<Integer> days = data.days;
         for (int day : days) {
             day_buttons[day].setChecked(true);

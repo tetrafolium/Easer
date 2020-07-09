@@ -35,15 +35,15 @@ public class BrightnessOperationData extends IntegerOperationData {
         rbound = 255;
     }
 
-    public BrightnessOperationData(boolean auto) {
+    public BrightnessOperationData(final boolean auto) {
         super(-1);
     }
 
-    public BrightnessOperationData(Integer level) {
+    public BrightnessOperationData(final Integer level) {
         super(level);
     }
 
-    BrightnessOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    BrightnessOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         super(data, format, version);
     }
 
@@ -59,16 +59,16 @@ public class BrightnessOperationData extends IntegerOperationData {
 
     public static final Parcelable.Creator<BrightnessOperationData> CREATOR
     = new Parcelable.Creator<BrightnessOperationData>() {
-        public BrightnessOperationData createFromParcel(Parcel in) {
+        public BrightnessOperationData createFromParcel(final Parcel in) {
             return new BrightnessOperationData(in);
         }
 
-        public BrightnessOperationData[] newArray(int size) {
+        public BrightnessOperationData[] newArray(final int size) {
             return new BrightnessOperationData[size];
         }
     };
 
-    private BrightnessOperationData(Parcel in) {
+    private BrightnessOperationData(final Parcel in) {
         super(in);
     }
 }

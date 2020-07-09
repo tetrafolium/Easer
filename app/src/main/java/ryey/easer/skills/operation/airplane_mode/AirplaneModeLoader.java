@@ -33,12 +33,12 @@ import ryey.easer.skills.SkillUtils;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class AirplaneModeLoader extends OperationLoader<AirplaneModeOperationData> {
-    public AirplaneModeLoader(Context context) {
+    public AirplaneModeLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull AirplaneModeOperationData data) {
+    public boolean load(final @ValidData @NonNull AirplaneModeOperationData data) {
         Boolean state = data.get();
         if (state == airplaneModeIsOn())
             return true;
@@ -64,7 +64,7 @@ public class AirplaneModeLoader extends OperationLoader<AirplaneModeOperationDat
         return mode;
     }
 
-    private boolean switchBefore17(boolean newState) {
+    private boolean switchBefore17(final boolean newState) {
         Settings.System.putInt(
             context.getContentResolver(),
             Settings.System.AIRPLANE_MODE_ON, newState ? 1 : 0);
@@ -75,7 +75,7 @@ public class AirplaneModeLoader extends OperationLoader<AirplaneModeOperationDat
         return true;
     }
 
-    private boolean switchAfter17(boolean newState) {
+    private boolean switchAfter17(final boolean newState) {
         final String COMMAND_FLIGHT_MODE_1 = "settings put global airplane_mode_on";
         final String COMMAND_FLIGHT_MODE_2 = "am broadcast -a android.intent.action.AIRPLANE_MODE --ez state";
         if (SkillUtils.useRootFeature(context)) {

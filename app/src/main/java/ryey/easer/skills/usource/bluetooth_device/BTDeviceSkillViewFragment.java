@@ -55,7 +55,7 @@ public class BTDeviceSkillViewFragment extends SkillViewFragment<BTDeviceUSource
     private final IntentFilter mFilter = new IntentFilter(ACTION_RETURN);
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             if (intent.getAction().equals(ACTION_RETURN)) {
                 addHardwareAddress(intent.getStringExtra(EXTRA_HARDWARE_ADDRESS));
                 context.unregisterReceiver(mReceiver);
@@ -68,7 +68,7 @@ public class BTDeviceSkillViewFragment extends SkillViewFragment<BTDeviceUSource
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_usource__bluetooth_device, container, false);
 
         editText = view.findViewById(R.id.hardware_address);
@@ -78,15 +78,15 @@ public class BTDeviceSkillViewFragment extends SkillViewFragment<BTDeviceUSource
             final String name_not_found = getResources().getString(R.string.usource_bt_device_unknown_device);
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(final Editable s) {
                 String[] hw_addresses = s.toString().split("\n");
                 StringBuilder text = new StringBuilder();
                 boolean first_line = true;
@@ -110,7 +110,7 @@ public class BTDeviceSkillViewFragment extends SkillViewFragment<BTDeviceUSource
 
         view.findViewById(R.id.connection_picker).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 if (!SkillUtils.checkPermission(getContext(), Manifest.permission.BLUETOOTH))
                     return;
                 getContext().registerReceiver(mReceiver, mFilter);
@@ -125,14 +125,14 @@ public class BTDeviceSkillViewFragment extends SkillViewFragment<BTDeviceUSource
                 }
                 builderSingle.setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(final DialogInterface dialog, final int which) {
                         getContext().unregisterReceiver(mReceiver);
                         dialog.dismiss();
                     }
                 });
                 builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(final DialogInterface dialog, final int which) {
                         String hardware_address = arrayAdapter.getItem(which).device.getAddress();
                         Intent intent = new Intent(ACTION_RETURN);
                         intent.putExtra(EXTRA_HARDWARE_ADDRESS, hardware_address);
@@ -146,7 +146,7 @@ public class BTDeviceSkillViewFragment extends SkillViewFragment<BTDeviceUSource
         return view;
     }
 
-    private String resolveHWAddress(String hwaddress) {
+    private String resolveHWAddress(final String hwaddress) {
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter != null) {
             for (BluetoothDevice btDevice : bluetoothAdapter.getBondedDevices()) {
@@ -158,7 +158,7 @@ public class BTDeviceSkillViewFragment extends SkillViewFragment<BTDeviceUSource
         return null;
     }
 
-    private void addHardwareAddress(String hardware_address) {
+    private void addHardwareAddress(final String hardware_address) {
         Editable text = editText.getText();
         if (!Utils.isBlank(text.toString()))
             text.append("\n");
@@ -166,7 +166,7 @@ public class BTDeviceSkillViewFragment extends SkillViewFragment<BTDeviceUSource
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull BTDeviceUSourceData data) {
+    protected void _fill(final @ValidData @NonNull BTDeviceUSourceData data) {
         StringBuilder text = new StringBuilder();
         boolean is_first = true;
         for (String hwaddress : data.hwAddresses) {
@@ -187,7 +187,7 @@ public class BTDeviceSkillViewFragment extends SkillViewFragment<BTDeviceUSource
 
     class BTDeviceWrapper {
         final BluetoothDevice device;
-        BTDeviceWrapper(BluetoothDevice device) {
+        BTDeviceWrapper(final BluetoothDevice device) {
             this.device = device;
         }
         public String toString() {

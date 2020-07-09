@@ -40,7 +40,7 @@ import ryey.easer.skills.LocalSkillRegistry;
  */
 public final class SkillHelper {
 
-    private SkillHelper() {}
+    private SkillHelper() { }
 
     public static class OperationHelper {
 
@@ -48,7 +48,7 @@ public final class SkillHelper {
         private final RemotePluginCommunicationHelper helper;
         private final LocalSkillRegistry.Registry<OperationSkill, OperationData> operationRegistry = LocalSkillRegistry.getInstance().operation();
 
-        public OperationHelper(Context context) {
+        public OperationHelper(final Context context) {
             this.context = context;
             this.helper = new RemotePluginCommunicationHelper(context);
         }
@@ -61,7 +61,7 @@ public final class SkillHelper {
             helper.end();
         }
 
-        public int triggerOperations(String skillId, Collection<RemoteLocalOperationDataWrapper> dataCollection, SolidDynamicsAssignment solidMacroAssignment, OnOperationLoadingResultListener callback) {
+        public int triggerOperations(final String skillId, final Collection<RemoteLocalOperationDataWrapper> dataCollection, final SolidDynamicsAssignment solidMacroAssignment, final OnOperationLoadingResultListener callback) {
             int count = 0;
             if (operationRegistry.hasSkill(skillId)) {
                 OperationSkill plugin = operationRegistry.findSkill(skillId);

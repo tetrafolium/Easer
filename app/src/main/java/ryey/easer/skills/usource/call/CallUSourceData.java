@@ -73,7 +73,7 @@ public class CallUSourceData implements USourceData {
 //            this.number = number;
 //        }
 //    }
-    CallUSourceData(@NonNull List<CallState> callStates, @Nullable String number) {
+    CallUSourceData(final @NonNull List<CallState> callStates, final @Nullable String number) {
         this.callStates.addAll(callStates);
         if (Utils.isBlank(number)) {
             this.number = null;
@@ -82,7 +82,7 @@ public class CallUSourceData implements USourceData {
         }
     }
 
-    CallUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    CallUSourceData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
         default:
             try {
@@ -103,7 +103,7 @@ public class CallUSourceData implements USourceData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
         default:
@@ -144,7 +144,7 @@ public class CallUSourceData implements USourceData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (!(obj instanceof CallUSourceData))
@@ -164,7 +164,7 @@ public class CallUSourceData implements USourceData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
 //        dest.writeInt(direction.ordinal());
         dest.writeList(callStates); //TODO: create generic util function and replace all List<Enum>
         dest.writeString(number);
@@ -172,16 +172,16 @@ public class CallUSourceData implements USourceData {
 
     public static final Creator<CallUSourceData> CREATOR
     = new Creator<CallUSourceData>() {
-        public CallUSourceData createFromParcel(Parcel in) {
+        public CallUSourceData createFromParcel(final Parcel in) {
             return new CallUSourceData(in);
         }
 
-        public CallUSourceData[] newArray(int size) {
+        public CallUSourceData[] newArray(final int size) {
             return new CallUSourceData[size];
         }
     };
 
-    private CallUSourceData(Parcel in) {
+    private CallUSourceData(final Parcel in) {
 //        direction = Direction.values()[in.readInt()];
         in.readList(callStates, null);
         number = in.readString();

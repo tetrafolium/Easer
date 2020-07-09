@@ -49,7 +49,7 @@ class CallUSourceDataFactory implements USourceDataFactory<CallUSourceData> {
     @ValidData
     @NonNull
     @Override
-    public CallUSourceData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public CallUSourceData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new CallUSourceData(data, format, version);
     }
 }

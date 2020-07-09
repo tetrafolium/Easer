@@ -47,12 +47,12 @@ public class EditExtraFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_operation__broadcast_fragment_edit_extra, container, false);
 
         view.findViewById(R.id.button_add_extra).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 ExtraItemFragment fragment = new ExtraItemFragment();
                 getChildFragmentManager().beginTransaction()
                 .add(R.id.layout_extras, fragment)
@@ -64,7 +64,7 @@ public class EditExtraFragment extends Fragment {
         return view;
     }
 
-    public void fillExtras(@Nullable Extras extras) {
+    public void fillExtras(final @Nullable Extras extras) {
         if (extras == null)
             return;
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
@@ -99,7 +99,7 @@ public class EditExtraFragment extends Fragment {
 
         ExtraItem item;
 
-        static ExtraItemFragment createInstance(ExtraItem item) {
+        static ExtraItemFragment createInstance(final ExtraItem item) {
             ExtraItemFragment fragment = new ExtraItemFragment();
             fragment.item = item;
             return fragment;
@@ -110,7 +110,7 @@ public class EditExtraFragment extends Fragment {
 
         @Nullable
         @Override
-        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.plugin_operation__broadcast_fragment_extra_item, container, false);
             editText_key = view.findViewById(R.id.editText_key);
             editText_value = view.findViewById(R.id.editText_value);

@@ -35,7 +35,7 @@ public class DynamicsLink implements Parcelable {
 
     }
 
-    public void put(String placeholder, String property) {
+    public void put(final String placeholder, final String property) {
         link.put(placeholder, property);
     }
 
@@ -52,7 +52,7 @@ public class DynamicsLink implements Parcelable {
      * @return Mapping from Placeholder to Dynamics value
      */
     @NonNull
-    public SolidDynamicsAssignment assign(Bundle extras) {
+    public SolidDynamicsAssignment assign(final Bundle extras) {
         HashMap<String, String> assignment = new HashMap<>();
         for (String key : link.keySet()) {
             String dynamics_id = link.get(key);
@@ -64,18 +64,18 @@ public class DynamicsLink implements Parcelable {
         return new SolidDynamicsAssignment(assignment);
     }
 
-    private DynamicsLink(Parcel in) {
+    private DynamicsLink(final Parcel in) {
         in.readMap(link, HashMap.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<DynamicsLink> CREATOR = new Parcelable.Creator<DynamicsLink>() {
         @Override
-        public DynamicsLink createFromParcel(Parcel in) {
+        public DynamicsLink createFromParcel(final Parcel in) {
             return new DynamicsLink(in);
         }
 
         @Override
-        public DynamicsLink[] newArray(int size) {
+        public DynamicsLink[] newArray(final int size) {
             return new DynamicsLink[size];
         }
     };
@@ -86,7 +86,7 @@ public class DynamicsLink implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
+    public void writeToParcel(final Parcel parcel, final int i) {
         parcel.writeMap(link);
     }
 

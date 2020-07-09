@@ -36,7 +36,7 @@ public class ScreenTracker extends SkeletonTracker<ScreenUSourceData> {
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
                 newSatisfiedState(data.screenEvent == ScreenUSourceData.ScreenEvent.on);
             } else if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
@@ -56,9 +56,9 @@ public class ScreenTracker extends SkeletonTracker<ScreenUSourceData> {
         intentFilter.addAction(Intent.ACTION_USER_PRESENT);
     }
 
-    ScreenTracker(Context context, ScreenUSourceData data,
-                  @NonNull PendingIntent event_positive,
-                  @NonNull PendingIntent event_negative) {
+    ScreenTracker(final Context context, final ScreenUSourceData data,
+                  final @NonNull PendingIntent event_positive,
+                  final @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
 
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);

@@ -36,7 +36,7 @@ import static org.junit.Assert.assertEquals;
 
 public class OperationDataTest {
 
-    <T extends OperationData> void testParseAndSerializeMatch(T data0) throws Exception {
+    <T extends OperationData> void testParseAndSerializeMatch(final T data0) throws Exception {
         Class<T> klass = (Class<T>) data0.getClass();
         Constructor<T> constructor = klass.getDeclaredConstructor(OperationDataTest.class, String.class, PluginDataFormat.class, int.class);
         for (PluginDataFormat format : PluginDataFormat.values()) {
@@ -50,10 +50,10 @@ public class OperationDataTest {
     public void testParseAndSerializeMatch() throws Exception {
         for (Boolean state : new Boolean[] {true, false}) {
             class IBooleanOperationData extends BooleanOperationData {
-                IBooleanOperationData(Boolean state) {
+                IBooleanOperationData(final Boolean state) {
                     super(state);
                 }
-                IBooleanOperationData(String data, PluginDataFormat format, int version) throws IllegalStorageDataException {
+                IBooleanOperationData(final String data, final PluginDataFormat format, final int version) throws IllegalStorageDataException {
                     super(data, format, version);
                 }
             }
@@ -61,7 +61,7 @@ public class OperationDataTest {
             testParseAndSerializeMatch(data0);
         }
 
-        for (int[] arr : new int[][] {{0,90,10}, {4,100,20}}) {
+        for (int[] arr : new int[][] {{0, 90, 10}, {4, 100, 20}}) {
             final int ilbound = arr[0];
             final int irbound = arr[1];
             int level = arr[2];
@@ -70,10 +70,10 @@ public class OperationDataTest {
                     this.lbound = ilbound;
                     this.rbound = irbound;
                 }
-                IIntegerOperationData(int level) {
+                IIntegerOperationData(final int level) {
                     super(level);
                 }
-                IIntegerOperationData(String data, PluginDataFormat format, int version) throws IllegalStorageDataException {
+                IIntegerOperationData(final String data, final PluginDataFormat format, final int version) throws IllegalStorageDataException {
                     parse(data, format, version);
                 }
             }
@@ -87,15 +87,15 @@ public class OperationDataTest {
 
         for (String str : new String[] {"mystr1", "mystr2"}) {
             class IStringOperationData extends StringOperationData {
-                IStringOperationData(String data) {
+                IStringOperationData(final String data) {
                     super(data);
                 }
-                IStringOperationData(String data, PluginDataFormat format, int version) throws IllegalStorageDataException {
+                IStringOperationData(final String data, final PluginDataFormat format, final int version) throws IllegalStorageDataException {
                     parse(data, format, version);
                 }
                 @NonNull
                 @Override
-                public OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment) {
+                public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
                     return new IStringOperationData(Utils.applyDynamics(this.text, dynamicsAssignment));
                 }
             }

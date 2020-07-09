@@ -60,13 +60,13 @@ public class ScriptListFragment extends AbstractDataListFragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(final @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == R.id.action_tree_list) {
             refContainer.get().switchContent(DataListContainerInterface.ListType.script_tree);
             return true;

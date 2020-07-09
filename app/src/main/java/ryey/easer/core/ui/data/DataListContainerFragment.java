@@ -61,7 +61,7 @@ public final class DataListContainerFragment extends Fragment implements DataLis
     private Fragment currentFragment;
     private DataListInterface currentDataList;
 
-    public static DataListContainerFragment create(ListType listType) {
+    public static DataListContainerFragment create(final ListType listType) {
         Logger.i("going to create DataListFragment %s", listType);
         DataListContainerFragment fragment = new DataListContainerFragment();
         Bundle args = new Bundle();
@@ -71,14 +71,14 @@ public final class DataListContainerFragment extends Fragment implements DataLis
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(final @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_container_data_list, container, false);
 
         tv_help = view.findViewById(R.id.help_text);
@@ -86,7 +86,7 @@ public final class DataListContainerFragment extends Fragment implements DataLis
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 newData();
             }
         });
@@ -101,7 +101,7 @@ public final class DataListContainerFragment extends Fragment implements DataLis
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.list_data, menu);
         assert currentDataList != null;
         Integer extra = currentDataList.extraMenu();
@@ -110,7 +110,7 @@ public final class DataListContainerFragment extends Fragment implements DataLis
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == R.id.action_help) {
             Dialog dialog = new AlertDialog.Builder(getContext())
             .setNeutralButton(R.string.button_ok, null)
@@ -124,7 +124,7 @@ public final class DataListContainerFragment extends Fragment implements DataLis
     }
 
     @Override
-    public void setShowHelp(boolean show) {
+    public void setShowHelp(final boolean show) {
         if (show) {
             tv_help.setVisibility(View.VISIBLE);
             tv_help.setText(currentDataList.helpTextRes());
@@ -138,13 +138,13 @@ public final class DataListContainerFragment extends Fragment implements DataLis
         intent.putExtra(EditDataProto.PURPOSE, EditDataProto.Purpose.add);
         startActivityForResult(intent, request_code);
     }
-    public void editData(@NonNull String name) {
+    public void editData(final @NonNull String name) {
         Intent intent = currentDataList.intentForEditDataActivity();
         intent.putExtra(EditDataProto.PURPOSE, EditDataProto.Purpose.edit);
         intent.putExtra(EditDataProto.CONTENT_NAME, name);
         startActivityForResult(intent, request_code);
     }
-    public void deleteData(@NonNull String name) {
+    public void deleteData(final @NonNull String name) {
         Intent intent = currentDataList.intentForEditDataActivity();
         intent.putExtra(EditDataProto.PURPOSE, EditDataProto.Purpose.delete);
         intent.putExtra(EditDataProto.CONTENT_NAME, name);
@@ -152,7 +152,7 @@ public final class DataListContainerFragment extends Fragment implements DataLis
     }
 
     @Override
-    public void switchContent(@NonNull ListType type) {
+    public void switchContent(final @NonNull ListType type) {
         this.listType = type;
         switch (type) {
         case script:
@@ -194,7 +194,7 @@ public final class DataListContainerFragment extends Fragment implements DataLis
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (requestCode == request_code) {
             currentDataList.onEditDataResultCallback(resultCode == Activity.RESULT_OK);
         }

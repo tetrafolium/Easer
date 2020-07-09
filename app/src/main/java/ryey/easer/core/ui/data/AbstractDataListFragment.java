@@ -63,7 +63,7 @@ public abstract class AbstractDataListFragment extends ListFragment implements D
     public abstract int helpTextRes();
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(final Context context) {
         super.onAttach(context);
 
         ListAdapter adapter = new IListAdapter(getActivity(), new ArrayList<ListDataWrapper>());
@@ -71,7 +71,7 @@ public abstract class AbstractDataListFragment extends ListFragment implements D
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fab_list, container, false);
 //        getActivity().setTitle(title());
 //        setHasOptionsMenu(true);
@@ -93,21 +93,21 @@ public abstract class AbstractDataListFragment extends ListFragment implements D
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
+    public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         super.onListItemClick(l, v, position, id);
         ListDataWrapper wrapper = (ListDataWrapper) l.getItemAtPosition(position);
         refContainer.get().editData(wrapper.name);
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(final ContextMenu menu, final View v, final ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.list_context, menu);
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(final MenuItem item) {
         if (!refContainer.get().isVisibleToUser())
             return false;
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
@@ -128,7 +128,7 @@ public abstract class AbstractDataListFragment extends ListFragment implements D
     protected abstract List<ListDataWrapper> queryDataList();
 
     @Override
-    public void registerContainer(@NonNull DataListContainerInterface container) {
+    public void registerContainer(final @NonNull DataListContainerInterface container) {
         this.refContainer = new WeakReference<>(container);
     }
 
@@ -152,7 +152,7 @@ public abstract class AbstractDataListFragment extends ListFragment implements D
     public abstract Intent intentForEditDataActivity();
 
     @Override
-    public void onEditDataResultCallback(boolean success) {
+    public void onEditDataResultCallback(final boolean success) {
         if (success) {
             onDataChangedFromEditDataActivity();
         }
@@ -164,13 +164,13 @@ public abstract class AbstractDataListFragment extends ListFragment implements D
     }
 
     protected static class IListAdapter extends ArrayAdapter<ListDataWrapper> {
-        IListAdapter(Context context, List<ListDataWrapper> data) {
+        IListAdapter(final Context context, final List<ListDataWrapper> data) {
             super(context, R.layout.item_data_list, R.id.textView_data_title, data);
         }
 
         @NonNull
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        public View getView(final int position, final @Nullable View convertView, final @NonNull ViewGroup parent) {
             View view = super.getView(position, convertView, parent);
             ListDataWrapper wrapper = getItem(position);
             TextView tv_name = view.findViewById(R.id.textView_data_title);
@@ -183,11 +183,11 @@ public abstract class AbstractDataListFragment extends ListFragment implements D
     protected static class ListDataWrapper {
         public final String name;
         final @ColorRes int colorRes;
-        public ListDataWrapper(String name) {
+        public ListDataWrapper(final String name) {
             this.name = name;
             colorRes = R.color.colorText;
         }
-        public ListDataWrapper(String name, @ColorRes int colorRes) {
+        public ListDataWrapper(final String name, final @ColorRes int colorRes) {
             this.name = name;
             this.colorRes = colorRes;
         }

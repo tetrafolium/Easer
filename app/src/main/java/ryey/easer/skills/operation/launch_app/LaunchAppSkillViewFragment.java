@@ -41,7 +41,7 @@ public class LaunchAppSkillViewFragment extends SkillViewFragment<LaunchAppOpera
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_operation__launch_app, container, false);
         et_app_package = view.findViewById(R.id.editText_app_package);
         et_class = view.findViewById(R.id.editText_app_activity);
@@ -50,7 +50,7 @@ public class LaunchAppSkillViewFragment extends SkillViewFragment<LaunchAppOpera
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull LaunchAppOperationData data) {
+    protected void _fill(final @ValidData @NonNull LaunchAppOperationData data) {
         et_app_package.setText(data.app_package);
         et_class.setText(data.app_class);
         editExtraFragment.fillExtras(data.extras);

@@ -51,7 +51,7 @@ public class OutlineFragment extends Fragment {
 
     final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             switch (intent.getAction()) {
             case EHService.ACTION_STATE_CHANGED:
                 refresh();
@@ -61,7 +61,7 @@ public class OutlineFragment extends Fragment {
     };
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         getActivity().setTitle(getString(R.string.title_outline));
         mView = inflater.inflate(R.layout.fragment_outline, container, false);
 
@@ -75,7 +75,7 @@ public class OutlineFragment extends Fragment {
 
         mView.findViewById(R.id.holder_running_ind).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 if (!EHService.isRunning()) {
                     EHService.start(getContext());
                 }
@@ -83,7 +83,7 @@ public class OutlineFragment extends Fragment {
         });
         mView.findViewById(R.id.holder_running_ind).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View view) {
+            public boolean onLongClick(final View view) {
                 if (EHService.isRunning()) {
                     EHService.stop(getContext());
                     return true;
@@ -94,7 +94,7 @@ public class OutlineFragment extends Fragment {
 
         mView.findViewById(R.id.content_fragment_loaded_history).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
                 navigationView.setCheckedItem(R.id.nav_log);
                 //noinspection ConstantConditions
@@ -105,7 +105,7 @@ public class OutlineFragment extends Fragment {
         FloatingActionButton fab = mView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 EHService.reload(getActivity());
             }
         });
@@ -117,7 +117,7 @@ public class OutlineFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(final @Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
     }
@@ -135,14 +135,14 @@ public class OutlineFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.outline, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.action_start) {

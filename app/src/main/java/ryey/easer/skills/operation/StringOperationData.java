@@ -38,15 +38,15 @@ public abstract class StringOperationData extends StringData implements Operatio
         super();
     }
 
-    protected StringOperationData(@NonNull String text) {
+    protected StringOperationData(final @NonNull String text) {
         super(text);
     }
 
-    public StringOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public StringOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         parse(data, format, version);
     }
 
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
         default:
             set(data);
@@ -55,7 +55,7 @@ public abstract class StringOperationData extends StringData implements Operatio
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
         default:
@@ -70,11 +70,11 @@ public abstract class StringOperationData extends StringData implements Operatio
     }
 
     @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
+    public void writeToParcel(final @NonNull Parcel dest, final int flags) {
         dest.writeString(text);
     }
 
-    protected StringOperationData(@NonNull Parcel in) {
+    protected StringOperationData(final @NonNull Parcel in) {
         text = in.readString();
     }
 

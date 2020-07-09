@@ -53,12 +53,12 @@ public class TimerEventSkill implements EventSkill<TimerEventData> {
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return null;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
 
     }
 
@@ -82,12 +82,12 @@ public class TimerEventSkill implements EventSkill<TimerEventData> {
     }
 
     @Override
-    public AbstractSlot<TimerEventData> slot(@NonNull Context context, @ValidData @NonNull TimerEventData data) {
+    public AbstractSlot<TimerEventData> slot(final @NonNull Context context, final @ValidData @NonNull TimerEventData data) {
         return new TimerSlot(context, data);
     }
 
     @Override
-    public AbstractSlot<TimerEventData> slot(@NonNull Context context, @NonNull TimerEventData data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot<TimerEventData> slot(final @NonNull Context context, final @NonNull TimerEventData data, final boolean retriggerable, final boolean persistent) {
         return new TimerSlot(context, data, retriggerable, persistent);
     }
 

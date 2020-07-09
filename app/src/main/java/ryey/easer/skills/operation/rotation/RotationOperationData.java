@@ -30,26 +30,26 @@ import ryey.easer.skills.operation.BooleanOperationData;
 
 public class RotationOperationData extends BooleanOperationData {
 
-    RotationOperationData(Boolean state) {
+    RotationOperationData(final Boolean state) {
         super(state);
     }
 
-    RotationOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    RotationOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         super(data, format, version);
     }
 
     public static final Parcelable.Creator<RotationOperationData> CREATOR
     = new Parcelable.Creator<RotationOperationData>() {
-        public RotationOperationData createFromParcel(Parcel in) {
+        public RotationOperationData createFromParcel(final Parcel in) {
             return new RotationOperationData(in);
         }
 
-        public RotationOperationData[] newArray(int size) {
+        public RotationOperationData[] newArray(final int size) {
             return new RotationOperationData[size];
         }
     };
 
-    private RotationOperationData(Parcel in) {
+    private RotationOperationData(final Parcel in) {
         super(in);
     }
 

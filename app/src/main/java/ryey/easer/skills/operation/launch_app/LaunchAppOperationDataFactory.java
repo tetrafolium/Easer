@@ -43,7 +43,7 @@ class LaunchAppOperationDataFactory implements OperationDataFactory<LaunchAppOpe
     @ValidData
     @NonNull
     @Override
-    public LaunchAppOperationData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public LaunchAppOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new LaunchAppOperationData(data, format, version);
     }
 }

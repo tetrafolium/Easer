@@ -29,11 +29,11 @@ public class CalendarSlot extends SelfNotifiableSlot<CalendarEventData> {
 
     private static AlarmManager mAlarmManager = null;
 
-    public CalendarSlot(Context context, CalendarEventData data) {
+    public CalendarSlot(final Context context, final CalendarEventData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    CalendarSlot(Context context, CalendarEventData data, boolean retriggerable, boolean persistent) {
+    CalendarSlot(final Context context, final CalendarEventData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
         mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     }
@@ -64,7 +64,7 @@ public class CalendarSlot extends SelfNotifiableSlot<CalendarEventData> {
     }
 
     @Override
-    protected void onPositiveNotified(Intent intent) {
+    protected void onPositiveNotified(final Intent intent) {
         changeSatisfiedState(true);
         changeSatisfiedState(false);
     }

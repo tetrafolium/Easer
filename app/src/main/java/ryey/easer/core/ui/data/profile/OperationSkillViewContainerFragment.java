@@ -41,7 +41,7 @@ public class OperationSkillViewContainerFragment<T extends OperationData> extend
 
     private static final String EXTRA_PLUGIN = "plugin";
 
-    static <T extends OperationData> OperationSkillViewContainerFragment<T> createInstance(OperationSkill<T> plugin) {
+    static <T extends OperationData> OperationSkillViewContainerFragment<T> createInstance(final OperationSkill<T> plugin) {
         Bundle bundle = new Bundle();
         bundle.putString(EXTRA_PLUGIN, plugin.id());
         OperationSkillViewContainerFragment<T> fragment = new OperationSkillViewContainerFragment<>();
@@ -52,7 +52,7 @@ public class OperationSkillViewContainerFragment<T extends OperationData> extend
     private CheckBox mCheckBox;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(final @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String plugin_id = getArguments().getString(EXTRA_PLUGIN);
         @SuppressWarnings("unchecked") OperationSkill<T> plugin = LocalSkillRegistry.getInstance().operation().findSkill(plugin_id);
@@ -61,8 +61,8 @@ public class OperationSkillViewContainerFragment<T extends OperationData> extend
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_skillview_container_operation_profile, container, false);
         getChildFragmentManager().beginTransaction()
         .replace(R.id.content_pluginview, pluginViewFragment)
@@ -72,7 +72,7 @@ public class OperationSkillViewContainerFragment<T extends OperationData> extend
         pluginViewFragment.setEnabled(false);
         mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            public void onCheckedChanged(final CompoundButton compoundButton, final boolean b) {
                 pluginViewFragment.setEnabled(b);
             }
         });
@@ -83,7 +83,7 @@ public class OperationSkillViewContainerFragment<T extends OperationData> extend
     }
 
     @Override
-    protected void _fill(@NonNull T data) {
+    protected void _fill(final @NonNull T data) {
         mCheckBox.setChecked(true);
         super._fill(data);
     }

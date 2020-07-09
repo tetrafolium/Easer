@@ -57,14 +57,14 @@ public class WifiEnabledUSourceSkill implements USourceSkill<WifiEnabledUSourceD
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.checkPermission(context,
                                           Manifest.permission.ACCESS_WIFI_STATE,
                                           Manifest.permission.CHANGE_WIFI_STATE);
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         SkillUtils.requestPermission(activity, requestCode,
                                      Manifest.permission.ACCESS_WIFI_STATE,
                                      Manifest.permission.CHANGE_WIFI_STATE);
@@ -89,21 +89,21 @@ public class WifiEnabledUSourceSkill implements USourceSkill<WifiEnabledUSourceD
     }
 
     @Override
-    public Slot<WifiEnabledUSourceData> slot(@NonNull Context context, @NonNull WifiEnabledUSourceData data) {
+    public Slot<WifiEnabledUSourceData> slot(final @NonNull Context context, final @NonNull WifiEnabledUSourceData data) {
         return new WifiEnabledSlot(context, data);
     }
 
     @Override
-    public Slot<WifiEnabledUSourceData> slot(@NonNull Context context, @NonNull WifiEnabledUSourceData data, boolean retriggerable, boolean persistent) {
+    public Slot<WifiEnabledUSourceData> slot(final @NonNull Context context, final @NonNull WifiEnabledUSourceData data, final boolean retriggerable, final boolean persistent) {
         return new WifiEnabledSlot(context, data, retriggerable, persistent);
     }
 
     @NonNull
     @Override
-    public Tracker<WifiEnabledUSourceData> tracker(@NonNull Context context,
-            @ValidData @NonNull WifiEnabledUSourceData data,
-            @NonNull PendingIntent event_positive,
-            @NonNull PendingIntent event_negative) {
+    public Tracker<WifiEnabledUSourceData> tracker(final @NonNull Context context,
+            final @ValidData @NonNull WifiEnabledUSourceData data,
+            final @NonNull PendingIntent event_positive,
+            final @NonNull PendingIntent event_negative) {
         return new WifiEnabledTracker(context, data, event_positive, event_negative);
     }
 

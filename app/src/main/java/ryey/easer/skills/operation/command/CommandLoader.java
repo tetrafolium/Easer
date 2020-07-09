@@ -32,12 +32,12 @@ import ryey.easer.skills.SkillUtils;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class CommandLoader extends OperationLoader<CommandOperationData> {
-    public CommandLoader(Context context) {
+    public CommandLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull CommandOperationData data) {
+    public boolean load(final @ValidData @NonNull CommandOperationData data) {
         boolean success = true;
         String text = data.get();
         String []commands = text.split("\n");

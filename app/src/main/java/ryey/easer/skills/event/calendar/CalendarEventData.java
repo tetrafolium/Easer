@@ -46,11 +46,11 @@ public class CalendarEventData extends AbstractEventData {
 
     CalendarData data;
 
-    CalendarEventData(CalendarData data) {
+    CalendarEventData(final CalendarData data) {
         this.data = data;
     }
 
-    CalendarEventData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    CalendarEventData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         parse(data, format, version);
     }
 
@@ -66,7 +66,7 @@ public class CalendarEventData extends AbstractEventData {
         return true;
     }
 
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
         default:
             try {
@@ -89,7 +89,7 @@ public class CalendarEventData extends AbstractEventData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
         default:
@@ -118,7 +118,7 @@ public class CalendarEventData extends AbstractEventData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (!(obj instanceof CalendarEventData))
@@ -136,23 +136,23 @@ public class CalendarEventData extends AbstractEventData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeLong(data.calendar_id);
         dest.writeList(new ArrayList<>(data.conditions));
     }
 
     public static final Parcelable.Creator<CalendarEventData> CREATOR
     = new Parcelable.Creator<CalendarEventData>() {
-        public CalendarEventData createFromParcel(Parcel in) {
+        public CalendarEventData createFromParcel(final Parcel in) {
             return new CalendarEventData(in);
         }
 
-        public CalendarEventData[] newArray(int size) {
+        public CalendarEventData[] newArray(final int size) {
             return new CalendarEventData[size];
         }
     };
 
-    private CalendarEventData(Parcel in) {
+    private CalendarEventData(final Parcel in) {
         data = new CalendarData();
         data.calendar_id = in.readLong();
         ArrayList<String> list = new ArrayList<>();

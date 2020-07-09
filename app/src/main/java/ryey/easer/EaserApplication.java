@@ -45,7 +45,7 @@ import ryey.easer.core.log.ActivityLogService;
 
 @AcraCore(buildConfigClass = BuildConfig.class,
           reportSenderFactoryClasses = ErrorSenderFactory.class)
-@AcraToast(resText=R.string.prompt_error_logged)
+@AcraToast(resText = R.string.prompt_error_logged)
 public class EaserApplication extends Application {
 
     static final String LOG_DIR = new File(Environment.getExternalStorageDirectory(), "/logger/error").getAbsolutePath();
@@ -75,13 +75,13 @@ public class EaserApplication extends Application {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(final Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         localeAppDelegate.onConfigurationChanged(this);
     }
 
     @Override
-    protected void attachBaseContext(Context base) {
+    protected void attachBaseContext(final Context base) {
         super.attachBaseContext(localeAppDelegate.attachBaseContext(base));
         ACRA.init(this);
     }

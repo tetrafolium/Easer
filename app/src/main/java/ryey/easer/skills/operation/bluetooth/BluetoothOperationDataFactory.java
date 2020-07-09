@@ -43,7 +43,7 @@ class BluetoothOperationDataFactory implements OperationDataFactory<BluetoothOpe
     @ValidData
     @NonNull
     @Override
-    public BluetoothOperationData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public BluetoothOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new BluetoothOperationData(data, format, version);
     }
 }

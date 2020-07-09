@@ -43,7 +43,7 @@ class TimerEventDataFactory implements EventDataFactory<TimerEventData> {
     @ValidData
     @NonNull
     @Override
-    public TimerEventData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public TimerEventData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new TimerEventData(data, format, version);
     }
 }

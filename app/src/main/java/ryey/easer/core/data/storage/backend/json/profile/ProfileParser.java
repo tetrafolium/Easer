@@ -45,7 +45,7 @@ class ProfileParser implements Parser<ProfileStructure> {
     ProfileParser() {
     }
 
-    public ProfileStructure parse(InputStream in) throws IOException, IllegalStorageDataException {
+    public ProfileStructure parse(final InputStream in) throws IOException, IllegalStorageDataException {
         try {
             JSONObject jsonObject = new JSONObject(IOUtils.inputStreamToString(in));
             int version = jsonObject.optInt(C.VERSION, C.VERSION_ADD_JSON);
@@ -59,7 +59,7 @@ class ProfileParser implements Parser<ProfileStructure> {
         }
     }
 
-    private void parseOperations(JSONArray jsonArray, int version) throws JSONException, IllegalStorageDataException {
+    private void parseOperations(final JSONArray jsonArray, final int version) throws JSONException, IllegalStorageDataException {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             String spec = jsonObject.optString(C.SPEC);

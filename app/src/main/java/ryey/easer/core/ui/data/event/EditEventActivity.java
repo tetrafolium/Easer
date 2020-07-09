@@ -56,7 +56,7 @@ public class EditEventActivity extends AbstractEditDataActivity<EventStructure, 
     }
 
     @Override
-    protected void loadFromData(EventStructure event) {
+    protected void loadFromData(final EventStructure event) {
         oldName = event.getName();
         mEditText_name.setText(event.getName());
         editEventDataFragment.loadFromData(event.getEventData());

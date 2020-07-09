@@ -51,7 +51,7 @@ public class HeadsetSkillViewFragment extends SkillViewFragment<HeadsetUSourceDa
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         String type = getArguments().getString(HeadsetUSourceSkill.EXTRA_INFO_TYPE);
         View v;
         if (HeadsetUSourceSkill.INFO_TYPE_CONDITION.equals(type)) {
@@ -72,7 +72,7 @@ public class HeadsetSkillViewFragment extends SkillViewFragment<HeadsetUSourceDa
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull HeadsetUSourceData data) {
+    protected void _fill(final @ValidData @NonNull HeadsetUSourceData data) {
         radioButtons_hs_action[data.hs_state.ordinal() % ids_hs_state.length].setChecked(true);
         radioButtons_hs_type[data.hs_type.ordinal()].setChecked(true);
     }

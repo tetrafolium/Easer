@@ -33,11 +33,11 @@ public class WifiEnabledUSourceData implements USourceData {
 
     final boolean enabled;
 
-    WifiEnabledUSourceData(boolean enabled) {
+    WifiEnabledUSourceData(final boolean enabled) {
         this.enabled = enabled;
     }
 
-    WifiEnabledUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    WifiEnabledUSourceData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
         default:
             enabled = Boolean.parseBoolean(data);
@@ -46,7 +46,7 @@ public class WifiEnabledUSourceData implements USourceData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
         default:
@@ -69,7 +69,7 @@ public class WifiEnabledUSourceData implements USourceData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (obj == null || !(obj instanceof WifiEnabledUSourceData))
@@ -85,22 +85,22 @@ public class WifiEnabledUSourceData implements USourceData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeByte((byte) (enabled ? 1 : 0));
     }
 
     public static final Creator<WifiEnabledUSourceData> CREATOR
     = new Creator<WifiEnabledUSourceData>() {
-        public WifiEnabledUSourceData createFromParcel(Parcel in) {
+        public WifiEnabledUSourceData createFromParcel(final Parcel in) {
             return new WifiEnabledUSourceData(in);
         }
 
-        public WifiEnabledUSourceData[] newArray(int size) {
+        public WifiEnabledUSourceData[] newArray(final int size) {
             return new WifiEnabledUSourceData[size];
         }
     };
 
-    private WifiEnabledUSourceData(Parcel in) {
+    private WifiEnabledUSourceData(final Parcel in) {
         enabled = in.readByte() != 0;
     }
 }

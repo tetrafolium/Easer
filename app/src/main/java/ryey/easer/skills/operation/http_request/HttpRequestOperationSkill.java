@@ -72,12 +72,12 @@ public class HttpRequestOperationSkill implements OperationSkill<HttpRequestOper
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.checkPermission(context, Manifest.permission.INTERNET);
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         SkillUtils.requestPermission(activity, requestCode, Manifest.permission.INTERNET);
     }
 
@@ -95,7 +95,7 @@ public class HttpRequestOperationSkill implements OperationSkill<HttpRequestOper
 
     @NonNull
     @Override
-    public OperationLoader<HttpRequestOperationData> loader(@NonNull Context context) {
+    public OperationLoader<HttpRequestOperationData> loader(final @NonNull Context context) {
         return new HttpRequestLoader(context);
     }
 

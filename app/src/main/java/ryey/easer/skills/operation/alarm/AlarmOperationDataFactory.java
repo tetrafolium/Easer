@@ -48,7 +48,7 @@ class AlarmOperationDataFactory implements OperationDataFactory<AlarmOperationDa
     @ValidData
     @NonNull
     @Override
-    public AlarmOperationData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public AlarmOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new AlarmOperationData(data, format, version);
     }
 }

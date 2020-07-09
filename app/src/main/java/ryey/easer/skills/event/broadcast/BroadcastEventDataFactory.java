@@ -49,7 +49,7 @@ class BroadcastEventDataFactory implements EventDataFactory<BroadcastEventData> 
     @ValidData
     @NonNull
     @Override
-    public BroadcastEventData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public BroadcastEventData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new BroadcastEventData(data, format, version);
     }
 }

@@ -46,7 +46,7 @@ public class RingerModeConditionData implements ConditionData {
     private static final String T_ringerLevel = "ringerLevel";
     private static final String T_compareMode = "compareMode";
 
-    RingerModeConditionData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    RingerModeConditionData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
         default:
             try {
@@ -61,7 +61,7 @@ public class RingerModeConditionData implements ConditionData {
         }
     }
 
-    RingerModeConditionData(int ringerMode, int ringerLevel, int compareMode) {
+    RingerModeConditionData(final int ringerMode, final int ringerLevel, final int compareMode) {
         this.ringerMode = ringerMode;
         this.ringerLevel = ringerLevel;
         this.compareMode = compareMode;
@@ -69,7 +69,7 @@ public class RingerModeConditionData implements ConditionData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
         default:
@@ -93,10 +93,10 @@ public class RingerModeConditionData implements ConditionData {
         if (ringerMode == AudioManager.RINGER_MODE_SILENT || ringerMode == AudioManager.RINGER_MODE_VIBRATE) {
             return true;
         }
-        if (ringerMode == AudioManager.RINGER_MODE_NORMAL &&
-                (compareMode == COMPARE_MODE_LOWER_OR_EQUAL ||
-                 compareMode == COMPARE_MODE_HIGHER_OR_EQUAL ||
-                 compareMode == COMPARE_MODE_EQUALS)) {
+        if (ringerMode == AudioManager.RINGER_MODE_NORMAL
+                && (compareMode == COMPARE_MODE_LOWER_OR_EQUAL
+                 || compareMode == COMPARE_MODE_HIGHER_OR_EQUAL
+                 || compareMode == COMPARE_MODE_EQUALS)) {
             return true;
         }
         return false;
@@ -104,7 +104,7 @@ public class RingerModeConditionData implements ConditionData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (obj == null || !(obj instanceof RingerModeConditionData))
@@ -121,7 +121,7 @@ public class RingerModeConditionData implements ConditionData {
         return false;
     }
 
-    public boolean match(int ringerMode, int ringerLevel) {
+    public boolean match(final int ringerMode, final int ringerLevel) {
         if (ringerMode == this.ringerMode) {
             if (ringerMode == AudioManager.RINGER_MODE_SILENT || ringerMode == AudioManager.RINGER_MODE_VIBRATE) {
                 return true;
@@ -146,7 +146,7 @@ public class RingerModeConditionData implements ConditionData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeInt(ringerMode);
         dest.writeInt(ringerLevel);
         dest.writeInt(compareMode);
@@ -154,16 +154,16 @@ public class RingerModeConditionData implements ConditionData {
 
     public static final Creator<RingerModeConditionData> CREATOR
     = new Creator<RingerModeConditionData>() {
-        public RingerModeConditionData createFromParcel(Parcel in) {
+        public RingerModeConditionData createFromParcel(final Parcel in) {
             return new RingerModeConditionData(in);
         }
 
-        public RingerModeConditionData[] newArray(int size) {
+        public RingerModeConditionData[] newArray(final int size) {
             return new RingerModeConditionData[size];
         }
     };
 
-    private RingerModeConditionData(Parcel in) {
+    private RingerModeConditionData(final Parcel in) {
         this.ringerMode = in.readInt();
         this.ringerLevel = in.readInt();
         this.compareMode = in.readInt();

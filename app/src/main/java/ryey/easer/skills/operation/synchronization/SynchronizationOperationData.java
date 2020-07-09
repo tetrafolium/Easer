@@ -30,26 +30,26 @@ import ryey.easer.skills.operation.BooleanOperationData;
 
 public class SynchronizationOperationData extends BooleanOperationData {
 
-    SynchronizationOperationData(Boolean state) {
+    SynchronizationOperationData(final Boolean state) {
         super(state);
     }
 
-    SynchronizationOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    SynchronizationOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         super(data, format, version);
     }
 
     public static final Parcelable.Creator<SynchronizationOperationData> CREATOR
     = new Parcelable.Creator<SynchronizationOperationData>() {
-        public SynchronizationOperationData createFromParcel(Parcel in) {
+        public SynchronizationOperationData createFromParcel(final Parcel in) {
             return new SynchronizationOperationData(in);
         }
 
-        public SynchronizationOperationData[] newArray(int size) {
+        public SynchronizationOperationData[] newArray(final int size) {
             return new SynchronizationOperationData[size];
         }
     };
 
-    private SynchronizationOperationData(Parcel in) {
+    private SynchronizationOperationData(final Parcel in) {
         super(in);
     }
 

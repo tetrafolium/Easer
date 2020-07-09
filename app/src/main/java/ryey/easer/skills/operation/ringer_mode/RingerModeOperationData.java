@@ -40,15 +40,15 @@ public class RingerModeOperationData implements OperationData {
 
     RingerMode ringerMode;
 
-    RingerModeOperationData(RingerMode ringerMode) {
+    RingerModeOperationData(final RingerMode ringerMode) {
         this.ringerMode = ringerMode;
     }
 
-    RingerModeOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    RingerModeOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         parse(data, format, version);
     }
 
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
         default:
             if (version < C.VERSION_GRANULAR_RINGER_MODE) {
@@ -79,7 +79,7 @@ public class RingerModeOperationData implements OperationData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res = "";
         switch (format) {
         default:
@@ -90,7 +90,7 @@ public class RingerModeOperationData implements OperationData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (!(obj instanceof RingerModeOperationData))
@@ -106,16 +106,16 @@ public class RingerModeOperationData implements OperationData {
 
     public static final Parcelable.Creator<RingerModeOperationData> CREATOR
     = new Parcelable.Creator<RingerModeOperationData>() {
-        public RingerModeOperationData createFromParcel(Parcel in) {
+        public RingerModeOperationData createFromParcel(final Parcel in) {
             return new RingerModeOperationData(in);
         }
 
-        public RingerModeOperationData[] newArray(int size) {
+        public RingerModeOperationData[] newArray(final int size) {
             return new RingerModeOperationData[size];
         }
     };
 
-    private RingerModeOperationData(Parcel in) {
+    private RingerModeOperationData(final Parcel in) {
         ringerMode = (RingerMode) in.readSerializable();
     }
 
@@ -125,7 +125,7 @@ public class RingerModeOperationData implements OperationData {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
+    public void writeToParcel(final Parcel parcel, final int i) {
         parcel.writeSerializable(ringerMode);
     }
 
@@ -137,7 +137,7 @@ public class RingerModeOperationData implements OperationData {
 
     @NonNull
     @Override
-    public OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment) {
+    public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
         return this;
     }
 }

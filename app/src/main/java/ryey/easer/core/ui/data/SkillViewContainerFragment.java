@@ -31,7 +31,7 @@ public abstract class SkillViewContainerFragment<D extends StorageData> extends 
     protected SkillView<D> pluginViewFragment = null;
 
     @Override
-    protected void _fill(@NonNull D data) {
+    protected void _fill(final @NonNull D data) {
         pluginViewFragment.fill(data);
     }
 

@@ -43,24 +43,24 @@ public class BroadcastEventData extends AbstractEventData {
 
     ReceiverSideIntentData intentData;
 
-    BroadcastEventData(ReceiverSideIntentData intentData) {
+    BroadcastEventData(final ReceiverSideIntentData intentData) {
         this.intentData = intentData;
     }
 
-    BroadcastEventData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    BroadcastEventData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         parse(data, format, version);
     }
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
     public boolean isValid() {
-        if ((intentData.action == null || intentData.action.size() == 0) &&
-                (intentData.category == null || intentData.category.size() == 0))
+        if ((intentData.action == null || intentData.action.size() == 0)
+                && (intentData.category == null || intentData.category.size() == 0))
             return false;
         return true;
     }
 
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         intentData = new ReceiverSideIntentData();
         switch (format) {
         default:
@@ -83,7 +83,7 @@ public class BroadcastEventData extends AbstractEventData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
         default:
@@ -120,7 +120,7 @@ public class BroadcastEventData extends AbstractEventData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (!(obj instanceof BroadcastEventData))
@@ -138,23 +138,23 @@ public class BroadcastEventData extends AbstractEventData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeStringList(intentData.action);
         dest.writeStringList(intentData.category);
     }
 
     public static final Parcelable.Creator<BroadcastEventData> CREATOR
     = new Parcelable.Creator<BroadcastEventData>() {
-        public BroadcastEventData createFromParcel(Parcel in) {
+        public BroadcastEventData createFromParcel(final Parcel in) {
             return new BroadcastEventData(in);
         }
 
-        public BroadcastEventData[] newArray(int size) {
+        public BroadcastEventData[] newArray(final int size) {
             return new BroadcastEventData[size];
         }
     };
 
-    private BroadcastEventData(Parcel in) {
+    private BroadcastEventData(final Parcel in) {
         intentData = new ReceiverSideIntentData();
         in.readStringList(intentData.action);
         in.readStringList(intentData.category);

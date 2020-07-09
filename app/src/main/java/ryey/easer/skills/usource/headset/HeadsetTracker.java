@@ -48,7 +48,7 @@ public class HeadsetTracker extends SkeletonTracker<HeadsetUSourceData> {
     private final IntentFilter mFilter = new IntentFilter(expected_action);
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             final Bundle extras = intent.getExtras();
             if (expected_action.equals(intent.getAction()) && extras != null) {
                 final int state = extras.getInt("state");
@@ -59,9 +59,9 @@ public class HeadsetTracker extends SkeletonTracker<HeadsetUSourceData> {
         }
     };
 
-    HeadsetTracker(Context context, HeadsetUSourceData data,
-                   @NonNull PendingIntent event_positive,
-                   @NonNull PendingIntent event_negative) {
+    HeadsetTracker(final Context context, final HeadsetUSourceData data,
+                   final @NonNull PendingIntent event_positive,
+                   final @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
 
         boolean plugged_in = false;
@@ -95,9 +95,9 @@ public class HeadsetTracker extends SkeletonTracker<HeadsetUSourceData> {
     }
 
     @SuppressWarnings("RedundantIfStatement")
-    static Boolean determine_match(HeadsetUSourceData data, boolean plugging_in, @Nullable Boolean has_microphone) {
-        if (!(data.hs_state == HeadsetUSourceData.HeadsetState.any ||
-                plugging_in == (data.hs_state == HeadsetUSourceData.HeadsetState.plug_in)))
+    static Boolean determine_match(final HeadsetUSourceData data, final boolean plugging_in, final @Nullable Boolean has_microphone) {
+        if (!(data.hs_state == HeadsetUSourceData.HeadsetState.any
+                || plugging_in == (data.hs_state == HeadsetUSourceData.HeadsetState.plug_in)))
             return false;
         if (data.hs_type == HeadsetUSourceData.HeadsetType.any)
             return true;

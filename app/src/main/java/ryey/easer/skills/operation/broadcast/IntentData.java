@@ -46,7 +46,7 @@ public class IntentData implements Parcelable {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (!(obj instanceof IntentData))
@@ -75,7 +75,7 @@ public class IntentData implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeString(action);
         dest.writeStringList(category);
         dest.writeString(type);
@@ -85,16 +85,16 @@ public class IntentData implements Parcelable {
 
     public static final Parcelable.Creator<IntentData> CREATOR
     = new Parcelable.Creator<IntentData>() {
-        public IntentData createFromParcel(Parcel in) {
+        public IntentData createFromParcel(final Parcel in) {
             return new IntentData(in);
         }
 
-        public IntentData[] newArray(int size) {
+        public IntentData[] newArray(final int size) {
             return new IntentData[size];
         }
     };
 
-    private IntentData(Parcel in) {
+    private IntentData(final Parcel in) {
         action = in.readString();
         List<String> cat = new ArrayList<>();
         in.readStringList(cat);

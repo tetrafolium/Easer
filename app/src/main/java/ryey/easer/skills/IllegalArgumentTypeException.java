@@ -22,15 +22,15 @@ package ryey.easer.skills;
 import java.util.Arrays;
 
 public class IllegalArgumentTypeException extends IllegalArgumentException {
-    public IllegalArgumentTypeException(String s) {
+    public IllegalArgumentTypeException(final String s) {
         super(s);
     }
 
-    public IllegalArgumentTypeException(Class received, Class expected) {
+    public IllegalArgumentTypeException(final Class received, final Class expected) {
         super(String.format("Illegal type :: expected <%s> encountered <%s>", expected, received));
     }
 
-    public IllegalArgumentTypeException(Class received, Class[] expected) {
+    public IllegalArgumentTypeException(final Class received, final Class[] expected) {
         super(String.format("Illegal type :: expected <%s> encountered <%s>", Arrays.toString(expected), received));
     }
 }

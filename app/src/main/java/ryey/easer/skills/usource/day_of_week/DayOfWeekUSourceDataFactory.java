@@ -46,7 +46,7 @@ class DayOfWeekUSourceDataFactory implements USourceDataFactory<DayOfWeekUSource
     @ValidData
     @NonNull
     @Override
-    public DayOfWeekUSourceData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public DayOfWeekUSourceData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new DayOfWeekUSourceData(data, format, version);
     }
 }

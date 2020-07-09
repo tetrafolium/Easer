@@ -46,7 +46,7 @@ class NotificationEventDataFactory implements EventDataFactory<NotificationEvent
     @ValidData
     @NonNull
     @Override
-    public NotificationEventData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public NotificationEventData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new NotificationEventData(data, format, version);
     }
 }

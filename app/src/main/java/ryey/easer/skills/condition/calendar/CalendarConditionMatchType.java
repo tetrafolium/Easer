@@ -34,11 +34,11 @@ public enum CalendarConditionMatchType {
         }
     }
 
-    CalendarConditionMatchType(int id) {
+    CalendarConditionMatchType(final int id) {
         this.id = id;
     }
 
-    public static CalendarConditionMatchType getById(int id) {
+    public static CalendarConditionMatchType getById(final int id) {
         return enumById.get(id);
     }
     public int getId() {

@@ -48,7 +48,7 @@ public class TimerSkillViewFragment extends SkillViewFragment<TimerEventData> {
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_event__timer, container, false);
 
         group_short = view.findViewById(R.id.group_short);
@@ -58,7 +58,7 @@ public class TimerSkillViewFragment extends SkillViewFragment<TimerEventData> {
         radioButton_long = view.findViewById(R.id.radioButton_long);
         CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
                 if (buttonView == radioButton_short) {
                     radioButton_long.setChecked(!isChecked);
                     group_short.setVisibility(isChecked ? View.VISIBLE : View.GONE);
@@ -86,7 +86,7 @@ public class TimerSkillViewFragment extends SkillViewFragment<TimerEventData> {
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull TimerEventData data) {
+    protected void _fill(final @ValidData @NonNull TimerEventData data) {
         if (data.shortTime) {
             radioButton_short.setChecked(true);
             editText_second.setText(String.valueOf(data.time));

@@ -31,7 +31,7 @@ import ryey.easer.commons.local_skill.IllegalStorageDataException;
 
 public class FileDataStorageBackendHelper {
 
-    public static <T> T get(Parser<T> parser, File file) throws FileNotFoundException, IllegalStorageDataException {
+    public static <T> T get(final Parser<T> parser, final File file) throws FileNotFoundException, IllegalStorageDataException {
         try {
             FileInputStream fin = new FileInputStream(file);
             T eventStructure = parser.parse(fin);
@@ -45,7 +45,7 @@ public class FileDataStorageBackendHelper {
         throw new IllegalAccessError();
     }
 
-    public static <T> void write(Serializer<T> serializer, File file, T data) throws IOException {
+    public static <T> void write(final Serializer<T> serializer, final File file, final T data) throws IOException {
         try {
             FileOutputStream fout = new FileOutputStream(file);
             String serialized_str = serializer.serialize(data);

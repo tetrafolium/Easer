@@ -31,13 +31,13 @@ import ryey.easer.skills.operation.OperationLoader;
 class HotspotLoader extends OperationLoader<HotspotOperationData> {
     private final HotspotHelper helper;
 
-    public HotspotLoader(Context context) {
+    public HotspotLoader(final Context context) {
         super(context);
         helper = HotspotHelper.getInstance(context);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull HotspotOperationData data) {
+    public boolean load(final @ValidData @NonNull HotspotOperationData data) {
         Boolean state = data.get();
         try {
             if (helper.isApEnabled() == state)

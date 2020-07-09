@@ -28,16 +28,16 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class BrightnessLoader extends OperationLoader<BrightnessOperationData> {
-    public BrightnessLoader(Context context) {
+    public BrightnessLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull BrightnessOperationData data) {
+    public boolean load(final @ValidData @NonNull BrightnessOperationData data) {
         return loadthis(data);
     }
 
-    private boolean loadthis(BrightnessOperationData data) {
+    private boolean loadthis(final BrightnessOperationData data) {
         Integer level = data.get();
         if (data.isAuto())
             Settings.System.putInt(context.getContentResolver(),

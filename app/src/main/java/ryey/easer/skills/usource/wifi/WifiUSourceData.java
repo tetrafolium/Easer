@@ -48,12 +48,12 @@ public class WifiUSourceData implements USourceData {
     boolean mode_essid = true;
     Set<String> ssids = new ArraySet<>();
 
-    WifiUSourceData(String ssids, boolean mode_essid) {
+    WifiUSourceData(final String ssids, final boolean mode_essid) {
         this.mode_essid = mode_essid;
         setFromMultiple(ssids.split("\n"));
     }
 
-    WifiUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    WifiUSourceData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
         default:
             try {
@@ -77,7 +77,7 @@ public class WifiUSourceData implements USourceData {
         }
     }
 
-    private void setFromMultiple(String[] ssids) {
+    private void setFromMultiple(final String[] ssids) {
         this.ssids.clear();
         for (String ssid : ssids) {
             if (!Utils.isBlank(ssid))
@@ -101,7 +101,7 @@ public class WifiUSourceData implements USourceData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null || !(obj instanceof WifiUSourceData))
             return false;
         if (mode_essid != ((WifiUSourceData) obj).mode_essid)
@@ -111,7 +111,7 @@ public class WifiUSourceData implements USourceData {
         return true;
     }
 
-    private void readFromJsonArray(JSONArray jsonArray) throws JSONException {
+    private void readFromJsonArray(final JSONArray jsonArray) throws JSONException {
         for (int i = 0; i < jsonArray.length(); i++) {
             ssids.add(jsonArray.getString(i));
         }
@@ -119,7 +119,7 @@ public class WifiUSourceData implements USourceData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
         default:
@@ -142,7 +142,7 @@ public class WifiUSourceData implements USourceData {
         return res;
     }
 
-    public boolean match(@NonNull Object obj) {
+    public boolean match(final @NonNull Object obj) {
         if (obj instanceof String) {
             return ssids.contains(((String) obj).trim());
         }
@@ -155,23 +155,23 @@ public class WifiUSourceData implements USourceData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeByte((byte) (mode_essid ? 1 : 0));
         dest.writeStringList(new ArrayList<>(ssids));
     }
 
     public static final Parcelable.Creator<WifiUSourceData> CREATOR
     = new Parcelable.Creator<WifiUSourceData>() {
-        public WifiUSourceData createFromParcel(Parcel in) {
+        public WifiUSourceData createFromParcel(final Parcel in) {
             return new WifiUSourceData(in);
         }
 
-        public WifiUSourceData[] newArray(int size) {
+        public WifiUSourceData[] newArray(final int size) {
             return new WifiUSourceData[size];
         }
     };
 
-    private WifiUSourceData(Parcel in) {
+    private WifiUSourceData(final Parcel in) {
         mode_essid = in.readByte() > 0;
         List<String> list = new ArrayList<>();
         in.readStringList(list);

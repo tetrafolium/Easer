@@ -27,9 +27,9 @@ import ryey.easer.commons.local_skill.StorageData;
 public abstract class BooleanData implements StorageData {
     protected Boolean state = null;
 
-    protected BooleanData() {}
+    protected BooleanData() { }
 
-    protected BooleanData(@NonNull Boolean state) {
+    protected BooleanData(final @NonNull Boolean state) {
         this.state = state;
     }
 
@@ -38,7 +38,7 @@ public abstract class BooleanData implements StorageData {
         return state;
     }
 
-    public void set(boolean obj) {
+    public void set(final boolean obj) {
         state = obj;
     }
 
@@ -52,7 +52,7 @@ public abstract class BooleanData implements StorageData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(final @Nullable Object obj) {
         if (obj == null)
             return false;
         if (!getClass().equals(obj.getClass()))

@@ -48,25 +48,25 @@ public abstract class SourceSkillViewPager<GD extends StorageData, GS extends Sk
     Integer initial_position = null;
     GD initial_data = null;
 
-    public SourceSkillViewPager(Context context) {
+    public SourceSkillViewPager(final Context context) {
         super(context);
     }
 
-    public SourceSkillViewPager(Context context, AttributeSet attrs) {
+    public SourceSkillViewPager(final Context context, final AttributeSet attrs) {
         super(context, attrs);
     }
 
     protected abstract List<GS> enabledSkills();
     protected abstract MyPagerAdapter newPagerAdapter(FragmentManager fm, Context context);
 
-    public void init(AppCompatActivity activity) {
+    public void init(final AppCompatActivity activity) {
         skillList.clear();
         skillList.addAll(enabledSkills());
         mPagerAdapter = newPagerAdapter(activity.getSupportFragmentManager(), getContext());
         setAdapter(mPagerAdapter);
     }
 
-    public <T extends GD> void setData(T data) {
+    public <T extends GD> void setData(final T data) {
         initial_data = data;
         int i = getPluginIndex(data);
         initial_position = i;
@@ -85,11 +85,11 @@ public abstract class SourceSkillViewPager<GD extends StorageData, GS extends Sk
         return getData(getCurrentItem());
     }
 
-    GD getData(int position) throws InvalidDataInputException {
+    GD getData(final int position) throws InvalidDataInputException {
         return mPagerAdapter.getRegisteredFragment(position).getData();
     }
 
-    private int getPluginIndex(GD data) {
+    private int getPluginIndex(final GD data) {
         for (int i = 0; i < skillList.size(); i++) {
             if (data.getClass() == skillList.get(i).dataFactory().dataClass())
                 return i;
@@ -104,7 +104,7 @@ public abstract class SourceSkillViewPager<GD extends StorageData, GS extends Sk
         private final Context context;
         final String[] titles;
 
-        protected MyPagerAdapter(FragmentManager fm, Context context) {
+        protected MyPagerAdapter(final FragmentManager fm, final Context context) {
             super(fm);
             this.context = context;
             titles = new String[skillList.size()];
@@ -116,7 +116,7 @@ public abstract class SourceSkillViewPager<GD extends StorageData, GS extends Sk
         protected abstract SourceSkillViewContainerFragment<GD, GS> newFragment(GS skill);
 
         @Override
-        public Fragment getItem(int position) {
+        public Fragment getItem(final int position) {
             return newFragment(skillList.get(position));
         }
 
@@ -126,13 +126,13 @@ public abstract class SourceSkillViewPager<GD extends StorageData, GS extends Sk
         }
 
         @Override
-        public CharSequence getPageTitle(int position) {
+        public CharSequence getPageTitle(final int position) {
             return titles[position];
         }
 
         @NonNull
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(final ViewGroup container, final int position) {
             SourceSkillViewContainerFragment<GD, GS> fragment = (SourceSkillViewContainerFragment<GD, GS>) super.instantiateItem(container, position);
             synchronized (SourceSkillViewPager.this) {
                 if ((initial_position != null) && (position == initial_position)) {
@@ -144,12 +144,12 @@ public abstract class SourceSkillViewPager<GD extends StorageData, GS extends Sk
         }
 
         @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
+        public void destroyItem(final ViewGroup container, final int position, final Object object) {
             registeredFragments.remove(position);
             super.destroyItem(container, position, object);
         }
 
-        public SourceSkillViewContainerFragment<GD, GS> getRegisteredFragment(int position) {
+        public SourceSkillViewContainerFragment<GD, GS> getRegisteredFragment(final int position) {
             return registeredFragments.get(position);
         }
     }

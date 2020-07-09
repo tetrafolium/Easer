@@ -42,7 +42,7 @@ public class BrightnessSkillViewFragment extends SkillViewFragment<BrightnessOpe
 
     @NonNull
     @Override
-    public ViewGroup onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public ViewGroup onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         LinearLayout view = new LinearLayout(getContext());
         view.setOrientation(LinearLayout.VERTICAL);
 
@@ -58,7 +58,7 @@ public class BrightnessSkillViewFragment extends SkillViewFragment<BrightnessOpe
         mBrightnessLevel.setEnabled(false);
         mIsAuto.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
                 if (isChecked)
                     mBrightnessLevel.setEnabled(false);
                 else
@@ -75,7 +75,7 @@ public class BrightnessSkillViewFragment extends SkillViewFragment<BrightnessOpe
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull BrightnessOperationData data) {
+    protected void _fill(final @ValidData @NonNull BrightnessOperationData data) {
         BrightnessOperationData idata = data;
         if (idata.isAuto()) {
             mIsAuto.setChecked(true);

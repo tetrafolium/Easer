@@ -59,7 +59,7 @@ public class ScannerDialogFragment extends DialogFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(final Context context) {
         super.onAttach(context);
         telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         if (telephonyManager != null)
@@ -74,7 +74,7 @@ public class ScannerDialogFragment extends DialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(final Bundle savedInstanceState) {
         if (telephonyManager == null) {
             Toast.makeText(getContext(), R.string.usource_cell_location_no_signal, Toast.LENGTH_SHORT).show();
             dismiss();
@@ -92,7 +92,7 @@ public class ScannerDialogFragment extends DialogFragment {
 
         builder.setView(v)
         .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
+            public void onClick(final DialogInterface dialog, final int id) {
                 ((ScannerListener) getTargetFragment()).onPositiveClicked(singleDataList);
                 dismiss();
             }
@@ -105,9 +105,9 @@ public class ScannerDialogFragment extends DialogFragment {
         return dialog;
     }
 
-    private static void addData(@NonNull List<CellLocationSingleData> singleDataList,
-                                @NonNull ArrayAdapter<CellLocationSingleData> cellLocationDataListAdapter,
-                                @Nullable CellLocationSingleData data) {
+    private static void addData(final @NonNull List<CellLocationSingleData> singleDataList,
+                                final @NonNull ArrayAdapter<CellLocationSingleData> cellLocationDataListAdapter,
+                                final @Nullable CellLocationSingleData data) {
         if (data != null) {
             if (!singleDataList.contains(data)) {
                 singleDataList.add(data);
@@ -116,13 +116,13 @@ public class ScannerDialogFragment extends DialogFragment {
         }
     }
 
-    private void addData(@Nullable CellLocationSingleData data) {
+    private void addData(final @Nullable CellLocationSingleData data) {
         addData(singleDataList, cellLocationDataListAdapter, data);
     }
 
     private class CellLocationListener extends PhoneStateListener {
         @Override
-        synchronized public void onCellLocationChanged(CellLocation location) {
+        synchronized public void onCellLocationChanged(final CellLocation location) {
             addData(CellLocationSingleData.fromCellLocation(location));
         }
     }
@@ -137,16 +137,16 @@ public class ScannerDialogFragment extends DialogFragment {
         private List<CellLocationSingleData> singleDataList;
         private ArrayAdapter<CellLocationSingleData> adapter;
 
-        private GetInitialDataTask(TelephonyManager telephonyManager,
-                                   List<CellLocationSingleData> singleDataList,
-                                   ArrayAdapter<CellLocationSingleData> adapter) {
+        private GetInitialDataTask(final TelephonyManager telephonyManager,
+                                   final List<CellLocationSingleData> singleDataList,
+                                   final ArrayAdapter<CellLocationSingleData> adapter) {
             this.telephonyManager = telephonyManager;
             this.singleDataList = singleDataList;
             this.adapter = adapter;
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Void doInBackground(final Void... voids) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 List<CellInfo> cellInfoList = telephonyManager.getAllCellInfo();
                 if (cellInfoList != null) {
@@ -164,7 +164,7 @@ public class ScannerDialogFragment extends DialogFragment {
         }
 
         @Override
-        protected void onProgressUpdate(CellLocationSingleData... values) {
+        protected void onProgressUpdate(final CellLocationSingleData... values) {
             addData(singleDataList, adapter, values[0]);
         }
     }

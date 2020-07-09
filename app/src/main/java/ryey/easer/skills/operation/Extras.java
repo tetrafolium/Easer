@@ -50,7 +50,7 @@ public class Extras implements Parcelable {
     private static final String V_TYPE = "type";
 
     @Nullable
-    public static Extras mayParse(@Nullable String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public static Extras mayParse(final @Nullable String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         if (data == null)
             return null;
         return new Extras(data, format, version);
@@ -59,11 +59,11 @@ public class Extras implements Parcelable {
     @Nonnull
     public final List<ExtraItem> extras;
 
-    public Extras(@NonNull List<ExtraItem> extras) {
+    public Extras(final @NonNull List<ExtraItem> extras) {
         this.extras = extras;
     }
 
-    public Extras(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public Extras(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         if (Utils.isBlank(data)) {
             extras = new ArrayList<>();
             return;
@@ -88,7 +88,7 @@ public class Extras implements Parcelable {
     }
 
     @NonNull
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res = "";
         switch (format) {
         default:
@@ -129,7 +129,7 @@ public class Extras implements Parcelable {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(final @Nullable Object obj) {
         if (obj == this)
             return true;
         if (!(obj instanceof Extras))
@@ -139,12 +139,12 @@ public class Extras implements Parcelable {
         return true;
     }
 
-    private Extras(Parcel in) {
+    private Extras(final Parcel in) {
         extras = Objects.requireNonNull(in.createTypedArrayList(ExtraItem.CREATOR));
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeTypedList(extras);
     }
 
@@ -155,12 +155,12 @@ public class Extras implements Parcelable {
 
     public static final Creator<Extras> CREATOR = new Creator<Extras>() {
         @Override
-        public Extras createFromParcel(Parcel in) {
+        public Extras createFromParcel(final Parcel in) {
             return new Extras(in);
         }
 
         @Override
-        public Extras[] newArray(int size) {
+        public Extras[] newArray(final int size) {
             return new Extras[size];
         }
     };

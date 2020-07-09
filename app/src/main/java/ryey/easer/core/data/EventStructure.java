@@ -32,17 +32,17 @@ public class EventStructure implements Named, Verifiable, WithCreatedVersion {
     private final String name;
     private EventData eventData;
 
-    public static EventStructure createTmpScenario(@ValidData EventData eventData) {
+    public static EventStructure createTmpScenario(final @ValidData EventData eventData) {
         return new EventStructure(eventData);
     }
 
-    private EventStructure(@ValidData EventData eventData) {
+    private EventStructure(final @ValidData EventData eventData) {
         createdVersion = C.VERSION_CREATED_IN_RUNTIME;
         name = null;
         this.eventData = eventData;
     }
 
-    public EventStructure(int createdVersion, @NonNull String name, @ValidData EventData eventData) {
+    public EventStructure(final int createdVersion, final @NonNull String name, final @ValidData EventData eventData) {
         this.createdVersion = createdVersion;
         this.name = name;
         this.eventData = eventData;
@@ -57,7 +57,7 @@ public class EventStructure implements Named, Verifiable, WithCreatedVersion {
         return eventData;
     }
 
-    public void setEventData(EventData eventData) {
+    public void setEventData(final EventData eventData) {
         this.eventData = eventData;
     }
 
@@ -75,7 +75,7 @@ public class EventStructure implements Named, Verifiable, WithCreatedVersion {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null || !(obj instanceof EventStructure))
             return false;
         if (!Utils.nullableEqual(name, ((EventStructure) obj).name))

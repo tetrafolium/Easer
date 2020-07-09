@@ -32,9 +32,9 @@ import ryey.easer.skills.condition.SelfNotifiableSkeletonTracker;
 public class DayOfWeekTracker extends SelfNotifiableSkeletonTracker<DayOfWeekUSourceData> {
     private static AlarmManager mAlarmManager;
 
-    DayOfWeekTracker(Context context, DayOfWeekUSourceData data,
-                     @NonNull PendingIntent event_positive,
-                     @NonNull PendingIntent event_negative) {
+    DayOfWeekTracker(final Context context, final DayOfWeekUSourceData data,
+                     final @NonNull PendingIntent event_positive,
+                     final @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
 
         if (mAlarmManager == null)

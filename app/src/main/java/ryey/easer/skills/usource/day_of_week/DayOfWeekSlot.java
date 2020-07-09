@@ -35,11 +35,11 @@ class DayOfWeekSlot extends SelfNotifiableSlot<DayOfWeekUSourceData> {
     @NonNull
     private final Set<Integer> days;
 
-    DayOfWeekSlot(Context context, DayOfWeekUSourceData data) {
+    DayOfWeekSlot(final Context context, final DayOfWeekUSourceData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    DayOfWeekSlot(Context context, DayOfWeekUSourceData data, boolean retriggerable, boolean persistent) {
+    DayOfWeekSlot(final Context context, final DayOfWeekUSourceData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
         this.days = data.days;
 
@@ -60,7 +60,7 @@ class DayOfWeekSlot extends SelfNotifiableSlot<DayOfWeekUSourceData> {
     }
 
     @Override
-    protected void onPositiveNotified(Intent intent) {
+    protected void onPositiveNotified(final Intent intent) {
         if (Utils.isSatisfied(days)) {
             changeSatisfiedState(true);
         } else {

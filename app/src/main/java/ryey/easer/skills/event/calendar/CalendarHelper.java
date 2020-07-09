@@ -30,7 +30,7 @@ import java.util.Calendar;
 @SuppressLint("MissingPermission")
 class CalendarHelper {
 
-    static String getCalendarName(ContentResolver contentResolver, long calendar_id) {
+    static String getCalendarName(final ContentResolver contentResolver, final long calendar_id) {
         Uri uri = CalendarContract.Calendars.CONTENT_URI;
         String[] PROJECTION = new String[] {
             CalendarContract.Calendars._ID,
@@ -52,7 +52,7 @@ class CalendarHelper {
         return res;
     }
 
-    static Long nextEvent_start(ContentResolver contentResolver, long calendar_id) {
+    static Long nextEvent_start(final ContentResolver contentResolver, final long calendar_id) {
         final String[] EVENT_PROJECTION = new String[] {
             CalendarContract.Events._ID,                           // 0
             CalendarContract.Events.DTSTART,                  // 1
@@ -62,9 +62,9 @@ class CalendarHelper {
         long current_time = calendar.getTimeInMillis();
 
         Uri uri = CalendarContract.Events.CONTENT_URI;
-        String selection = "((" + CalendarContract.Events.CALENDAR_ID + " = ?)" +
-                           " AND (" + CalendarContract.Events.DTSTART + " > ?)" +
-                           ")";
+        String selection = "((" + CalendarContract.Events.CALENDAR_ID + " = ?)"
+                           + " AND (" + CalendarContract.Events.DTSTART + " > ?)"
+                           + ")";
         String[] selectionArgs = new String[] {
             String.valueOf(calendar_id),
             String.valueOf(current_time),
@@ -82,7 +82,7 @@ class CalendarHelper {
         return res;
     }
 
-    static Long nextEvent_end(ContentResolver contentResolver, long calendar_id) {
+    static Long nextEvent_end(final ContentResolver contentResolver, final long calendar_id) {
         final String[] EVENT_PROJECTION = new String[] {
             CalendarContract.Events._ID,                           // 0
             CalendarContract.Events.DTSTART,                  // 1
@@ -92,9 +92,9 @@ class CalendarHelper {
         long current_time = calendar.getTimeInMillis();
 
         Uri uri = CalendarContract.Events.CONTENT_URI;
-        String selection = "((" + CalendarContract.Events.CALENDAR_ID + " = ?)" +
-                           " AND (" + CalendarContract.Events.DTEND + " > ?)" +
-                           ")";
+        String selection = "((" + CalendarContract.Events.CALENDAR_ID + " = ?)"
+                           + " AND (" + CalendarContract.Events.DTEND + " > ?)"
+                           + ")";
         String[] selectionArgs = new String[] {
             String.valueOf(calendar_id),
             String.valueOf(current_time),

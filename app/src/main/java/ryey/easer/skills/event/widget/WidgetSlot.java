@@ -34,7 +34,7 @@ public class WidgetSlot extends AbstractSlot<WidgetEventData> {
 
     BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             assert intent != null;
             if (UserActionWidget.Companion.getACTION_WIDGET_CLICKED().equals(intent.getAction())) {
 //                intent.setExtrasClassLoader(String.class.getClassLoader());
@@ -46,11 +46,11 @@ public class WidgetSlot extends AbstractSlot<WidgetEventData> {
         }
     };
 
-    WidgetSlot(Context context, WidgetEventData data) {
+    WidgetSlot(final Context context, final WidgetEventData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    WidgetSlot(Context context, WidgetEventData data, boolean retriggerable, boolean persistent) {
+    WidgetSlot(final Context context, final WidgetEventData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
     }
 

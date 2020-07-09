@@ -39,14 +39,14 @@ public class RingerModeTracker extends SkeletonTracker<RingerModeConditionData> 
 
     private ContentObserver settingsObserver = new ContentObserver(null) {
         @Override
-        public void onChange(boolean selfChange) {
+        public void onChange(final boolean selfChange) {
             updateTrackerVolume(am.getStreamVolume(AudioManager.STREAM_RING));
         }
     };
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             if (AudioManager.RINGER_MODE_CHANGED_ACTION.equals(intent.getAction())) {
                 int newMode = intent.getIntExtra(AudioManager.EXTRA_RINGER_MODE, -1);
                 updateTrackerMode(newMode);
@@ -55,9 +55,9 @@ public class RingerModeTracker extends SkeletonTracker<RingerModeConditionData> 
     };
     private static IntentFilter intentFilter = new IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION);
 
-    RingerModeTracker(Context context, RingerModeConditionData data,
-                      @NonNull PendingIntent event_positive,
-                      @NonNull PendingIntent event_negative) {
+    RingerModeTracker(final Context context, final RingerModeConditionData data,
+                      final @NonNull PendingIntent event_positive,
+                      final @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
         this.condition = data;
         this.am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
@@ -77,7 +77,7 @@ public class RingerModeTracker extends SkeletonTracker<RingerModeConditionData> 
             context.getContentResolver().unregisterContentObserver(settingsObserver);
     }
 
-    private void updateTrackerMode(int newMode) {
+    private void updateTrackerMode(final int newMode) {
         if (curMode == newMode)
             return;
         curMode = newMode;
@@ -87,7 +87,7 @@ public class RingerModeTracker extends SkeletonTracker<RingerModeConditionData> 
         newSatisfiedState(condition.match(curMode, curVolume));
     }
 
-    private void updateTrackerVolume(int newVolume) {
+    private void updateTrackerVolume(final int newVolume) {
         if (curVolume == newVolume)
             return;
         curVolume = newVolume;

@@ -51,7 +51,7 @@ public class PowerUSourceData implements USourceData {
     @Nonnull final BatteryStatus batteryStatus;
     @Nonnull final Set<ChargingMethod> chargingMethods = new ArraySet<>();
 
-    public PowerUSourceData(@NonNull BatteryStatus batteryStatus, @Nullable Collection<ChargingMethod> chargingMethods) {
+    public PowerUSourceData(final @NonNull BatteryStatus batteryStatus, final @Nullable Collection<ChargingMethod> chargingMethods) {
         this.batteryStatus = batteryStatus;
         if (batteryStatus == BatteryStatus.charging) {
             if (chargingMethods == null || chargingMethods.size() == 0)
@@ -60,7 +60,7 @@ public class PowerUSourceData implements USourceData {
         }
     }
 
-    PowerUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    PowerUSourceData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
         default:
             if (version < C.VERSION_RENAME_BATTERY_USOURCE) {
@@ -102,7 +102,7 @@ public class PowerUSourceData implements USourceData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
         default:
@@ -143,7 +143,7 @@ public class PowerUSourceData implements USourceData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (!(obj instanceof PowerUSourceData))
             return false;
         if (!batteryStatus.equals(((PowerUSourceData) obj).batteryStatus))
@@ -159,23 +159,23 @@ public class PowerUSourceData implements USourceData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeInt(batteryStatus.ordinal());
         CommonSkillUtils.IO.writeEnumCollectionToParcel(dest, flags, chargingMethods);
     }
 
     public static final Creator<PowerUSourceData> CREATOR
     = new Creator<PowerUSourceData>() {
-        public PowerUSourceData createFromParcel(Parcel in) {
+        public PowerUSourceData createFromParcel(final Parcel in) {
             return new PowerUSourceData(in);
         }
 
-        public PowerUSourceData[] newArray(int size) {
+        public PowerUSourceData[] newArray(final int size) {
             return new PowerUSourceData[size];
         }
     };
 
-    private PowerUSourceData(Parcel in) {
+    private PowerUSourceData(final Parcel in) {
         batteryStatus = BatteryStatus.values()[in.readInt()];
         chargingMethods.addAll(CommonSkillUtils.IO.readEnumCollectionFromParcel(in, ChargingMethod.values()));
     }

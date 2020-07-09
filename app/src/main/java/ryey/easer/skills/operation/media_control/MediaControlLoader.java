@@ -38,12 +38,12 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class MediaControlLoader extends OperationLoader<MediaControlOperationData> {
-    public MediaControlLoader(Context context) {
+    public MediaControlLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull MediaControlOperationData data) {
+    public boolean load(final @ValidData @NonNull MediaControlOperationData data) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return handleOnApi21(data);
         } else {
@@ -51,13 +51,13 @@ public class MediaControlLoader extends OperationLoader<MediaControlOperationDat
         }
     }
 
-    private boolean fallback(@ValidData @NonNull MediaControlOperationData data) {
+    private boolean fallback(final @ValidData @NonNull MediaControlOperationData data) {
         MediaControlOperationData.ControlChoice choice = data.choice;
         emitMediaButton(toKeyCode(choice));
         return true;
     }
 
-    private void emitMediaButton(int keyCode) {
+    private void emitMediaButton(final int keyCode) {
         KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, keyCode);
         Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
         intent.putExtra(Intent.EXTRA_KEY_EVENT, keyEvent);
@@ -70,7 +70,7 @@ public class MediaControlLoader extends OperationLoader<MediaControlOperationDat
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private boolean handleOnApi21(@ValidData @NonNull MediaControlOperationData data) {
+    private boolean handleOnApi21(final @ValidData @NonNull MediaControlOperationData data) {
         int keyCode = toKeyCode(data.choice);
         KeyEvent keyEvent_down = new KeyEvent(KeyEvent.ACTION_DOWN, keyCode);
         KeyEvent keyEvent_up = new KeyEvent(KeyEvent.ACTION_UP, keyCode);
@@ -89,7 +89,7 @@ public class MediaControlLoader extends OperationLoader<MediaControlOperationDat
         return true;
     }
 
-    private static int toKeyCode(MediaControlOperationData.ControlChoice choice) {
+    private static int toKeyCode(final MediaControlOperationData.ControlChoice choice) {
         switch (choice) {
         case play_pause:
             return KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE;

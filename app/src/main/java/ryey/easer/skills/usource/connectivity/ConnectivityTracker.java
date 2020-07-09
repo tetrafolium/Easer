@@ -41,7 +41,7 @@ import static ryey.easer.skills.usource.connectivity.ConnectivityType.TYPE_WIFI;
 public class ConnectivityTracker extends SkeletonTracker<ConnectivityEventData> {
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             switch (intent.getAction()) {
             case ConnectivityManager.CONNECTIVITY_ACTION:
                 check();
@@ -56,9 +56,9 @@ public class ConnectivityTracker extends SkeletonTracker<ConnectivityEventData> 
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
     }
 
-    ConnectivityTracker(Context context, ConnectivityEventData data,
-                        @NonNull PendingIntent event_positive,
-                        @NonNull PendingIntent event_negative) {
+    ConnectivityTracker(final Context context, final ConnectivityEventData data,
+                        final @NonNull PendingIntent event_positive,
+                        final @NonNull PendingIntent event_negative) {
         super(context, data, event_positive, event_negative);
         check();
     }
@@ -80,7 +80,7 @@ public class ConnectivityTracker extends SkeletonTracker<ConnectivityEventData> 
         determineAndNotify(convertType(activeNetworkInfo));
     }
 
-    private int convertType(NetworkInfo activeNetworkInfo) {
+    private int convertType(final NetworkInfo activeNetworkInfo) {
         if (activeNetworkInfo == null) {
             return TYPE_NOT_CONNECTED;
         }
@@ -99,7 +99,7 @@ public class ConnectivityTracker extends SkeletonTracker<ConnectivityEventData> 
         return -1;
     }
 
-    private void determineAndNotify(int networkType) {
+    private void determineAndNotify(final int networkType) {
         if (data.connectivity_type.contains(networkType))
             newSatisfiedState(true);
         else

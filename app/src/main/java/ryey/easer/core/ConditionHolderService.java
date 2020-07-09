@@ -53,7 +53,7 @@ public class ConditionHolderService extends Service {
     private static final String ACTION_TRACKER_UNSATISFIED = "ryey.easer.triggerlotus.action.TRACKER_UNSATISFIED";
     private static final String CATEGORY_NOTIFY_HOLDER = "ryey.easer.triggerlotus.category.NOTIFY_HOLDER";
 
-    private static Bundle dynamicsForConditionEvent(String conditionName) {
+    private static Bundle dynamicsForConditionEvent(final String conditionName) {
         Bundle dynamics = new Bundle();
         dynamics.putString(ConditionEventEventData.ConditionNameDynamics.id, conditionName);
         return dynamics;
@@ -67,7 +67,7 @@ public class ConditionHolderService extends Service {
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             try {
                 if (ACTION_TRACKER_SATISFIED.equals(intent.getAction()) || ACTION_TRACKER_UNSATISFIED.equals(intent.getAction())) {
                     String name = intent.getData().getLastPathSegment();
@@ -120,7 +120,7 @@ public class ConditionHolderService extends Service {
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(final Intent intent) {
         return new CHBinder();
     }
 
@@ -154,10 +154,10 @@ public class ConditionHolderService extends Service {
     }
 
     class CHBinder extends Binder {
-        void registerAssociation(String conditionName, Uri data) {
+        void registerAssociation(final String conditionName, final Uri data) {
             associateMap.get(conditionName).add(data);
         }
-        void unregisterAssociation(String conditionName, Uri data) {
+        void unregisterAssociation(final String conditionName, final Uri data) {
             associateMap.get(conditionName).remove(data);
         }
         void clearAssociation() {
@@ -165,7 +165,7 @@ public class ConditionHolderService extends Service {
                 associateMap.get(name).clear();
             }
         }
-        Boolean conditionState(String conditionName) {
+        Boolean conditionState(final String conditionName) {
             Tracker tracker = trackerMap.get(conditionName);
             return tracker.state();
         }

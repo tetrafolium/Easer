@@ -37,23 +37,23 @@ public class NfcTagSlot extends AbstractSlot<NfcTagEventData> {
     private final Intent sIntent = new Intent(context, NfcListenerService.class);
     private final ServiceConnection mConnection = new ServiceConnection() {
         @Override
-        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+        public void onServiceConnected(final ComponentName componentName, final IBinder iBinder) {
             sBinder = (NfcListenerService.NLSBinder) iBinder;
             sBinder.registerSlot(NfcTagSlot.this);
         }
 
         @Override
-        public void onServiceDisconnected(ComponentName componentName) {
+        public void onServiceDisconnected(final ComponentName componentName) {
             sBinder.unregisterSlot(NfcTagSlot.this);
             sBinder = null;
         }
     };
 
-    public NfcTagSlot(Context context, NfcTagEventData data) {
+    public NfcTagSlot(final Context context, final NfcTagEventData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    NfcTagSlot(Context context, NfcTagEventData data, boolean retriggerable, boolean persistent) {
+    NfcTagSlot(final Context context, final NfcTagEventData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
     }
 

@@ -50,7 +50,7 @@ class ConnectivityEventDataFactory implements USourceDataFactory<ConnectivityEve
     @ValidData
     @NonNull
     @Override
-    public ConnectivityEventData parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public ConnectivityEventData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         return new ConnectivityEventData(data, format, version);
     }
 }

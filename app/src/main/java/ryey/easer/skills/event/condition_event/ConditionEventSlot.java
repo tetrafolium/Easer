@@ -26,11 +26,11 @@ import ryey.easer.skills.event.SelfNotifiableSlot;
 
 public class ConditionEventSlot extends SelfNotifiableSlot<ConditionEventEventData> {
 
-    ConditionEventSlot(Context context, ConditionEventEventData data) {
+    ConditionEventSlot(final Context context, final ConditionEventEventData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    ConditionEventSlot(Context context, ConditionEventEventData data, boolean retriggerable, boolean persistent) {
+    ConditionEventSlot(final Context context, final ConditionEventEventData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
     }
 

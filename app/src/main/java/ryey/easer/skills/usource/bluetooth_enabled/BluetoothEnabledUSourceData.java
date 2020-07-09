@@ -33,11 +33,11 @@ public class BluetoothEnabledUSourceData implements USourceData {
 
     final boolean enabled;
 
-    BluetoothEnabledUSourceData(boolean enabled) {
+    BluetoothEnabledUSourceData(final boolean enabled) {
         this.enabled = enabled;
     }
 
-    BluetoothEnabledUSourceData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    BluetoothEnabledUSourceData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
         default:
             enabled = Boolean.parseBoolean(data);
@@ -46,7 +46,7 @@ public class BluetoothEnabledUSourceData implements USourceData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
         default:
@@ -69,7 +69,7 @@ public class BluetoothEnabledUSourceData implements USourceData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (obj == null || !(obj instanceof BluetoothEnabledUSourceData))
@@ -85,22 +85,22 @@ public class BluetoothEnabledUSourceData implements USourceData {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeByte((byte) (enabled ? 1 : 0));
     }
 
     public static final Creator<BluetoothEnabledUSourceData> CREATOR
     = new Creator<BluetoothEnabledUSourceData>() {
-        public BluetoothEnabledUSourceData createFromParcel(Parcel in) {
+        public BluetoothEnabledUSourceData createFromParcel(final Parcel in) {
             return new BluetoothEnabledUSourceData(in);
         }
 
-        public BluetoothEnabledUSourceData[] newArray(int size) {
+        public BluetoothEnabledUSourceData[] newArray(final int size) {
             return new BluetoothEnabledUSourceData[size];
         }
     };
 
-    private BluetoothEnabledUSourceData(Parcel in) {
+    private BluetoothEnabledUSourceData(final Parcel in) {
         enabled = in.readByte() != 0;
     }
 }

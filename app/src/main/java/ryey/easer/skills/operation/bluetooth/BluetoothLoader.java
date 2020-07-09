@@ -32,12 +32,12 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class BluetoothLoader extends OperationLoader<BluetoothOperationData> {
-    public BluetoothLoader(Context context) {
+    public BluetoothLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull BluetoothOperationData data) {
+    public boolean load(final @ValidData @NonNull BluetoothOperationData data) {
         Boolean state = data.get();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             BluetoothManager bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);

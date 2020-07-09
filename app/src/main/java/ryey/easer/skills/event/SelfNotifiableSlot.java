@@ -55,7 +55,7 @@ public abstract class SelfNotifiableSlot<T extends EventData> extends AbstractSl
     private final IntentFilter filter;
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             Logger.d("self notifying Intent received. action: %s", intent.getAction());
             if (intent.getAction().equals(ACTION_SATISFIED)) {
                 onPositiveNotified(intent);
@@ -82,7 +82,7 @@ public abstract class SelfNotifiableSlot<T extends EventData> extends AbstractSl
         notifySelfIntent_negative = PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 
-    protected SelfNotifiableSlot(@NonNull Context context, @ValidData @NonNull T data, boolean retriggerable, boolean persistent) {
+    protected SelfNotifiableSlot(final @NonNull Context context, final @ValidData @NonNull T data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
     }
 
@@ -96,26 +96,26 @@ public abstract class SelfNotifiableSlot<T extends EventData> extends AbstractSl
         context.unregisterReceiver(mReceiver);
     }
 
-    protected void onPositiveNotified(Intent intent) {
+    protected void onPositiveNotified(final Intent intent) {
         Logger.v("onPositiveNotified");
         changeSatisfiedState(true);
     }
 
-    protected void onNegativeNotified(Intent intent) {
+    protected void onNegativeNotified(final Intent intent) {
         Logger.v("onNegativeNotified");
         changeSatisfiedState(false);
     }
 
     public static class NotifyIntentPrototype {
 
-        public static Intent obtainPositiveIntent(Uri data) {
+        public static Intent obtainPositiveIntent(final Uri data) {
             Intent intent = new Intent(ACTION_SATISFIED);
             intent.addCategory(CATEGORY_NOTIFY_SLOT);
             intent.setData(data);
             return intent;
         }
 
-        public static Intent obtainNegativeIntent(Uri data) {
+        public static Intent obtainNegativeIntent(final Uri data) {
             Intent intent = new Intent(ACTION_UNSATISFIED);
             intent.addCategory(CATEGORY_NOTIFY_SLOT);
             intent.setData(data);

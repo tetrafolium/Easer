@@ -72,12 +72,12 @@ public class AlarmOperationSkill implements OperationSkill<AlarmOperationData> {
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.checkPermission(context, Manifest.permission.SET_ALARM);
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         SkillUtils.requestPermission(activity, requestCode, Manifest.permission.SET_ALARM);
     }
 
@@ -96,7 +96,7 @@ public class AlarmOperationSkill implements OperationSkill<AlarmOperationData> {
 
     @NonNull
     @Override
-    public OperationLoader<AlarmOperationData> loader(@NonNull Context context) {
+    public OperationLoader<AlarmOperationData> loader(final @NonNull Context context) {
         return new AlarmLoader(context);
     }
 

@@ -84,21 +84,21 @@ public class RemotePluginCommunicationHelper {
     public final Messenger inMessenger = new Messenger(handler);
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
-        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+        public void onServiceConnected(final ComponentName componentName, final IBinder iBinder) {
             Logger.d("[RemotePluginCommunicationHelper:%s] onServiceConnected", context);
             outMessenger = new Messenger(iBinder);
             delayedTaskUntilConnectedWrapper.onConnected(outMessenger);
         }
 
         @Override
-        public void onServiceDisconnected(ComponentName componentName) {
+        public void onServiceDisconnected(final ComponentName componentName) {
             delayedTaskUntilConnectedWrapper.onDisconnected();
             outMessenger = null;
         }
     };
 
     private DelayedTaskUntilConnectedWrapper delayedTaskUntilConnectedWrapper = new DelayedTaskUntilConnectedWrapper();
-    private void doAfterConnect(Callable<Void> task) {
+    private void doAfterConnect(final Callable<Void> task) {
         delayedTaskUntilConnectedWrapper.doAfterConnected(task);
     }
 
@@ -107,7 +107,7 @@ public class RemotePluginCommunicationHelper {
     private final DelayedCallback<OnEditDataIntentObtainedCallback> onEditDataIntentObtainedCallbackDelayedCallback = new DelayedCallback<>(new ArrayMap<>());
     private final DelayedCallback<OnOperationDataParsedCallback> onOperationDataParsedCallbackDelayedCallback = new DelayedCallback<>(new ArrayMap<>());
 
-    public RemotePluginCommunicationHelper(@NonNull Context context) {
+    public RemotePluginCommunicationHelper(final @NonNull Context context) {
         this.context = context;
     }
 
@@ -140,7 +140,7 @@ public class RemotePluginCommunicationHelper {
         });
     }
 
-    synchronized public void asyncFindPlugin(final String id, OnPluginFoundCallback onPluginFoundCallback) {
+    synchronized public void asyncFindPlugin(final String id, final OnPluginFoundCallback onPluginFoundCallback) {
         ParcelUuid uuid = onPluginFoundCallbackDelayedCallback.putCallback(onPluginFoundCallback);
         doAfterConnect(new Callable<Void>() {
             @Override
@@ -162,7 +162,7 @@ public class RemotePluginCommunicationHelper {
         });
     }
 
-    synchronized public void asyncCurrentOperationPluginList(@NonNull OnOperationPluginListObtainedCallback onOperationPluginListObtainedCallback) {
+    synchronized public void asyncCurrentOperationPluginList(final @NonNull OnOperationPluginListObtainedCallback onOperationPluginListObtainedCallback) {
         ParcelUuid uuid = onOperationPluginListObtainedCallbackDelayedCallback.putCallback(onOperationPluginListObtainedCallback);
         doAfterConnect(new Callable<Void>() {
             @Override
@@ -201,7 +201,7 @@ public class RemotePluginCommunicationHelper {
         });
     }
 
-    public void asyncRemoteEditOperationData(final String id, OnEditDataIntentObtainedCallback onEditDataIntentObtainedCallback) {
+    public void asyncRemoteEditOperationData(final String id, final OnEditDataIntentObtainedCallback onEditDataIntentObtainedCallback) {
         ParcelUuid uuid = onEditDataIntentObtainedCallbackDelayedCallback.putCallback(onEditDataIntentObtainedCallback);
         doAfterConnect(new Callable<Void>() {
             @Override
@@ -226,12 +226,12 @@ public class RemotePluginCommunicationHelper {
     static class IncomingHandler extends Handler {
         WeakReference<RemotePluginCommunicationHelper> ref;
 
-        IncomingHandler(WeakReference<RemotePluginCommunicationHelper> reference) {
+        IncomingHandler(final WeakReference<RemotePluginCommunicationHelper> reference) {
             ref = reference;
         }
 
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(final Message msg) {
             Logger.d("[RemotePluginCommunicationHelper][handleMessage] %s", msg);
             if (msg.what == C.MSG_FIND_PLUGIN_RESPONSE) {
                 msg.getData().setClassLoader(RemotePluginInfo.class.getClassLoader());
@@ -290,7 +290,7 @@ public class RemotePluginCommunicationHelper {
     }
 
     static class DelayedTaskUntilConnectedWrapper extends AsyncHelper.DelayedWhenSatisfied {
-        void onConnected(Messenger outMessenger) {
+        void onConnected(final Messenger outMessenger) {
             super.onSatisfied();
         }
 
@@ -298,7 +298,7 @@ public class RemotePluginCommunicationHelper {
             super.onUnsatisfied();
         }
 
-        void doAfterConnected(Callable<Void> task) {
+        void doAfterConnected(final Callable<Void> task) {
             super.doAfter(task);
         }
     }
@@ -307,11 +307,11 @@ public class RemotePluginCommunicationHelper {
         private Lock lckCallbackMap = new ReentrantLock();
         private final Map<ParcelUuid, T> callbackMap;
 
-        DelayedCallback(Map<ParcelUuid, T> callbackMap) {
+        DelayedCallback(final Map<ParcelUuid, T> callbackMap) {
             this.callbackMap = callbackMap;
         }
 
-        ParcelUuid putCallback(T callback) {
+        ParcelUuid putCallback(final T callback) {
             lckCallbackMap.lock();
             try {
                 ParcelUuid uuid = new ParcelUuid(UUID.randomUUID());
@@ -322,7 +322,7 @@ public class RemotePluginCommunicationHelper {
             }
         }
 
-        T retrieveCallBack(ParcelUuid uuid) {
+        T retrieveCallBack(final ParcelUuid uuid) {
             lckCallbackMap.lock();
             try {
                 T callback = callbackMap.get(uuid);

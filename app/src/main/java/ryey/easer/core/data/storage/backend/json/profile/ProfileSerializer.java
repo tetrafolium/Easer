@@ -34,7 +34,7 @@ import ryey.easer.plugin.PluginDataFormat;
 
 public class ProfileSerializer implements Serializer<ProfileStructure> {
 
-    public String serialize(ProfileStructure profile) throws UnableToSerializeException {
+    public String serialize(final ProfileStructure profile) throws UnableToSerializeException {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put(C.NAME, profile.getName());
@@ -46,7 +46,7 @@ public class ProfileSerializer implements Serializer<ProfileStructure> {
         }
     }
 
-    JSONArray serialize_operation(ProfileStructure profile) throws JSONException {
+    JSONArray serialize_operation(final ProfileStructure profile) throws JSONException {
         JSONArray json_operations = new JSONArray();
         for (String pluginId : profile.pluginIds()) {
             Collection<RemoteLocalOperationDataWrapper> possibleData = profile.get(pluginId);

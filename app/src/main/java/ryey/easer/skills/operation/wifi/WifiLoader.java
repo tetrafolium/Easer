@@ -28,12 +28,12 @@ import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class WifiLoader extends OperationLoader<WifiOperationData> {
-    public WifiLoader(Context context) {
+    public WifiLoader(final Context context) {
         super(context);
     }
 
     @Override
-    public boolean load(@ValidData @NonNull WifiOperationData data) {
+    public boolean load(final @ValidData @NonNull WifiOperationData data) {
         Boolean state = data.get();
         WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         return wifiManager.setWifiEnabled(state);

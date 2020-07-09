@@ -40,13 +40,13 @@ public class JsonConditionDataStorageBackend implements ConditionDataStorageBack
     private final Context context;
     private static File dir;
 
-    public JsonConditionDataStorageBackend(Context context) {
+    public JsonConditionDataStorageBackend(final Context context) {
         this.context = context;
         dir = IOUtils.mustGetSubDir(context.getFilesDir(), "condition");
     }
 
     @Override
-    public boolean has(String name) {
+    public boolean has(final String name) {
         return IOUtils.fileExists(dir, name + NC.SUFFIX);
     }
 
@@ -60,25 +60,25 @@ public class JsonConditionDataStorageBackend implements ConditionDataStorageBack
     }
 
     @Override
-    public ConditionStructure get(String name) throws FileNotFoundException, IllegalStorageDataException {
+    public ConditionStructure get(final String name) throws FileNotFoundException, IllegalStorageDataException {
         File file = new File(dir, name + NC.SUFFIX);
         return get(file);
     }
 
-    private ConditionStructure get(File file) throws FileNotFoundException, IllegalStorageDataException {
+    private ConditionStructure get(final File file) throws FileNotFoundException, IllegalStorageDataException {
         ConditionParser parser = new ConditionParser();
         return FileDataStorageBackendHelper.get(parser, file);
     }
 
     @Override
-    public void write(ConditionStructure data) throws IOException {
+    public void write(final ConditionStructure data) throws IOException {
         File file = new File(dir, data.getName() + NC.SUFFIX);
         ConditionSerializer serializer = new ConditionSerializer();
         FileDataStorageBackendHelper.write(serializer, file, data);
     }
 
     @Override
-    public void delete(String name) {
+    public void delete(final String name) {
         File file = new File(dir, name + NC.SUFFIX);
         if (!file.delete())
             throw new IllegalStateException("Unable to delete " + file);
@@ -89,7 +89,7 @@ public class JsonConditionDataStorageBackend implements ConditionDataStorageBack
         List<ConditionStructure> list = new ArrayList<>();
         File[] files = dir.listFiles(new FileFilter() {
             @Override
-            public boolean accept(File pathname) {
+            public boolean accept(final File pathname) {
                 if (pathname.isFile()) {
                     if (pathname.getName().endsWith(NC.SUFFIX)) {
                         return true;

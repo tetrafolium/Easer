@@ -28,7 +28,7 @@ public final class EventItem implements LayoutItemType {
     final boolean active;
     final boolean valid;
 
-    public EventItem(String eventName, boolean active, boolean valid) {
+    public EventItem(final String eventName, final boolean active, final boolean valid) {
         this.eventName = eventName;
         this.active = active;
         this.valid = valid;

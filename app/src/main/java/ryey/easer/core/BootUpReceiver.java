@@ -28,7 +28,7 @@ import com.orhanobut.logger.Logger;
 public class BootUpReceiver extends BroadcastReceiver {
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(final Context context, final Intent intent) {
         Logger.d("BootUp onReceive <%s>", intent);
         String action = intent.getAction();
         if (Intent.ACTION_BOOT_COMPLETED.equals(action)

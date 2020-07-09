@@ -40,7 +40,7 @@ public class NotificationSkillViewFragment extends SkillViewFragment<Notificatio
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_event__notification, container, false);
 
         editText_app = view.findViewById(R.id.editText_app);
@@ -51,7 +51,7 @@ public class NotificationSkillViewFragment extends SkillViewFragment<Notificatio
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull NotificationEventData data) {
+    protected void _fill(final @ValidData @NonNull NotificationEventData data) {
         editText_app.setText(data.app);
         editText_title.setText(data.title);
         editText_content.setText(data.content);
@@ -68,7 +68,7 @@ public class NotificationSkillViewFragment extends SkillViewFragment<Notificatio
     }
 
     @Nullable
-    private static String textOf(EditText editText) {
+    private static String textOf(final EditText editText) {
         String text = editText.getText().toString();
         if (text.isEmpty())
             return null;

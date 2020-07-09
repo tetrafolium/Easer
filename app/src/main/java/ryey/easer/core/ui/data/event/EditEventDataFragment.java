@@ -40,12 +40,12 @@ public class EditEventDataFragment extends EditSourceDataFragment<EventData, Eve
     }
 
     @Override
-    protected EventSkill findSkill(EventData data) {
+    protected EventSkill findSkill(final EventData data) {
         return LocalSkillRegistry.getInstance().event().findSkill(data);
     }
 
     @Override
-    protected SourceSkillViewContainerFragment<EventData, EventSkill> skillViewContainerFragment(EventSkill skill) {
+    protected SourceSkillViewContainerFragment<EventData, EventSkill> skillViewContainerFragment(final EventSkill skill) {
         return EventSkillViewContainerFragment.createInstance(skill);
     }
 }

@@ -42,16 +42,16 @@ public class SendNotificationOperationData implements OperationData {
     String title;
     String content;
 
-    SendNotificationOperationData(String title, String content) {
+    SendNotificationOperationData(final String title, final String content) {
         this.title = title;
         this.content = content;
     }
 
-    SendNotificationOperationData(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    SendNotificationOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         parse(data, format, version);
     }
 
-    public void parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException {
+    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
         switch (format) {
         default:
             try {
@@ -66,7 +66,7 @@ public class SendNotificationOperationData implements OperationData {
 
     @NonNull
     @Override
-    public String serialize(@NonNull PluginDataFormat format) {
+    public String serialize(final @NonNull PluginDataFormat format) {
         String res;
         switch (format) {
         default:
@@ -94,7 +94,7 @@ public class SendNotificationOperationData implements OperationData {
 
     @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null)
             return false;
         if (!(obj instanceof SendNotificationOperationData))
@@ -116,23 +116,23 @@ public class SendNotificationOperationData implements OperationData {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
+    public void writeToParcel(final Parcel parcel, final int i) {
         parcel.writeString(title);
         parcel.writeString(content);
     }
 
     public static final Creator<SendNotificationOperationData> CREATOR
     = new Creator<SendNotificationOperationData>() {
-        public SendNotificationOperationData createFromParcel(Parcel in) {
+        public SendNotificationOperationData createFromParcel(final Parcel in) {
             return new SendNotificationOperationData(in);
         }
 
-        public SendNotificationOperationData[] newArray(int size) {
+        public SendNotificationOperationData[] newArray(final int size) {
             return new SendNotificationOperationData[size];
         }
     };
 
-    private SendNotificationOperationData(Parcel in) {
+    private SendNotificationOperationData(final Parcel in) {
         title = in.readString();
         content = in.readString();
     }
@@ -147,7 +147,7 @@ public class SendNotificationOperationData implements OperationData {
 
     @NonNull
     @Override
-    public OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment) {
+    public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
         String new_title = Utils.applyDynamics(title, dynamicsAssignment);
         String new_content = Utils.applyDynamics(content, dynamicsAssignment);
         return new SendNotificationOperationData(new_title, new_content);

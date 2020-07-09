@@ -32,7 +32,7 @@ import java.util.Calendar;
 @SuppressLint("MissingPermission")
 class CalendarHelper {
 
-    static String getCalendarName(ContentResolver contentResolver, long calendar_id) {
+    static String getCalendarName(final ContentResolver contentResolver, final long calendar_id) {
         Uri uri = CalendarContract.Calendars.CONTENT_URI;
         String[] PROJECTION = new String[] {
             CalendarContract.Calendars._ID,
@@ -54,28 +54,28 @@ class CalendarHelper {
         return res;
     }
 
-    static Long nextEvent_match_start(ContentResolver contentResolver, CalendarData data) {
+    static Long nextEvent_match_start(final ContentResolver contentResolver, final CalendarData data) {
         CalendarEvent[] events = getEvents(contentResolver, data, 3);
         if (events == null || events.length == 0)
             return null;
         return events[0].beginMs;
     }
 
-    static Long currentEvent_match_end(ContentResolver contentResolver, CalendarData data) {
+    static Long currentEvent_match_end(final ContentResolver contentResolver, final CalendarData data) {
         CalendarEvent[] events = getEvents(contentResolver, data, 0, CalendarContract.Instances.END);
         if (events == null || events.length == 0)
             return null;
         return events[0].endMs;
     }
 
-    static int activeEventsCount(ContentResolver contentResolver, CalendarData data) {
+    static int activeEventsCount(final ContentResolver contentResolver, final CalendarData data) {
         return getEvents(contentResolver, data, 0).length;
     }
 
-    private static CalendarEvent[] getEvents(ContentResolver cr, CalendarData data, int days) {
+    private static CalendarEvent[] getEvents(final ContentResolver cr, final CalendarData data, final int days) {
         return getEvents(cr, data, days, CalendarContract.Instances.BEGIN);
     }
-    private static CalendarEvent[] getEvents(ContentResolver cr, CalendarData data, int days, String sortMethod) {
+    private static CalendarEvent[] getEvents(final ContentResolver cr, final CalendarData data, final int days, final String sortMethod) {
         long current_time = Calendar.getInstance().getTimeInMillis();
 
         Uri.Builder instance_uri = CalendarContract.Instances.CONTENT_URI.buildUpon();
@@ -89,10 +89,10 @@ class CalendarHelper {
             CalendarContract.Instances.ALL_DAY,
         };
         String allDayValues = data.isAllDayEvent ? "1" : "%";
-        String instance_selection = "((" + CalendarContract.Instances.CALENDAR_ID + " IS ?)" +
-                                    " AND (" + CalendarContract.Instances.TITLE + " LIKE ?)" +
-                                    " AND (" + CalendarContract.Instances.ALL_DAY + " LIKE ?)" +
-                                    ")";
+        String instance_selection = "((" + CalendarContract.Instances.CALENDAR_ID + " IS ?)"
+                                    + " AND (" + CalendarContract.Instances.TITLE + " LIKE ?)"
+                                    + " AND (" + CalendarContract.Instances.ALL_DAY + " LIKE ?)"
+                                    + ")";
         String[] instance_selectionArgs = new String[] {
             String.valueOf(data.calendar_id),
             data.matchPattern,
@@ -126,7 +126,7 @@ class CalendarHelper {
         Long endMs;
         Boolean allDay;
 
-        CalendarEvent(String eventTitle, Long beginMs, Long endMs, Boolean allDay) {
+        CalendarEvent(final String eventTitle, final Long beginMs, final Long endMs, final Boolean allDay) {
             this.eventTitle = eventTitle;
             this.beginMs = beginMs;
             this.endMs = endMs;

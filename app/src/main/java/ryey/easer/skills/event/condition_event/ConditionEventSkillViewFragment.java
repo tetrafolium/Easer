@@ -43,7 +43,7 @@ public class ConditionEventSkillViewFragment extends SkillViewFragment<Condition
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.plugin_event__condition_event, container, false);
         sw_condition = new DataSelectSpinnerWrapper(getContext(), (Spinner) view.findViewById(R.id.spinner_condition));
         sw_condition
@@ -56,7 +56,7 @@ public class ConditionEventSkillViewFragment extends SkillViewFragment<Condition
     }
 
     @Override
-    protected void _fill(@ValidData @NonNull ConditionEventEventData data) {
+    protected void _fill(final @ValidData @NonNull ConditionEventEventData data) {
         sw_condition.setSelection(data.conditionName);
         if (data.conditionEvent == ConditionEventEventData.ConditionEvent.enter) {
             rg_condition_event.check(R.id.rb_enter);
@@ -71,9 +71,9 @@ public class ConditionEventSkillViewFragment extends SkillViewFragment<Condition
     public ConditionEventEventData getData() throws InvalidDataInputException {
         String condition_name = sw_condition.getSelection();
         ConditionEventEventData.ConditionEvent conditionEvent =
-            rg_condition_event.getCheckedRadioButtonId() == R.id.rb_enter ?
-            ConditionEventEventData.ConditionEvent.enter :
-            ConditionEventEventData.ConditionEvent.leave;
+            rg_condition_event.getCheckedRadioButtonId() == R.id.rb_enter
+            ? ConditionEventEventData.ConditionEvent.enter
+            : ConditionEventEventData.ConditionEvent.leave;
         return new ConditionEventEventData(condition_name, conditionEvent);
     }
 }

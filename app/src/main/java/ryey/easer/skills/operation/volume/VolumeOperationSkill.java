@@ -72,12 +72,12 @@ public class VolumeOperationSkill implements OperationSkill<VolumeOperationData>
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return true;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
 
     }
 
@@ -96,7 +96,7 @@ public class VolumeOperationSkill implements OperationSkill<VolumeOperationData>
 
     @NonNull
     @Override
-    public OperationLoader<VolumeOperationData> loader(@NonNull Context context) {
+    public OperationLoader<VolumeOperationData> loader(final @NonNull Context context) {
         return new VolumeLoader(context);
     }
 

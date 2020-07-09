@@ -35,7 +35,7 @@ public class WifiConnSlot extends AbstractSlot<WifiUSourceData> {
 
     private final BroadcastReceiver connReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             String action = intent.getAction();
             if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(action)) {
                 NetworkInfo networkInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
@@ -74,11 +74,11 @@ public class WifiConnSlot extends AbstractSlot<WifiUSourceData> {
         filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
     }
 
-    WifiConnSlot(Context context, WifiUSourceData data) {
+    WifiConnSlot(final Context context, final WifiUSourceData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    WifiConnSlot(Context context, WifiUSourceData data, boolean retriggerable, boolean persistent) {
+    WifiConnSlot(final Context context, final WifiUSourceData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
     }
 
@@ -92,7 +92,7 @@ public class WifiConnSlot extends AbstractSlot<WifiUSourceData> {
         context.unregisterReceiver(connReceiver);
     }
 
-    private void compareAndSignal(@NonNull WifiInfo wifiInfo) {
+    private void compareAndSignal(final @NonNull WifiInfo wifiInfo) {
         boolean match = Utils.compare(eventData, wifiInfo);
         changeSatisfiedState(match);
     }

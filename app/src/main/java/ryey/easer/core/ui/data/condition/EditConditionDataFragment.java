@@ -39,12 +39,12 @@ public class EditConditionDataFragment extends EditSourceDataFragment<ConditionD
     }
 
     @Override
-    protected ConditionSkill findSkill(ConditionData data) {
+    protected ConditionSkill findSkill(final ConditionData data) {
         return LocalSkillRegistry.getInstance().condition().findSkill(data);
     }
 
     @Override
-    protected SourceSkillViewContainerFragment<ConditionData, ConditionSkill> skillViewContainerFragment(ConditionSkill skill) {
+    protected SourceSkillViewContainerFragment<ConditionData, ConditionSkill> skillViewContainerFragment(final ConditionSkill skill) {
         return ConditionSkillViewContainerFragment.createInstance(skill);
     }
 }

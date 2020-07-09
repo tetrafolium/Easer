@@ -55,12 +55,12 @@ public class CalendarEventSkill implements EventSkill<CalendarEventData> {
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return SkillUtils.checkPermission(context, Manifest.permission.READ_CALENDAR);
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
         SkillUtils.requestPermission(activity, requestCode, Manifest.permission.READ_CALENDAR);
     }
 
@@ -83,12 +83,12 @@ public class CalendarEventSkill implements EventSkill<CalendarEventData> {
     }
 
     @Override
-    public AbstractSlot<CalendarEventData> slot(@NonNull Context context, @ValidData @NonNull CalendarEventData data) {
+    public AbstractSlot<CalendarEventData> slot(final @NonNull Context context, final @ValidData @NonNull CalendarEventData data) {
         return new CalendarSlot(context, data);
     }
 
     @Override
-    public AbstractSlot<CalendarEventData> slot(@NonNull Context context, @NonNull CalendarEventData data, boolean retriggerable, boolean persistent) {
+    public AbstractSlot<CalendarEventData> slot(final @NonNull Context context, final @NonNull CalendarEventData data, final boolean retriggerable, final boolean persistent) {
         return new CalendarSlot(context, data, retriggerable, persistent);
     }
 

@@ -70,12 +70,12 @@ public class CellularOperationSkill implements OperationSkill<CellularOperationD
 
     @Nullable
     @Override
-    public Boolean checkPermissions(@NonNull Context context) {
+    public Boolean checkPermissions(final @NonNull Context context) {
         return true;
     }
 
     @Override
-    public void requestPermissions(@NonNull Activity activity, int requestCode) {
+    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
 
     }
 
@@ -94,7 +94,7 @@ public class CellularOperationSkill implements OperationSkill<CellularOperationD
 
     @NonNull
     @Override
-    public OperationLoader<CellularOperationData> loader(@NonNull Context context) {
+    public OperationLoader<CellularOperationData> loader(final @NonNull Context context) {
         return new CellularLoader(context);
     }
 

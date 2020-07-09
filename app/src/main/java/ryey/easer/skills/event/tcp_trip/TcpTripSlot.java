@@ -39,11 +39,11 @@ public class TcpTripSlot extends AbstractSlot<TcpTripEventData> {
 
     private Thread waiter;
 
-    TcpTripSlot(Context context, TcpTripEventData data) {
+    TcpTripSlot(final Context context, final TcpTripEventData data) {
         this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
     }
 
-    TcpTripSlot(Context context, TcpTripEventData data, boolean retriggerable, boolean persistent) {
+    TcpTripSlot(final Context context, final TcpTripEventData data, final boolean retriggerable, final boolean persistent) {
         super(context, data, retriggerable, persistent);
     }
 
@@ -81,7 +81,7 @@ public class TcpTripSlot extends AbstractSlot<TcpTripEventData> {
     private class PostSend extends Thread {
         final Socket socket;
 
-        PostSend(Socket socket) {
+        PostSend(final Socket socket) {
             this.socket = socket;
         }
 

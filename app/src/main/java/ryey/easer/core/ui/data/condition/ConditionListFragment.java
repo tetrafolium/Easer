@@ -82,7 +82,7 @@ public class ConditionListFragment extends AbstractDataListFragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final @NonNull View view, final @Nullable Bundle savedInstanceState) {
         //noinspection ConstantConditions
         if (LocalSkillRegistry.getInstance().condition().getEnabledSkills(getContext()).size() == 0) {
             FloatingActionButton fab = view.findViewById(R.id.fab);

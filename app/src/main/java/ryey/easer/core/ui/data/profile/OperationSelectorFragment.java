@@ -59,12 +59,12 @@ public class OperationSelectorFragment extends DialogFragment {
     RemotePluginCommunicationHelper helper;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(final Context context) {
         super.onAttach(context);
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(final @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //noinspection ConstantConditions
         helper = new RemotePluginCommunicationHelper(getContext());
@@ -73,7 +73,7 @@ public class OperationSelectorFragment extends DialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dialog_select_skill, container, false);
         StickyListHeadersListView list = view.findViewById(android.R.id.list);
         List<OperationSkill> localOperationSkillList = LocalSkillRegistry.getInstance().operation().getEnabledSkills(getContext());
@@ -95,7 +95,7 @@ public class OperationSelectorFragment extends DialogFragment {
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 OperationPluginItemWrapper operationPluginItemWrapper = (OperationPluginItemWrapper) parent.getItemAtPosition(position);
                 if (!operationPluginItemWrapper.isRemote()) {
                     OperationSkill plugin = operationPluginItemWrapper.plugin;
@@ -115,10 +115,10 @@ public class OperationSelectorFragment extends DialogFragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, final @Nullable Bundle savedInstanceState) {
         helper.asyncCurrentOperationPluginList(new RemotePluginCommunicationHelper.OnOperationPluginListObtainedCallback() {
             @Override
-            public void onListObtained(Set<RemoteOperationPluginInfo> operationPluginInfos) {
+            public void onListObtained(final Set<RemoteOperationPluginInfo> operationPluginInfos) {
                 StickyListHeadersListView list = view.findViewById(android.R.id.list);
                 List<OperationPluginItemWrapper> descList = new ArrayList<>(availableLocalPluginList);
                 for (RemoteOperationPluginInfo remotePluginInfo : operationPluginInfos) {
@@ -140,7 +140,7 @@ public class OperationSelectorFragment extends DialogFragment {
         helper.end();
     }
 
-    synchronized void addSelectedPlugin(@NonNull OperationSkill plugin) {
+    synchronized void addSelectedPlugin(final @NonNull OperationSkill plugin) {
         Class<? extends OperationSkill> klass = plugin.getClass();
         if (addedPlugins.containsKey(klass)) {
             addedPlugins.put(klass, addedPlugins.get(klass) + 1);
@@ -149,7 +149,7 @@ public class OperationSelectorFragment extends DialogFragment {
         }
     }
 
-    void setSelectedListener(SelectedListener listener) {
+    void setSelectedListener(final SelectedListener listener) {
         this.selectedListener = listener;
     }
 
@@ -162,7 +162,7 @@ public class OperationSelectorFragment extends DialogFragment {
         @NonNull final String name;
         @NonNull final Category category;
         @Nullable final OperationSkill plugin;
-        OperationPluginItemWrapper(@NonNull String id, @NonNull String name, @NonNull Category category, @Nullable OperationSkill plugin) {
+        OperationPluginItemWrapper(final @NonNull String id, final @NonNull String name, final @NonNull Category category, final @Nullable OperationSkill plugin) {
             this.id = id;
             this.name = name;
             this.category = category;
@@ -181,12 +181,12 @@ public class OperationSelectorFragment extends DialogFragment {
         private final List<OperationPluginItemWrapper> operationList = new ArrayList<>();
         private LayoutInflater inflater;
 
-        PluginListAdapter(Context context, List<OperationPluginItemWrapper> originalList) {
+        PluginListAdapter(final Context context, final List<OperationPluginItemWrapper> originalList) {
             inflater = LayoutInflater.from(context);
             this.operationList.addAll(originalList);
             Collections.sort(operationList, new Comparator<OperationPluginItemWrapper>() {
                 @Override
-                public int compare(OperationPluginItemWrapper operationPluginItemWrapper, OperationPluginItemWrapper t1) {
+                public int compare(final OperationPluginItemWrapper operationPluginItemWrapper, final OperationPluginItemWrapper t1) {
                     return operationPluginItemWrapper.category.ordinal() - t1.category.ordinal();
                 }
             });
@@ -198,17 +198,17 @@ public class OperationSelectorFragment extends DialogFragment {
         }
 
         @Override
-        public Object getItem(int position) {
+        public Object getItem(final int position) {
             return operationList.get(position);
         }
 
         @Override
-        public long getItemId(int position) {
+        public long getItemId(final int position) {
             return position;
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, final View convertView, final ViewGroup parent) {
             ViewHolder holder;
 
             if (convertView == null) {
@@ -226,7 +226,7 @@ public class OperationSelectorFragment extends DialogFragment {
         }
 
         @Override
-        public View getHeaderView(int position, View convertView, ViewGroup parent) {
+        public View getHeaderView(final int position, final View convertView, final ViewGroup parent) {
             HeaderViewHolder holder;
             if (convertView == null) {
                 holder = new HeaderViewHolder();
@@ -243,7 +243,7 @@ public class OperationSelectorFragment extends DialogFragment {
         }
 
         @Override
-        public long getHeaderId(int position) {
+        public long getHeaderId(final int position) {
             //return the first character of the country as ID because this is what headers are based upon
             return operationList.get(position).category.ordinal();
         }
