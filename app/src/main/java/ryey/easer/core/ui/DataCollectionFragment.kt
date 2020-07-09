@@ -34,7 +34,7 @@ import ryey.easer.R
 import ryey.easer.core.ui.data.DataListContainerFragment
 import ryey.easer.core.ui.data.DataListContainerInterface
 
-class DataCollectionFragment: Fragment() {
+class DataCollectionFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         activity?.title = getString(R.string.title_data_collection)
@@ -90,5 +90,4 @@ class DataCollectionFragment: Fragment() {
             )
         }
     }
-
 }

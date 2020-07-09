@@ -28,13 +28,15 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import ryey.easer.R
 
-
 class TextSlide : Fragment() {
     private var contentId: Int = R.string.null_content
     private var titleId: Int? = R.string.title_welcome_message
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                     savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         if (arguments?.containsKey(ARG_STRING_TITLE_ID) == true)
             titleId = arguments?.getInt(ARG_STRING_TITLE_ID)
         contentId = arguments?.getInt(ARG_STRING_CONTENT_ID)!!

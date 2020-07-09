@@ -26,7 +26,6 @@ import com.github.paolorotolo.appintro.AppIntro2
 import com.zeugmasolutions.localehelper.LocaleHelperActivityDelegateImpl
 import ryey.easer.R
 
-
 class WelcomeActivity : AppIntro2() {
 
     private val localeDelegate = LocaleHelperActivityDelegateImpl()
@@ -69,5 +68,4 @@ class WelcomeActivity : AppIntro2() {
         super.onSkipPressed(currentFragment)
         onDonePressed(currentFragment)
     }
-
 }

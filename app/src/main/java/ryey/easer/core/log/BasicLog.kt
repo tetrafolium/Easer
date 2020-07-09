@@ -23,7 +23,7 @@ import android.os.Parcel
 import androidx.annotation.CallSuper
 import java.util.*
 
-abstract class BasicLog: ActivityLog {
+abstract class BasicLog : ActivityLog {
     val time: Long
     val extraInfo: String?
 
@@ -74,7 +74,7 @@ abstract class BasicLog: ActivityLog {
         return 0
     }
     companion object {
-        private fun now() : Long {
+        private fun now(): Long {
             val calendar = Calendar.getInstance()
             return calendar.timeInMillis
         }

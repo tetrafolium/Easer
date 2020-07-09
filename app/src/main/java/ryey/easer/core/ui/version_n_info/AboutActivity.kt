@@ -31,7 +31,6 @@ import com.danielstone.materialaboutlibrary.model.MaterialAboutCard
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList
 import ryey.easer.R
 
-
 class AboutActivity : MaterialAboutActivity() {
 
     protected override fun getMaterialAboutList(context: Context): MaterialAboutList {

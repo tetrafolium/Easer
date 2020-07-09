@@ -77,11 +77,13 @@ class EaserStatusWidget : AppWidgetProvider() {
             return views
         }
 
-        internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager,
-                                     appWidgetId: Int) {
+        internal fun updateAppWidget(
+            context: Context,
+            appWidgetManager: AppWidgetManager,
+            appWidgetId: Int
+        ) {
             val views = createViews(context)
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
     }
 }
-

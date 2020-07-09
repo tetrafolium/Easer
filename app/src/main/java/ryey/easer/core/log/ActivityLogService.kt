@@ -28,9 +28,8 @@ import android.os.Binder
 import android.os.Bundle
 import android.os.IBinder
 import com.orhanobut.logger.Logger
-import ryey.easer.core.EHService
-
 import java.util.*
+import ryey.easer.core.EHService
 
 class ActivityLogService : Service() {
 
@@ -68,7 +67,7 @@ class ActivityLogService : Service() {
         return ActivityLogServiceBinder(this)
     }
 
-    class ActivityLogServiceBinder(val service: ActivityLogService): Binder() {
+    class ActivityLogServiceBinder(val service: ActivityLogService) : Binder() {
         fun clearLog() {
             ActivityLogService.activityLogList.clear()
         }

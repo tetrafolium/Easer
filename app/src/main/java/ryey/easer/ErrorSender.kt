@@ -20,13 +20,13 @@
 package ryey.easer
 
 import android.content.Context
-import org.acra.ReportField
-import org.acra.data.CrashReportData
-import org.acra.sender.ReportSender
 import java.io.File
 import java.io.FileWriter
 import java.text.SimpleDateFormat
 import java.util.*
+import org.acra.ReportField
+import org.acra.data.CrashReportData
+import org.acra.sender.ReportSender
 
 class ErrorSender : ReportSender {
     override fun send(context: Context, errorContent: CrashReportData) {
@@ -44,7 +44,6 @@ class ErrorSender : ReportSender {
                     it.append("%s: %s\n".format(elem, errorContent.getString(elem)))
                 }
             }
-
         }
     }
 

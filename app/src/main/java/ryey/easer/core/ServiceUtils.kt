@@ -36,12 +36,12 @@ class ServiceUtils {
     companion object {
 
         val EXTRA_RUN_WITH_UI = "ryey.easer.core.ServiceUtils.EXTRA.RUN_WITH_UI"
-        
+
         private val NOTIFICATION_ID = 1
 
         private var startCount = 0
         private var stopCount = 0
-        
+
         fun startNotification(service: Service) {
             startCount++
             if (!SettingsUtils.showNotification(service))
@@ -88,12 +88,10 @@ class ServiceUtils {
             if (!SettingsUtils.showNotification(service))
                 return
             if (SettingsUtils.runInForeground(service)) {
-
             } else {
                 val notificationManager = service.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
                 notificationManager!!.cancel(NOTIFICATION_ID)
             }
         }
     }
-
 }

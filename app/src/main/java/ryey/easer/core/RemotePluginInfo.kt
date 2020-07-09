@@ -22,8 +22,8 @@ package ryey.easer.core
 import android.os.Parcel
 import android.os.Parcelable
 
-open class RemotePluginInfo(val packageName: String, val pluginId: String, val pluginName: String, val pluginType: String, activityEditData: String? = null)
-    : Parcelable {
+open class RemotePluginInfo(val packageName: String, val pluginId: String, val pluginName: String, val pluginType: String, activityEditData: String? = null) :
+    Parcelable {
 
     val activityEditData: String? = activityEditData
         get() = field ?: "$packageName.EditDataActivity"
@@ -56,5 +56,4 @@ open class RemotePluginInfo(val packageName: String, val pluginId: String, val p
             return arrayOfNulls(size)
         }
     }
-
 }

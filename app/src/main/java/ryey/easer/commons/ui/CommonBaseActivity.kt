@@ -24,7 +24,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.zeugmasolutions.localehelper.LocaleHelperActivityDelegateImpl
 
-open class CommonBaseActivity: AppCompatActivity() {
+open class CommonBaseActivity : AppCompatActivity() {
 
     protected val localeDelegate = LocaleHelperActivityDelegateImpl()
 
@@ -46,5 +46,4 @@ open class CommonBaseActivity: AppCompatActivity() {
         super.onPause()
         localeDelegate.onPaused()
     }
-
 }

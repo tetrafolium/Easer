@@ -26,7 +26,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
-
 import ryey.easer.R
 import ryey.easer.commons.ui.CommonBaseActivity
 
@@ -128,4 +127,3 @@ class UserActionWidgetConfigureActivity : CommonBaseActivity() {
         }
     }
 }
-

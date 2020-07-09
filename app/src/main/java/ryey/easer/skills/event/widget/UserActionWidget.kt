@@ -25,7 +25,6 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
-
 import ryey.easer.R
 
 /**
@@ -50,7 +49,7 @@ class UserActionWidget : AppWidgetProvider() {
 
     override fun onEnabled(context: Context) {
         // Enter relevant functionality for when the first widget is created
-        //TODO: change the (dedicated?) service's lifecycle related to this
+        // TODO: change the (dedicated?) service's lifecycle related to this
     }
 
     override fun onDisabled(context: Context) {
@@ -62,8 +61,11 @@ class UserActionWidget : AppWidgetProvider() {
         val ACTION_WIDGET_CLICKED = "ryey.easer.skills.widget.ACTION.WIDGET_CLICKED"
         val EXTRA_WIDGET_TAG = "ryey.easer.skills.widget.EXTRA.WIDGET_TAG"
 
-        internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager,
-                                     appWidgetId: Int) {
+        internal fun updateAppWidget(
+            context: Context,
+            appWidgetManager: AppWidgetManager,
+            appWidgetId: Int
+        ) {
 
             val widgetText = UserActionWidgetConfigureActivity.loadTextPref(context, appWidgetId)
             val widgetTag = UserActionWidgetConfigureActivity.loadTagPref(context, appWidgetId)
@@ -83,4 +85,3 @@ class UserActionWidget : AppWidgetProvider() {
         }
     }
 }
-

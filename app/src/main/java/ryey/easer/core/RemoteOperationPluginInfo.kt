@@ -24,13 +24,23 @@ import android.os.Parcelable
 import ryey.easer.plugin.operation.Category
 import ryey.easer.remote_plugin.RemotePlugin
 
-class RemoteOperationPluginInfo(packageName: String, pluginId: String,
-                                pluginName: String, activityEditData: String?, val category: Category)
-    : RemotePluginInfo(packageName, pluginId, pluginName, RemotePlugin.TYPE_OPERATION_PLUGIN, activityEditData) {
+class RemoteOperationPluginInfo(
+    packageName: String,
+    pluginId: String,
+    pluginName: String,
+    activityEditData: String?,
+    val category: Category
+) :
+    RemotePluginInfo(packageName, pluginId, pluginName, RemotePlugin.TYPE_OPERATION_PLUGIN, activityEditData) {
 
-    constructor(packageName: String, pluginId: String,
-                pluginName: String, activityEditData: String?, category: String)
-            : this(packageName, pluginId, pluginName, activityEditData,
+    constructor(
+        packageName: String,
+        pluginId: String,
+        pluginName: String,
+        activityEditData: String?,
+        category: String
+    ) :
+            this(packageName, pluginId, pluginName, activityEditData,
             try {
                 Category.valueOf(category)
             } catch (e: Exception) {

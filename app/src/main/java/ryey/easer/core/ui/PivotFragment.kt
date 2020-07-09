@@ -41,8 +41,7 @@ import ryey.easer.core.data.ScriptStructure
 import ryey.easer.core.data.ScriptTree
 import ryey.easer.core.data.storage.ScriptDataStorage
 
-
-class PivotFragment: Fragment() {
+class PivotFragment : Fragment() {
 
     private val lotusStatusReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -58,7 +57,7 @@ class PivotFragment: Fragment() {
 
     var adapter: BaseGraphAdapter<ViewHolder>? = null
 
-    private val serviceConnection = object: ServiceConnection{
+    private val serviceConnection = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
             binder = null
             redrawGraph()
@@ -272,7 +271,6 @@ class PivotFragment: Fragment() {
                 return Checkpoint(name, enabled, valid, scriptStructure.isCondition)
             }
         }
-
     }
 
     class ServiceStart {

@@ -29,8 +29,8 @@ class ScriptSatisfactionLog : BasicLog {
     val satisfaction: Boolean
     val profileName: String?
 
-    constructor(scriptName: String, satisfaction: Boolean = true, profileName: String?, extraInfo: String?)
-            : super(extraInfo) {
+    constructor(scriptName: String, satisfaction: Boolean = true, profileName: String?, extraInfo: String?) :
+            super(extraInfo) {
         this.scriptName = scriptName
         this.satisfaction = satisfaction
         this.profileName = profileName
@@ -64,7 +64,7 @@ class ScriptSatisfactionLog : BasicLog {
         parcel.writeString(profileName)
     }
 
-    protected constructor(parcel: Parcel): super(parcel) {
+    protected constructor(parcel: Parcel) : super(parcel) {
         scriptName = parcel.readString()
         satisfaction = parcel.readByte() > 0
         profileName = parcel.readString()

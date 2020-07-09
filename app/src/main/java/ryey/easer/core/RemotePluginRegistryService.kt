@@ -48,7 +48,7 @@ class RemotePluginRegistryService : Service() {
                 val pluginName = intent.getStringExtra(RemotePlugin.EXTRA_PLUGIN_NAME)
                 val activityEditData = intent.getStringExtra(RemotePlugin.EXTRA_ACTIVITY_EDIT_DATA)
                 val pluginType = intent.getStringExtra(RemotePlugin.EXTRA_PLUGIN_TYPE)
-                //TODO: More types
+                // TODO: More types
                 assert(pluginType == RemotePlugin.TYPE_OPERATION_PLUGIN)
                 val categoryString = intent.getStringExtra(RemotePlugin.OperationPlugin.EXTRA_PLUGIN_CATEGORY)
                 val category = try {
@@ -118,9 +118,11 @@ class RemotePluginRegistryService : Service() {
     /**
      * FIXME: Fix possible memory leak using WeakReference?
      */
-    internal class IncomingHandler(val service: RemotePluginRegistryService,
-                                   handlerThread: HandlerThread)
-        : Handler(handlerThread.looper) {
+    internal class IncomingHandler(
+        val service: RemotePluginRegistryService,
+        handlerThread: HandlerThread
+    ) :
+        Handler(handlerThread.looper) {
         override fun handleMessage(message: Message) {
             Logger.d("[RemotePluginRegistryService][handleMessage] %s", message)
             val rMessenger = message.replyTo
@@ -193,5 +195,4 @@ class RemotePluginRegistryService : Service() {
             }
         }
     }
-
 }
