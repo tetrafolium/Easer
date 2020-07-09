@@ -20,30 +20,33 @@
 package ryey.easer.skills.operation.bluetooth;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
-class BluetoothOperationDataFactory implements OperationDataFactory<BluetoothOperationData> {
-    @NonNull
-    @Override
-    public Class<BluetoothOperationData> dataClass() {
-        return BluetoothOperationData.class;
-    }
+class BluetoothOperationDataFactory
+    implements OperationDataFactory<BluetoothOperationData> {
+  @NonNull
+  @Override
+  public Class<BluetoothOperationData> dataClass() {
+    return BluetoothOperationData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public BluetoothOperationData dummyData() {
-        return new BluetoothOperationData(true);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public BluetoothOperationData dummyData() {
+    return new BluetoothOperationData(true);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public BluetoothOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new BluetoothOperationData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public BluetoothOperationData parse(final @NonNull String data,
+                                      final @NonNull PluginDataFormat format,
+                                      final int version)
+      throws IllegalStorageDataException {
+    return new BluetoothOperationData(data, format, version);
+  }
 }

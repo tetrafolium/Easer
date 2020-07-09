@@ -19,28 +19,27 @@
 
 package ryey.easer.core.dynamics;
 
-import android.content.Context;
-import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-
-import ryey.easer.R;
-
 import static ryey.easer.core.ProfileLoaderService.EXTRA_SCRIPT_NAME;
 
+import android.content.Context;
+import android.os.Bundle;
+import androidx.annotation.NonNull;
+import ryey.easer.R;
+
 public class ScriptNameDynamics implements CoreDynamicsInterface {
-    @Override
-    public String id() {
-        return "ryey.easer.core.dynamics.script_name";
-    }
+  @Override
+  public String id() {
+    return "ryey.easer.core.dynamics.script_name";
+  }
 
-    @Override
-    public int nameRes() {
-        return R.string.dynamics_script_name;
-    }
+  @Override
+  public int nameRes() {
+    return R.string.dynamics_script_name;
+  }
 
-    @Override
-    public String invoke(final @NonNull Context context, final @NonNull Bundle extras) {
-        return extras.getString(EXTRA_SCRIPT_NAME);
-    }
+  @Override
+  public String invoke(final @NonNull Context context,
+                       final @NonNull Bundle extras) {
+    return extras.getString(EXTRA_SCRIPT_NAME);
+  }
 }

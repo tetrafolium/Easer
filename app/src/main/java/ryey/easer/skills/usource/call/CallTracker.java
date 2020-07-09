@@ -21,45 +21,44 @@ package ryey.easer.skills.usource.call;
 
 import android.app.PendingIntent;
 import android.content.Context;
-
 import androidx.annotation.NonNull;
-
 import org.jetbrains.annotations.NotNull;
-
 import ryey.easer.skills.condition.SkeletonTracker;
 
-public class CallTracker extends SkeletonTracker<CallUSourceData> implements CallReceiver.CallEventHandler {
+public class CallTracker extends SkeletonTracker<CallUSourceData>
+    implements CallReceiver.CallEventHandler {
 
-    private CallReceiver callReceiver = new CallReceiver(this);
+  private CallReceiver callReceiver = new CallReceiver(this);
 
-    CallTracker(final Context context, final CallUSourceData data,
-                final @NonNull PendingIntent event_positive,
-                final @NonNull PendingIntent event_negative) {
-        super(context, data, event_positive, event_negative);
-    }
+  CallTracker(final Context context, final CallUSourceData data,
+              final @NonNull PendingIntent event_positive,
+              final @NonNull PendingIntent event_negative) {
+    super(context, data, event_positive, event_negative);
+  }
 
-    @Override
-    public void start() {
-        context.registerReceiver(callReceiver, CallReceiver.Companion.getCallFilter());
-    }
+  @Override
+  public void start() {
+    context.registerReceiver(callReceiver,
+                             CallReceiver.Companion.getCallFilter());
+  }
 
-    @Override
-    public void stop() {
-        context.unregisterReceiver(callReceiver);
-    }
+  @Override
+  public void stop() {
+    context.unregisterReceiver(callReceiver);
+  }
 
-    @Override
-    public void onIdle(final @NotNull String number) {
-        newSatisfiedState(CallReceiver.Companion.handleIdle(data, number));
-    }
+  @Override
+  public void onIdle(final @NotNull String number) {
+    newSatisfiedState(CallReceiver.Companion.handleIdle(data, number));
+  }
 
-    @Override
-    public void onRinging(final @NotNull String number) {
-        newSatisfiedState(CallReceiver.Companion.handleRinging(data, number));
-    }
+  @Override
+  public void onRinging(final @NotNull String number) {
+    newSatisfiedState(CallReceiver.Companion.handleRinging(data, number));
+  }
 
-    @Override
-    public void onOffHook(final @NotNull String number) {
-        newSatisfiedState(CallReceiver.Companion.handleOffHook(data, number));
-    }
+  @Override
+  public void onOffHook(final @NotNull String number) {
+    newSatisfiedState(CallReceiver.Companion.handleOffHook(data, number));
+  }
 }

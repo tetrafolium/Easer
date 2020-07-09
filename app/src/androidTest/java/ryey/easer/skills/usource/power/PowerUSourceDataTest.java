@@ -19,22 +19,20 @@
 
 package ryey.easer.skills.usource.power;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class PowerUSourceDataTest {
 
-    @Test
-    public void testParcel() {
-        PowerUSourceData dummyData = new PowerUSourceDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        PowerUSourceData parceledData = PowerUSourceData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    PowerUSourceData dummyData = new PowerUSourceDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    PowerUSourceData parceledData =
+        PowerUSourceData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

@@ -20,30 +20,32 @@
 package ryey.easer.skills.usource.wifi;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.usource.USourceDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class WifiUSourceDataFactory implements USourceDataFactory<WifiUSourceData> {
-    @NonNull
-    @Override
-    public Class<WifiUSourceData> dataClass() {
-        return WifiUSourceData.class;
-    }
+  @NonNull
+  @Override
+  public Class<WifiUSourceData> dataClass() {
+    return WifiUSourceData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public WifiUSourceData dummyData() {
-        return new WifiUSourceData("wifi_device1\nwifi_dev2", true);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public WifiUSourceData dummyData() {
+    return new WifiUSourceData("wifi_device1\nwifi_dev2", true);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public WifiUSourceData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new WifiUSourceData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public WifiUSourceData parse(final @NonNull String data,
+                               final @NonNull PluginDataFormat format,
+                               final int version)
+      throws IllegalStorageDataException {
+    return new WifiUSourceData(data, format, version);
+  }
 }

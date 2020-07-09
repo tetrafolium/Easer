@@ -22,10 +22,8 @@ package ryey.easer.skills.event.calendar;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.SkillView;
 import ryey.easer.commons.local_skill.SourceCategory;
@@ -37,59 +35,65 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class CalendarEventSkill implements EventSkill<CalendarEventData> {
 
-    @NonNull
-    @Override
-    public String id() {
-        return "calendar";
-    }
+  @NonNull
+  @Override
+  public String id() {
+    return "calendar";
+  }
 
-    @Override
-    public int name() {
-        return R.string.event_calendar;
-    }
+  @Override
+  public int name() {
+    return R.string.event_calendar;
+  }
 
-    @Override
-    public boolean isCompatible(@NonNull final Context context) {
-        return true;
-    }
+  @Override
+  public boolean isCompatible(@NonNull final Context context) {
+    return true;
+  }
 
-    @Nullable
-    @Override
-    public Boolean checkPermissions(final @NonNull Context context) {
-        return SkillUtils.checkPermission(context, Manifest.permission.READ_CALENDAR);
-    }
+  @Nullable
+  @Override
+  public Boolean checkPermissions(final @NonNull Context context) {
+    return SkillUtils.checkPermission(context,
+                                      Manifest.permission.READ_CALENDAR);
+  }
 
-    @Override
-    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
-        SkillUtils.requestPermission(activity, requestCode, Manifest.permission.READ_CALENDAR);
-    }
+  @Override
+  public void requestPermissions(final @NonNull Activity activity,
+                                 final int requestCode) {
+    SkillUtils.requestPermission(activity, requestCode,
+                                 Manifest.permission.READ_CALENDAR);
+  }
 
-    @NonNull
-    @Override
-    public EventDataFactory<CalendarEventData> dataFactory() {
-        return new CalendarEventDataFactory();
-    }
+  @NonNull
+  @Override
+  public EventDataFactory<CalendarEventData> dataFactory() {
+    return new CalendarEventDataFactory();
+  }
 
-    @NonNull
-    @Override
-    public SourceCategory category() {
-        return SourceCategory.personal;
-    }
+  @NonNull
+  @Override
+  public SourceCategory category() {
+    return SourceCategory.personal;
+  }
 
-    @NonNull
-    @Override
-    public SkillView<CalendarEventData> view() {
-        return new CalendarSkillViewFragment();
-    }
+  @NonNull
+  @Override
+  public SkillView<CalendarEventData> view() {
+    return new CalendarSkillViewFragment();
+  }
 
-    @Override
-    public AbstractSlot<CalendarEventData> slot(final @NonNull Context context, final @ValidData @NonNull CalendarEventData data) {
-        return new CalendarSlot(context, data);
-    }
+  @Override
+  public AbstractSlot<CalendarEventData>
+  slot(final @NonNull Context context,
+       final @ValidData @NonNull CalendarEventData data) {
+    return new CalendarSlot(context, data);
+  }
 
-    @Override
-    public AbstractSlot<CalendarEventData> slot(final @NonNull Context context, final @NonNull CalendarEventData data, final boolean retriggerable, final boolean persistent) {
-        return new CalendarSlot(context, data, retriggerable, persistent);
-    }
-
+  @Override
+  public AbstractSlot<CalendarEventData>
+  slot(final @NonNull Context context, final @NonNull CalendarEventData data,
+       final boolean retriggerable, final boolean persistent) {
+    return new CalendarSlot(context, data, retriggerable, persistent);
+  }
 }

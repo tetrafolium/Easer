@@ -21,58 +21,53 @@ package ryey.easer.skills.reusable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.commons.local_skill.StorageData;
 
 public abstract class IntegerData implements StorageData {
-    protected Integer level = null;
-    protected Integer lbound = null;
-    protected Integer rbound = null;
+  protected Integer level = null;
+  protected Integer lbound = null;
+  protected Integer rbound = null;
 
-    protected IntegerData() { }
+  protected IntegerData() {}
 
-    protected IntegerData(final @NonNull Integer level) {
-        this.level = level;
-    }
+  protected IntegerData(final @NonNull Integer level) { this.level = level; }
 
-    @NonNull
-    public Integer get() {
-        return level;
-    }
+  @NonNull
+  public Integer get() {
+    return level;
+  }
 
-    public void set(final int level) {
-        this.level = level;
-    }
+  public void set(final int level) { this.level = level; }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean isValid() {
-        if (level == null)
-            return false;
-        if (lbound != null)
-            if (level < lbound)
-                return false;
-        if (rbound != null)
-            if (level > rbound)
-                return false;
-        return true;
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean isValid() {
+    if (level == null)
+      return false;
+    if (lbound != null)
+      if (level < lbound)
+        return false;
+    if (rbound != null)
+      if (level > rbound)
+        return false;
+    return true;
+  }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean equals(final @Nullable Object obj) {
-        if (obj == null)
-            return false;
-        if (!getClass().equals(obj.getClass()))
-            return false;
-        if (!isValid() || !((StorageData) obj).isValid())
-            return false;
-        if (((IntegerData) obj).lbound != lbound.intValue())
-            return false;
-        if (((IntegerData) obj).rbound != rbound.intValue())
-            return false;
-        if (((IntegerData) obj).level != level.intValue())
-            return false;
-        return true;
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean equals(final @Nullable Object obj) {
+    if (obj == null)
+      return false;
+    if (!getClass().equals(obj.getClass()))
+      return false;
+    if (!isValid() || !((StorageData)obj).isValid())
+      return false;
+    if (((IntegerData)obj).lbound != lbound.intValue())
+      return false;
+    if (((IntegerData)obj).rbound != rbound.intValue())
+      return false;
+    if (((IntegerData)obj).level != level.intValue())
+      return false;
+    return true;
+  }
 }

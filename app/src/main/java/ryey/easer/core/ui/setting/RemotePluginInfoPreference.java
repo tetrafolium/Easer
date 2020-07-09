@@ -21,14 +21,13 @@ package ryey.easer.core.ui.setting;
 
 import android.content.Context;
 import android.preference.Preference;
-
 import ryey.easer.core.RemotePluginInfo;
 
 public class RemotePluginInfoPreference extends Preference {
 
-    public RemotePluginInfoPreference(final Context context, final RemotePluginInfo pluginInfo) {
-        super(context);
-        setTitle(pluginInfo.getPluginName());
-    }
-
+  public RemotePluginInfoPreference(final Context context,
+                                    final RemotePluginInfo pluginInfo) {
+    super(context);
+    setTitle(pluginInfo.getPluginName());
+  }
 }

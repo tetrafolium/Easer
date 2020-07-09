@@ -21,10 +21,8 @@ package ryey.easer.skills.event.timer;
 
 import android.app.Activity;
 import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.SkillView;
 import ryey.easer.commons.local_skill.SourceCategory;
@@ -35,60 +33,61 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class TimerEventSkill implements EventSkill<TimerEventData> {
 
-    @NonNull
-    @Override
-    public String id() {
-        return "timer";
-    }
+  @NonNull
+  @Override
+  public String id() {
+    return "timer";
+  }
 
-    @Override
-    public int name() {
-        return R.string.event_timer;
-    }
+  @Override
+  public int name() {
+    return R.string.event_timer;
+  }
 
-    @Override
-    public boolean isCompatible(@NonNull final Context context) {
-        return true;
-    }
+  @Override
+  public boolean isCompatible(@NonNull final Context context) {
+    return true;
+  }
 
-    @Nullable
-    @Override
-    public Boolean checkPermissions(final @NonNull Context context) {
-        return null;
-    }
+  @Nullable
+  @Override
+  public Boolean checkPermissions(final @NonNull Context context) {
+    return null;
+  }
 
-    @Override
-    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
+  @Override
+  public void requestPermissions(final @NonNull Activity activity,
+                                 final int requestCode) {}
 
-    }
+  @NonNull
+  @Override
+  public EventDataFactory<TimerEventData> dataFactory() {
+    return new TimerEventDataFactory();
+  }
 
-    @NonNull
-    @Override
-    public EventDataFactory<TimerEventData> dataFactory() {
-        return new TimerEventDataFactory();
+  @NonNull
+  @Override
+  public SourceCategory category() {
+    return SourceCategory.date_time;
+  }
 
-    }
+  @NonNull
+  @Override
+  public SkillView<TimerEventData> view() {
+    return new TimerSkillViewFragment();
+  }
 
-    @NonNull
-    @Override
-    public SourceCategory category() {
-        return SourceCategory.date_time;
-    }
+  @Override
+  public AbstractSlot<TimerEventData>
+  slot(final @NonNull Context context,
+       final @ValidData @NonNull TimerEventData data) {
+    return new TimerSlot(context, data);
+  }
 
-    @NonNull
-    @Override
-    public SkillView<TimerEventData> view() {
-        return new TimerSkillViewFragment();
-    }
-
-    @Override
-    public AbstractSlot<TimerEventData> slot(final @NonNull Context context, final @ValidData @NonNull TimerEventData data) {
-        return new TimerSlot(context, data);
-    }
-
-    @Override
-    public AbstractSlot<TimerEventData> slot(final @NonNull Context context, final @NonNull TimerEventData data, final boolean retriggerable, final boolean persistent) {
-        return new TimerSlot(context, data, retriggerable, persistent);
-    }
-
+  @Override
+  public AbstractSlot<TimerEventData>
+  slot(final @NonNull Context context, final @NonNull TimerEventData data,
+       final boolean retriggerable, final boolean persistent) {
+    return new TimerSlot(context, data, retriggerable, persistent);
+  }
 }

@@ -20,35 +20,36 @@
 package ryey.easer.skills.usource.time;
 
 import androidx.annotation.NonNull;
-
 import java.util.Calendar;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.usource.USourceDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class TimeUSourceDataFactory implements USourceDataFactory<TimeUSourceData> {
-    @NonNull
-    @Override
-    public Class<TimeUSourceData> dataClass() {
-        return TimeUSourceData.class;
-    }
+  @NonNull
+  @Override
+  public Class<TimeUSourceData> dataClass() {
+    return TimeUSourceData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public TimeUSourceData dummyData() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 13);
-        calendar.set(Calendar.MINUTE, 23);
-        return new TimeUSourceData(calendar, TimeUSourceData.Rel.after);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public TimeUSourceData dummyData() {
+    Calendar calendar = Calendar.getInstance();
+    calendar.set(Calendar.HOUR_OF_DAY, 13);
+    calendar.set(Calendar.MINUTE, 23);
+    return new TimeUSourceData(calendar, TimeUSourceData.Rel.after);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public TimeUSourceData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new TimeUSourceData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public TimeUSourceData parse(final @NonNull String data,
+                               final @NonNull PluginDataFormat format,
+                               final int version)
+      throws IllegalStorageDataException {
+    return new TimeUSourceData(data, format, version);
+  }
 }

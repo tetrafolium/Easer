@@ -20,7 +20,6 @@
 package ryey.easer.core.ui.data.event;
 
 import android.widget.EditText;
-
 import ryey.easer.R;
 import ryey.easer.commons.C;
 import ryey.easer.commons.local_skill.InvalidDataInputException;
@@ -29,43 +28,49 @@ import ryey.easer.core.data.EventStructure;
 import ryey.easer.core.data.storage.EventDataStorage;
 import ryey.easer.core.ui.data.AbstractEditDataActivity;
 
-public class EditEventActivity extends AbstractEditDataActivity<EventStructure, EventDataStorage> {
+public class EditEventActivity
+    extends AbstractEditDataActivity<EventStructure, EventDataStorage> {
 
-    EditText mEditText_name = null;
-    protected EditEventDataFragment editEventDataFragment;
+  EditText mEditText_name = null;
+  protected EditEventDataFragment editEventDataFragment;
 
-    @Override
-    protected EventDataStorage retDataStorage() {
-        return new EventDataStorage(this);
-    }
+  @Override
+  protected EventDataStorage retDataStorage() {
+    return new EventDataStorage(this);
+  }
 
-    @Override
-    protected String title() {
-        return getString(R.string.title_event);
-    }
+  @Override
+  protected String title() {
+    return getString(R.string.title_event);
+  }
 
-    @Override
-    protected int contentViewRes() {
-        return R.layout.activity_edit_event;
-    }
+  @Override
+  protected int contentViewRes() {
+    return R.layout.activity_edit_event;
+  }
 
-    @Override
-    protected void init() {
-        mEditText_name = findViewById(R.id.editText_name);
-        editEventDataFragment = (EditEventDataFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-    }
+  @Override
+  protected void init() {
+    mEditText_name = findViewById(R.id.editText_name);
+    editEventDataFragment =
+        (EditEventDataFragment)getSupportFragmentManager().findFragmentById(
+            R.id.fragment);
+  }
 
-    @Override
-    protected void loadFromData(final EventStructure event) {
-        oldName = event.getName();
-        mEditText_name.setText(event.getName());
-        editEventDataFragment.loadFromData(event.getEventData());
-    }
+  @Override
+  protected void loadFromData(final EventStructure event) {
+    oldName = event.getName();
+    mEditText_name.setText(event.getName());
+    editEventDataFragment.loadFromData(event.getEventData());
+  }
 
-    @Override
-    protected EventStructure saveToData() throws InvalidDataInputException {
-        assert editEventDataFragment != null;
-        EventData eventData = editEventDataFragment.saveToData();
-        return new EventStructure(C.VERSION_CREATED_IN_RUNTIME, mEditText_name.getText().toString(), eventData); // TODO: confirm where this C.VERSION_CREATED_IN_RUNTIME is used
-    }
+  @Override
+  protected EventStructure saveToData() throws InvalidDataInputException {
+    assert editEventDataFragment != null;
+    EventData eventData = editEventDataFragment.saveToData();
+    return new EventStructure(
+        C.VERSION_CREATED_IN_RUNTIME, mEditText_name.getText().toString(),
+        eventData); // TODO: confirm where this C.VERSION_CREATED_IN_RUNTIME is
+                    // used
+  }
 }

@@ -22,17 +22,13 @@ package ryey.easer.skills;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.collection.ArrayMap;
-
 import com.orhanobut.logger.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import ryey.easer.commons.CommonSkillUtils;
 import ryey.easer.commons.local_skill.Skill;
 import ryey.easer.commons.local_skill.SkillView;
@@ -94,281 +90,291 @@ import ryey.easer.skills.usource.wifi_enabled.WifiEnabledUSourceSkill;
 /**
  * Used to tell the app what skills can be used.
  *
- * To register a new plugin, simply write a new line in the constructor of this class.
+ * To register a new plugin, simply write a new line in the constructor of this
+ * class.
  */
 final public class LocalSkillRegistry {
 
-    private final Registry<EventSkill, EventData> eventSkillRegistry = new Registry<>(CommonSkillUtils.TYPE_EVENT, new String[][] {
-        {"battery", "power_status"}, // v0.7.8
-    });
-    private final Registry<OperationSkill, OperationData> operationSkillRegistry = new Registry<>(CommonSkillUtils.TYPE_OPERATION, new String[][] {
-        {"event control", "state control"}, // (don't remember when)
-    });
-    private final Registry<ConditionSkill, ConditionData> conditionSkillRegistry = new Registry<>(CommonSkillUtils.TYPE_CONDITION, new String[][] {
-        {"battery", "power_status"}, // v0.7.8
-    });
-    private final OverallRegistry overallRegistry = new OverallRegistry(new SkillLookupper<?, ?>[] {
-                eventSkillRegistry, operationSkillRegistry, conditionSkillRegistry,
-            });
+  private final Registry<EventSkill, EventData> eventSkillRegistry =
+      new Registry<>(CommonSkillUtils.TYPE_EVENT,
+                     new String[][] {
+                         {"battery", "power_status"}, // v0.7.8
+                     });
+  private final Registry<OperationSkill, OperationData> operationSkillRegistry =
+      new Registry<>(
+          CommonSkillUtils.TYPE_OPERATION,
+          new String[][] {
+              {"event control", "state control"}, // (don't remember when)
+          });
+  private final Registry<ConditionSkill, ConditionData> conditionSkillRegistry =
+      new Registry<>(CommonSkillUtils.TYPE_CONDITION,
+                     new String[][] {
+                         {"battery", "power_status"}, // v0.7.8
+                     });
+  private final OverallRegistry overallRegistry =
+      new OverallRegistry(new SkillLookupper<?, ?>[] {
+          eventSkillRegistry,
+          operationSkillRegistry,
+          conditionSkillRegistry,
+      });
 
-    {
-        for (USourceSkill skill : new USourceSkill[] {
-                    new PowerUSourceSkill(),
-                    new BTDeviceUSourceSkill(),
-                    new BluetoothEnabledUSourceSkill(),
-                    new CallUSourceSkill(),
-                    new CellLocationUSourceSkill(),
-                    new ConnectivityUSourceSkill(),
-                    new DateUSourceSkill(),
-                    new DayOfWeekEventSkill(),
-                    new HeadsetUSourceSkill(),
-                    new ScreenUSourceSkill(),
-                    new TimeUSourceSkill(),
-                    new WifiUSourceSkill(),
-                    new WifiEnabledUSourceSkill(),
-                }) {
-            event().registerSkill(skill.event());
-            condition().registerSkill(skill.condition());
-        }
-
-        event().registerSkill(ConditionEventEventSkill.class);
-        event().registerSkill(CalendarEventSkill.class);
-        event().registerSkill(BroadcastEventSkill.class);
-        event().registerSkill(SmsEventSkill.class);
-        event().registerSkill(NotificationEventSkill.class);
-        event().registerSkill(TimerEventSkill.class);
-        event().registerSkill(NfcTagEventSkill.class);
-        event().registerSkill(TcpTripEventSkill.class);
-        event().registerSkill(WidgetEventSkill.class);
-
-        condition().registerSkill(CalendarConditionSkill.class);
-        condition().registerSkill(RingerModeConditionSkill.class);
-
-        operation().registerSkill(WifiOperationSkill.class);
-        operation().registerSkill(CellularOperationSkill.class);
-        operation().registerSkill(BluetoothOperationSkill.class);
-        operation().registerSkill(RotationOperationSkill.class);
-        operation().registerSkill(BroadcastOperationSkill.class);
-        operation().registerSkill(BrightnessOperationSkill.class);
-        operation().registerSkill(RingerModeOperationSkill.class);
-        operation().registerSkill(CommandOperationSkill.class);
-        operation().registerSkill(HotspotOperationSkill.class);
-        operation().registerSkill(SynchronizationOperationSkill.class);
-        operation().registerSkill(NetworkTransmissionOperationSkill.class);
-        operation().registerSkill(HttpRequestOperationSkill.class);
-        operation().registerSkill(MediaControlOperationSkill.class);
-        operation().registerSkill(AirplaneModeOperationSkill.class);
-        operation().registerSkill(SendSmsOperationSkill.class);
-        operation().registerSkill(SendNotificationOperationSkill.class);
-        operation().registerSkill(AlarmOperationSkill.class);
-        operation().registerSkill(StateControlOperationSkill.class);
-        operation().registerSkill(VolumeOperationSkill.class);
-        operation().registerSkill(LaunchAppOperationSkill.class);
-        operation().registerSkill(UiModeOperationSkill.class);
-        operation().registerSkill(PlayMediaOperationSkill.class);
-        //TODO: write more skills
+  {
+    for (USourceSkill skill : new USourceSkill[] {
+             new PowerUSourceSkill(),
+             new BTDeviceUSourceSkill(),
+             new BluetoothEnabledUSourceSkill(),
+             new CallUSourceSkill(),
+             new CellLocationUSourceSkill(),
+             new ConnectivityUSourceSkill(),
+             new DateUSourceSkill(),
+             new DayOfWeekEventSkill(),
+             new HeadsetUSourceSkill(),
+             new ScreenUSourceSkill(),
+             new TimeUSourceSkill(),
+             new WifiUSourceSkill(),
+             new WifiEnabledUSourceSkill(),
+         }) {
+      event().registerSkill(skill.event());
+      condition().registerSkill(skill.condition());
     }
 
-    private static final LocalSkillRegistry instance = new LocalSkillRegistry();
+    event().registerSkill(ConditionEventEventSkill.class);
+    event().registerSkill(CalendarEventSkill.class);
+    event().registerSkill(BroadcastEventSkill.class);
+    event().registerSkill(SmsEventSkill.class);
+    event().registerSkill(NotificationEventSkill.class);
+    event().registerSkill(TimerEventSkill.class);
+    event().registerSkill(NfcTagEventSkill.class);
+    event().registerSkill(TcpTripEventSkill.class);
+    event().registerSkill(WidgetEventSkill.class);
 
-    public static LocalSkillRegistry getInstance() {
-        return instance;
+    condition().registerSkill(CalendarConditionSkill.class);
+    condition().registerSkill(RingerModeConditionSkill.class);
+
+    operation().registerSkill(WifiOperationSkill.class);
+    operation().registerSkill(CellularOperationSkill.class);
+    operation().registerSkill(BluetoothOperationSkill.class);
+    operation().registerSkill(RotationOperationSkill.class);
+    operation().registerSkill(BroadcastOperationSkill.class);
+    operation().registerSkill(BrightnessOperationSkill.class);
+    operation().registerSkill(RingerModeOperationSkill.class);
+    operation().registerSkill(CommandOperationSkill.class);
+    operation().registerSkill(HotspotOperationSkill.class);
+    operation().registerSkill(SynchronizationOperationSkill.class);
+    operation().registerSkill(NetworkTransmissionOperationSkill.class);
+    operation().registerSkill(HttpRequestOperationSkill.class);
+    operation().registerSkill(MediaControlOperationSkill.class);
+    operation().registerSkill(AirplaneModeOperationSkill.class);
+    operation().registerSkill(SendSmsOperationSkill.class);
+    operation().registerSkill(SendNotificationOperationSkill.class);
+    operation().registerSkill(AlarmOperationSkill.class);
+    operation().registerSkill(StateControlOperationSkill.class);
+    operation().registerSkill(VolumeOperationSkill.class);
+    operation().registerSkill(LaunchAppOperationSkill.class);
+    operation().registerSkill(UiModeOperationSkill.class);
+    operation().registerSkill(PlayMediaOperationSkill.class);
+    // TODO: write more skills
+  }
+
+  private static final LocalSkillRegistry instance = new LocalSkillRegistry();
+
+  public static LocalSkillRegistry getInstance() { return instance; }
+
+  private LocalSkillRegistry() {}
+
+  public Registry<EventSkill, EventData> event() { return eventSkillRegistry; }
+
+  public Registry<OperationSkill, OperationData> operation() {
+    return operationSkillRegistry;
+  }
+
+  public Registry<ConditionSkill, ConditionData> condition() {
+    return conditionSkillRegistry;
+  }
+
+  public SkillLookupper<Skill, StorageData> all() { return overallRegistry; }
+
+  public interface SkillLookupper<T extends Skill, T_data extends StorageData> {
+    List<T> getEnabledSkills(@NonNull Context context);
+    List<T> getAllSkills();
+    boolean hasSkill(String id);
+    @Nullable T findSkill(T_data data);
+    @Nullable T findSkill(String id);
+    @Nullable T findSkill(SkillView view);
+  }
+
+  public static class Registry<T extends Skill, T_data extends StorageData>
+      implements SkillLookupper<T, T_data> {
+    final int type;
+    final List<String> skillIdList = new ArrayList<>();
+    final List<T> skillList = new ArrayList<>();
+    // TODO: use Set instead of List for the above two variables && add an
+    // "ordered" method to return a List
+    final Map<String, String> backwardNameMap =
+        new ArrayMap<>(); // Backward-compatible name conversion
+
+    private Registry(final int type) { this.type = type; }
+
+    private Registry(final int type, final String[][] backwardNameMap) {
+      this(type);
+      for (String[] pair : backwardNameMap) {
+        this.backwardNameMap.put(pair[0], pair[1]);
+      }
     }
 
-    private LocalSkillRegistry() { }
-
-    public Registry<EventSkill, EventData> event() {
-        return eventSkillRegistry;
+    synchronized void registerSkill(final T skill) {
+      String id = skill.id();
+      for (String eid : skillIdList) {
+        if (id.equals(eid))
+          return;
+      }
+      skillList.add(skill);
+      skillIdList.add(skill.id());
     }
 
-    public Registry<OperationSkill, OperationData> operation() {
-        return operationSkillRegistry;
+    synchronized void registerSkill(final Class<? extends T> skillClass) {
+      try {
+        T skill = skillClass.newInstance();
+        skillList.add(skill);
+        skillIdList.add(skill.id());
+      } catch (InstantiationException e) {
+        e.printStackTrace();
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      }
     }
 
-    public Registry<ConditionSkill, ConditionData> condition() {
-        return conditionSkillRegistry;
+    public List<T> getEnabledSkills(final @NonNull Context context) {
+      List<T> enabledPlugins = new ArrayList<>(skillList.size());
+      SharedPreferences settingsPreference =
+          PreferenceManager.getDefaultSharedPreferences(context);
+      for (T plugin : skillList) {
+        if (settingsPreference.getBoolean(
+                CommonSkillUtils.pluginEnabledKey(plugin), true) &&
+            plugin.isCompatible(context)) {
+          enabledPlugins.add(plugin);
+        }
+      }
+      return enabledPlugins;
     }
 
-    public SkillLookupper<Skill, StorageData> all() {
-        return overallRegistry;
+    @Override
+    public List<T> getAllSkills() {
+      return skillList;
     }
 
-    public interface SkillLookupper<T extends Skill, T_data extends StorageData> {
-        List<T> getEnabledSkills(@NonNull Context context);
-        List<T> getAllSkills();
-        boolean hasSkill(String id);
-        @Nullable T findSkill(T_data data);
-        @Nullable T findSkill(String id);
-        @Nullable T findSkill(SkillView view);
+    /**
+     * Test if plugin is available as local plugin
+     * TODO: optimize performance
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean hasSkill(final String id) {
+      if (findSkill(id) == null)
+        return false;
+      return true;
     }
 
-    public static class Registry<T extends Skill, T_data extends StorageData> implements SkillLookupper<T, T_data> {
-        final int type;
-        final List<String> skillIdList = new ArrayList<>();
-        final List<T> skillList = new ArrayList<>();
-        //TODO: use Set instead of List for the above two variables && add an "ordered" method to return a List
-        final Map<String, String> backwardNameMap = new ArrayMap<>(); // Backward-compatible name conversion
-
-        private Registry(final int type) {
-            this.type = type;
+    @Nullable
+    public T findSkill(final T_data data) {
+      for (T plugin : getAllSkills()) {
+        if (data.getClass() == plugin.dataFactory().dataClass()) {
+          return plugin;
         }
-
-        private Registry(final int type, final String[][] backwardNameMap) {
-            this(type);
-            for (String[] pair : backwardNameMap) {
-                this.backwardNameMap.put(pair[0], pair[1]);
-            }
-        }
-
-        synchronized void registerSkill(final T skill) {
-            String id = skill.id();
-            for (String eid : skillIdList) {
-                if (id.equals(eid))
-                    return;
-            }
-            skillList.add(skill);
-            skillIdList.add(skill.id());
-        }
-
-        synchronized void registerSkill(final Class<? extends T> skillClass) {
-            try {
-                T skill = skillClass.newInstance();
-                skillList.add(skill);
-                skillIdList.add(skill.id());
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-
-        public List<T> getEnabledSkills(final @NonNull Context context) {
-            List<T> enabledPlugins = new ArrayList<>(skillList.size());
-            SharedPreferences settingsPreference =
-                PreferenceManager.getDefaultSharedPreferences(context);
-            for (T plugin : skillList) {
-                if (settingsPreference.getBoolean(CommonSkillUtils.pluginEnabledKey(plugin), true)
-                        && plugin.isCompatible(context)) {
-                    enabledPlugins.add(plugin);
-                }
-            }
-            return enabledPlugins;
-        }
-
-        @Override
-        public List<T> getAllSkills() {
-            return skillList;
-        }
-
-        /**
-         * Test if plugin is available as local plugin
-         * TODO: optimize performance
-         * @param id
-         * @return
-         */
-        @Override
-        public boolean hasSkill(final String id) {
-            if (findSkill(id) == null)
-                return false;
-            return true;
-        }
-
-        @Nullable
-        public T findSkill(final T_data data) {
-            for (T plugin : getAllSkills()) {
-                if (data.getClass() == plugin.dataFactory().dataClass()) {
-                    return plugin;
-                }
-            }
-            return null;
-        }
-
-        @Nullable
-        public T findSkill(final String id) {
-            if (backwardNameMap.size() > 0)
-                Logger.d(backwardNameMap);
-            if (backwardNameMap.containsKey(id))
-                id = backwardNameMap.get(id);
-            for (T plugin : getAllSkills()) {
-                if (id.equals(plugin.id())) {
-                    return plugin;
-                }
-            }
-            return null;
-        }
-
-        @Nullable
-        @Override
-        public T findSkill(final SkillView view) {
-            for (T plugin : getAllSkills()) {
-                if (view.getClass().equals(plugin.view().getClass()))
-                    return plugin;
-            }
-            return null;
-        }
-
+      }
+      return null;
     }
 
-    public static class OverallRegistry implements SkillLookupper<Skill, StorageData> {
-
-        final SkillLookupper<? extends Skill, ? extends StorageData>[] lookupers;
-
-        OverallRegistry(final SkillLookupper<? extends Skill, ? extends StorageData>[] lookupers) {
-            this.lookupers = lookupers;
+    @Nullable
+    public T findSkill(final String id) {
+      if (backwardNameMap.size() > 0)
+        Logger.d(backwardNameMap);
+      if (backwardNameMap.containsKey(id))
+        id = backwardNameMap.get(id);
+      for (T plugin : getAllSkills()) {
+        if (id.equals(plugin.id())) {
+          return plugin;
         }
-
-        public List<Skill> getEnabledSkills(final @NonNull Context context) {
-            List<Skill> list = new ArrayList<>();
-            for (SkillLookupper<? extends Skill, ? extends StorageData> lookupper : lookupers) {
-                list.addAll(lookupper.getEnabledSkills(context));
-            }
-            return list;
-        }
-
-        @Override
-        public List<Skill> getAllSkills() {
-            List<Skill> list = new ArrayList<>();
-            for (SkillLookupper<? extends Skill, ? extends StorageData> lookupper : lookupers) {
-                list.addAll(lookupper.getAllSkills());
-            }
-            return list;
-        }
-
-        @Override
-        public boolean hasSkill(final String id) {
-            if (findSkill(id) == null)
-                return false;
-            return true;
-        }
-
-        @Nullable
-        @Override
-        public Skill findSkill(final StorageData storageData) {
-            for (Skill plugin : getAllSkills()) {
-                if (storageData.getClass().equals(plugin.dataFactory().dataClass()))
-                    return plugin;
-            }
-            return null;
-        }
-
-        @Nullable
-        @Override
-        public Skill findSkill(final String id) {
-            for (Skill plugin : getAllSkills()) {
-                if (id.equals(plugin.id()))
-                    return plugin;
-            }
-            throw new IllegalAccessError();
-        }
-
-        @Nullable
-        @Override
-        public Skill findSkill(final SkillView view) {
-            for (Skill plugin : getAllSkills()) {
-                if (view.getClass().equals(plugin.view().getClass()))
-                    return plugin;
-            }
-            throw new IllegalAccessError();
-        }
+      }
+      return null;
     }
+
+    @Nullable
+    @Override
+    public T findSkill(final SkillView view) {
+      for (T plugin : getAllSkills()) {
+        if (view.getClass().equals(plugin.view().getClass()))
+          return plugin;
+      }
+      return null;
+    }
+  }
+
+  public static class OverallRegistry
+      implements SkillLookupper<Skill, StorageData> {
+
+    final SkillLookupper<? extends Skill, ? extends StorageData>[] lookupers;
+
+    OverallRegistry(final SkillLookupper<? extends Skill, ?
+                                             extends StorageData>[] lookupers) {
+      this.lookupers = lookupers;
+    }
+
+    public List<Skill> getEnabledSkills(final @NonNull Context context) {
+      List<Skill> list = new ArrayList<>();
+      for (SkillLookupper<? extends Skill, ? extends StorageData> lookupper :
+           lookupers) {
+        list.addAll(lookupper.getEnabledSkills(context));
+      }
+      return list;
+    }
+
+    @Override
+    public List<Skill> getAllSkills() {
+      List<Skill> list = new ArrayList<>();
+      for (SkillLookupper<? extends Skill, ? extends StorageData> lookupper :
+           lookupers) {
+        list.addAll(lookupper.getAllSkills());
+      }
+      return list;
+    }
+
+    @Override
+    public boolean hasSkill(final String id) {
+      if (findSkill(id) == null)
+        return false;
+      return true;
+    }
+
+    @Nullable
+    @Override
+    public Skill findSkill(final StorageData storageData) {
+      for (Skill plugin : getAllSkills()) {
+        if (storageData.getClass().equals(plugin.dataFactory().dataClass()))
+          return plugin;
+      }
+      return null;
+    }
+
+    @Nullable
+    @Override
+    public Skill findSkill(final String id) {
+      for (Skill plugin : getAllSkills()) {
+        if (id.equals(plugin.id()))
+          return plugin;
+      }
+      throw new IllegalAccessError();
+    }
+
+    @Nullable
+    @Override
+    public Skill findSkill(final SkillView view) {
+      for (Skill plugin : getAllSkills()) {
+        if (view.getClass().equals(plugin.view().getClass()))
+          return plugin;
+      }
+      throw new IllegalAccessError();
+    }
+  }
 }

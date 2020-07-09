@@ -20,35 +20,37 @@
 package ryey.easer.skills.operation.alarm;
 
 import androidx.annotation.NonNull;
-
 import java.util.Calendar;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
-class AlarmOperationDataFactory implements OperationDataFactory<AlarmOperationData> {
-    @NonNull
-    @Override
-    public Class<AlarmOperationData> dataClass() {
-        return AlarmOperationData.class;
-    }
+class AlarmOperationDataFactory
+    implements OperationDataFactory<AlarmOperationData> {
+  @NonNull
+  @Override
+  public Class<AlarmOperationData> dataClass() {
+    return AlarmOperationData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public AlarmOperationData dummyData() {
-        Calendar time = Calendar.getInstance();
-        String message = "my message";
-        boolean absolute = false;
-        return new AlarmOperationData(time, message, absolute);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public AlarmOperationData dummyData() {
+    Calendar time = Calendar.getInstance();
+    String message = "my message";
+    boolean absolute = false;
+    return new AlarmOperationData(time, message, absolute);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public AlarmOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new AlarmOperationData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public AlarmOperationData parse(final @NonNull String data,
+                                  final @NonNull PluginDataFormat format,
+                                  final int version)
+      throws IllegalStorageDataException {
+    return new AlarmOperationData(data, format, version);
+  }
 }

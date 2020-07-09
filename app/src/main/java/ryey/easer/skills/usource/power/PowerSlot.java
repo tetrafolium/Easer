@@ -23,55 +23,54 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-
 import ryey.easer.skills.event.AbstractSlot;
 
 public class PowerSlot extends AbstractSlot<PowerUSourceData> {
 
-    private final BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-            switch (intent.getAction()) {
-            case Intent.ACTION_POWER_CONNECTED:
-                determineAndNotify(true);
-                break;
-            case Intent.ACTION_POWER_DISCONNECTED:
-                determineAndNotify(false);
-                break;
-            }
-        }
-    };
-    private IntentFilter filter;
-
-    {
-        filter = new IntentFilter();
-//        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
-//        filter.addAction(Intent.ACTION_BATTERY_LOW);
-//        filter.addAction(Intent.ACTION_BATTERY_OKAY);
-        filter.addAction(Intent.ACTION_POWER_CONNECTED);
-        filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
-    }
-
-    public PowerSlot(final Context context, final PowerUSourceData data) {
-        this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
-    }
-
-    PowerSlot(final Context context, final PowerUSourceData data, final boolean retriggerable, final boolean persistent) {
-        super(context, data, retriggerable, persistent);
-    }
-
+  private final BroadcastReceiver receiver = new BroadcastReceiver() {
     @Override
-    public void listen() {
-        context.registerReceiver(receiver, filter);
+    public void onReceive(final Context context, final Intent intent) {
+      switch (intent.getAction()) {
+      case Intent.ACTION_POWER_CONNECTED:
+        determineAndNotify(true);
+        break;
+      case Intent.ACTION_POWER_DISCONNECTED:
+        determineAndNotify(false);
+        break;
+      }
     }
+  };
+  private IntentFilter filter;
 
-    @Override
-    public void cancel() {
-        context.unregisterReceiver(receiver);
-    }
+  {
+    filter = new IntentFilter();
+    //        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
+    //        filter.addAction(Intent.ACTION_BATTERY_LOW);
+    //        filter.addAction(Intent.ACTION_BATTERY_OKAY);
+    filter.addAction(Intent.ACTION_POWER_CONNECTED);
+    filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+  }
 
-    private void determineAndNotify(final boolean isCharging) {
-        changeSatisfiedState(Utils.determine(isCharging, eventData, context));
-    }
+  public PowerSlot(final Context context, final PowerUSourceData data) {
+    this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+  }
 
+  PowerSlot(final Context context, final PowerUSourceData data,
+            final boolean retriggerable, final boolean persistent) {
+    super(context, data, retriggerable, persistent);
+  }
+
+  @Override
+  public void listen() {
+    context.registerReceiver(receiver, filter);
+  }
+
+  @Override
+  public void cancel() {
+    context.unregisterReceiver(receiver);
+  }
+
+  private void determineAndNotify(final boolean isCharging) {
+    changeSatisfiedState(Utils.determine(isCharging, eventData, context));
+  }
 }

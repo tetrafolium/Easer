@@ -20,9 +20,7 @@
 package ryey.easer.commons.local_skill;
 
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.plugin.PluginDataFormat;
 
 /**
@@ -32,28 +30,34 @@ import ryey.easer.plugin.PluginDataFormat;
  */
 public interface StorageData extends Parcelable {
 
-    /**
-     * Serialize the current data to the given {@param format}.
-     * The corresponding method was {@code void parse(@NonNull String data, @NonNull C.Format format, int version) throws IllegalStorageDataException;}, and it has been moved to {@link DataFactory}.
-     * @param format The format which the data source is in.
-     *               You can ignore this parameter if you don't want to design a "localized" format.
-     * @return The serialized text (which will be used directly in the data field).
-     */
-    @NonNull
-    String serialize(@NonNull PluginDataFormat format);
+  /**
+   * Serialize the current data to the given {@param format}.
+   * The corresponding method was {@code void parse(@NonNull String data,
+   * @NonNull C.Format format, int version) throws
+   * IllegalStorageDataException;}, and it has been moved to {@link
+   * DataFactory}.
+   * @param format The format which the data source is in.
+   *               You can ignore this parameter if you don't want to design a
+   * "localized" format.
+   * @return The serialized text (which will be used directly in the data
+   *     field).
+   */
+  @NonNull String serialize(@NonNull PluginDataFormat format);
 
-    /**
-     * Check the data's validity. If not valid, this data won't be loaded and/or saved.
-     * @return Whether the data is valid or not.
-     */
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    boolean isValid();
+  /**
+   * Check the data's validity. If not valid, this data won't be loaded and/or
+   * saved.
+   * @return Whether the data is valid or not.
+   */
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  boolean isValid();
 
-    /**
-     * Compare two data instance. Two objects hold the same data are considered as equal.
-     * @param o The other object to be compared.
-     * @return Whether the two data instances are the same or not.
-     */
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    boolean equals(Object o);
+  /**
+   * Compare two data instance. Two objects hold the same data are considered as
+   * equal.
+   * @param o The other object to be compared.
+   * @return Whether the two data instances are the same or not.
+   */
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  boolean equals(Object o);
 }

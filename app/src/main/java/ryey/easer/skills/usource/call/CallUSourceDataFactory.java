@@ -20,36 +20,35 @@
 package ryey.easer.skills.usource.call;
 
 import androidx.annotation.NonNull;
-
 import java.util.Collections;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.usource.USourceDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class CallUSourceDataFactory implements USourceDataFactory<CallUSourceData> {
-    @NonNull
-    @Override
-    public Class<CallUSourceData> dataClass() {
-        return CallUSourceData.class;
-    }
+  @NonNull
+  @Override
+  public Class<CallUSourceData> dataClass() {
+    return CallUSourceData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public CallUSourceData dummyData() {
-        return new CallUSourceData(
-//                CallUSourceData.Direction.both,
-                   Collections.singletonList(CallUSourceData.CallState.OFFHOOK),
-                   "1234"
-               );
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public CallUSourceData dummyData() {
+    return new CallUSourceData(
+        //                CallUSourceData.Direction.both,
+        Collections.singletonList(CallUSourceData.CallState.OFFHOOK), "1234");
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public CallUSourceData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new CallUSourceData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public CallUSourceData parse(final @NonNull String data,
+                               final @NonNull PluginDataFormat format,
+                               final int version)
+      throws IllegalStorageDataException {
+    return new CallUSourceData(data, format, version);
+  }
 }

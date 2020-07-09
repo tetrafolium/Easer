@@ -20,34 +20,32 @@
 package ryey.easer.commons.local_skill;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.plugin.PluginDataFormat;
 
 public interface DataFactory<T extends StorageData> {
-    /**
-     * @return The class of the expected data
-     */
-    @NonNull
-    Class<T> dataClass();
+  /**
+   * @return The class of the expected data
+   */
+  @NonNull Class<T> dataClass();
 
-    /**
-     * Get a valid but dummy data.
-     * Mainly for testing.
-     * @return dummy data
-     */
-    @ValidData
-    @NonNull
-    T dummyData();
+  /**
+   * Get a valid but dummy data.
+   * Mainly for testing.
+   * @return dummy data
+   */
+  @ValidData @NonNull T dummyData();
 
-    /**
-     * Parse data from the given input to reconstruct the saved data
-     * @param data The data to be parsed
-     * @param format The format of the underlying storage (e.g. JSON)
-     * @param version The version of the data to-be-parsed
-     * @return The reconstructed data
-     * @throws IllegalStorageDataException If the {@param data} contains error or can't be recognized
-     */
-    @ValidData
-    @NonNull
-    T parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException;
+  /**
+   * Parse data from the given input to reconstruct the saved data
+   * @param data The data to be parsed
+   * @param format The format of the underlying storage (e.g. JSON)
+   * @param version The version of the data to-be-parsed
+   * @return The reconstructed data
+   * @throws IllegalStorageDataException If the {@param data} contains error or
+   *     can't be recognized
+   */
+  @ValidData
+  @NonNull
+  T parse(@NonNull String data, @NonNull PluginDataFormat format, int version)
+      throws IllegalStorageDataException;
 }

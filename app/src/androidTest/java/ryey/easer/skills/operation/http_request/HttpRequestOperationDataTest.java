@@ -19,22 +19,21 @@
 
 package ryey.easer.skills.operation.http_request;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class HttpRequestOperationDataTest {
 
-    @Test
-    public void testParcel() {
-        HttpRequestOperationData dummyData = new HttpRequestOperationDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        HttpRequestOperationData parceledData = HttpRequestOperationData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    HttpRequestOperationData dummyData =
+        new HttpRequestOperationDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    HttpRequestOperationData parceledData =
+        HttpRequestOperationData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

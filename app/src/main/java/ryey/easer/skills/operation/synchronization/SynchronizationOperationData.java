@@ -21,36 +21,32 @@ package ryey.easer.skills.operation.synchronization;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.plugin.PluginDataFormat;
 import ryey.easer.skills.operation.BooleanOperationData;
 
 public class SynchronizationOperationData extends BooleanOperationData {
 
-    SynchronizationOperationData(final Boolean state) {
-        super(state);
-    }
+  SynchronizationOperationData(final Boolean state) { super(state); }
 
-    SynchronizationOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        super(data, format, version);
-    }
+  SynchronizationOperationData(final @NonNull String data,
+                               final @NonNull PluginDataFormat format,
+                               final int version)
+      throws IllegalStorageDataException {
+    super(data, format, version);
+  }
 
-    public static final Parcelable.Creator<SynchronizationOperationData> CREATOR
-    = new Parcelable.Creator<SynchronizationOperationData>() {
+  public static final Parcelable.Creator<SynchronizationOperationData> CREATOR =
+      new Parcelable.Creator<SynchronizationOperationData>() {
         public SynchronizationOperationData createFromParcel(final Parcel in) {
-            return new SynchronizationOperationData(in);
+          return new SynchronizationOperationData(in);
         }
 
         public SynchronizationOperationData[] newArray(final int size) {
-            return new SynchronizationOperationData[size];
+          return new SynchronizationOperationData[size];
         }
-    };
+      };
 
-    private SynchronizationOperationData(final Parcel in) {
-        super(in);
-    }
-
+  private SynchronizationOperationData(final Parcel in) { super(in); }
 }

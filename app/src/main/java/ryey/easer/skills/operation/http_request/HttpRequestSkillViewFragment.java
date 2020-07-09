@@ -25,72 +25,76 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioButton;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.InvalidDataInputException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillViewFragment;
 
-public class HttpRequestSkillViewFragment extends SkillViewFragment<HttpRequestOperationData> {
+public class HttpRequestSkillViewFragment
+    extends SkillViewFragment<HttpRequestOperationData> {
 
-    private RadioButton rb_get;
-    private RadioButton rb_post;
-    private EditText editText_url;
-    private EditText editText_header;
-    private EditText editText_contentType;
-    private EditText editText_postData;
+  private RadioButton rb_get;
+  private RadioButton rb_post;
+  private EditText editText_url;
+  private EditText editText_header;
+  private EditText editText_contentType;
+  private EditText editText_postData;
 
-    @NonNull
-    @Override
-    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.plugin_operation__http_request, container, false);
-        rb_get = view.findViewById(R.id.radioButton_get);
-        rb_post = view.findViewById(R.id.radioButton_post);
-        editText_url = view.findViewById(R.id.editText_url);
-        editText_header = view.findViewById(R.id.editText_header);
-        editText_contentType = view.findViewById(R.id.editText_contentType);
-        editText_postData = view.findViewById(R.id.editText_postData);
-        return view;
+  @NonNull
+  @Override
+  public View onCreateView(final @NonNull LayoutInflater inflater,
+                           final @Nullable ViewGroup container,
+                           final @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.plugin_operation__http_request,
+                                 container, false);
+    rb_get = view.findViewById(R.id.radioButton_get);
+    rb_post = view.findViewById(R.id.radioButton_post);
+    editText_url = view.findViewById(R.id.editText_url);
+    editText_header = view.findViewById(R.id.editText_header);
+    editText_contentType = view.findViewById(R.id.editText_contentType);
+    editText_postData = view.findViewById(R.id.editText_postData);
+    return view;
+  }
+
+  @Override
+  protected void _fill(final
+                       @ValidData @NonNull HttpRequestOperationData data) {
+    switch (data.requestMethod) {
+    case GET:
+      rb_get.setChecked(true);
+      break;
+    case POST:
+      rb_post.setChecked(true);
+      break;
+    default:
+      throw new IllegalAccessError();
     }
+    editText_url.setText(data.url);
+    editText_header.setText(data.requestHeader);
+    editText_contentType.setText(data.contentType);
+    editText_postData.setText(data.postData);
+  }
 
-    @Override
-    protected void _fill(final @ValidData @NonNull HttpRequestOperationData data) {
-        switch (data.requestMethod) {
-        case GET:
-            rb_get.setChecked(true);
-            break;
-        case POST:
-            rb_post.setChecked(true);
-            break;
-        default:
-            throw new IllegalAccessError();
-        }
-        editText_url.setText(data.url);
-        editText_header.setText(data.requestHeader);
-        editText_contentType.setText(data.contentType);
-        editText_postData.setText(data.postData);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public HttpRequestOperationData getData() throws InvalidDataInputException {
+    HttpRequestOperationData.RequestMethod requestMethod;
+    if (rb_get.isChecked())
+      requestMethod = HttpRequestOperationData.RequestMethod.GET;
+    else if (rb_post.isChecked())
+      requestMethod = HttpRequestOperationData.RequestMethod.POST;
+    else
+      throw new IllegalStateException("This line ought to be unreachable");
 
-    @ValidData
-    @NonNull
-    @Override
-    public HttpRequestOperationData getData() throws InvalidDataInputException {
-        HttpRequestOperationData.RequestMethod requestMethod;
-        if (rb_get.isChecked())
-            requestMethod = HttpRequestOperationData.RequestMethod.GET;
-        else if (rb_post.isChecked())
-            requestMethod = HttpRequestOperationData.RequestMethod.POST;
-        else
-            throw new IllegalStateException("This line ought to be unreachable");
+    final String url = editText_url.getText().toString();
+    final String header = editText_header.getText().toString();
+    final String contentType = editText_contentType.getText().toString();
+    final String postData = editText_postData.getText().toString();
 
-        final String url = editText_url.getText().toString();
-        final String header = editText_header.getText().toString();
-        final String contentType = editText_contentType.getText().toString();
-        final String postData = editText_postData.getText().toString();
-
-        return new HttpRequestOperationData(requestMethod, url, header, contentType, postData);
-    }
+    return new HttpRequestOperationData(requestMethod, url, header, contentType,
+                                        postData);
+  }
 }

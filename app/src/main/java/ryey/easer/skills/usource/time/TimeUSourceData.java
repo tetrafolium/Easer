@@ -21,18 +21,14 @@ package ryey.easer.skills.usource.time;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
-
+import org.json.JSONException;
+import org.json.JSONObject;
 import ryey.easer.commons.C;
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.dynamics.Dynamics;
@@ -40,128 +36,131 @@ import ryey.easer.commons.local_skill.usource.USourceData;
 import ryey.easer.plugin.PluginDataFormat;
 
 public class TimeUSourceData implements USourceData {
-    private static final SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm", Locale.US);
+  private static final SimpleDateFormat sdf_time =
+      new SimpleDateFormat("HH:mm", Locale.US);
 
-    private static String TimeToText(final Calendar calendar) {
-        return sdf_time.format(calendar.getTime());
-    }
+  private static String TimeToText(final Calendar calendar) {
+    return sdf_time.format(calendar.getTime());
+  }
 
-    private static Calendar TextToTime(final String text) throws ParseException {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(sdf_time.parse(text));
-        return calendar;
-    }
+  private static Calendar TextToTime(final String text) throws ParseException {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(sdf_time.parse(text));
+    return calendar;
+  }
 
-    enum Rel {
-        after,
-    }
+  enum Rel {
+    after,
+  }
 
-    private static final String K_TIME = "time";
-    private static final String K_REL = "rel";
+  private static final String K_TIME = "time";
+  private static final String K_REL = "rel";
 
-    Calendar time;
-    Rel rel;
+  Calendar time;
+  Rel rel;
 
-    TimeUSourceData(final Calendar time, final Rel rel) {
-        this.time = time;
-        this.rel = rel;
-    }
+  TimeUSourceData(final Calendar time, final Rel rel) {
+    this.time = time;
+    this.rel = rel;
+  }
 
-    TimeUSourceData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        switch (format) {
-        default:
-            try {
-                JSONObject jsonObject = new JSONObject(data);
-                try {
-                    time = TextToTime(jsonObject.getString(K_TIME));
-                } catch (ParseException e) {
-                    throw new IllegalStorageDataException(e);
-                }
-                rel = Rel.valueOf(jsonObject.getString(K_REL));
-            } catch (JSONException e) {
-                if (version < C.VERSION_UNIFORMED_SOURCE) {
-                    try {
-                        time = TextToTime(data);
-                    } catch (ParseException e1) {
-                        throw new IllegalStorageDataException(e1);
-                    }
-                    rel = Rel.after;
-                } else {
-                    throw new IllegalStorageDataException(e);
-                }
-            }
+  TimeUSourceData(final @NonNull String data,
+                  final @NonNull PluginDataFormat format, final int version)
+      throws IllegalStorageDataException {
+    switch (format) {
+    default:
+      try {
+        JSONObject jsonObject = new JSONObject(data);
+        try {
+          time = TextToTime(jsonObject.getString(K_TIME));
+        } catch (ParseException e) {
+          throw new IllegalStorageDataException(e);
         }
-    }
-
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean isValid() {
-        if (time == null)
-            return false;
-        return true;
-    }
-
-    @Nullable
-    @Override
-    public Dynamics[] dynamics() {
-        return null;
-    }
-
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean equals(final Object obj) {
-        if (obj == this)
-            return true;
-        if (obj == null || !(obj instanceof TimeUSourceData))
-            return false;
-        if (!TimeToText(time).equals(TimeToText(((TimeUSourceData) obj).time)))
-            return false;
-        return true;
-    }
-
-    @NonNull
-    @Override
-    public String serialize(final @NonNull PluginDataFormat format) {
-        String res;
-        switch (format) {
-        default:
-            try {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put(K_TIME, TimeToText(time));
-                jsonObject.put(K_REL, rel.name());
-                res = jsonObject.toString();
-            } catch (JSONException e) {
-                throw new IllegalStateException(e);
-            }
+        rel = Rel.valueOf(jsonObject.getString(K_REL));
+      } catch (JSONException e) {
+        if (version < C.VERSION_UNIFORMED_SOURCE) {
+          try {
+            time = TextToTime(data);
+          } catch (ParseException e1) {
+            throw new IllegalStorageDataException(e1);
+          }
+          rel = Rel.after;
+        } else {
+          throw new IllegalStorageDataException(e);
         }
-        return res;
+      }
     }
+  }
 
-    @Override
-    public int describeContents() {
-        return 0;
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean isValid() {
+    if (time == null)
+      return false;
+    return true;
+  }
+
+  @Nullable
+  @Override
+  public Dynamics[] dynamics() {
+    return null;
+  }
+
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+    if (obj == null || !(obj instanceof TimeUSourceData))
+      return false;
+    if (!TimeToText(time).equals(TimeToText(((TimeUSourceData)obj).time)))
+      return false;
+    return true;
+  }
+
+  @NonNull
+  @Override
+  public String serialize(final @NonNull PluginDataFormat format) {
+    String res;
+    switch (format) {
+    default:
+      try {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(K_TIME, TimeToText(time));
+        jsonObject.put(K_REL, rel.name());
+        res = jsonObject.toString();
+      } catch (JSONException e) {
+        throw new IllegalStateException(e);
+      }
     }
+    return res;
+  }
 
-    @Override
-    public void writeToParcel(final Parcel dest, final int flags) {
-        dest.writeLong(time.getTimeInMillis());
-        dest.writeInt(rel.ordinal());
-    }
+  @Override
+  public int describeContents() {
+    return 0;
+  }
 
-    public static final Parcelable.Creator<TimeUSourceData> CREATOR
-    = new Parcelable.Creator<TimeUSourceData>() {
+  @Override
+  public void writeToParcel(final Parcel dest, final int flags) {
+    dest.writeLong(time.getTimeInMillis());
+    dest.writeInt(rel.ordinal());
+  }
+
+  public static final Parcelable.Creator<TimeUSourceData> CREATOR =
+      new Parcelable.Creator<TimeUSourceData>() {
         public TimeUSourceData createFromParcel(final Parcel in) {
-            return new TimeUSourceData(in);
+          return new TimeUSourceData(in);
         }
 
         public TimeUSourceData[] newArray(final int size) {
-            return new TimeUSourceData[size];
+          return new TimeUSourceData[size];
         }
-    };
+      };
 
-    private TimeUSourceData(final Parcel in) {
-        time = Calendar.getInstance();
-        time.setTimeInMillis(in.readLong());
-        rel = Rel.values()[in.readInt()];
-    }
+  private TimeUSourceData(final Parcel in) {
+    time = Calendar.getInstance();
+    time.setTimeInMillis(in.readLong());
+    rel = Rel.values()[in.readInt()];
+  }
 }

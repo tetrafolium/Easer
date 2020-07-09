@@ -20,20 +20,15 @@
 package ryey.easer.skills.usource.power;
 
 import android.os.Parcel;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.collection.ArraySet;
-
+import java.util.Collection;
+import java.util.Set;
+import javax.annotation.Nonnull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Collection;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
 import ryey.easer.commons.C;
 import ryey.easer.commons.CommonSkillUtils;
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
@@ -43,140 +38,148 @@ import ryey.easer.plugin.PluginDataFormat;
 
 public class PowerUSourceData implements USourceData {
 
-    private static final String K_STATUS = "status";
-    private static final String K_CHARGING_THROUGH = "charge_through";
+  private static final String K_STATUS = "status";
+  private static final String K_CHARGING_THROUGH = "charge_through";
 
+  //    Integer battery_status = null;
+  @Nonnull final BatteryStatus batteryStatus;
+  @Nonnull final Set<ChargingMethod> chargingMethods = new ArraySet<>();
 
-//    Integer battery_status = null;
-    @Nonnull final BatteryStatus batteryStatus;
-    @Nonnull final Set<ChargingMethod> chargingMethods = new ArraySet<>();
+  public PowerUSourceData(
+      final @NonNull BatteryStatus batteryStatus,
+      final @Nullable Collection<ChargingMethod> chargingMethods) {
+    this.batteryStatus = batteryStatus;
+    if (batteryStatus == BatteryStatus.charging) {
+      if (chargingMethods == null || chargingMethods.size() == 0)
+        throw new IllegalArgumentException("Charging must have a method");
+      this.chargingMethods.addAll(chargingMethods);
+    }
+  }
 
-    public PowerUSourceData(final @NonNull BatteryStatus batteryStatus, final @Nullable Collection<ChargingMethod> chargingMethods) {
-        this.batteryStatus = batteryStatus;
+  PowerUSourceData(final @NonNull String data,
+                   final @NonNull PluginDataFormat format, final int version)
+      throws IllegalStorageDataException {
+    switch (format) {
+    default:
+      if (version < C.VERSION_RENAME_BATTERY_USOURCE) {
+        try {
+          int battery_status = Integer.parseInt(data);
+          switch (battery_status) {
+          case BatteryStatus_Old.charging:
+            batteryStatus = BatteryStatus.charging;
+            chargingMethods.add(ChargingMethod.any);
+            break;
+          case BatteryStatus_Old.discharging:
+            batteryStatus = BatteryStatus.discharging;
+            break;
+          default:
+            throw new IllegalStorageDataException(
+                "unknown battery status representation");
+          }
+        } catch (NumberFormatException e) {
+          throw new IllegalStorageDataException(e);
+        }
+      } else {
+        try {
+          JSONObject jsonObject = new JSONObject(data);
+          batteryStatus = BatteryStatus.valueOf(jsonObject.getString(K_STATUS));
+          if (batteryStatus == BatteryStatus.charging) {
+            JSONArray jsonArray = jsonObject.getJSONArray(K_CHARGING_THROUGH);
+            for (int i = 0; i < jsonArray.length(); i++) {
+              chargingMethods.add(
+                  ChargingMethod.valueOf(jsonArray.getString(0)));
+            }
+          }
+        } catch (JSONException e) {
+          throw new IllegalStorageDataException(e);
+        } catch (IllegalArgumentException e) {
+          throw new IllegalStorageDataException(e);
+        }
+      }
+      break;
+    }
+  }
+
+  @NonNull
+  @Override
+  public String serialize(final @NonNull PluginDataFormat format) {
+    String res;
+    switch (format) {
+    default:
+      try {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(K_STATUS, batteryStatus.toString());
         if (batteryStatus == BatteryStatus.charging) {
-            if (chargingMethods == null || chargingMethods.size() == 0)
-                throw new IllegalArgumentException("Charging must have a method");
-            this.chargingMethods.addAll(chargingMethods);
+          JSONArray jsonArray = new JSONArray();
+          for (ChargingMethod method : chargingMethods) {
+            jsonArray.put(method.toString());
+          }
+          jsonObject.put(K_CHARGING_THROUGH, jsonArray);
         }
+        res = jsonObject.toString();
+      } catch (JSONException e) {
+        throw new IllegalStateException(e);
+      }
+      break;
     }
+    return res;
+  }
 
-    PowerUSourceData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        switch (format) {
-        default:
-            if (version < C.VERSION_RENAME_BATTERY_USOURCE) {
-                try {
-                    int battery_status = Integer.parseInt(data);
-                    switch (battery_status) {
-                    case BatteryStatus_Old.charging:
-                        batteryStatus = BatteryStatus.charging;
-                        chargingMethods.add(ChargingMethod.any);
-                        break;
-                    case BatteryStatus_Old.discharging:
-                        batteryStatus = BatteryStatus.discharging;
-                        break;
-                    default:
-                        throw new IllegalStorageDataException("unknown battery status representation");
-                    }
-                } catch (NumberFormatException e) {
-                    throw new IllegalStorageDataException(e);
-                }
-            } else {
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    batteryStatus = BatteryStatus.valueOf(jsonObject.getString(K_STATUS));
-                    if (batteryStatus == BatteryStatus.charging) {
-                        JSONArray jsonArray = jsonObject.getJSONArray(K_CHARGING_THROUGH);
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            chargingMethods.add(ChargingMethod.valueOf(jsonArray.getString(0)));
-                        }
-                    }
-                } catch (JSONException e) {
-                    throw new IllegalStorageDataException(e);
-                } catch (IllegalArgumentException e) {
-                    throw new IllegalStorageDataException(e);
-                }
-            }
-            break;
-        }
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean isValid() {
+    if (batteryStatus == BatteryStatus.discharging &&
+        chargingMethods.size() > 0)
+      return false;
+    if (batteryStatus == BatteryStatus.charging && chargingMethods.size() == 0)
+      return false;
+    return true;
+  }
 
-    @NonNull
-    @Override
-    public String serialize(final @NonNull PluginDataFormat format) {
-        String res;
-        switch (format) {
-        default:
-            try {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put(K_STATUS, batteryStatus.toString());
-                if (batteryStatus == BatteryStatus.charging) {
-                    JSONArray jsonArray = new JSONArray();
-                    for (ChargingMethod method : chargingMethods) {
-                        jsonArray.put(method.toString());
-                    }
-                    jsonObject.put(K_CHARGING_THROUGH, jsonArray);
-                }
-                res = jsonObject.toString();
-            } catch (JSONException e) {
-                throw new IllegalStateException(e);
-            }
-            break;
-        }
-        return res;
-    }
+  @Nullable
+  @Override
+  public Dynamics[] dynamics() {
+    return null;
+  }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean isValid() {
-        if (batteryStatus == BatteryStatus.discharging && chargingMethods.size() > 0)
-            return false;
-        if (batteryStatus == BatteryStatus.charging && chargingMethods.size() == 0)
-            return false;
-        return true;
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean equals(final Object obj) {
+    if (!(obj instanceof PowerUSourceData))
+      return false;
+    if (!batteryStatus.equals(((PowerUSourceData)obj).batteryStatus))
+      return false;
+    if (!chargingMethods.equals(((PowerUSourceData)obj).chargingMethods))
+      return false;
+    return true;
+  }
 
-    @Nullable
-    @Override
-    public Dynamics[] dynamics() {
-        return null;
-    }
+  @Override
+  public int describeContents() {
+    return 0;
+  }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean equals(final Object obj) {
-        if (!(obj instanceof PowerUSourceData))
-            return false;
-        if (!batteryStatus.equals(((PowerUSourceData) obj).batteryStatus))
-            return false;
-        if (!chargingMethods.equals(((PowerUSourceData) obj).chargingMethods))
-            return false;
-        return true;
-    }
+  @Override
+  public void writeToParcel(final Parcel dest, final int flags) {
+    dest.writeInt(batteryStatus.ordinal());
+    CommonSkillUtils.IO.writeEnumCollectionToParcel(dest, flags,
+                                                    chargingMethods);
+  }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(final Parcel dest, final int flags) {
-        dest.writeInt(batteryStatus.ordinal());
-        CommonSkillUtils.IO.writeEnumCollectionToParcel(dest, flags, chargingMethods);
-    }
-
-    public static final Creator<PowerUSourceData> CREATOR
-    = new Creator<PowerUSourceData>() {
+  public static final Creator<PowerUSourceData> CREATOR =
+      new Creator<PowerUSourceData>() {
         public PowerUSourceData createFromParcel(final Parcel in) {
-            return new PowerUSourceData(in);
+          return new PowerUSourceData(in);
         }
 
         public PowerUSourceData[] newArray(final int size) {
-            return new PowerUSourceData[size];
+          return new PowerUSourceData[size];
         }
-    };
+      };
 
-    private PowerUSourceData(final Parcel in) {
-        batteryStatus = BatteryStatus.values()[in.readInt()];
-        chargingMethods.addAll(CommonSkillUtils.IO.readEnumCollectionFromParcel(in, ChargingMethod.values()));
-    }
+  private PowerUSourceData(final Parcel in) {
+    batteryStatus = BatteryStatus.values()[in.readInt()];
+    chargingMethods.addAll(CommonSkillUtils.IO.readEnumCollectionFromParcel(
+        in, ChargingMethod.values()));
+  }
 }

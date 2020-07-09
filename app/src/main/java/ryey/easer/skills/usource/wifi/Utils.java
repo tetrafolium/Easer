@@ -20,22 +20,22 @@
 package ryey.easer.skills.usource.wifi;
 
 import android.net.wifi.WifiInfo;
-
 import androidx.annotation.NonNull;
 
 final class Utils {
-    static boolean compare(final WifiUSourceData data, final @NonNull WifiInfo wifiInfo) {
-        String ssid;
-        if (data.mode_essid) {
-            ssid = wifiInfo.getSSID();
-            if (ssid.startsWith("\"")) {
-                ssid = ssid.substring(1, ssid.length() - 1);
-            }
-        } else {
-            ssid = wifiInfo.getBSSID();
-        }
-        return data.match(ssid);
+  static boolean compare(final WifiUSourceData data,
+                         final @NonNull WifiInfo wifiInfo) {
+    String ssid;
+    if (data.mode_essid) {
+      ssid = wifiInfo.getSSID();
+      if (ssid.startsWith("\"")) {
+        ssid = ssid.substring(1, ssid.length() - 1);
+      }
+    } else {
+      ssid = wifiInfo.getBSSID();
     }
+    return data.match(ssid);
+  }
 
-    //TODO: Move BroadcastReceiver content to here
+  // TODO: Move BroadcastReceiver content to here
 }

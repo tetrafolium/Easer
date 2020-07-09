@@ -20,45 +20,47 @@
 package ryey.easer.skills.usource.call;
 
 import android.content.Context;
-
 import org.jetbrains.annotations.NotNull;
-
 import ryey.easer.skills.event.AbstractSlot;
 
-public class CallSlot extends AbstractSlot<CallUSourceData> implements CallReceiver.CallEventHandler {
+public class CallSlot extends AbstractSlot<CallUSourceData>
+    implements CallReceiver.CallEventHandler {
 
-    private CallReceiver receiver = new CallReceiver(this);
+  private CallReceiver receiver = new CallReceiver(this);
 
-    public CallSlot(final Context context, final CallUSourceData data) {
-        this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
-    }
+  public CallSlot(final Context context, final CallUSourceData data) {
+    this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+  }
 
-    CallSlot(final Context context, final CallUSourceData data, final boolean retriggerable, final boolean persistent) {
-        super(context, data, retriggerable, persistent);
-    }
+  CallSlot(final Context context, final CallUSourceData data,
+           final boolean retriggerable, final boolean persistent) {
+    super(context, data, retriggerable, persistent);
+  }
 
-    @Override
-    public void listen() {
-        context.registerReceiver(receiver, CallReceiver.Companion.getCallFilter());
-    }
+  @Override
+  public void listen() {
+    context.registerReceiver(receiver, CallReceiver.Companion.getCallFilter());
+  }
 
-    @Override
-    public void cancel() {
-        context.unregisterReceiver(receiver);
-    }
+  @Override
+  public void cancel() {
+    context.unregisterReceiver(receiver);
+  }
 
-    @Override
-    public void onIdle(final @NotNull String number) {
-        changeSatisfiedState(CallReceiver.Companion.handleIdle(eventData, number));
-    }
+  @Override
+  public void onIdle(final @NotNull String number) {
+    changeSatisfiedState(CallReceiver.Companion.handleIdle(eventData, number));
+  }
 
-    @Override
-    public void onRinging(final @NotNull String number) {
-        changeSatisfiedState(CallReceiver.Companion.handleRinging(eventData, number));
-    }
+  @Override
+  public void onRinging(final @NotNull String number) {
+    changeSatisfiedState(
+        CallReceiver.Companion.handleRinging(eventData, number));
+  }
 
-    @Override
-    public void onOffHook(final @NotNull String number) {
-        changeSatisfiedState(CallReceiver.Companion.handleOffHook(eventData, number));
-    }
+  @Override
+  public void onOffHook(final @NotNull String number) {
+    changeSatisfiedState(
+        CallReceiver.Companion.handleOffHook(eventData, number));
+  }
 }

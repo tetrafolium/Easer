@@ -19,22 +19,20 @@
 
 package ryey.easer.skills.event.nfc_tag;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class NfcTagEventDataTest {
 
-    @Test
-    public void testParcel() {
-        NfcTagEventData dummyData = new NfcTagEventDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        NfcTagEventData parceledData = NfcTagEventData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    NfcTagEventData dummyData = new NfcTagEventDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    NfcTagEventData parceledData =
+        NfcTagEventData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

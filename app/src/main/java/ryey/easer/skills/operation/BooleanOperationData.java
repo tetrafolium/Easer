@@ -20,12 +20,9 @@
 package ryey.easer.skills.operation;
 
 import android.os.Parcel;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import java.util.Set;
-
 import ryey.easer.commons.C;
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.dynamics.SolidDynamicsAssignment;
@@ -33,74 +30,77 @@ import ryey.easer.commons.local_skill.operationskill.OperationData;
 import ryey.easer.plugin.PluginDataFormat;
 import ryey.easer.skills.reusable.BooleanData;
 
-public abstract class BooleanOperationData extends BooleanData implements OperationData {
+public abstract class BooleanOperationData
+    extends BooleanData implements OperationData {
 
-    protected BooleanOperationData() {
-        super();
-    }
+  protected BooleanOperationData() { super(); }
 
-    protected BooleanOperationData(final @NonNull Boolean state) {
-        super(state);
-    }
+  protected BooleanOperationData(final @NonNull Boolean state) { super(state); }
 
-    public BooleanOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        parse(data, format, version);
-    }
+  public BooleanOperationData(final @NonNull String data,
+                              final @NonNull PluginDataFormat format,
+                              final int version)
+      throws IllegalStorageDataException {
+    parse(data, format, version);
+  }
 
-    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        switch (format) {
-        default:
-            switch (data) {
-            case C.ON:
-                set(true);
-                break;
-            case C.OFF:
-                set(false);
-                break;
-            default:
-                throw new IllegalStorageDataException("Unknown data");
-            }
-        }
+  public void parse(final @NonNull String data,
+                    final @NonNull PluginDataFormat format, final int version)
+      throws IllegalStorageDataException {
+    switch (format) {
+    default:
+      switch (data) {
+      case C.ON:
+        set(true);
+        break;
+      case C.OFF:
+        set(false);
+        break;
+      default:
+        throw new IllegalStorageDataException("Unknown data");
+      }
     }
+  }
 
-    @NonNull
-    @Override
-    public String serialize(final @NonNull PluginDataFormat format) {
-        String res;
-        switch (format) {
-        default:
-            Boolean state = get();
-            if (state)
-                res = C.ON;
-            else
-                res = C.OFF;
-        }
-        return res;
+  @NonNull
+  @Override
+  public String serialize(final @NonNull PluginDataFormat format) {
+    String res;
+    switch (format) {
+    default:
+      Boolean state = get();
+      if (state)
+        res = C.ON;
+      else
+        res = C.OFF;
     }
+    return res;
+  }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+  @Override
+  public int describeContents() {
+    return 0;
+  }
 
-    @Override
-    public void writeToParcel(final @NonNull Parcel dest, final int flags) {
-        dest.writeByte((byte) (state ? 1 : 0));
-    }
+  @Override
+  public void writeToParcel(final @NonNull Parcel dest, final int flags) {
+    dest.writeByte((byte)(state ? 1 : 0));
+  }
 
-    protected BooleanOperationData(final @NonNull Parcel in) {
-        state = in.readByte() != 0;
-    }
+  protected BooleanOperationData(final @NonNull Parcel in) {
+    state = in.readByte() != 0;
+  }
 
-    @Nullable
-    @Override
-    public Set<String> placeholders() {
-        return null;
-    }
+  @Nullable
+  @Override
+  public Set<String> placeholders() {
+    return null;
+  }
 
-    @NonNull
-    @Override
-    public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
-        return this;
-    }
+  @NonNull
+  @Override
+  public OperationData
+  applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
+    return this;
+  }
 }

@@ -20,10 +20,8 @@
 package ryey.easer.skills.usource.wifi_enabled;
 
 import android.os.Parcel;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.dynamics.Dynamics;
 import ryey.easer.commons.local_skill.usource.USourceData;
@@ -31,76 +29,76 @@ import ryey.easer.plugin.PluginDataFormat;
 
 public class WifiEnabledUSourceData implements USourceData {
 
-    final boolean enabled;
+  final boolean enabled;
 
-    WifiEnabledUSourceData(final boolean enabled) {
-        this.enabled = enabled;
+  WifiEnabledUSourceData(final boolean enabled) { this.enabled = enabled; }
+
+  WifiEnabledUSourceData(final @NonNull String data,
+                         final @NonNull PluginDataFormat format,
+                         final int version) throws IllegalStorageDataException {
+    switch (format) {
+    default:
+      enabled = Boolean.parseBoolean(data);
     }
+  }
 
-    WifiEnabledUSourceData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        switch (format) {
-        default:
-            enabled = Boolean.parseBoolean(data);
-        }
+  @NonNull
+  @Override
+  public String serialize(final @NonNull PluginDataFormat format) {
+    String res;
+    switch (format) {
+    default:
+      res = String.valueOf(enabled);
     }
+    return res;
+  }
 
-    @NonNull
-    @Override
-    public String serialize(final @NonNull PluginDataFormat format) {
-        String res;
-        switch (format) {
-        default:
-            res = String.valueOf(enabled);
-        }
-        return res;
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean isValid() {
+    return true;
+  }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean isValid() {
-        return true;
-    }
+  @Nullable
+  @Override
+  public Dynamics[] dynamics() {
+    return null;
+  }
 
-    @Nullable
-    @Override
-    public Dynamics[] dynamics() {
-        return null;
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+    if (obj == null || !(obj instanceof WifiEnabledUSourceData))
+      return false;
+    if (enabled != ((WifiEnabledUSourceData)obj).enabled)
+      return false;
+    return true;
+  }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean equals(final Object obj) {
-        if (obj == this)
-            return true;
-        if (obj == null || !(obj instanceof WifiEnabledUSourceData))
-            return false;
-        if (enabled != ((WifiEnabledUSourceData) obj).enabled)
-            return false;
-        return true;
-    }
+  @Override
+  public int describeContents() {
+    return 0;
+  }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+  @Override
+  public void writeToParcel(final Parcel dest, final int flags) {
+    dest.writeByte((byte)(enabled ? 1 : 0));
+  }
 
-    @Override
-    public void writeToParcel(final Parcel dest, final int flags) {
-        dest.writeByte((byte) (enabled ? 1 : 0));
-    }
-
-    public static final Creator<WifiEnabledUSourceData> CREATOR
-    = new Creator<WifiEnabledUSourceData>() {
+  public static final Creator<WifiEnabledUSourceData> CREATOR =
+      new Creator<WifiEnabledUSourceData>() {
         public WifiEnabledUSourceData createFromParcel(final Parcel in) {
-            return new WifiEnabledUSourceData(in);
+          return new WifiEnabledUSourceData(in);
         }
 
         public WifiEnabledUSourceData[] newArray(final int size) {
-            return new WifiEnabledUSourceData[size];
+          return new WifiEnabledUSourceData[size];
         }
-    };
+      };
 
-    private WifiEnabledUSourceData(final Parcel in) {
-        enabled = in.readByte() != 0;
-    }
+  private WifiEnabledUSourceData(final Parcel in) {
+    enabled = in.readByte() != 0;
+  }
 }

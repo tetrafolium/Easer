@@ -27,75 +27,77 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.skills.condition.SkeletonTracker;
 
 public class BTDeviceTracker extends SkeletonTracker<BTDeviceUSourceData> {
 
-    private int matched_devices = 0;
+  private int matched_devices = 0;
 
-    private final BroadcastReceiver connReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(BluetoothDevice.ACTION_ACL_CONNECTED)) {
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                if (is_target(device)) {
-                    matched_devices++;
-                    determine_satisfied();
-                }
-            } else if (action.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                if (is_target(device)) {
-                    matched_devices--;
-                    determine_satisfied();
-                }
-            }
-        }
-    };
-
-    private final IntentFilter filter;
-
-    {
-        filter = new IntentFilter();
-        filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
-        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-    }
-
-    BTDeviceTracker(final Context context, final BTDeviceUSourceData data,
-                    final @NonNull PendingIntent event_positive,
-                    final @NonNull PendingIntent event_negative) {
-        super(context, data, event_positive, event_negative);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            BluetoothManager bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
-            for (int profile : new int[] {BluetoothProfile.GATT, BluetoothProfile.GATT_SERVER}) {
-                for (BluetoothDevice btDevice : bluetoothManager.getConnectedDevices(profile)) {
-                    if (is_target(btDevice)) {
-                        matched_devices++;
-                    }
-                }
-            }
-        }
-        determine_satisfied();
-    }
-
+  private final BroadcastReceiver connReceiver = new BroadcastReceiver() {
     @Override
-    public void start() {
-        context.registerReceiver(connReceiver, filter);
+    public void onReceive(final Context context, final Intent intent) {
+      String action = intent.getAction();
+      if (action.equals(BluetoothDevice.ACTION_ACL_CONNECTED)) {
+        BluetoothDevice device =
+            intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+        if (is_target(device)) {
+          matched_devices++;
+          determine_satisfied();
+        }
+      } else if (action.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
+        BluetoothDevice device =
+            intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+        if (is_target(device)) {
+          matched_devices--;
+          determine_satisfied();
+        }
+      }
     }
+  };
 
-    @Override
-    public void stop() {
-        context.unregisterReceiver(connReceiver);
-    }
+  private final IntentFilter filter;
 
-    private boolean is_target(final BluetoothDevice device) {
-        return data.hwAddresses.contains(device.getAddress());
-    }
+  {
+    filter = new IntentFilter();
+    filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+    filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+  }
 
-    private void determine_satisfied() {
-        newSatisfiedState(matched_devices > 0);
+  BTDeviceTracker(final Context context, final BTDeviceUSourceData data,
+                  final @NonNull PendingIntent event_positive,
+                  final @NonNull PendingIntent event_negative) {
+    super(context, data, event_positive, event_negative);
+    if (android.os.Build.VERSION.SDK_INT >=
+        android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+      BluetoothManager bluetoothManager =
+          (BluetoothManager)context.getSystemService(Context.BLUETOOTH_SERVICE);
+      for (int profile :
+           new int[] {BluetoothProfile.GATT, BluetoothProfile.GATT_SERVER}) {
+        for (BluetoothDevice btDevice :
+             bluetoothManager.getConnectedDevices(profile)) {
+          if (is_target(btDevice)) {
+            matched_devices++;
+          }
+        }
+      }
     }
+    determine_satisfied();
+  }
+
+  @Override
+  public void start() {
+    context.registerReceiver(connReceiver, filter);
+  }
+
+  @Override
+  public void stop() {
+    context.unregisterReceiver(connReceiver);
+  }
+
+  private boolean is_target(final BluetoothDevice device) {
+    return data.hwAddresses.contains(device.getAddress());
+  }
+
+  private void determine_satisfied() { newSatisfiedState(matched_devices > 0); }
 }

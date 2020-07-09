@@ -21,36 +21,31 @@ package ryey.easer.skills.operation.rotation;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.plugin.PluginDataFormat;
 import ryey.easer.skills.operation.BooleanOperationData;
 
 public class RotationOperationData extends BooleanOperationData {
 
-    RotationOperationData(final Boolean state) {
-        super(state);
-    }
+  RotationOperationData(final Boolean state) { super(state); }
 
-    RotationOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        super(data, format, version);
-    }
+  RotationOperationData(final @NonNull String data,
+                        final @NonNull PluginDataFormat format,
+                        final int version) throws IllegalStorageDataException {
+    super(data, format, version);
+  }
 
-    public static final Parcelable.Creator<RotationOperationData> CREATOR
-    = new Parcelable.Creator<RotationOperationData>() {
+  public static final Parcelable.Creator<RotationOperationData> CREATOR =
+      new Parcelable.Creator<RotationOperationData>() {
         public RotationOperationData createFromParcel(final Parcel in) {
-            return new RotationOperationData(in);
+          return new RotationOperationData(in);
         }
 
         public RotationOperationData[] newArray(final int size) {
-            return new RotationOperationData[size];
+          return new RotationOperationData[size];
         }
-    };
+      };
 
-    private RotationOperationData(final Parcel in) {
-        super(in);
-    }
-
+  private RotationOperationData(final Parcel in) { super(in); }
 }

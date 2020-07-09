@@ -22,17 +22,16 @@ package ryey.easer.core;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-
 import com.orhanobut.logger.Logger;
 
 public class BootUpReceiver extends BroadcastReceiver {
 
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-        Logger.d("BootUp onReceive <%s>", intent);
-        String action = intent.getAction();
-        if (Intent.ACTION_BOOT_COMPLETED.equals(action)
-                || "android.intent.action.QUICKBOOT_POWERON".equals(action))
-            EHService.start(context);
-    }
+  @Override
+  public void onReceive(final Context context, final Intent intent) {
+    Logger.d("BootUp onReceive <%s>", intent);
+    String action = intent.getAction();
+    if (Intent.ACTION_BOOT_COMPLETED.equals(action) ||
+        "android.intent.action.QUICKBOOT_POWERON".equals(action))
+      EHService.start(context);
+  }
 }

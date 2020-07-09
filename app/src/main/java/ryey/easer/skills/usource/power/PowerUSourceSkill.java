@@ -22,10 +22,8 @@ package ryey.easer.skills.usource.power;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.SkillView;
 import ryey.easer.commons.local_skill.SourceCategory;
@@ -37,64 +35,69 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class PowerUSourceSkill implements USourceSkill<PowerUSourceData> {
 
-    @NonNull
-    @Override
-    public String id() {
-        return "power_status";
-    }
+  @NonNull
+  @Override
+  public String id() {
+    return "power_status";
+  }
 
-    @Override
-    public int name() {
-        return R.string.usource_power;
-    }
+  @Override
+  public int name() {
+    return R.string.usource_power;
+  }
 
-    @Override
-    public boolean isCompatible(@NonNull final Context context) {
-        return true;
-    }
+  @Override
+  public boolean isCompatible(@NonNull final Context context) {
+    return true;
+  }
 
-    @Nullable
-    @Override
-    public Boolean checkPermissions(final @NonNull Context context) {
-        return null;
-    }
+  @Nullable
+  @Override
+  public Boolean checkPermissions(final @NonNull Context context) {
+    return null;
+  }
 
-    @Override
-    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
+  @Override
+  public void requestPermissions(final @NonNull Activity activity,
+                                 final int requestCode) {}
 
-    }
+  @NonNull
+  @Override
+  public USourceDataFactory<PowerUSourceData> dataFactory() {
+    return new PowerUSourceDataFactory();
+  }
 
-    @NonNull
-    @Override
-    public USourceDataFactory<PowerUSourceData> dataFactory() {
-        return new PowerUSourceDataFactory();
-    }
+  @NonNull
+  @Override
+  public SourceCategory category() {
+    return SourceCategory.device;
+  }
 
-    @NonNull
-    @Override
-    public SourceCategory category() {
-        return SourceCategory.device;
-    }
+  @NonNull
+  @Override
+  public SkillView<PowerUSourceData> view() {
+    return new PowerSkillViewFragment();
+  }
 
-    @NonNull
-    @Override
-    public SkillView<PowerUSourceData> view() {
-        return new PowerSkillViewFragment();
-    }
+  @Override
+  public AbstractSlot<PowerUSourceData>
+  slot(final @NonNull Context context,
+       final @ValidData @NonNull PowerUSourceData data) {
+    return new PowerSlot(context, data);
+  }
 
-    @Override
-    public AbstractSlot<PowerUSourceData> slot(final @NonNull Context context, final @ValidData @NonNull PowerUSourceData data) {
-        return new PowerSlot(context, data);
-    }
+  @Override
+  public AbstractSlot<PowerUSourceData>
+  slot(final @NonNull Context context, final @NonNull PowerUSourceData data,
+       final boolean retriggerable, final boolean persistent) {
+    return new PowerSlot(context, data, retriggerable, persistent);
+  }
 
-    @Override
-    public AbstractSlot<PowerUSourceData> slot(final @NonNull Context context, final @NonNull PowerUSourceData data, final boolean retriggerable, final boolean persistent) {
-        return new PowerSlot(context, data, retriggerable, persistent);
-    }
-
-    @Override
-    public Tracker<PowerUSourceData> tracker(final @NonNull Context context, final @NonNull PowerUSourceData data, final @NonNull PendingIntent event_positive, final @NonNull PendingIntent event_negative) {
-        return new PowerTracker(context, data, event_positive, event_negative);
-    }
-
+  @Override
+  public Tracker<PowerUSourceData>
+  tracker(final @NonNull Context context, final @NonNull PowerUSourceData data,
+          final @NonNull PendingIntent event_positive,
+          final @NonNull PendingIntent event_negative) {
+    return new PowerTracker(context, data, event_positive, event_negative);
+  }
 }

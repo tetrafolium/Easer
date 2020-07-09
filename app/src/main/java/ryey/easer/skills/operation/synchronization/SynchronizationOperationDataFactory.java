@@ -20,30 +20,32 @@
 package ryey.easer.skills.operation.synchronization;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
-class SynchronizationOperationDataFactory implements OperationDataFactory<SynchronizationOperationData> {
-    @NonNull
-    @Override
-    public Class<SynchronizationOperationData> dataClass() {
-        return SynchronizationOperationData.class;
-    }
+class SynchronizationOperationDataFactory
+    implements OperationDataFactory<SynchronizationOperationData> {
+  @NonNull
+  @Override
+  public Class<SynchronizationOperationData> dataClass() {
+    return SynchronizationOperationData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public SynchronizationOperationData dummyData() {
-        return new SynchronizationOperationData(true);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public SynchronizationOperationData dummyData() {
+    return new SynchronizationOperationData(true);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public SynchronizationOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new SynchronizationOperationData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public SynchronizationOperationData
+  parse(final @NonNull String data, final @NonNull PluginDataFormat format,
+        final int version) throws IllegalStorageDataException {
+    return new SynchronizationOperationData(data, format, version);
+  }
 }

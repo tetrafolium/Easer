@@ -24,12 +24,9 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
-
 import androidx.annotation.Nullable;
 import androidx.collection.ArraySet;
-
 import java.util.Set;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.Skill;
 import ryey.easer.commons.local_skill.conditionskill.ConditionData;
@@ -45,89 +42,111 @@ import ryey.easer.core.data.storage.EventDataStorage;
 import ryey.easer.core.data.storage.ProfileDataStorage;
 import ryey.easer.skills.LocalSkillRegistry;
 
-public class SkillSettingsPreferenceFragment extends PreferenceFragment implements RemotePluginCommunicationHelper.OnOperationPluginListObtainedCallback {
+public class SkillSettingsPreferenceFragment extends PreferenceFragment
+    implements RemotePluginCommunicationHelper
+                   .OnOperationPluginListObtainedCallback {
 
-    RemotePluginCommunicationHelper helper;
+  RemotePluginCommunicationHelper helper;
 
-    @Override
-    public void onCreate(final @Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.plugins_preference);
+  @Override
+  public void onCreate(final @Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    addPreferencesFromResource(R.xml.plugins_preference);
 
-        helper = new RemotePluginCommunicationHelper(getActivity());
-        helper.begin();
+    helper = new RemotePluginCommunicationHelper(getActivity());
+    helper.begin();
 
-        Set<String> eventSkillsInUse = getEventSkillsInUse(getActivity());
-        Set<String> conditionSkillsInUse = getConditionSkillsInUse(getActivity());
-        Set<String> operationSkillsInUse = getOperationSkillsInUse(getActivity());
+    Set<String> eventSkillsInUse = getEventSkillsInUse(getActivity());
+    Set<String> conditionSkillsInUse = getConditionSkillsInUse(getActivity());
+    Set<String> operationSkillsInUse = getOperationSkillsInUse(getActivity());
 
-        PreferenceCategory preferenceCategory;
-        preferenceCategory = (PreferenceCategory) getPreferenceScreen().findPreference(getString(R.string.key_pref_enabled_operation_plugins));
-        for (Skill plugin : LocalSkillRegistry.getInstance().operation().getAllSkills()) {
-            SkillEnabledPreference preference = new SkillEnabledPreference(getActivity(), plugin, eventSkillsInUse.contains(plugin.id()));
-            preferenceCategory.addPreference(preference);
-        }
-
-        preferenceCategory = (PreferenceCategory) getPreferenceScreen().findPreference(getString(R.string.key_pref_enabled_event_plugins));
-        for (Skill plugin : LocalSkillRegistry.getInstance().event().getAllSkills()) {
-            SkillEnabledPreference preference = new SkillEnabledPreference(getActivity(), plugin, conditionSkillsInUse.contains(plugin.id()));
-            preferenceCategory.addPreference(preference);
-        }
-
-        preferenceCategory = (PreferenceCategory) getPreferenceScreen().findPreference(getString(R.string.key_pref_enabled_condition_plugins));
-        for (Skill plugin : LocalSkillRegistry.getInstance().condition().getAllSkills()) {
-            SkillEnabledPreference preference = new SkillEnabledPreference(getActivity(), plugin, operationSkillsInUse.contains(plugin.id()));
-            preferenceCategory.addPreference(preference);
-        }
-
-        helper.asyncCurrentOperationPluginList(this);
+    PreferenceCategory preferenceCategory;
+    preferenceCategory =
+        (PreferenceCategory)getPreferenceScreen().findPreference(
+            getString(R.string.key_pref_enabled_operation_plugins));
+    for (Skill plugin :
+         LocalSkillRegistry.getInstance().operation().getAllSkills()) {
+      SkillEnabledPreference preference = new SkillEnabledPreference(
+          getActivity(), plugin, eventSkillsInUse.contains(plugin.id()));
+      preferenceCategory.addPreference(preference);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        helper.end();
+    preferenceCategory =
+        (PreferenceCategory)getPreferenceScreen().findPreference(
+            getString(R.string.key_pref_enabled_event_plugins));
+    for (Skill plugin :
+         LocalSkillRegistry.getInstance().event().getAllSkills()) {
+      SkillEnabledPreference preference = new SkillEnabledPreference(
+          getActivity(), plugin, conditionSkillsInUse.contains(plugin.id()));
+      preferenceCategory.addPreference(preference);
     }
 
-    @Override
-    public void onListObtained(final Set<RemoteOperationPluginInfo> operationPluginInfos) {
-        PreferenceCategory preferenceCategory;
-        preferenceCategory = (PreferenceCategory) getPreferenceScreen().findPreference(getString(R.string.key_pref_remote_operation_plugins));
-        for (RemotePluginInfo pluginInfo : operationPluginInfos) {
-            Preference preference = new RemotePluginInfoPreference(getActivity(), pluginInfo);
-            preferenceCategory.addPreference(preference);
-        }
+    preferenceCategory =
+        (PreferenceCategory)getPreferenceScreen().findPreference(
+            getString(R.string.key_pref_enabled_condition_plugins));
+    for (Skill plugin :
+         LocalSkillRegistry.getInstance().condition().getAllSkills()) {
+      SkillEnabledPreference preference = new SkillEnabledPreference(
+          getActivity(), plugin, operationSkillsInUse.contains(plugin.id()));
+      preferenceCategory.addPreference(preference);
     }
 
-    private static Set<String> getEventSkillsInUse(final Context context) {
-        Set<String> skillSet = new ArraySet<>();
-        EventDataStorage eventDataStorage = new EventDataStorage(context);
-        for (String event : eventDataStorage.list()) {
-            EventData eventData = eventDataStorage.get(event).getEventData();
-            EventSkill eventSkill = LocalSkillRegistry.getInstance().event().findSkill(eventData);
-            skillSet.add(eventSkill.id());
-        }
-        return skillSet;
-    }
+    helper.asyncCurrentOperationPluginList(this);
+  }
 
-    private static Set<String> getConditionSkillsInUse(final Context context) {
-        Set<String> skillSet = new ArraySet<>();
-        ConditionDataStorage conditionDataStorage = new ConditionDataStorage(context);
-        for (String condition : conditionDataStorage.list()) {
-            ConditionData conditionData = conditionDataStorage.get(condition).getData();
-            ConditionSkill conditionSkill = LocalSkillRegistry.getInstance().condition().findSkill(conditionData);
-            skillSet.add(conditionSkill.id());
-        }
-        return skillSet;
-    }
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    helper.end();
+  }
 
-    private static Set<String> getOperationSkillsInUse(final Context context) {
-        Set<String> skillSet = new ArraySet<>();
-        ProfileDataStorage profileDataStorage = new ProfileDataStorage(context);
-        for (String profile : profileDataStorage.list()) {
-            ProfileStructure profileStructure = profileDataStorage.get(profile);
-            skillSet.addAll(profileStructure.pluginIds());
-        }
-        return skillSet;
+  @Override
+  public void
+  onListObtained(final Set<RemoteOperationPluginInfo> operationPluginInfos) {
+    PreferenceCategory preferenceCategory;
+    preferenceCategory =
+        (PreferenceCategory)getPreferenceScreen().findPreference(
+            getString(R.string.key_pref_remote_operation_plugins));
+    for (RemotePluginInfo pluginInfo : operationPluginInfos) {
+      Preference preference =
+          new RemotePluginInfoPreference(getActivity(), pluginInfo);
+      preferenceCategory.addPreference(preference);
     }
+  }
+
+  private static Set<String> getEventSkillsInUse(final Context context) {
+    Set<String> skillSet = new ArraySet<>();
+    EventDataStorage eventDataStorage = new EventDataStorage(context);
+    for (String event : eventDataStorage.list()) {
+      EventData eventData = eventDataStorage.get(event).getEventData();
+      EventSkill eventSkill =
+          LocalSkillRegistry.getInstance().event().findSkill(eventData);
+      skillSet.add(eventSkill.id());
+    }
+    return skillSet;
+  }
+
+  private static Set<String> getConditionSkillsInUse(final Context context) {
+    Set<String> skillSet = new ArraySet<>();
+    ConditionDataStorage conditionDataStorage =
+        new ConditionDataStorage(context);
+    for (String condition : conditionDataStorage.list()) {
+      ConditionData conditionData =
+          conditionDataStorage.get(condition).getData();
+      ConditionSkill conditionSkill =
+          LocalSkillRegistry.getInstance().condition().findSkill(conditionData);
+      skillSet.add(conditionSkill.id());
+    }
+    return skillSet;
+  }
+
+  private static Set<String> getOperationSkillsInUse(final Context context) {
+    Set<String> skillSet = new ArraySet<>();
+    ProfileDataStorage profileDataStorage = new ProfileDataStorage(context);
+    for (String profile : profileDataStorage.list()) {
+      ProfileStructure profileStructure = profileDataStorage.get(profile);
+      skillSet.addAll(profileStructure.pluginIds());
+    }
+    return skillSet;
+  }
 }

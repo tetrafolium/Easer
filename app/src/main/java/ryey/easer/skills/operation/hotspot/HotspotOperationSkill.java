@@ -22,10 +22,8 @@ package ryey.easer.skills.operation.hotspot;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.SkillView;
 import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
@@ -35,83 +33,86 @@ import ryey.easer.plugin.operation.Category;
 import ryey.easer.skills.SkillUtils;
 import ryey.easer.skills.operation.OperationLoader;
 
-public class HotspotOperationSkill implements OperationSkill<HotspotOperationData> {
+public class HotspotOperationSkill
+    implements OperationSkill<HotspotOperationData> {
 
-    @NonNull
-    @Override
-    public String id() {
-        return "hotspot";
+  @NonNull
+  @Override
+  public String id() {
+    return "hotspot";
+  }
+
+  @Override
+  public int name() {
+    return R.string.operation_hotspot;
+  }
+
+  @Override
+  public boolean isCompatible(@NonNull final Context context) {
+    return true;
+  }
+
+  @NonNull
+  @Override
+  public PrivilegeUsage privilege() {
+    return PrivilegeUsage.no_root;
+  }
+
+  @Override
+  public int maxExistence() {
+    return 1;
+  }
+
+  @NonNull
+  @Override
+  public Category category() {
+    return Category.system_config;
+  }
+
+  @Nullable
+  @Override
+  public Boolean checkPermissions(final @NonNull Context context) {
+    return SkillUtils.checkPermission(context,
+                                      Manifest.permission.ACCESS_WIFI_STATE,
+                                      Manifest.permission.CHANGE_WIFI_STATE);
+  }
+
+  @Override
+  public void requestPermissions(final @NonNull Activity activity,
+                                 final int requestCode) {
+    boolean can_access_wifi = SkillUtils.checkPermission(
+        activity, Manifest.permission.ACCESS_WIFI_STATE);
+    boolean can_change_wifi = SkillUtils.checkPermission(
+        activity, Manifest.permission.CHANGE_WIFI_STATE);
+    if (!can_access_wifi && !can_change_wifi) {
+      SkillUtils.requestPermission(activity, requestCode,
+                                   Manifest.permission.ACCESS_WIFI_STATE,
+                                   Manifest.permission.CHANGE_WIFI_STATE);
+    } else if (!can_access_wifi) {
+      SkillUtils.requestPermission(activity, requestCode,
+                                   Manifest.permission.ACCESS_WIFI_STATE);
+    } else {
+      SkillUtils.requestPermission(activity, requestCode,
+                                   Manifest.permission.CHANGE_WIFI_STATE);
     }
+  }
 
-    @Override
-    public int name() {
-        return R.string.operation_hotspot;
-    }
+  @NonNull
+  @Override
+  public OperationDataFactory<HotspotOperationData> dataFactory() {
+    return new HotspotOperationDataFactory();
+  }
 
-    @Override
-    public boolean isCompatible(@NonNull final Context context) {
-        return true;
-    }
+  @NonNull
+  @Override
+  public SkillView<HotspotOperationData> view() {
+    return new HotspotSkillViewFragment();
+  }
 
-    @NonNull
-    @Override
-    public PrivilegeUsage privilege() {
-        return PrivilegeUsage.no_root;
-    }
-
-    @Override
-    public int maxExistence() {
-        return 1;
-    }
-
-    @NonNull
-    @Override
-    public Category category() {
-        return Category.system_config;
-    }
-
-    @Nullable
-    @Override
-    public Boolean checkPermissions(final @NonNull Context context) {
-        return SkillUtils.checkPermission(context,
-                                          Manifest.permission.ACCESS_WIFI_STATE,
-                                          Manifest.permission.CHANGE_WIFI_STATE);
-    }
-
-    @Override
-    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
-        boolean can_access_wifi = SkillUtils.checkPermission(activity, Manifest.permission.ACCESS_WIFI_STATE);
-        boolean can_change_wifi = SkillUtils.checkPermission(activity, Manifest.permission.CHANGE_WIFI_STATE);
-        if (!can_access_wifi && !can_change_wifi) {
-            SkillUtils.requestPermission(activity, requestCode,
-                                         Manifest.permission.ACCESS_WIFI_STATE,
-                                         Manifest.permission.CHANGE_WIFI_STATE);
-        } else if (!can_access_wifi) {
-            SkillUtils.requestPermission(activity, requestCode,
-                                         Manifest.permission.ACCESS_WIFI_STATE);
-        } else {
-            SkillUtils.requestPermission(activity, requestCode,
-                                         Manifest.permission.CHANGE_WIFI_STATE);
-        }
-    }
-
-    @NonNull
-    @Override
-    public OperationDataFactory<HotspotOperationData> dataFactory() {
-        return new HotspotOperationDataFactory();
-
-    }
-
-    @NonNull
-    @Override
-    public SkillView<HotspotOperationData> view() {
-        return new HotspotSkillViewFragment();
-    }
-
-    @NonNull
-    @Override
-    public OperationLoader<HotspotOperationData> loader(final @NonNull Context context) {
-        return new HotspotLoader(context);
-    }
-
+  @NonNull
+  @Override
+  public OperationLoader<HotspotOperationData>
+  loader(final @NonNull Context context) {
+    return new HotspotLoader(context);
+  }
 }

@@ -21,36 +21,38 @@ package ryey.easer.skills.usource.connectivity;
 
 import androidx.annotation.NonNull;
 import androidx.collection.ArraySet;
-
 import java.util.Set;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.usource.USourceDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
-class ConnectivityEventDataFactory implements USourceDataFactory<ConnectivityEventData> {
-    @NonNull
-    @Override
-    public Class<ConnectivityEventData> dataClass() {
-        return ConnectivityEventData.class;
-    }
+class ConnectivityEventDataFactory
+    implements USourceDataFactory<ConnectivityEventData> {
+  @NonNull
+  @Override
+  public Class<ConnectivityEventData> dataClass() {
+    return ConnectivityEventData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public ConnectivityEventData dummyData() {
-        Set<Integer> data = new ArraySet<>();
-        data.add(1);
-        data.add(2);
-        ConnectivityEventData dummyData = new ConnectivityEventData(data);
-        return dummyData;
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public ConnectivityEventData dummyData() {
+    Set<Integer> data = new ArraySet<>();
+    data.add(1);
+    data.add(2);
+    ConnectivityEventData dummyData = new ConnectivityEventData(data);
+    return dummyData;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public ConnectivityEventData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new ConnectivityEventData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public ConnectivityEventData parse(final @NonNull String data,
+                                     final @NonNull PluginDataFormat format,
+                                     final int version)
+      throws IllegalStorageDataException {
+    return new ConnectivityEventData(data, format, version);
+  }
 }

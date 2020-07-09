@@ -19,12 +19,10 @@
 
 package ryey.easer.core.data.storage.backend.json.condition;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
-
+import org.json.JSONException;
+import org.json.JSONObject;
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.conditionskill.ConditionData;
 import ryey.easer.commons.local_skill.conditionskill.ConditionSkill;
@@ -36,26 +34,31 @@ import ryey.easer.plugin.PluginDataFormat;
 import ryey.easer.skills.LocalSkillRegistry;
 
 public class ConditionParser implements Parser<ConditionStructure> {
-    @Override
-    public ConditionStructure parse(final InputStream in) throws IOException, IllegalStorageDataException {
-        try {
-            JSONObject jsonObject = new JSONObject(IOUtils.inputStreamToString(in));
-            int version = jsonObject.optInt(C.VERSION, C.VERSION_USE_SCENARIO);
-            final String name = jsonObject.getString(C.NAME);
-            JSONObject jsonObject_situation = jsonObject.getJSONObject(C.CONDITION);
-            ConditionData conditionData = parse_condition(jsonObject_situation, version);
-            return new ConditionStructure(version, name, conditionData);
-        } catch (JSONException e) {
-            throw new IllegalStorageDataException(e);
-        }
+  @Override
+  public ConditionStructure parse(final InputStream in)
+      throws IOException, IllegalStorageDataException {
+    try {
+      JSONObject jsonObject = new JSONObject(IOUtils.inputStreamToString(in));
+      int version = jsonObject.optInt(C.VERSION, C.VERSION_USE_SCENARIO);
+      final String name = jsonObject.getString(C.NAME);
+      JSONObject jsonObject_situation = jsonObject.getJSONObject(C.CONDITION);
+      ConditionData conditionData =
+          parse_condition(jsonObject_situation, version);
+      return new ConditionStructure(version, name, conditionData);
+    } catch (JSONException e) {
+      throw new IllegalStorageDataException(e);
     }
+  }
 
-    private static ConditionData parse_condition(final JSONObject json_condition, final int version) throws JSONException, IllegalStorageDataException {
-        String spec = json_condition.getString(C.SPEC);
-        ConditionSkill<?> plugin = LocalSkillRegistry.getInstance().condition().findSkill(spec);
-        if (plugin == null)
-            throw new IllegalStorageDataException("Condition skill not found");
-        return plugin.dataFactory()
-               .parse(json_condition.getString(C.DATA), PluginDataFormat.JSON, version);
-    }
+  private static ConditionData parse_condition(final JSONObject json_condition,
+                                               final int version)
+      throws JSONException, IllegalStorageDataException {
+    String spec = json_condition.getString(C.SPEC);
+    ConditionSkill<?> plugin =
+        LocalSkillRegistry.getInstance().condition().findSkill(spec);
+    if (plugin == null)
+      throw new IllegalStorageDataException("Condition skill not found");
+    return plugin.dataFactory().parse(json_condition.getString(C.DATA),
+                                      PluginDataFormat.JSON, version);
+  }
 }

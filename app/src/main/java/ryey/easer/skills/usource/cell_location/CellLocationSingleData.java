@@ -32,154 +32,156 @@ import android.telephony.CellInfoWcdma;
 import android.telephony.CellLocation;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-
 import java.util.List;
 import java.util.Locale;
 
 class CellLocationSingleData implements Parcelable {
-    private Integer cid = null;
-    private Integer lac = null;
+  private Integer cid = null;
+  private Integer lac = null;
 
-    @Nullable
-    static CellLocationSingleData fromCellLocation(final @Nullable CellLocation location) {
-        int cid, lac;
-        if (location != null) {
-            if (location instanceof GsmCellLocation) {
-                cid = ((GsmCellLocation) location).getCid();
-                lac = ((GsmCellLocation) location).getLac();
-            } else if (location instanceof CdmaCellLocation) {
-                cid = ((CdmaCellLocation) location).getBaseStationId();
-                lac = ((CdmaCellLocation) location).getSystemId();
-            } else {
-                //TODO: More
-                return null;
-            }
-            return new CellLocationSingleData(cid, lac);
-        }
+  @Nullable
+  static CellLocationSingleData
+  fromCellLocation(final @Nullable CellLocation location) {
+    int cid, lac;
+    if (location != null) {
+      if (location instanceof GsmCellLocation) {
+        cid = ((GsmCellLocation)location).getCid();
+        lac = ((GsmCellLocation)location).getLac();
+      } else if (location instanceof CdmaCellLocation) {
+        cid = ((CdmaCellLocation)location).getBaseStationId();
+        lac = ((CdmaCellLocation)location).getSystemId();
+      } else {
+        // TODO: More
         return null;
+      }
+      return new CellLocationSingleData(cid, lac);
     }
+    return null;
+  }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    @Nullable
-    static CellLocationSingleData fromCellInfo(final @NonNull CellInfo cellInfo) {
-        int cid, lac;
-        if (cellInfo instanceof CellInfoGsm) {
-            CellIdentityGsm cellIdentity = ((CellInfoGsm) cellInfo).getCellIdentity();
-            cid = cellIdentity.getCid();
-            lac = cellIdentity.getLac();
-        } else if (cellInfo instanceof CellInfoCdma) {
-            CellIdentityCdma cellIdentity = ((CellInfoCdma) cellInfo).getCellIdentity();
-            cid = cellIdentity.getBasestationId();
-            lac = cellIdentity.getSystemId();
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            if (cellInfo instanceof CellInfoWcdma) {
-                CellIdentityWcdma cellIdentity = ((CellInfoWcdma) cellInfo).getCellIdentity();
-                cid = cellIdentity.getCid();
-                lac = cellIdentity.getLac();
-            } else {
-                //TODO: More
-                return null;
-            }
-        } else
-            return null;
-        return new CellLocationSingleData(cid, lac);
+  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+  @Nullable
+  static CellLocationSingleData fromCellInfo(final @NonNull CellInfo cellInfo) {
+    int cid, lac;
+    if (cellInfo instanceof CellInfoGsm) {
+      CellIdentityGsm cellIdentity = ((CellInfoGsm)cellInfo).getCellIdentity();
+      cid = cellIdentity.getCid();
+      lac = cellIdentity.getLac();
+    } else if (cellInfo instanceof CellInfoCdma) {
+      CellIdentityCdma cellIdentity =
+          ((CellInfoCdma)cellInfo).getCellIdentity();
+      cid = cellIdentity.getBasestationId();
+      lac = cellIdentity.getSystemId();
+    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+      if (cellInfo instanceof CellInfoWcdma) {
+        CellIdentityWcdma cellIdentity =
+            ((CellInfoWcdma)cellInfo).getCellIdentity();
+        cid = cellIdentity.getCid();
+        lac = cellIdentity.getLac();
+      } else {
+        // TODO: More
+        return null;
+      }
+    } else
+      return null;
+    return new CellLocationSingleData(cid, lac);
+  }
+
+  CellLocationSingleData() {}
+
+  private CellLocationSingleData(final int cid, final int lac) {
+    this.cid = cid;
+    this.lac = lac;
+  }
+
+  public void set(final Object obj) {
+    if (obj instanceof List) {
+      for (Object d : (List)obj) {
+        if (!(d instanceof Integer))
+          throw new RuntimeException("illegal data");
+      }
+      // noinspection unchecked (it is actually checked!)
+      set((List<Integer>)obj);
+    } else if (obj instanceof String) {
+      set((String)obj);
+    } else {
+      throw new RuntimeException("illegal data");
     }
+  }
 
-    CellLocationSingleData() { }
+  private void set(final List<Integer> obj) {
+    if (obj.size() != 2)
+      throw new RuntimeException("illegal data");
+    cid = obj.get(0);
+    lac = obj.get(1);
+  }
 
-    private CellLocationSingleData(final int cid, final int lac) {
-        this.cid = cid;
-        this.lac = lac;
-    }
+  private void set(final String repr) {
+    String[] parts = repr.split("-");
+    if (parts.length != 2)
+      return;
+    cid = Integer.valueOf(parts[0].trim());
+    lac = Integer.valueOf(parts[1].trim());
+  }
 
-    public void set(final Object obj) {
-        if (obj instanceof List) {
-            for (Object d : (List) obj) {
-                if (!(d instanceof Integer))
-                    throw new RuntimeException("illegal data");
-            }
-            //noinspection unchecked (it is actually checked!)
-            set((List<Integer>) obj);
-        } else if (obj instanceof String) {
-            set((String) obj);
-        } else {
-            throw new RuntimeException("illegal data");
-        }
-    }
+  public boolean isValid() {
+    if (cid == null || lac == null)
+      return false;
+    return true;
+  }
 
-    private void set(final List<Integer> obj) {
-        if (obj.size() != 2)
-            throw new RuntimeException("illegal data");
-        cid = obj.get(0);
-        lac = obj.get(1);
-    }
+  public String toString() {
+    return String.format(Locale.US, "%d-%d", cid, lac);
+  }
 
-    private void set(final String repr) {
-        String[] parts = repr.split("-");
-        if (parts.length != 2)
-            return;
-        cid = Integer.valueOf(parts[0].trim());
-        lac = Integer.valueOf(parts[1].trim());
-    }
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
 
-    public boolean isValid() {
-        if (cid == null || lac == null)
-            return false;
-        return true;
-    }
+    CellLocationSingleData that = (CellLocationSingleData)o;
 
-    public String toString() {
-        return String.format(Locale.US, "%d-%d", cid, lac);
-    }
+    if (cid != null ? !cid.equals(that.cid) : that.cid != null)
+      return false;
+    return lac != null ? lac.equals(that.lac) : that.lac == null;
+  }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+  @Override
+  public int hashCode() {
+    int result = cid != null ? cid.hashCode() : 0;
+    result = 31 * result + (lac != null ? lac.hashCode() : 0);
+    return result;
+  }
 
-        CellLocationSingleData that = (CellLocationSingleData) o;
+  @Override
+  public int describeContents() {
+    return 0;
+  }
 
-        if (cid != null ? !cid.equals(that.cid) : that.cid != null) return false;
-        return lac != null ? lac.equals(that.lac) : that.lac == null;
+  @Override
+  public void writeToParcel(final Parcel dest, final int flags) {
+    dest.writeInt(cid);
+    dest.writeInt(lac);
+  }
 
-    }
-
-    @Override
-    public int hashCode() {
-        int result = cid != null ? cid.hashCode() : 0;
-        result = 31 * result + (lac != null ? lac.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(final Parcel dest, final int flags) {
-        dest.writeInt(cid);
-        dest.writeInt(lac);
-    }
-
-    public static final Creator<CellLocationSingleData> CREATOR
-    = new Creator<CellLocationSingleData>() {
+  public static final Creator<CellLocationSingleData> CREATOR =
+      new Creator<CellLocationSingleData>() {
         public CellLocationSingleData createFromParcel(final Parcel in) {
-            return new CellLocationSingleData(in);
+          return new CellLocationSingleData(in);
         }
 
         public CellLocationSingleData[] newArray(final int size) {
-            return new CellLocationSingleData[size];
+          return new CellLocationSingleData[size];
         }
-    };
+      };
 
-    private CellLocationSingleData(final Parcel in) {
-        cid = in.readInt();
-        lac = in.readInt();
-    }
-
+  private CellLocationSingleData(final Parcel in) {
+    cid = in.readInt();
+    lac = in.readInt();
+  }
 }

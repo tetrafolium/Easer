@@ -19,22 +19,21 @@
 
 package ryey.easer.skills.operation.state_control;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class StateControlOperationDataTest {
 
-    @Test
-    public void testParcel() {
-        StateControlOperationData dummyData = new StateControlDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        StateControlOperationData parceledData = StateControlOperationData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    StateControlOperationData dummyData =
+        new StateControlDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    StateControlOperationData parceledData =
+        StateControlOperationData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

@@ -20,35 +20,40 @@
 package ryey.easer.skills.operation.http_request;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
-class HttpRequestOperationDataFactory implements OperationDataFactory<HttpRequestOperationData> {
-    @NonNull
-    @Override
-    public Class<HttpRequestOperationData> dataClass() {
-        return HttpRequestOperationData.class;
-    }
+class HttpRequestOperationDataFactory
+    implements OperationDataFactory<HttpRequestOperationData> {
+  @NonNull
+  @Override
+  public Class<HttpRequestOperationData> dataClass() {
+    return HttpRequestOperationData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public HttpRequestOperationData dummyData() {
-        HttpRequestOperationData.RequestMethod requestMethod = HttpRequestOperationData.RequestMethod.GET;
-        String url = "http://localhost";
-        String requestHeader = "h: v";
-        String contentType = "text/plain";
-        String data = "d";
-        return new HttpRequestOperationData(requestMethod, url, requestHeader, contentType, data);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public HttpRequestOperationData dummyData() {
+    HttpRequestOperationData.RequestMethod requestMethod =
+        HttpRequestOperationData.RequestMethod.GET;
+    String url = "http://localhost";
+    String requestHeader = "h: v";
+    String contentType = "text/plain";
+    String data = "d";
+    return new HttpRequestOperationData(requestMethod, url, requestHeader,
+                                        contentType, data);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public HttpRequestOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new HttpRequestOperationData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public HttpRequestOperationData parse(final @NonNull String data,
+                                        final @NonNull PluginDataFormat format,
+                                        final int version)
+      throws IllegalStorageDataException {
+    return new HttpRequestOperationData(data, format, version);
+  }
 }

@@ -20,32 +20,35 @@
 package ryey.easer.skills.operation.send_sms;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
-class SendSmsOperationDataFactory implements OperationDataFactory<SmsOperationData> {
-    @NonNull
-    @Override
-    public Class<SmsOperationData> dataClass() {
-        return SmsOperationData.class;
-    }
+class SendSmsOperationDataFactory
+    implements OperationDataFactory<SmsOperationData> {
+  @NonNull
+  @Override
+  public Class<SmsOperationData> dataClass() {
+    return SmsOperationData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public SmsOperationData dummyData() {
-        String destination = "15077707777";
-        String content = "mysmscontent";
-        return new SmsOperationData(destination, content);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public SmsOperationData dummyData() {
+    String destination = "15077707777";
+    String content = "mysmscontent";
+    return new SmsOperationData(destination, content);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public SmsOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new SmsOperationData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public SmsOperationData parse(final @NonNull String data,
+                                final @NonNull PluginDataFormat format,
+                                final int version)
+      throws IllegalStorageDataException {
+    return new SmsOperationData(data, format, version);
+  }
 }

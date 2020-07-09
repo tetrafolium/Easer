@@ -21,5 +21,4 @@ package ryey.easer.commons.local_skill.conditionskill;
 
 import ryey.easer.commons.local_skill.StorageData;
 
-public interface ConditionData extends StorageData {
-}
+public interface ConditionData extends StorageData {}

@@ -25,9 +25,9 @@ import android.content.Intent;
 
 public class UpgradeCompleteReceiver extends BroadcastReceiver {
 
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-        if (Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction()))
-            EHService.start(context);
-    }
+  @Override
+  public void onReceive(final Context context, final Intent intent) {
+    if (Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction()))
+      EHService.start(context);
+  }
 }

@@ -20,21 +20,19 @@
 package ryey.easer.commons.local_skill.conditionskill;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.DataFactory;
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.plugin.PluginDataFormat;
 
-public interface ConditionDataFactory<D extends ConditionData> extends DataFactory<D> {
-    @NonNull
-    Class<D> dataClass();
+public interface ConditionDataFactory<D extends ConditionData>
+    extends DataFactory<D> {
+  @NonNull Class<D> dataClass();
 
-    @ValidData
-    @NonNull
-    D dummyData();
+  @ValidData @NonNull D dummyData();
 
-    @ValidData
-    @NonNull
-    D parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException;
+  @ValidData
+  @NonNull
+  D parse(@NonNull String data, @NonNull PluginDataFormat format, int version)
+      throws IllegalStorageDataException;
 }

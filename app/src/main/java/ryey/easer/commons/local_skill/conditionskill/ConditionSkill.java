@@ -21,26 +21,23 @@ package ryey.easer.commons.local_skill.conditionskill;
 
 import android.app.PendingIntent;
 import android.content.Context;
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.Skill;
 import ryey.easer.commons.local_skill.SourceCategory;
 import ryey.easer.commons.local_skill.ValidData;
 
-public interface ConditionSkill<D extends ConditionData> extends Skill<D>, SourceCategory.Categorized {
+public interface ConditionSkill<D extends ConditionData>
+    extends Skill<D>, SourceCategory.Categorized {
 
-    @NonNull
-    ConditionDataFactory<D> dataFactory();
+  @NonNull ConditionDataFactory<D> dataFactory();
 
-    @NonNull
-    default SourceCategory category() {
-        return SourceCategory.unknown;
-    }
+  @NonNull
+  default SourceCategory category() {
+    return SourceCategory.unknown;
+  }
 
-    @NonNull
-    Tracker<D> tracker(@NonNull Context context, @ValidData @NonNull D data,
-                       @NonNull PendingIntent event_positive,
-                       @NonNull PendingIntent event_negative);
-
+  @NonNull
+  Tracker<D> tracker(@NonNull Context context, @ValidData @NonNull D data,
+                     @NonNull PendingIntent event_positive,
+                     @NonNull PendingIntent event_negative);
 }

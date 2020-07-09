@@ -24,15 +24,18 @@ import ryey.easer.commons.local_skill.conditionskill.ConditionSkill;
 import ryey.easer.core.ui.data.SourceSkillViewContainerFragment;
 import ryey.easer.skills.LocalSkillRegistry;
 
-public class ConditionSkillViewContainerFragment<D extends ConditionData, S extends ConditionSkill<D>> extends SourceSkillViewContainerFragment<D, S> {
+public class ConditionSkillViewContainerFragment<D extends ConditionData, S
+                                                     extends ConditionSkill<D>>
+    extends SourceSkillViewContainerFragment<D, S> {
 
-    static <D extends ConditionData, S extends ConditionSkill<D>> ConditionSkillViewContainerFragment<D, S> createInstance(final S plugin) {
-        return SourceSkillViewContainerFragment.createInstance(plugin, new ConditionSkillViewContainerFragment<>());
-    }
+  static <D extends ConditionData, S extends ConditionSkill<D>>
+      ConditionSkillViewContainerFragment<D, S> createInstance(final S plugin) {
+    return SourceSkillViewContainerFragment.createInstance(
+        plugin, new ConditionSkillViewContainerFragment<>());
+  }
 
-    @Override
-    protected S findSkill(final String skillID) {
-        return (S) LocalSkillRegistry.getInstance().condition().findSkill(skillID);
-    }
-
+  @Override
+  protected S findSkill(final String skillID) {
+    return (S)LocalSkillRegistry.getInstance().condition().findSkill(skillID);
+  }
 }

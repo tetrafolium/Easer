@@ -21,17 +21,13 @@ package ryey.easer.skills.usource.connectivity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.collection.ArraySet;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.Set;
-
+import org.json.JSONArray;
+import org.json.JSONException;
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.dynamics.Dynamics;
 import ryey.easer.commons.local_skill.usource.USourceData;
@@ -39,95 +35,100 @@ import ryey.easer.plugin.PluginDataFormat;
 
 public class ConnectivityEventData implements USourceData {
 
-    Set<Integer> connectivity_type = new ArraySet<>();
+  Set<Integer> connectivity_type = new ArraySet<>();
 
-    public ConnectivityEventData(final Set<Integer> connectivity_type) {
-        this.connectivity_type = connectivity_type;
-    }
+  public ConnectivityEventData(final Set<Integer> connectivity_type) {
+    this.connectivity_type = connectivity_type;
+  }
 
-    ConnectivityEventData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        parse(data, format, version);
-    }
+  ConnectivityEventData(final @NonNull String data,
+                        final @NonNull PluginDataFormat format,
+                        final int version) throws IllegalStorageDataException {
+    parse(data, format, version);
+  }
 
-    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        connectivity_type.clear();
-        switch (format) {
-        default:
-            try {
-                JSONArray jsonArray = new JSONArray(data);
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    connectivity_type.add(jsonArray.getInt(i));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                throw new IllegalStorageDataException(e);
-            }
+  public void parse(final @NonNull String data,
+                    final @NonNull PluginDataFormat format, final int version)
+      throws IllegalStorageDataException {
+    connectivity_type.clear();
+    switch (format) {
+    default:
+      try {
+        JSONArray jsonArray = new JSONArray(data);
+        for (int i = 0; i < jsonArray.length(); i++) {
+          connectivity_type.add(jsonArray.getInt(i));
         }
+      } catch (JSONException e) {
+        e.printStackTrace();
+        throw new IllegalStorageDataException(e);
+      }
     }
+  }
 
-    @NonNull
-    @Override
-    public String serialize(final @NonNull PluginDataFormat format) {
-        String res;
-        switch (format) {
-        default:
-            JSONArray jsonArray = new JSONArray();
-            for (Integer v : connectivity_type) {
-                jsonArray.put(v);
-            }
-            res = jsonArray.toString();
-        }
-        return res;
+  @NonNull
+  @Override
+  public String serialize(final @NonNull PluginDataFormat format) {
+    String res;
+    switch (format) {
+    default:
+      JSONArray jsonArray = new JSONArray();
+      for (Integer v : connectivity_type) {
+        jsonArray.put(v);
+      }
+      res = jsonArray.toString();
     }
+    return res;
+  }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean isValid() {
-        if (connectivity_type.size() > 0)
-            return true;
-        return false;
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean isValid() {
+    if (connectivity_type.size() > 0)
+      return true;
+    return false;
+  }
 
-    @Nullable
-    @Override
-    public Dynamics[] dynamics() {
-        return null;
-    }
+  @Nullable
+  @Override
+  public Dynamics[] dynamics() {
+    return null;
+  }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean equals(final Object obj) {
-        if (obj == null || !(obj instanceof ConnectivityEventData))
-            return false;
-        if (!connectivity_type.equals(((ConnectivityEventData) obj).connectivity_type))
-            return false;
-        return true;
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == null || !(obj instanceof ConnectivityEventData))
+      return false;
+    if (!connectivity_type.equals(
+            ((ConnectivityEventData)obj).connectivity_type))
+      return false;
+    return true;
+  }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+  @Override
+  public int describeContents() {
+    return 0;
+  }
 
-    @Override
-    public void writeToParcel(final Parcel dest, final int flags) {
-        dest.writeList(new ArrayList<>(connectivity_type));
-    }
+  @Override
+  public void writeToParcel(final Parcel dest, final int flags) {
+    dest.writeList(new ArrayList<>(connectivity_type));
+  }
 
-    public static final Parcelable.Creator<ConnectivityEventData> CREATOR
-    = new Parcelable.Creator<ConnectivityEventData>() {
+  public static final Parcelable.Creator<ConnectivityEventData> CREATOR =
+      new Parcelable.Creator<ConnectivityEventData>() {
         public ConnectivityEventData createFromParcel(final Parcel in) {
-            return new ConnectivityEventData(in);
+          return new ConnectivityEventData(in);
         }
 
         public ConnectivityEventData[] newArray(final int size) {
-            return new ConnectivityEventData[size];
+          return new ConnectivityEventData[size];
         }
-    };
+      };
 
-    private ConnectivityEventData(final Parcel in) {
-        ArrayList<Integer> list = new ArrayList<>();
-        in.readList(list, null);
-        connectivity_type = new ArraySet<>(list);
-    }
+  private ConnectivityEventData(final Parcel in) {
+    ArrayList<Integer> list = new ArrayList<>();
+    in.readList(list, null);
+    connectivity_type = new ArraySet<>(list);
+  }
 }

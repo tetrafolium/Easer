@@ -21,9 +21,7 @@ package ryey.easer.skills.operation.command;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.Utils;
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.dynamics.SolidDynamicsAssignment;
@@ -33,32 +31,32 @@ import ryey.easer.skills.operation.StringOperationData;
 
 public class CommandOperationData extends StringOperationData {
 
-    CommandOperationData(final String command) {
-        super(command);
-    }
+  CommandOperationData(final String command) { super(command); }
 
-    CommandOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        super(data, format, version);
-    }
+  CommandOperationData(final @NonNull String data,
+                       final @NonNull PluginDataFormat format,
+                       final int version) throws IllegalStorageDataException {
+    super(data, format, version);
+  }
 
-    public static final Parcelable.Creator<CommandOperationData> CREATOR
-    = new Parcelable.Creator<CommandOperationData>() {
+  public static final Parcelable.Creator<CommandOperationData> CREATOR =
+      new Parcelable.Creator<CommandOperationData>() {
         public CommandOperationData createFromParcel(final Parcel in) {
-            return new CommandOperationData(in);
+          return new CommandOperationData(in);
         }
 
         public CommandOperationData[] newArray(final int size) {
-            return new CommandOperationData[size];
+          return new CommandOperationData[size];
         }
-    };
+      };
 
-    private CommandOperationData(final Parcel in) {
-        super(in);
-    }
+  private CommandOperationData(final Parcel in) { super(in); }
 
-    @NonNull
-    @Override
-    public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
-        return new CommandOperationData(Utils.applyDynamics(text, dynamicsAssignment));
-    }
+  @NonNull
+  @Override
+  public OperationData
+  applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
+    return new CommandOperationData(
+        Utils.applyDynamics(text, dynamicsAssignment));
+  }
 }

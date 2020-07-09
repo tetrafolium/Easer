@@ -20,9 +20,7 @@
 package ryey.easer.core;
 
 import android.content.Context;
-
 import java.util.Collection;
-
 import ryey.easer.commons.local_skill.dynamics.SolidDynamicsAssignment;
 import ryey.easer.commons.local_skill.operationskill.Loader;
 import ryey.easer.commons.local_skill.operationskill.OperationData;
@@ -32,64 +30,67 @@ import ryey.easer.remote_plugin.RemoteOperationData;
 import ryey.easer.skills.LocalSkillRegistry;
 
 /**
- * A helper class which combines local and remote skills, and exposes interfaces as if there is no difference.
+ * A helper class which combines local and remote skills, and exposes interfaces
+ * as if there is no difference.
  *
- * Async is needed. This class uses {@link AsyncHelper} and {@link RemotePluginCommunicationHelper}
+ * Async is needed. This class uses {@link AsyncHelper} and {@link
+ * RemotePluginCommunicationHelper}
  *
  * A lot todo
  */
 public final class SkillHelper {
 
-    private SkillHelper() { }
+  private SkillHelper() {}
 
-    public static class OperationHelper {
+  public static class OperationHelper {
 
-        private final Context context;
-        private final RemotePluginCommunicationHelper helper;
-        private final LocalSkillRegistry.Registry<OperationSkill, OperationData> operationRegistry = LocalSkillRegistry.getInstance().operation();
+    private final Context context;
+    private final RemotePluginCommunicationHelper helper;
+    private final LocalSkillRegistry
+        .Registry<OperationSkill, OperationData> operationRegistry =
+        LocalSkillRegistry.getInstance().operation();
 
-        public OperationHelper(final Context context) {
-            this.context = context;
-            this.helper = new RemotePluginCommunicationHelper(context);
-        }
-
-        public void begin() {
-            helper.begin();
-        }
-
-        public void end() {
-            helper.end();
-        }
-
-        public int triggerOperations(final String skillId, final Collection<RemoteLocalOperationDataWrapper> dataCollection, final SolidDynamicsAssignment solidMacroAssignment, final OnOperationLoadingResultListener callback) {
-            int count = 0;
-            if (operationRegistry.hasSkill(skillId)) {
-                OperationSkill plugin = operationRegistry.findSkill(skillId);
-                assert plugin != null;
-                Loader loader = plugin.loader(context);
-                for (RemoteLocalOperationDataWrapper data : dataCollection) {
-                    count++;
-                    OperationData localData = data.localData;
-                    assert localData != null;
-                    //noinspection unchecked
-                    boolean result = loader.load(localData.applyDynamics(solidMacroAssignment));
-                    callback.onResult(skillId, result);
-                }
-            } else {
-                for (RemoteLocalOperationDataWrapper data : dataCollection) {
-                    count++;
-                    RemoteOperationData remoteData = data.remoteData;
-                    helper.asyncTriggerOperation(skillId, remoteData);
-                    callback.onResult(skillId, true);
-                }
-            }
-            return count;
-        }
-
-        public interface OnOperationLoadingResultListener {
-            void onResult(String skillId, Boolean success);
-        }
-
+    public OperationHelper(final Context context) {
+      this.context = context;
+      this.helper = new RemotePluginCommunicationHelper(context);
     }
 
+    public void begin() { helper.begin(); }
+
+    public void end() { helper.end(); }
+
+    public int triggerOperations(
+        final String skillId,
+        final Collection<RemoteLocalOperationDataWrapper> dataCollection,
+        final SolidDynamicsAssignment solidMacroAssignment,
+        final OnOperationLoadingResultListener callback) {
+      int count = 0;
+      if (operationRegistry.hasSkill(skillId)) {
+        OperationSkill plugin = operationRegistry.findSkill(skillId);
+        assert plugin != null;
+        Loader loader = plugin.loader(context);
+        for (RemoteLocalOperationDataWrapper data : dataCollection) {
+          count++;
+          OperationData localData = data.localData;
+          assert localData != null;
+          // noinspection unchecked
+          boolean result =
+              loader.load(localData.applyDynamics(solidMacroAssignment));
+          callback.onResult(skillId, result);
+        }
+      } else {
+        for (RemoteLocalOperationDataWrapper data : dataCollection) {
+          count++;
+          RemoteOperationData remoteData = data.remoteData;
+          helper.asyncTriggerOperation(skillId, remoteData);
+          callback.onResult(skillId, true);
+        }
+      }
+      return count;
+    }
+
+    public interface OnOperationLoadingResultListener {
+      void onResult(String skillId, Boolean success);
+    }
+  }
 }

@@ -19,22 +19,21 @@
 
 package ryey.easer.skills.operation.cellular;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class CellularOperationDataTest {
 
-    @Test
-    public void testParcel() {
-        CellularOperationData dummyData = new CellularOperationDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        CellularOperationData parceledData = CellularOperationData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    CellularOperationData dummyData =
+        new CellularOperationDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    CellularOperationData parceledData =
+        CellularOperationData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

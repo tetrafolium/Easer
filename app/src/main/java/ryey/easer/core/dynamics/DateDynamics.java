@@ -21,33 +21,32 @@ package ryey.easer.core.dynamics;
 
 import android.content.Context;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
 import ryey.easer.R;
 
 class DateDynamics implements CoreDynamicsInterface {
 
-    private static final SimpleDateFormat sdf_date = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+  private static final SimpleDateFormat sdf_date =
+      new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
-    @Override
-    public String id() {
-        return "ryey.easer.core.dynamics.date";
-    }
+  @Override
+  public String id() {
+    return "ryey.easer.core.dynamics.date";
+  }
 
-    @Override
-    public int nameRes() {
-        return R.string.dynamics_date;
-    }
+  @Override
+  public int nameRes() {
+    return R.string.dynamics_date;
+  }
 
-    @Override
-    public String invoke(final @NonNull Context context, final @NonNull Bundle extras) {
-        Date now = Calendar.getInstance().getTime();
-        return sdf_date.format(now);
-    }
+  @Override
+  public String invoke(final @NonNull Context context,
+                       final @NonNull Bundle extras) {
+    Date now = Calendar.getInstance().getTime();
+    return sdf_date.format(now);
+  }
 }

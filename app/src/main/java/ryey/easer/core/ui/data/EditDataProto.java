@@ -20,10 +20,8 @@
 package ryey.easer.core.ui.data;
 
 public final class EditDataProto {
-    public static final String CONTENT_NAME = "ryey.easer.EVENT.NAME";
-    public static final String PURPOSE = "ryey.easer.PURPOSE";
+  public static final String CONTENT_NAME = "ryey.easer.EVENT.NAME";
+  public static final String PURPOSE = "ryey.easer.PURPOSE";
 
-    public enum Purpose {
-        add, edit, delete
-    }
+  public enum Purpose { add, edit, delete }
 }

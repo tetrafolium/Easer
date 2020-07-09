@@ -23,15 +23,15 @@ import androidx.annotation.NonNull;
 
 public class CoreDynamics {
 
-    private static CoreDynamicsInterface[] coreDynamicsArray = {
-        new DateDynamics(),
-        new TimeDynamics(),
-        new ScriptNameDynamics(),
-        new ProfileNameDynamics(),
-    };
+  private static CoreDynamicsInterface[] coreDynamicsArray = {
+      new DateDynamics(),
+      new TimeDynamics(),
+      new ScriptNameDynamics(),
+      new ProfileNameDynamics(),
+  };
 
-    @NonNull
-    public static CoreDynamicsInterface[] coreDynamics() {
-        return coreDynamicsArray;
-    }
+  @NonNull
+  public static CoreDynamicsInterface[] coreDynamics() {
+    return coreDynamicsArray;
+  }
 }

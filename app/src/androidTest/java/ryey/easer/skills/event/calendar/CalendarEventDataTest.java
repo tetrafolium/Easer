@@ -19,22 +19,20 @@
 
 package ryey.easer.skills.event.calendar;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class CalendarEventDataTest {
 
-    @Test
-    public void testParcel() {
-        CalendarEventData dummyData = new CalendarEventDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        CalendarEventData parceledData = CalendarEventData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    CalendarEventData dummyData = new CalendarEventDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    CalendarEventData parceledData =
+        CalendarEventData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

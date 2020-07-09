@@ -19,6 +19,4 @@
 
 package ryey.easer.core.data;
 
-public interface WithCreatedVersion {
-    int createdVersion();
-}
+public interface WithCreatedVersion { int createdVersion(); }

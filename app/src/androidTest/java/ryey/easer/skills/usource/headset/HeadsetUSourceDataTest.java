@@ -19,22 +19,20 @@
 
 package ryey.easer.skills.usource.headset;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class HeadsetUSourceDataTest {
 
-    @Test
-    public void testParcel() {
-        HeadsetUSourceData dummyData = new HeadsetUSourceDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        HeadsetUSourceData parceledData = HeadsetUSourceData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    HeadsetUSourceData dummyData = new HeadsetUSourceDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    HeadsetUSourceData parceledData =
+        HeadsetUSourceData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

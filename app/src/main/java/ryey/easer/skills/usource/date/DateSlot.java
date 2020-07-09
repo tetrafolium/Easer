@@ -22,61 +22,63 @@ package ryey.easer.skills.usource.date;
 import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
-
 import java.util.Calendar;
-
 import ryey.easer.skills.event.SelfNotifiableSlot;
 
 /*
- * TODO: cancel (or set extra) alarm after being satisfied or unsatisfied (for different event types)
+ * TODO: cancel (or set extra) alarm after being satisfied or unsatisfied (for
+ * different event types)
  */
 public class DateSlot extends SelfNotifiableSlot<DateUSourceData> {
-    private static AlarmManager mAlarmManager;
+  private static AlarmManager mAlarmManager;
 
-    private Calendar calendar = null;
+  private Calendar calendar = null;
 
-    public DateSlot(final Context context, final DateUSourceData data) {
-        this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+  public DateSlot(final Context context, final DateUSourceData data) {
+    this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+  }
+
+  DateSlot(final Context context, final DateUSourceData data,
+           final boolean retriggerable, final boolean persistent) {
+    super(context, data, retriggerable, persistent);
+    setDate(data.date);
+
+    if (mAlarmManager == null)
+      mAlarmManager =
+          (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+  }
+
+  private void setDate(final Calendar date) {
+    if (date == null)
+      return;
+    if (calendar == null) {
+      calendar = Calendar.getInstance();
+      calendar.setTimeInMillis(0);
     }
+    calendar.setTime(date.getTime());
+  }
 
-    DateSlot(final Context context, final DateUSourceData data, final boolean retriggerable, final boolean persistent) {
-        super(context, data, retriggerable, persistent);
-        setDate(data.date);
-
-        if (mAlarmManager == null)
-            mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+  @Override
+  public void listen() {
+    super.listen();
+    if (calendar != null) {
+      mAlarmManager.setInexactRepeating(
+          AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+          AlarmManager.INTERVAL_DAY, notifySelfIntent_positive);
     }
+  }
 
-    private void setDate(final Calendar date) {
-        if (date == null)
-            return;
-        if (calendar == null) {
-            calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(0);
-        }
-        calendar.setTime(date.getTime());
+  @Override
+  public void cancel() {
+    super.cancel();
+    if (calendar != null) {
+      mAlarmManager.cancel(notifySelfIntent_positive);
+      mAlarmManager.cancel(notifySelfIntent_negative);
     }
+  }
 
-    @Override
-    public void listen() {
-        super.listen();
-        if (calendar != null) {
-            mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                                              AlarmManager.INTERVAL_DAY, notifySelfIntent_positive);
-        }
-    }
-
-    @Override
-    public void cancel() {
-        super.cancel();
-        if (calendar != null) {
-            mAlarmManager.cancel(notifySelfIntent_positive);
-            mAlarmManager.cancel(notifySelfIntent_negative);
-        }
-    }
-
-    @Override
-    protected void onPositiveNotified(final Intent intent) {
-        changeSatisfiedState(true);
-    }
+  @Override
+  protected void onPositiveNotified(final Intent intent) {
+    changeSatisfiedState(true);
+  }
 }

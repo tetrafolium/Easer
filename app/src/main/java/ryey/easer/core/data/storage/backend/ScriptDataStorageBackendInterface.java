@@ -20,9 +20,9 @@
 package ryey.easer.core.data.storage.backend;
 
 import java.io.IOException;
-
 import ryey.easer.core.data.ScriptStructure;
 
-public interface ScriptDataStorageBackendInterface extends DataStorageBackendCommonInterface<ScriptStructure> {
-    void update(ScriptStructure scriptStructure) throws IOException;
+public interface ScriptDataStorageBackendInterface
+    extends DataStorageBackendCommonInterface<ScriptStructure> {
+  void update(ScriptStructure scriptStructure) throws IOException;
 }

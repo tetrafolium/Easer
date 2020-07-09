@@ -19,22 +19,21 @@
 
 package ryey.easer.skills.operation.ringer_mode;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class RingerModeOperationDataTest {
 
-    @Test
-    public void testParcel() {
-        RingerModeOperationData dummyData = new RingerModeOperationDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        RingerModeOperationData parceledData = RingerModeOperationData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    RingerModeOperationData dummyData =
+        new RingerModeOperationDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    RingerModeOperationData parceledData =
+        RingerModeOperationData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

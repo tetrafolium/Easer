@@ -21,21 +21,19 @@ package ryey.easer.skills.operation.wifi;
 
 import android.content.Context;
 import android.net.wifi.WifiManager;
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class WifiLoader extends OperationLoader<WifiOperationData> {
-    public WifiLoader(final Context context) {
-        super(context);
-    }
+  public WifiLoader(final Context context) { super(context); }
 
-    @Override
-    public boolean load(final @ValidData @NonNull WifiOperationData data) {
-        Boolean state = data.get();
-        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        return wifiManager.setWifiEnabled(state);
-    }
+  @Override
+  public boolean load(final @ValidData @NonNull WifiOperationData data) {
+    Boolean state = data.get();
+    WifiManager wifiManager =
+        (WifiManager)context.getApplicationContext().getSystemService(
+            Context.WIFI_SERVICE);
+    return wifiManager.setWifiEnabled(state);
+  }
 }

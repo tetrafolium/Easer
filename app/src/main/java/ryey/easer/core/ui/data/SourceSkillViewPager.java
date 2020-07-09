@@ -23,134 +23,141 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import ryey.easer.commons.local_skill.InvalidDataInputException;
 import ryey.easer.commons.local_skill.Skill;
 import ryey.easer.commons.local_skill.StorageData;
 
 @Deprecated
-public abstract class SourceSkillViewPager<GD extends StorageData, GS extends Skill> extends ViewPager {
+public abstract class SourceSkillViewPager<GD extends StorageData, GS
+                                               extends Skill>
+    extends ViewPager {
 
-    MyPagerAdapter mPagerAdapter;
+  MyPagerAdapter mPagerAdapter;
 
-    final List<GS> skillList = new ArrayList<>();
+  final List<GS> skillList = new ArrayList<>();
 
-    Integer initial_position = null;
-    GD initial_data = null;
+  Integer initial_position = null;
+  GD initial_data = null;
 
-    public SourceSkillViewPager(final Context context) {
-        super(context);
+  public SourceSkillViewPager(final Context context) { super(context); }
+
+  public SourceSkillViewPager(final Context context, final AttributeSet attrs) {
+    super(context, attrs);
+  }
+
+  protected abstract List<GS> enabledSkills();
+  protected abstract MyPagerAdapter newPagerAdapter(FragmentManager fm,
+                                                    Context context);
+
+  public void init(final AppCompatActivity activity) {
+    skillList.clear();
+    skillList.addAll(enabledSkills());
+    mPagerAdapter =
+        newPagerAdapter(activity.getSupportFragmentManager(), getContext());
+    setAdapter(mPagerAdapter);
+  }
+
+  public <T extends GD> void setData(final T data) {
+    initial_data = data;
+    int i = getPluginIndex(data);
+    initial_position = i;
+    if (getCurrentItem() == i) {
+      synchronized (this) {
+        SourceSkillViewContainerFragment<GD, GS> fragment =
+            mPagerAdapter.getRegisteredFragment(i);
+        if (fragment != null)
+          fragment.fill(initial_data);
+      }
+    } else {
+      setCurrentItem(i);
+    }
+  }
+
+  public GD getData() throws InvalidDataInputException {
+    return getData(getCurrentItem());
+  }
+
+  GD getData(final int position) throws InvalidDataInputException {
+    return mPagerAdapter.getRegisteredFragment(position).getData();
+  }
+
+  private int getPluginIndex(final GD data) {
+    for (int i = 0; i < skillList.size(); i++) {
+      if (data.getClass() == skillList.get(i).dataFactory().dataClass())
+        return i;
+    }
+    throw new IllegalAccessError("Plugin not found???");
+  }
+
+  protected abstract class MyPagerAdapter extends FragmentStatePagerAdapter {
+
+    SparseArray<SourceSkillViewContainerFragment<GD, GS>> registeredFragments =
+        new SparseArray<>();
+
+    private final Context context;
+    final String[] titles;
+
+    protected MyPagerAdapter(final FragmentManager fm, final Context context) {
+      super(fm);
+      this.context = context;
+      titles = new String[skillList.size()];
+      for (int i = 0; i < skillList.size(); i++) {
+        titles[i] = skillList.get(i).view().desc(getResources());
+      }
     }
 
-    public SourceSkillViewPager(final Context context, final AttributeSet attrs) {
-        super(context, attrs);
+    protected abstract SourceSkillViewContainerFragment<GD, GS>
+    newFragment(GS skill);
+
+    @Override
+    public Fragment getItem(final int position) {
+      return newFragment(skillList.get(position));
     }
 
-    protected abstract List<GS> enabledSkills();
-    protected abstract MyPagerAdapter newPagerAdapter(FragmentManager fm, Context context);
-
-    public void init(final AppCompatActivity activity) {
-        skillList.clear();
-        skillList.addAll(enabledSkills());
-        mPagerAdapter = newPagerAdapter(activity.getSupportFragmentManager(), getContext());
-        setAdapter(mPagerAdapter);
+    @Override
+    public int getCount() {
+      return titles.length;
     }
 
-    public <T extends GD> void setData(final T data) {
-        initial_data = data;
-        int i = getPluginIndex(data);
-        initial_position = i;
-        if (getCurrentItem() == i) {
-            synchronized (this) {
-                SourceSkillViewContainerFragment<GD, GS> fragment = mPagerAdapter.getRegisteredFragment(i);
-                if (fragment != null)
-                    fragment.fill(initial_data);
-            }
-        } else {
-            setCurrentItem(i);
-        }
+    @Override
+    public CharSequence getPageTitle(final int position) {
+      return titles[position];
     }
 
-    public GD getData() throws InvalidDataInputException {
-        return getData(getCurrentItem());
+    @NonNull
+    @Override
+    public Object instantiateItem(final ViewGroup container,
+                                  final int position) {
+      SourceSkillViewContainerFragment<GD, GS> fragment =
+          (SourceSkillViewContainerFragment<GD, GS>)super.instantiateItem(
+              container, position);
+      synchronized (SourceSkillViewPager.this) {
+        if ((initial_position != null) && (position == initial_position)) {
+          fragment.fill(initial_data);
+        }
+      }
+      registeredFragments.put(position, fragment);
+      return fragment;
     }
 
-    GD getData(final int position) throws InvalidDataInputException {
-        return mPagerAdapter.getRegisteredFragment(position).getData();
+    @Override
+    public void destroyItem(final ViewGroup container, final int position,
+                            final Object object) {
+      registeredFragments.remove(position);
+      super.destroyItem(container, position, object);
     }
 
-    private int getPluginIndex(final GD data) {
-        for (int i = 0; i < skillList.size(); i++) {
-            if (data.getClass() == skillList.get(i).dataFactory().dataClass())
-                return i;
-        }
-        throw new IllegalAccessError("Plugin not found???");
+    public SourceSkillViewContainerFragment<GD, GS>
+    getRegisteredFragment(final int position) {
+      return registeredFragments.get(position);
     }
-
-    protected abstract class MyPagerAdapter extends FragmentStatePagerAdapter {
-
-        SparseArray<SourceSkillViewContainerFragment<GD, GS>> registeredFragments = new SparseArray<>();
-
-        private final Context context;
-        final String[] titles;
-
-        protected MyPagerAdapter(final FragmentManager fm, final Context context) {
-            super(fm);
-            this.context = context;
-            titles = new String[skillList.size()];
-            for (int i = 0; i < skillList.size(); i++) {
-                titles[i] = skillList.get(i).view().desc(getResources());
-            }
-        }
-
-        protected abstract SourceSkillViewContainerFragment<GD, GS> newFragment(GS skill);
-
-        @Override
-        public Fragment getItem(final int position) {
-            return newFragment(skillList.get(position));
-        }
-
-        @Override
-        public int getCount() {
-            return titles.length;
-        }
-
-        @Override
-        public CharSequence getPageTitle(final int position) {
-            return titles[position];
-        }
-
-        @NonNull
-        @Override
-        public Object instantiateItem(final ViewGroup container, final int position) {
-            SourceSkillViewContainerFragment<GD, GS> fragment = (SourceSkillViewContainerFragment<GD, GS>) super.instantiateItem(container, position);
-            synchronized (SourceSkillViewPager.this) {
-                if ((initial_position != null) && (position == initial_position)) {
-                    fragment.fill(initial_data);
-                }
-            }
-            registeredFragments.put(position, fragment);
-            return fragment;
-        }
-
-        @Override
-        public void destroyItem(final ViewGroup container, final int position, final Object object) {
-            registeredFragments.remove(position);
-            super.destroyItem(container, position, object);
-        }
-
-        public SourceSkillViewContainerFragment<GD, GS> getRegisteredFragment(final int position) {
-            return registeredFragments.get(position);
-        }
-    }
+  }
 }

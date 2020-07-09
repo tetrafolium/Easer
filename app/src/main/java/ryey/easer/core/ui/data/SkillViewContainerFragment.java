@@ -19,25 +19,24 @@
 
 package ryey.easer.core.ui.data;
 
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.InvalidDataInputException;
 import ryey.easer.commons.local_skill.SkillView;
 import ryey.easer.commons.local_skill.StorageData;
 
-public abstract class SkillViewContainerFragment<D extends StorageData> extends AbstractSkillDataFragment<D> {
+public abstract class SkillViewContainerFragment<D extends StorageData>
+    extends AbstractSkillDataFragment<D> {
 
-    protected SkillView<D> pluginViewFragment = null;
+  protected SkillView<D> pluginViewFragment = null;
 
-    @Override
-    protected void _fill(final @NonNull D data) {
-        pluginViewFragment.fill(data);
-    }
+  @Override
+  protected void _fill(final @NonNull D data) {
+    pluginViewFragment.fill(data);
+  }
 
-    @Override
-    @NonNull
-    public D getData() throws InvalidDataInputException {
-        return pluginViewFragment.getData();
-    }
+  @Override
+  @NonNull
+  public D getData() throws InvalidDataInputException {
+    return pluginViewFragment.getData();
+  }
 }

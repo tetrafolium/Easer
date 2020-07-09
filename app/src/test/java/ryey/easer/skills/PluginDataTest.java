@@ -19,32 +19,31 @@
 
 package ryey.easer.skills;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
 import ryey.easer.commons.C;
-import ryey.easer.plugin.PluginDataFormat;
 import ryey.easer.commons.local_skill.DataFactory;
 import ryey.easer.commons.local_skill.Skill;
 import ryey.easer.commons.local_skill.StorageData;
+import ryey.easer.plugin.PluginDataFormat;
 import ryey.easer.skills.operation.broadcast.BroadcastOperationSkill;
-
-import static org.junit.Assert.assertEquals;
 
 public class PluginDataTest {
 
-    @Test
-    public void testPluginData() throws Exception {
-        for (Skill plugin : LocalSkillRegistry.getInstance().all().getAllSkills()) {
-            if (plugin instanceof BroadcastOperationSkill)
-                continue;
-            DataFactory factory = plugin.dataFactory();
-            StorageData dummyData = factory.dummyData();
-            for (PluginDataFormat format : PluginDataFormat.values()) {
-                String serialized_data = dummyData.serialize(format);
-                StorageData parsed_data = factory.parse(serialized_data, format, C.VERSION_CURRENT);
-                assertEquals(dummyData, parsed_data);
-            }
-        }
+  @Test
+  public void testPluginData() throws Exception {
+    for (Skill plugin : LocalSkillRegistry.getInstance().all().getAllSkills()) {
+      if (plugin instanceof BroadcastOperationSkill)
+        continue;
+      DataFactory factory = plugin.dataFactory();
+      StorageData dummyData = factory.dummyData();
+      for (PluginDataFormat format : PluginDataFormat.values()) {
+        String serialized_data = dummyData.serialize(format);
+        StorageData parsed_data =
+            factory.parse(serialized_data, format, C.VERSION_CURRENT);
+        assertEquals(dummyData, parsed_data);
+      }
     }
-
+  }
 }

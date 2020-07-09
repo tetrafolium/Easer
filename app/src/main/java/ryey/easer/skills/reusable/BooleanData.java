@@ -21,44 +21,39 @@ package ryey.easer.skills.reusable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.commons.local_skill.StorageData;
 
 public abstract class BooleanData implements StorageData {
-    protected Boolean state = null;
+  protected Boolean state = null;
 
-    protected BooleanData() { }
+  protected BooleanData() {}
 
-    protected BooleanData(final @NonNull Boolean state) {
-        this.state = state;
-    }
+  protected BooleanData(final @NonNull Boolean state) { this.state = state; }
 
-    @NonNull
-    public Boolean get() {
-        return state;
-    }
+  @NonNull
+  public Boolean get() {
+    return state;
+  }
 
-    public void set(final boolean obj) {
-        state = obj;
-    }
+  public void set(final boolean obj) { state = obj; }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean isValid() {
-        if (state == null)
-            return false;
-        return true;
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean isValid() {
+    if (state == null)
+      return false;
+    return true;
+  }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean equals(final @Nullable Object obj) {
-        if (obj == null)
-            return false;
-        if (!getClass().equals(obj.getClass()))
-            return false;
-        if (!isValid() || !((StorageData) obj).isValid())
-            return false;
-        return ((BooleanData) obj).state == state.booleanValue();
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean equals(final @Nullable Object obj) {
+    if (obj == null)
+      return false;
+    if (!getClass().equals(obj.getClass()))
+      return false;
+    if (!isValid() || !((StorageData)obj).isValid())
+      return false;
+    return ((BooleanData)obj).state == state.booleanValue();
+  }
 }

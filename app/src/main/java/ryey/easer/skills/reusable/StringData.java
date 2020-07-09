@@ -21,45 +21,40 @@ package ryey.easer.skills.reusable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.Utils;
 import ryey.easer.commons.local_skill.StorageData;
 
 public abstract class StringData implements StorageData {
-    protected String text = null;
+  protected String text = null;
 
-    protected StringData() { }
+  protected StringData() {}
 
-    protected StringData(final @NonNull String text) {
-        this.text = text;
-    }
+  protected StringData(final @NonNull String text) { this.text = text; }
 
-    @NonNull
-    public String get() {
-        return text;
-    }
+  @NonNull
+  public String get() {
+    return text;
+  }
 
-    public void set(final @NonNull String text) {
-        this.text = text;
-    }
+  public void set(final @NonNull String text) { this.text = text; }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean isValid() {
-        if (Utils.isBlank(text))
-            return false;
-        return true;
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean isValid() {
+    if (Utils.isBlank(text))
+      return false;
+    return true;
+  }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean equals(final @Nullable Object obj) {
-        if (obj == null)
-            return false;
-        if (!getClass().equals(obj.getClass()))
-            return false;
-        if (!isValid() || !((StorageData) obj).isValid())
-            return false;
-        return text.equals(((StringData) obj).text);
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean equals(final @Nullable Object obj) {
+    if (obj == null)
+      return false;
+    if (!getClass().equals(obj.getClass()))
+      return false;
+    if (!isValid() || !((StorageData)obj).isValid())
+      return false;
+    return text.equals(((StringData)obj).text);
+  }
 }

@@ -19,21 +19,21 @@
 
 package ryey.easer.skills.operation.airplane_mode;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class AirplaneModeOperationDataTest {
 
-    @Test
-    public void testParcel() {
-        AirplaneModeOperationData dummyData = new AirplaneModeOperationDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        AirplaneModeOperationData parceledData = AirplaneModeOperationData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
+  @Test
+  public void testParcel() {
+    AirplaneModeOperationData dummyData =
+        new AirplaneModeOperationDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    AirplaneModeOperationData parceledData =
+        AirplaneModeOperationData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

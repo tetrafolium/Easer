@@ -19,22 +19,21 @@
 
 package ryey.easer.skills.condition.calendar;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class CalendarConditionDataTest {
 
-    @Test
-    public void testParcel() {
-        CalendarConditionData dummyData = new CalendarConditionDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        CalendarConditionData parceledData = CalendarConditionData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    CalendarConditionData dummyData =
+        new CalendarConditionDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    CalendarConditionData parceledData =
+        CalendarConditionData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

@@ -22,19 +22,20 @@ package ryey.easer.commons.local_skill.eventskill;
 import android.net.Uri;
 
 public interface Slot<T extends EventData> {
-    /**
-     * Start functioning as a top-level listener.
-     * When (probably satisfying) event happens, notify itself and finally proceed to {@link #changeSatisfiedState(boolean)}.
-     *
-     * Can be called multiply times (data remain the same).
-     */
-    void listen();
+  /**
+   * Start functioning as a top-level listener.
+   * When (probably satisfying) event happens, notify itself and finally proceed
+   * to {@link #changeSatisfiedState(boolean)}.
+   *
+   * Can be called multiply times (data remain the same).
+   */
+  void listen();
 
-    /**
-     * Stop functioning as a top-level listener.
-     * No longer notify itself even when it is really satisfied.
-     */
-    void cancel();
+  /**
+   * Stop functioning as a top-level listener.
+   * No longer notify itself even when it is really satisfied.
+   */
+  void cancel();
 
-    void register(Uri data);
+  void register(Uri data);
 }

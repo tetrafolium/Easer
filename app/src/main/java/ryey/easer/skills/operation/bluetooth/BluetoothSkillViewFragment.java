@@ -20,17 +20,17 @@
 package ryey.easer.skills.operation.bluetooth;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.InvalidDataInputException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.SwitchSkillViewFragment;
 
-public class BluetoothSkillViewFragment extends SwitchSkillViewFragment<BluetoothOperationData> {
+public class BluetoothSkillViewFragment
+    extends SwitchSkillViewFragment<BluetoothOperationData> {
 
-    @ValidData
-    @NonNull
-    @Override
-    public BluetoothOperationData getData() throws InvalidDataInputException {
-        return new BluetoothOperationData(state());
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public BluetoothOperationData getData() throws InvalidDataInputException {
+    return new BluetoothOperationData(state());
+  }
 }

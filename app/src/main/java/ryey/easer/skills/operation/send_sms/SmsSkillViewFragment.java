@@ -24,40 +24,41 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.InvalidDataInputException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillViewFragment;
 
 public class SmsSkillViewFragment extends SkillViewFragment<SmsOperationData> {
-    private EditText et_destination;
-    private EditText et_content;
+  private EditText et_destination;
+  private EditText et_content;
 
-    @NonNull
-    @Override
-    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.plugin_operation__send_sms, container, false);
-        et_destination = view.findViewById(R.id.editText_destination);
-        et_content = view.findViewById(R.id.editText_content);
-        return view;
-    }
+  @NonNull
+  @Override
+  public View onCreateView(final @NonNull LayoutInflater inflater,
+                           final @Nullable ViewGroup container,
+                           final @Nullable Bundle savedInstanceState) {
+    View view =
+        inflater.inflate(R.layout.plugin_operation__send_sms, container, false);
+    et_destination = view.findViewById(R.id.editText_destination);
+    et_content = view.findViewById(R.id.editText_content);
+    return view;
+  }
 
-    @Override
-    protected void _fill(final @ValidData @NonNull SmsOperationData data) {
-        et_destination.setText(data.destination);
-        et_content.setText(data.content);
-    }
+  @Override
+  protected void _fill(final @ValidData @NonNull SmsOperationData data) {
+    et_destination.setText(data.destination);
+    et_content.setText(data.content);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public SmsOperationData getData() throws InvalidDataInputException {
-        String destination = et_destination.getText().toString();
-        String content = et_content.getText().toString();
-        return new SmsOperationData(destination, content);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public SmsOperationData getData() throws InvalidDataInputException {
+    String destination = et_destination.getText().toString();
+    String content = et_content.getText().toString();
+    return new SmsOperationData(destination, content);
+  }
 }

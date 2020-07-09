@@ -20,45 +20,42 @@
 package ryey.easer.commons.local_skill;
 
 import android.content.res.Resources;
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.R;
 
 public enum SourceCategory {
-    android,
-    data_communication,
-    date_time,
-    easer,
-    personal,
-    device,
-    misc,
-    unknown;
+  android,
+  data_communication,
+  date_time,
+  easer,
+  personal,
+  device,
+  misc,
+  unknown;
 
-    @NonNull
-    public String toString(final Resources resources) {
-        switch (this) {
-        case android:
-            return resources.getString(R.string.category_source_android);
-        case date_time:
-            return resources.getString(R.string.category_source_date_time);
-        case easer:
-            return resources.getString(R.string.category_source_easer);
-        case data_communication:
-            return resources.getString(R.string.category_source_data_communication);
-        case personal:
-            return resources.getString(R.string.category_source_personal);
-        case device:
-            return resources.getString(R.string.category_source_device);
-        case misc:
-            return resources.getString(R.string.category_source_misc);
-        case unknown:
-            return resources.getString(R.string.category_source_unknown);
-        }
-        throw new IllegalStateException("Category isn't caught in switch statement");
+  @NonNull
+  public String toString(final Resources resources) {
+    switch (this) {
+    case android:
+      return resources.getString(R.string.category_source_android);
+    case date_time:
+      return resources.getString(R.string.category_source_date_time);
+    case easer:
+      return resources.getString(R.string.category_source_easer);
+    case data_communication:
+      return resources.getString(R.string.category_source_data_communication);
+    case personal:
+      return resources.getString(R.string.category_source_personal);
+    case device:
+      return resources.getString(R.string.category_source_device);
+    case misc:
+      return resources.getString(R.string.category_source_misc);
+    case unknown:
+      return resources.getString(R.string.category_source_unknown);
     }
+    throw new IllegalStateException(
+        "Category isn't caught in switch statement");
+  }
 
-    public interface Categorized {
-        @NonNull SourceCategory category();
-    }
+  public interface Categorized { @NonNull SourceCategory category(); }
 }

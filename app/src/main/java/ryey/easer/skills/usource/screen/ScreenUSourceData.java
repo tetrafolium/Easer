@@ -20,10 +20,8 @@
 package ryey.easer.skills.usource.screen;
 
 import android.os.Parcel;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.dynamics.Dynamics;
 import ryey.easer.commons.local_skill.usource.USourceData;
@@ -31,79 +29,81 @@ import ryey.easer.plugin.PluginDataFormat;
 
 public class ScreenUSourceData implements USourceData {
 
-    enum ScreenEvent {
-        on,
-        off,
-        unlocked,
+  enum ScreenEvent {
+    on,
+    off,
+    unlocked,
+  }
+
+  final ScreenEvent screenEvent;
+
+  ScreenUSourceData(final ScreenEvent screenEvent) {
+    this.screenEvent = screenEvent;
+  }
+
+  ScreenUSourceData(final @NonNull String data,
+                    final @NonNull PluginDataFormat format, final int version)
+      throws IllegalStorageDataException {
+    screenEvent = ScreenEvent.valueOf(data);
+  }
+
+  @NonNull
+  @Override
+  public String serialize(final @NonNull PluginDataFormat format) {
+    String res;
+    switch (format) {
+    default:
+      res = screenEvent.name();
     }
+    return res;
+  }
 
-    final ScreenEvent screenEvent;
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean isValid() {
+    if (screenEvent == null)
+      return false;
+    return true;
+  }
 
-    ScreenUSourceData(final ScreenEvent screenEvent) {
-        this.screenEvent = screenEvent;
-    }
+  @Nullable
+  @Override
+  public Dynamics[] dynamics() {
+    return null;
+  }
 
-    ScreenUSourceData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        screenEvent = ScreenEvent.valueOf(data);
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == null || !(obj instanceof ScreenUSourceData))
+      return false;
+    if (!screenEvent.equals(((ScreenUSourceData)obj).screenEvent))
+      return false;
+    return true;
+  }
 
-    @NonNull
-    @Override
-    public String serialize(final @NonNull PluginDataFormat format) {
-        String res;
-        switch (format) {
-        default:
-            res = screenEvent.name();
-        }
-        return res;
-    }
+  @Override
+  public int describeContents() {
+    return 0;
+  }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean isValid() {
-        if (screenEvent == null)
-            return false;
-        return true;
-    }
+  @Override
+  public void writeToParcel(final Parcel dest, final int flags) {
+    screenEvent.ordinal();
+  }
 
-    @Nullable
-    @Override
-    public Dynamics[] dynamics() {
-        return null;
-    }
-
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean equals(final Object obj) {
-        if (obj == null || !(obj instanceof ScreenUSourceData))
-            return false;
-        if (!screenEvent.equals(((ScreenUSourceData) obj).screenEvent))
-            return false;
-        return true;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(final Parcel dest, final int flags) {
-        screenEvent.ordinal();
-    }
-
-    public static final Creator<ScreenUSourceData> CREATOR
-    = new Creator<ScreenUSourceData>() {
+  public static final Creator<ScreenUSourceData> CREATOR =
+      new Creator<ScreenUSourceData>() {
         public ScreenUSourceData createFromParcel(final Parcel in) {
-            return new ScreenUSourceData(in);
+          return new ScreenUSourceData(in);
         }
 
         public ScreenUSourceData[] newArray(final int size) {
-            return new ScreenUSourceData[size];
+          return new ScreenUSourceData[size];
         }
-    };
+      };
 
-    private ScreenUSourceData(final Parcel in) {
-        screenEvent = ScreenEvent.values()[in.readInt()];
-    }
+  private ScreenUSourceData(final Parcel in) {
+    screenEvent = ScreenEvent.values()[in.readInt()];
+  }
 }

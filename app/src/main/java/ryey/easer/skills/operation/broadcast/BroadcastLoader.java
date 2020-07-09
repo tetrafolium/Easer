@@ -21,43 +21,39 @@ package ryey.easer.skills.operation.broadcast;
 
 import android.content.Context;
 import android.content.Intent;
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.Utils;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class BroadcastLoader extends OperationLoader<BroadcastOperationData> {
-    public BroadcastLoader(final Context context) {
-        super(context);
-    }
+  public BroadcastLoader(final Context context) { super(context); }
 
-    @Override
-    public boolean load(final @ValidData @NonNull BroadcastOperationData data) {
-        IntentData iData = data.data;
-        Intent intent = new Intent();
-        intent.setAction(iData.action);
-        if (iData.category != null)
-            for (String category : iData.category) {
-                intent.addCategory(category);
-            }
-        boolean hasType = false, hasData = false;
-        if (!Utils.isBlank(iData.type))
-            hasType = true;
-        if (iData.data != null && !Utils.isBlank(iData.data.toString()))
-            hasData = true;
-        if (hasType && hasData) {
-            intent.setDataAndType(iData.data, iData.type);
-        } else if (hasType) {
-            intent.setType(iData.type);
-        } else if (hasData) {
-            intent.setData(iData.data);
-        }
-        if (iData.extras != null) {
-            intent.putExtras(iData.extras.asBundle());
-        }
-        context.sendBroadcast(intent);
-        return true;
+  @Override
+  public boolean load(final @ValidData @NonNull BroadcastOperationData data) {
+    IntentData iData = data.data;
+    Intent intent = new Intent();
+    intent.setAction(iData.action);
+    if (iData.category != null)
+      for (String category : iData.category) {
+        intent.addCategory(category);
+      }
+    boolean hasType = false, hasData = false;
+    if (!Utils.isBlank(iData.type))
+      hasType = true;
+    if (iData.data != null && !Utils.isBlank(iData.data.toString()))
+      hasData = true;
+    if (hasType && hasData) {
+      intent.setDataAndType(iData.data, iData.type);
+    } else if (hasType) {
+      intent.setType(iData.type);
+    } else if (hasData) {
+      intent.setData(iData.data);
     }
+    if (iData.extras != null) {
+      intent.putExtras(iData.extras.asBundle());
+    }
+    context.sendBroadcast(intent);
+    return true;
+  }
 }

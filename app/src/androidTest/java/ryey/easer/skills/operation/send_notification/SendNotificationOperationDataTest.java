@@ -19,22 +19,21 @@
 
 package ryey.easer.skills.operation.send_notification;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class SendNotificationOperationDataTest {
 
-    @Test
-    public void testParcel() {
-        SendNotificationOperationData dummyData = new SendNotificationOperationDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        SendNotificationOperationData parceledData = SendNotificationOperationData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    SendNotificationOperationData dummyData =
+        new SendNotificationOperationDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    SendNotificationOperationData parceledData =
+        SendNotificationOperationData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

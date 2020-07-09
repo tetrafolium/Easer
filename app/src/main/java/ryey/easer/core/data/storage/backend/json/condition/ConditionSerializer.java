@@ -21,7 +21,6 @@ package ryey.easer.core.data.storage.backend.json.condition;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import ryey.easer.commons.local_skill.conditionskill.ConditionData;
 import ryey.easer.core.data.ConditionStructure;
 import ryey.easer.core.data.storage.C;
@@ -31,23 +30,27 @@ import ryey.easer.plugin.PluginDataFormat;
 import ryey.easer.skills.LocalSkillRegistry;
 
 public class ConditionSerializer implements Serializer<ConditionStructure> {
-    @Override
-    public String serialize(final ConditionStructure data) throws UnableToSerializeException {
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put(C.NAME, data.getName());
-            jsonObject.put(C.VERSION, C.VERSION_CURRENT);
-            jsonObject.put(C.CONDITION, serialize_condition(data.getData()));
-            return jsonObject.toString();
-        } catch (JSONException e) {
-            throw new UnableToSerializeException(e.getMessage());
-        }
+  @Override
+  public String serialize(final ConditionStructure data)
+      throws UnableToSerializeException {
+    try {
+      JSONObject jsonObject = new JSONObject();
+      jsonObject.put(C.NAME, data.getName());
+      jsonObject.put(C.VERSION, C.VERSION_CURRENT);
+      jsonObject.put(C.CONDITION, serialize_condition(data.getData()));
+      return jsonObject.toString();
+    } catch (JSONException e) {
+      throw new UnableToSerializeException(e.getMessage());
     }
+  }
 
-    private JSONObject serialize_condition(final ConditionData condition) throws JSONException {
-        JSONObject json_situation = new JSONObject();
-        json_situation.put(C.SPEC, LocalSkillRegistry.getInstance().condition().findSkill(condition).id());
-        json_situation.put(C.DATA, condition.serialize(PluginDataFormat.JSON));
-        return json_situation;
-    }
+  private JSONObject serialize_condition(final ConditionData condition)
+      throws JSONException {
+    JSONObject json_situation = new JSONObject();
+    json_situation.put(
+        C.SPEC,
+        LocalSkillRegistry.getInstance().condition().findSkill(condition).id());
+    json_situation.put(C.DATA, condition.serialize(PluginDataFormat.JSON));
+    return json_situation;
+  }
 }

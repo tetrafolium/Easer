@@ -24,101 +24,107 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.InvalidDataInputException;
 import ryey.easer.commons.local_skill.Skill;
 import ryey.easer.commons.local_skill.StorageData;
 
-public abstract class SourceSkillViewContainerFragment<D extends StorageData, S extends Skill>
+public abstract class SourceSkillViewContainerFragment<D extends StorageData, S
+                                                           extends Skill>
     extends SkillViewContainerFragment<D> {
 
-    private static final String EXTRA_SKILL = "skill";
+  private static final String EXTRA_SKILL = "skill";
 
-    protected static <D extends StorageData, S extends Skill<D>, F extends SourceSkillViewContainerFragment<D, S>> F createInstance(
-        final @NonNull S skill,
-        final @NonNull F fragment) {
-        return createInstance(skill, fragment, null);
-    }
+  protected static <D extends StorageData, S extends Skill<D>, F
+                        extends SourceSkillViewContainerFragment<D, S>>
+      F createInstance(final @NonNull S skill, final @NonNull F fragment) {
+    return createInstance(skill, fragment, null);
+  }
 
-    protected static <D extends StorageData, S extends Skill<D>, F extends SourceSkillViewContainerFragment<D, S>> F createInstance(
-        final @NonNull S skill,
-        final @NonNull F fragment,
-        final @Nullable Bundle bundle) {
-        return createInstance(skill.id(), fragment, bundle);
-    }
+  protected static <D extends StorageData, S extends Skill<D>, F
+                        extends SourceSkillViewContainerFragment<D, S>>
+      F createInstance(final @NonNull S skill, final @NonNull F fragment,
+                       final @Nullable Bundle bundle) {
+    return createInstance(skill.id(), fragment, bundle);
+  }
 
-    protected static <D extends StorageData, S extends Skill<D>, F extends SourceSkillViewContainerFragment<D, S>> F createInstance(
-        final @NonNull String skillId,
-        final @NonNull F fragment,
-        final @Nullable Bundle bundle) {
-        if (bundle == null)
-            bundle = new Bundle();
-        bundle.putString(EXTRA_SKILL, skillId);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
+  protected static <D extends StorageData, S extends Skill<D>, F
+                        extends SourceSkillViewContainerFragment<D, S>>
+      F createInstance(final @NonNull String skillId, final @NonNull F fragment,
+                       final @Nullable Bundle bundle) {
+    if (bundle == null)
+      bundle = new Bundle();
+    bundle.putString(EXTRA_SKILL, skillId);
+    fragment.setArguments(bundle);
+    return fragment;
+  }
 
-    protected String skillID = null;
+  protected String skillID = null;
 
-    protected abstract S findSkill(String skillID);
+  protected abstract S findSkill(String skillID);
 
-    @Override
-    public void onCreate(final @Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        skillID = getArguments().getString(EXTRA_SKILL);
-        S skill = findSkill(skillID);
-        pluginViewFragment = skill.view();
-    }
+  @Override
+  public void onCreate(final @Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    skillID = getArguments().getString(EXTRA_SKILL);
+    S skill = findSkill(skillID);
+    pluginViewFragment = skill.view();
+  }
 
-    @NonNull
-    @Override
-    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_skillview_container_source, container, false);
-        getChildFragmentManager().beginTransaction()
+  @NonNull
+  @Override
+  public View onCreateView(final @NonNull LayoutInflater inflater,
+                           final @Nullable ViewGroup container,
+                           final @Nullable Bundle savedInstanceState) {
+    View v = inflater.inflate(R.layout.fragment_skillview_container_source,
+                              container, false);
+    getChildFragmentManager()
+        .beginTransaction()
         .replace(R.id.content_pluginview, pluginViewFragment)
         .commit();
-        return v;
-    }
+    return v;
+  }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        S plugin = findSkill(skillID);
-        //noinspection ConstantConditions
-        if (plugin.checkPermissions(getContext()) == Boolean.FALSE) {
-            setEnabled(false);
-            //noinspection ConstantConditions
-            plugin.requestPermissions(getActivity(), 1);
+  @Override
+  public void onStart() {
+    super.onStart();
+    S plugin = findSkill(skillID);
+    // noinspection ConstantConditions
+    if (plugin.checkPermissions(getContext()) == Boolean.FALSE) {
+      setEnabled(false);
+      // noinspection ConstantConditions
+      plugin.requestPermissions(getActivity(), 1);
+    }
+  }
+
+  @Override
+  public void onRequestPermissionsResult(final int requestCode,
+                                         final @NonNull String[] permissions,
+                                         final @NonNull int[] grantResults) {
+    if (requestCode == 1) {
+      for (int i = 0; i < grantResults.length; i++) {
+        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+          return;
         }
+      }
+      setEnabled(true);
     }
+  }
 
-    @Override
-    public void onRequestPermissionsResult(final int requestCode, final @NonNull String[] permissions, final @NonNull int[] grantResults) {
-        if (requestCode == 1) {
-            for (int i = 0; i < grantResults.length; i++) {
-                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-            }
-            setEnabled(true);
-        }
-    }
+  /***
+   * {@inheritDoc}
+   * Explicitly override and call back through to snooze compiler data type
+   * checking
+   */
+  @NonNull
+  @Override
+  public D getData() throws InvalidDataInputException {
+    return super.getData();
+  }
 
-    /***
-     * {@inheritDoc}
-     * Explicitly override and call back through to snooze compiler data type checking
-     */
-    @NonNull
-    @Override
-    public D getData() throws InvalidDataInputException {
-        return super.getData();
-    }
-
-    private void setEnabled(final boolean enabled) {
-        pluginViewFragment.setEnabled(enabled);
-    }
+  private void setEnabled(final boolean enabled) {
+    pluginViewFragment.setEnabled(enabled);
+  }
 }

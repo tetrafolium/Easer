@@ -20,73 +20,70 @@
 package ryey.easer.core.data;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.Utils;
 import ryey.easer.commons.C;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.eventskill.EventData;
 
 public class EventStructure implements Named, Verifiable, WithCreatedVersion {
-    private final int createdVersion;
+  private final int createdVersion;
 
-    private final String name;
-    private EventData eventData;
+  private final String name;
+  private EventData eventData;
 
-    public static EventStructure createTmpScenario(final @ValidData EventData eventData) {
-        return new EventStructure(eventData);
-    }
+  public static EventStructure
+  createTmpScenario(final @ValidData EventData eventData) {
+    return new EventStructure(eventData);
+  }
 
-    private EventStructure(final @ValidData EventData eventData) {
-        createdVersion = C.VERSION_CREATED_IN_RUNTIME;
-        name = null;
-        this.eventData = eventData;
-    }
+  private EventStructure(final @ValidData EventData eventData) {
+    createdVersion = C.VERSION_CREATED_IN_RUNTIME;
+    name = null;
+    this.eventData = eventData;
+  }
 
-    public EventStructure(final int createdVersion, final @NonNull String name, final @ValidData EventData eventData) {
-        this.createdVersion = createdVersion;
-        this.name = name;
-        this.eventData = eventData;
-    }
+  public EventStructure(final int createdVersion, final @NonNull String name,
+                        final @ValidData EventData eventData) {
+    this.createdVersion = createdVersion;
+    this.name = name;
+    this.eventData = eventData;
+  }
 
-    @Override
-    public String getName() {
-        return name;
-    }
+  @Override
+  public String getName() {
+    return name;
+  }
 
-    public EventData getEventData() {
-        return eventData;
-    }
+  public EventData getEventData() { return eventData; }
 
-    public void setEventData(final EventData eventData) {
-        this.eventData = eventData;
-    }
+  public void setEventData(final EventData eventData) {
+    this.eventData = eventData;
+  }
 
-    public boolean isTmpEvent() {
-        return name == null;
-    }
+  public boolean isTmpEvent() { return name == null; }
 
-    @Override
-    public boolean isValid() {
-        if ((name != null) && (name.isEmpty()))
-            return false;
-        if ((eventData == null) || (!eventData.isValid()))
-            return false;
-        return true;
-    }
+  @Override
+  public boolean isValid() {
+    if ((name != null) && (name.isEmpty()))
+      return false;
+    if ((eventData == null) || (!eventData.isValid()))
+      return false;
+    return true;
+  }
 
-    @Override
-    public boolean equals(final Object obj) {
-        if (obj == null || !(obj instanceof EventStructure))
-            return false;
-        if (!Utils.nullableEqual(name, ((EventStructure) obj).name))
-            return false;
-        if (!Utils.nullableEqual(eventData, ((EventStructure) obj).eventData))
-            return false;
-        return true;
-    }
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == null || !(obj instanceof EventStructure))
+      return false;
+    if (!Utils.nullableEqual(name, ((EventStructure)obj).name))
+      return false;
+    if (!Utils.nullableEqual(eventData, ((EventStructure)obj).eventData))
+      return false;
+    return true;
+  }
 
-    @Override
-    public int createdVersion() {
-        return createdVersion;
-    }
+  @Override
+  public int createdVersion() {
+    return createdVersion;
+  }
 }

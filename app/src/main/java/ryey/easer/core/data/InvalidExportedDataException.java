@@ -20,10 +20,6 @@
 package ryey.easer.core.data;
 
 public class InvalidExportedDataException extends Exception {
-    public InvalidExportedDataException(final String msg) {
-        super(msg);
-    }
-    public InvalidExportedDataException(final Exception e) {
-        super(e);
-    }
+  public InvalidExportedDataException(final String msg) { super(msg); }
+  public InvalidExportedDataException(final Exception e) { super(e); }
 }

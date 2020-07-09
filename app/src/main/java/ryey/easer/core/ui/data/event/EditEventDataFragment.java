@@ -27,48 +27,56 @@ import ryey.easer.core.ui.data.SourceSelectorDialogFragment;
 import ryey.easer.core.ui.data.SourceSkillViewContainerFragment;
 import ryey.easer.skills.LocalSkillRegistry;
 
-public class EditEventDataFragment extends EditSourceDataFragment<EventData, EventSkill> {
+public class EditEventDataFragment
+    extends EditSourceDataFragment<EventData, EventSkill> {
 
-    @Override
-    protected int buttonText() {
-        return R.string.title_select_event;
-    }
+  @Override
+  protected int buttonText() {
+    return R.string.title_select_event;
+  }
 
-    @Override
-    protected SourceSelectorDialogFragment<EventSkill> selectorDialogFragment() {
-        return new EventSelectorDialogFragment();
-    }
+  @Override
+  protected SourceSelectorDialogFragment<EventSkill> selectorDialogFragment() {
+    return new EventSelectorDialogFragment();
+  }
 
-    @Override
-    protected EventSkill findSkill(final EventData data) {
-        return LocalSkillRegistry.getInstance().event().findSkill(data);
-    }
+  @Override
+  protected EventSkill findSkill(final EventData data) {
+    return LocalSkillRegistry.getInstance().event().findSkill(data);
+  }
 
-    @Override
-    protected SourceSkillViewContainerFragment<EventData, EventSkill> skillViewContainerFragment(final EventSkill skill) {
-        return EventSkillViewContainerFragment.createInstance(skill);
-    }
+  @Override
+  protected SourceSkillViewContainerFragment<EventData, EventSkill>
+  skillViewContainerFragment(final EventSkill skill) {
+    return EventSkillViewContainerFragment.createInstance(skill);
+  }
 }
 
-//public class EditEventDataFragment extends Fragment implements EventSelectorDialogFragment.SelectedListener<EventSkill> {
+// public class EditEventDataFragment extends Fragment implements
+// EventSelectorDialogFragment.SelectedListener<EventSkill> {
 //
 //    private static final String TAG_SELECT_DIALOG = "select_dialog";
 //
 //    protected Button mButtonSelect = null;
-//    protected EventSkillViewContainerFragment skillViewContainerFragment = null;
+//    protected EventSkillViewContainerFragment skillViewContainerFragment =
+//    null;
 //
 //    @Nullable
 //    @Override
-//    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.fragment_edit_event, container, false);
+//    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable
+//    ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        View view = inflater.inflate(R.layout.fragment_edit_event, container,
+//        false);
 //
 //        mButtonSelect = view.findViewById(R.id.btn_select);
 //        mButtonSelect.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                EventSelectorDialogFragment eventSelectorFragment = new EventSelectorDialogFragment();
+//                EventSelectorDialogFragment eventSelectorFragment = new
+//                EventSelectorDialogFragment();
 //                eventSelectorFragment.setSelectedListener(EditEventDataFragment.this);
-//                eventSelectorFragment.show(getChildFragmentManager(), TAG_SELECT_DIALOG);
+//                eventSelectorFragment.show(getChildFragmentManager(),
+//                TAG_SELECT_DIALOG);
 //            }
 //        });
 //
@@ -76,8 +84,9 @@ public class EditEventDataFragment extends EditSourceDataFragment<EventData, Eve
 //    }
 //
 //    public void loadFromData(EventData data) {
-//        EventSkill<?> skill = LocalSkillRegistry.getInstance().event().findSkill(data);
-//        assert skill != null;
+//        EventSkill<?> skill =
+//        LocalSkillRegistry.getInstance().event().findSkill(data); assert skill
+//        != null;
 //        setSkill(EventSkillViewContainerFragment.createInstance(skill),
 //                getString(skill.name()),
 //                data);
@@ -90,15 +99,20 @@ public class EditEventDataFragment extends EditSourceDataFragment<EventData, Eve
 //    }
 //
 //    @Override
-//    public void onSelected(SourceSelectorDialogFragment.SkillItemWrapper<EventSkill> skillItemWrapper) {
-//        setSkill(EventSkillViewContainerFragment.createInstance(skillItemWrapper.skill), skillItemWrapper.name);
+//    public void
+//    onSelected(SourceSelectorDialogFragment.SkillItemWrapper<EventSkill>
+//    skillItemWrapper) {
+//        setSkill(EventSkillViewContainerFragment.createInstance(skillItemWrapper.skill),
+//        skillItemWrapper.name);
 //    }
 //
-//    private void setSkill(EventSkillViewContainerFragment skillViewContainerFragment, String name) {
+//    private void setSkill(EventSkillViewContainerFragment
+//    skillViewContainerFragment, String name) {
 //        setSkill(skillViewContainerFragment, name, null);
 //    }
 //
-//    private void setSkill(EventSkillViewContainerFragment skillViewContainerFragment, String name, EventData data) {
+//    private void setSkill(EventSkillViewContainerFragment
+//    skillViewContainerFragment, String name, EventData data) {
 //        mButtonSelect.setText(name);
 //        this.skillViewContainerFragment = skillViewContainerFragment;
 //        getChildFragmentManager().beginTransaction()

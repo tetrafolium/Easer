@@ -22,15 +22,11 @@ package ryey.easer.core.ui.data.event;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import ryey.easer.R;
 import ryey.easer.core.EHService;
 import ryey.easer.core.data.EventStructure;
@@ -40,53 +36,56 @@ import ryey.easer.skills.LocalSkillRegistry;
 
 public class EventListFragment extends AbstractDataListFragment {
 
-    static {
-        TAG = "[EventListFragment] ";
-    }
+  static { TAG = "[EventListFragment] "; }
 
-    @NonNull
-    @Override
-    public String title() {
-        return getString(R.string.title_event);
-    }
+  @NonNull
+  @Override
+  public String title() {
+    return getString(R.string.title_event);
+  }
 
-    @Override
-    public int helpTextRes() {
-        return R.string.help_event;
-    }
+  @Override
+  public int helpTextRes() {
+    return R.string.help_event;
+  }
 
-    @Override
-    protected List<ListDataWrapper> queryDataList() {
-        EventDataStorage dataStorage = new EventDataStorage(getContext());
-        List<ListDataWrapper> dataWrapperList = new ArrayList<>();
-        for (String name : dataStorage.list()) {
-            EventStructure scenario = dataStorage.get(name);
-            if (scenario.isValid()) {
-                dataWrapperList.add(new ListDataWrapper(name));
-            } else {
-                dataWrapperList.add(new ListDataWrapper(name, R.color.colorText_invalid));
-            }
-        }
-        return dataWrapperList;
+  @Override
+  protected List<ListDataWrapper> queryDataList() {
+    EventDataStorage dataStorage = new EventDataStorage(getContext());
+    List<ListDataWrapper> dataWrapperList = new ArrayList<>();
+    for (String name : dataStorage.list()) {
+      EventStructure scenario = dataStorage.get(name);
+      if (scenario.isValid()) {
+        dataWrapperList.add(new ListDataWrapper(name));
+      } else {
+        dataWrapperList.add(
+            new ListDataWrapper(name, R.color.colorText_invalid));
+      }
     }
+    return dataWrapperList;
+  }
 
-    @Override
-    protected void onDataChangedFromEditDataActivity() {
-        super.onDataChangedFromEditDataActivity();
-        EHService.reload(getContext());
-    }
+  @Override
+  protected void onDataChangedFromEditDataActivity() {
+    super.onDataChangedFromEditDataActivity();
+    EHService.reload(getContext());
+  }
 
-    @Override
-    public Intent intentForEditDataActivity() {
-        return new Intent(getContext(), EditEventActivity.class);
-    }
+  @Override
+  public Intent intentForEditDataActivity() {
+    return new Intent(getContext(), EditEventActivity.class);
+  }
 
-    @Override
-    public void onViewCreated(final @NonNull View view, final @Nullable Bundle savedInstanceState) {
-        //noinspection ConstantConditions
-        if (LocalSkillRegistry.getInstance().event().getEnabledSkills(getContext()).size() == 0) {
-            FloatingActionButton fab = view.findViewById(R.id.fab);
-            fab.hide();
-        }
+  @Override
+  public void onViewCreated(final @NonNull View view,
+                            final @Nullable Bundle savedInstanceState) {
+    // noinspection ConstantConditions
+    if (LocalSkillRegistry.getInstance()
+            .event()
+            .getEnabledSkills(getContext())
+            .size() == 0) {
+      FloatingActionButton fab = view.findViewById(R.id.fab);
+      fab.hide();
     }
+  }
 }

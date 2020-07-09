@@ -22,10 +22,8 @@ package ryey.easer.skills.operation.synchronization;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.SkillView;
 import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
@@ -35,69 +33,72 @@ import ryey.easer.plugin.operation.Category;
 import ryey.easer.skills.SkillUtils;
 import ryey.easer.skills.operation.OperationLoader;
 
-public class SynchronizationOperationSkill implements OperationSkill<SynchronizationOperationData> {
+public class SynchronizationOperationSkill
+    implements OperationSkill<SynchronizationOperationData> {
 
-    @NonNull
-    @Override
-    public String id() {
-        return "synchronization";
-    }
+  @NonNull
+  @Override
+  public String id() {
+    return "synchronization";
+  }
 
-    @Override
-    public int name() {
-        return R.string.operation_synchronization;
-    }
+  @Override
+  public int name() {
+    return R.string.operation_synchronization;
+  }
 
-    @Override
-    public boolean isCompatible(@NonNull final Context context) {
-        return true;
-    }
+  @Override
+  public boolean isCompatible(@NonNull final Context context) {
+    return true;
+  }
 
-    @NonNull
-    @Override
-    public PrivilegeUsage privilege() {
-        return PrivilegeUsage.no_root;
-    }
+  @NonNull
+  @Override
+  public PrivilegeUsage privilege() {
+    return PrivilegeUsage.no_root;
+  }
 
-    @Override
-    public int maxExistence() {
-        return 1;
-    }
+  @Override
+  public int maxExistence() {
+    return 1;
+  }
 
-    @NonNull
-    @Override
-    public Category category() {
-        return Category.system_config;
-    }
+  @NonNull
+  @Override
+  public Category category() {
+    return Category.system_config;
+  }
 
-    @Nullable
-    @Override
-    public Boolean checkPermissions(final @NonNull Context context) {
-        return SkillUtils.checkPermission(context, Manifest.permission.WRITE_SYNC_SETTINGS);
-    }
+  @Nullable
+  @Override
+  public Boolean checkPermissions(final @NonNull Context context) {
+    return SkillUtils.checkPermission(context,
+                                      Manifest.permission.WRITE_SYNC_SETTINGS);
+  }
 
-    @Override
-    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
-        SkillUtils.requestPermission(activity, requestCode, Manifest.permission.WRITE_SYNC_SETTINGS);
-    }
+  @Override
+  public void requestPermissions(final @NonNull Activity activity,
+                                 final int requestCode) {
+    SkillUtils.requestPermission(activity, requestCode,
+                                 Manifest.permission.WRITE_SYNC_SETTINGS);
+  }
 
-    @NonNull
-    @Override
-    public OperationDataFactory<SynchronizationOperationData> dataFactory() {
-        return new SynchronizationOperationDataFactory();
+  @NonNull
+  @Override
+  public OperationDataFactory<SynchronizationOperationData> dataFactory() {
+    return new SynchronizationOperationDataFactory();
+  }
 
-    }
+  @NonNull
+  @Override
+  public SkillView<SynchronizationOperationData> view() {
+    return new SynchronizationSkillViewFragment();
+  }
 
-    @NonNull
-    @Override
-    public SkillView<SynchronizationOperationData> view() {
-        return new SynchronizationSkillViewFragment();
-    }
-
-    @NonNull
-    @Override
-    public OperationLoader<SynchronizationOperationData> loader(final @NonNull Context context) {
-        return new SynchronizationLoader(context);
-    }
-
+  @NonNull
+  @Override
+  public OperationLoader<SynchronizationOperationData>
+  loader(final @NonNull Context context) {
+    return new SynchronizationLoader(context);
+  }
 }

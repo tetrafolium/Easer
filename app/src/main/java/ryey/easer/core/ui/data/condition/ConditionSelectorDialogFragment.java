@@ -20,20 +20,21 @@
 package ryey.easer.core.ui.data.condition;
 
 import java.util.List;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.conditionskill.ConditionSkill;
 import ryey.easer.core.ui.data.SourceSelectorDialogFragment;
 import ryey.easer.skills.LocalSkillRegistry;
 
-public class ConditionSelectorDialogFragment extends SourceSelectorDialogFragment<ConditionSkill> {
-    @Override
-    protected int titleRes() {
-        return R.string.title_select_condition;
-    }
+public class ConditionSelectorDialogFragment
+    extends SourceSelectorDialogFragment<ConditionSkill> {
+  @Override
+  protected int titleRes() {
+    return R.string.title_select_condition;
+  }
 
-    @Override
-    protected List<ConditionSkill> skillList() {
-        return LocalSkillRegistry.getInstance().condition().getEnabledSkills(getContext());
-    }
+  @Override
+  protected List<ConditionSkill> skillList() {
+    return LocalSkillRegistry.getInstance().condition().getEnabledSkills(
+        getContext());
+  }
 }

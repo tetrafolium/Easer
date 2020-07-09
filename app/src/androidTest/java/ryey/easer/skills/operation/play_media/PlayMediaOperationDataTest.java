@@ -19,22 +19,21 @@
 
 package ryey.easer.skills.operation.play_media;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class PlayMediaOperationDataTest {
 
-    @Test
-    public void testParcel() {
-        PlayMediaOperationData dummyData = new PlayMediaOperationDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        PlayMediaOperationData parceledData = PlayMediaOperationData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    PlayMediaOperationData dummyData =
+        new PlayMediaOperationDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    PlayMediaOperationData parceledData =
+        PlayMediaOperationData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

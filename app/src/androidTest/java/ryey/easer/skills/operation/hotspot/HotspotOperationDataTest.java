@@ -19,22 +19,21 @@
 
 package ryey.easer.skills.operation.hotspot;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class HotspotOperationDataTest {
 
-    @Test
-    public void testParcel() {
-        HotspotOperationData dummyData = new HotspotOperationDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        HotspotOperationData parceledData = HotspotOperationData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    HotspotOperationData dummyData =
+        new HotspotOperationDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    HotspotOperationData parceledData =
+        HotspotOperationData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

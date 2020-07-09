@@ -20,17 +20,17 @@
 package ryey.easer.skills.operation.cellular;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.InvalidDataInputException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.SwitchSkillViewFragment;
 
-public class CellularSkillViewFragment extends SwitchSkillViewFragment<CellularOperationData> {
+public class CellularSkillViewFragment
+    extends SwitchSkillViewFragment<CellularOperationData> {
 
-    @ValidData
-    @NonNull
-    @Override
-    public CellularOperationData getData() throws InvalidDataInputException {
-        return new CellularOperationData(state());
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public CellularOperationData getData() throws InvalidDataInputException {
+    return new CellularOperationData(state());
+  }
 }

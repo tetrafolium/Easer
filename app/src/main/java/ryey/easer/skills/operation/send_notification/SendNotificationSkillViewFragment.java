@@ -24,40 +24,44 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.InvalidDataInputException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillViewFragment;
 
-public class SendNotificationSkillViewFragment extends SkillViewFragment<SendNotificationOperationData> {
-    private EditText editText_title;
-    private EditText editText_content;
+public class SendNotificationSkillViewFragment
+    extends SkillViewFragment<SendNotificationOperationData> {
+  private EditText editText_title;
+  private EditText editText_content;
 
-    @NonNull
-    @Override
-    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.plugin_operation__send_notification, container, false);
-        editText_title = view.findViewById(R.id.editText_title);
-        editText_content = view.findViewById(R.id.editText_content);
-        return view;
-    }
+  @NonNull
+  @Override
+  public View onCreateView(final @NonNull LayoutInflater inflater,
+                           final @Nullable ViewGroup container,
+                           final @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.plugin_operation__send_notification,
+                                 container, false);
+    editText_title = view.findViewById(R.id.editText_title);
+    editText_content = view.findViewById(R.id.editText_content);
+    return view;
+  }
 
-    @Override
-    protected void _fill(final @ValidData @NonNull SendNotificationOperationData data) {
-        editText_title.setText(data.title);
-        editText_content.setText(data.content);
-    }
+  @Override
+  protected void _fill(final
+                       @ValidData @NonNull SendNotificationOperationData data) {
+    editText_title.setText(data.title);
+    editText_content.setText(data.content);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public SendNotificationOperationData getData() throws InvalidDataInputException {
-        String title = editText_title.getText().toString();
-        String content = editText_content.getText().toString();
-        return new SendNotificationOperationData(title, content);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public SendNotificationOperationData getData()
+      throws InvalidDataInputException {
+    String title = editText_title.getText().toString();
+    String content = editText_content.getText().toString();
+    return new SendNotificationOperationData(title, content);
+  }
 }

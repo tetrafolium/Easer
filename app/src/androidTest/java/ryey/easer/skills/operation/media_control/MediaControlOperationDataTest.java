@@ -19,22 +19,21 @@
 
 package ryey.easer.skills.operation.media_control;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class MediaControlOperationDataTest {
 
-    @Test
-    public void testParcel() {
-        MediaControlOperationData dummyData = new MediaControlOperationDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        MediaControlOperationData parceledData = MediaControlOperationData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    MediaControlOperationData dummyData =
+        new MediaControlOperationDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    MediaControlOperationData parceledData =
+        MediaControlOperationData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

@@ -24,43 +24,43 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.InvalidDataInputException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillViewFragment;
 
 public class SmsSkillViewFragment extends SkillViewFragment<SmsEventData> {
-    private EditText editText_sender;
-    private EditText editText_content;
+  private EditText editText_sender;
+  private EditText editText_content;
 
-    @NonNull
-    @Override
-    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.plugin_event__sms, container, false);
-        editText_sender = view.findViewById(R.id.editText_sender);
-        editText_content = view.findViewById(R.id.editText_content);
+  @NonNull
+  @Override
+  public View onCreateView(final @NonNull LayoutInflater inflater,
+                           final @Nullable ViewGroup container,
+                           final @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.plugin_event__sms, container, false);
+    editText_sender = view.findViewById(R.id.editText_sender);
+    editText_content = view.findViewById(R.id.editText_content);
 
-        return view;
-    }
+    return view;
+  }
 
-    @Override
-    protected void _fill(final @ValidData @NonNull SmsEventData data) {
-        SmsInnerData intentData = data.innerData;
-        editText_sender.setText(intentData.sender);
-        editText_content.setText(intentData.content);
-    }
+  @Override
+  protected void _fill(final @ValidData @NonNull SmsEventData data) {
+    SmsInnerData intentData = data.innerData;
+    editText_sender.setText(intentData.sender);
+    editText_content.setText(intentData.content);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public SmsEventData getData() throws InvalidDataInputException {
-        SmsInnerData intentData = new SmsInnerData();
-        intentData.sender = editText_sender.getText().toString();
-        intentData.content = editText_content.getText().toString();
-        return new SmsEventData(intentData);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public SmsEventData getData() throws InvalidDataInputException {
+    SmsInnerData intentData = new SmsInnerData();
+    intentData.sender = editText_sender.getText().toString();
+    intentData.content = editText_content.getText().toString();
+    return new SmsEventData(intentData);
+  }
 }

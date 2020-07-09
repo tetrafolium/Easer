@@ -27,19 +27,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.collection.ArrayMap;
 import androidx.fragment.app.DialogFragment;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.operationskill.OperationSkill;
 import ryey.easer.core.RemoteOperationPluginInfo;
@@ -51,210 +48,233 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class OperationSelectorFragment extends DialogFragment {
 
-    SelectedListener selectedListener = null;
-    Map<Class<? extends OperationSkill>, Integer> addedPlugins = new ArrayMap<>();
+  SelectedListener selectedListener = null;
+  Map<Class<? extends OperationSkill>, Integer> addedPlugins = new ArrayMap<>();
 
-    List<OperationPluginItemWrapper> availableLocalPluginList;
+  List<OperationPluginItemWrapper> availableLocalPluginList;
 
-    RemotePluginCommunicationHelper helper;
+  RemotePluginCommunicationHelper helper;
 
-    @Override
-    public void onAttach(final Context context) {
-        super.onAttach(context);
-    }
+  @Override
+  public void onAttach(final Context context) {
+    super.onAttach(context);
+  }
 
-    @Override
-    public void onCreate(final @Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //noinspection ConstantConditions
-        helper = new RemotePluginCommunicationHelper(getContext());
-        helper.begin();
-    }
+  @Override
+  public void onCreate(final @Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    // noinspection ConstantConditions
+    helper = new RemotePluginCommunicationHelper(getContext());
+    helper.begin();
+  }
 
-    @Nullable
-    @Override
-    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_dialog_select_skill, container, false);
-        StickyListHeadersListView list = view.findViewById(android.R.id.list);
-        List<OperationSkill> localOperationSkillList = LocalSkillRegistry.getInstance().operation().getEnabledSkills(getContext());
-        availableLocalPluginList = new ArrayList<>(localOperationSkillList.size());
-        for (OperationSkill operationSkill : localOperationSkillList) {
-            if (addedPlugins.containsKey(operationSkill.getClass())) {
-                if (operationSkill.maxExistence() > 0) {
-                    if (addedPlugins.get(operationSkill.getClass()) >= operationSkill.maxExistence())
-                        continue;
-                }
-            }
-            availableLocalPluginList.add(new OperationPluginItemWrapper(operationSkill.id(),
-                                         operationSkill.view().desc(getResources()),
-                                         operationSkill.category(),
-                                         operationSkill)
-                                        );
+  @Nullable
+  @Override
+  public View onCreateView(final @NonNull LayoutInflater inflater,
+                           final @Nullable ViewGroup container,
+                           final @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.fragment_dialog_select_skill,
+                                 container, false);
+    StickyListHeadersListView list = view.findViewById(android.R.id.list);
+    List<OperationSkill> localOperationSkillList =
+        LocalSkillRegistry.getInstance().operation().getEnabledSkills(
+            getContext());
+    availableLocalPluginList = new ArrayList<>(localOperationSkillList.size());
+    for (OperationSkill operationSkill : localOperationSkillList) {
+      if (addedPlugins.containsKey(operationSkill.getClass())) {
+        if (operationSkill.maxExistence() > 0) {
+          if (addedPlugins.get(operationSkill.getClass()) >=
+              operationSkill.maxExistence())
+            continue;
         }
-        PluginListAdapter adapter = new PluginListAdapter(getContext(), availableLocalPluginList);
-        list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                OperationPluginItemWrapper operationPluginItemWrapper = (OperationPluginItemWrapper) parent.getItemAtPosition(position);
-                if (!operationPluginItemWrapper.isRemote()) {
-                    OperationSkill plugin = operationPluginItemWrapper.plugin;
-                    if (plugin.checkPermissions(getContext()) != Boolean.FALSE) {
-                        selectedListener.onSelected(operationPluginItemWrapper);
-                        dismiss();
-                    } else {
-                        plugin.requestPermissions(getActivity(), 0);
-                    }
-                } else {
-                    selectedListener.onSelected(operationPluginItemWrapper);
-                    dismiss();
-                }
-            }
-        });
-        return view;
+      }
+      availableLocalPluginList.add(new OperationPluginItemWrapper(
+          operationSkill.id(), operationSkill.view().desc(getResources()),
+          operationSkill.category(), operationSkill));
     }
-
-    @Override
-    public void onViewCreated(@NonNull final View view, final @Nullable Bundle savedInstanceState) {
-        helper.asyncCurrentOperationPluginList(new RemotePluginCommunicationHelper.OnOperationPluginListObtainedCallback() {
-            @Override
-            public void onListObtained(final Set<RemoteOperationPluginInfo> operationPluginInfos) {
-                StickyListHeadersListView list = view.findViewById(android.R.id.list);
-                List<OperationPluginItemWrapper> descList = new ArrayList<>(availableLocalPluginList);
-                for (RemoteOperationPluginInfo remotePluginInfo : operationPluginInfos) {
-                    descList.add(new OperationPluginItemWrapper(
-                                     remotePluginInfo.getPluginId(),
-                                     remotePluginInfo.getPluginName(),
-                                     remotePluginInfo.getCategory(),
-                                     null));
-                }
-                PluginListAdapter adapter = new PluginListAdapter(getContext(), descList);
-                list.setAdapter(adapter);
-            }
-        });
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        helper.end();
-    }
-
-    synchronized void addSelectedPlugin(final @NonNull OperationSkill plugin) {
-        Class<? extends OperationSkill> klass = plugin.getClass();
-        if (addedPlugins.containsKey(klass)) {
-            addedPlugins.put(klass, addedPlugins.get(klass) + 1);
+    PluginListAdapter adapter =
+        new PluginListAdapter(getContext(), availableLocalPluginList);
+    list.setAdapter(adapter);
+    list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override
+      public void onItemClick(final AdapterView<?> parent, final View view,
+                              final int position, final long id) {
+        OperationPluginItemWrapper operationPluginItemWrapper =
+            (OperationPluginItemWrapper)parent.getItemAtPosition(position);
+        if (!operationPluginItemWrapper.isRemote()) {
+          OperationSkill plugin = operationPluginItemWrapper.plugin;
+          if (plugin.checkPermissions(getContext()) != Boolean.FALSE) {
+            selectedListener.onSelected(operationPluginItemWrapper);
+            dismiss();
+          } else {
+            plugin.requestPermissions(getActivity(), 0);
+          }
         } else {
-            addedPlugins.put(klass, 1);
+          selectedListener.onSelected(operationPluginItemWrapper);
+          dismiss();
         }
-    }
+      }
+    });
+    return view;
+  }
 
-    void setSelectedListener(final SelectedListener listener) {
-        this.selectedListener = listener;
-    }
-
-    interface SelectedListener {
-        void onSelected(OperationPluginItemWrapper operationPluginItemWrapper);
-    }
-
-    protected static class OperationPluginItemWrapper {
-        @NonNull final String id;
-        @NonNull final String name;
-        @NonNull final Category category;
-        @Nullable final OperationSkill plugin;
-        OperationPluginItemWrapper(final @NonNull String id, final @NonNull String name, final @NonNull Category category, final @Nullable OperationSkill plugin) {
-            this.id = id;
-            this.name = name;
-            this.category = category;
-            this.plugin = plugin;
-        }
-        public boolean isRemote() {
-            return plugin == null;
-        }
-        public String toString() {
-            return name;
-        }
-    }
-
-    public class PluginListAdapter extends BaseAdapter implements StickyListHeadersAdapter {
-
-        private final List<OperationPluginItemWrapper> operationList = new ArrayList<>();
-        private LayoutInflater inflater;
-
-        PluginListAdapter(final Context context, final List<OperationPluginItemWrapper> originalList) {
-            inflater = LayoutInflater.from(context);
-            this.operationList.addAll(originalList);
-            Collections.sort(operationList, new Comparator<OperationPluginItemWrapper>() {
-                @Override
-                public int compare(final OperationPluginItemWrapper operationPluginItemWrapper, final OperationPluginItemWrapper t1) {
-                    return operationPluginItemWrapper.category.ordinal() - t1.category.ordinal();
+  @Override
+  public void onViewCreated(@NonNull final View view,
+                            final @Nullable Bundle savedInstanceState) {
+    helper.asyncCurrentOperationPluginList(
+        new RemotePluginCommunicationHelper
+            .OnOperationPluginListObtainedCallback() {
+              @Override
+              public void onListObtained(
+                  final Set<RemoteOperationPluginInfo> operationPluginInfos) {
+                StickyListHeadersListView list =
+                    view.findViewById(android.R.id.list);
+                List<OperationPluginItemWrapper> descList =
+                    new ArrayList<>(availableLocalPluginList);
+                for (RemoteOperationPluginInfo remotePluginInfo :
+                     operationPluginInfos) {
+                  descList.add(new OperationPluginItemWrapper(
+                      remotePluginInfo.getPluginId(),
+                      remotePluginInfo.getPluginName(),
+                      remotePluginInfo.getCategory(), null));
                 }
+                PluginListAdapter adapter =
+                    new PluginListAdapter(getContext(), descList);
+                list.setAdapter(adapter);
+              }
             });
-        }
+  }
 
-        @Override
-        public int getCount() {
-            return operationList.size();
-        }
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    helper.end();
+  }
 
-        @Override
-        public Object getItem(final int position) {
-            return operationList.get(position);
-        }
-
-        @Override
-        public long getItemId(final int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, final View convertView, final ViewGroup parent) {
-            ViewHolder holder;
-
-            if (convertView == null) {
-                holder = new ViewHolder();
-                convertView = inflater.inflate(R.layout.item_operation, parent, false);
-                holder.text = convertView.findViewById(R.id.tv_operation_name);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            holder.text.setText(operationList.get(position).name);
-
-            return convertView;
-        }
-
-        @Override
-        public View getHeaderView(final int position, final View convertView, final ViewGroup parent) {
-            HeaderViewHolder holder;
-            if (convertView == null) {
-                holder = new HeaderViewHolder();
-                convertView = inflater.inflate(R.layout.item_header, parent, false);
-                holder.text = convertView.findViewById(R.id.text);
-                convertView.setTag(holder);
-            } else {
-                holder = (HeaderViewHolder) convertView.getTag();
-            }
-            //set header text as first char in name
-            String headerText = operationList.get(position).category.toString(getResources());
-            holder.text.setText(headerText);
-            return convertView;
-        }
-
-        @Override
-        public long getHeaderId(final int position) {
-            //return the first character of the country as ID because this is what headers are based upon
-            return operationList.get(position).category.ordinal();
-        }
-
-        class HeaderViewHolder {
-            TextView text;
-        }
-
-        class ViewHolder {
-            TextView text;
-        }
-
+  synchronized void addSelectedPlugin(final @NonNull OperationSkill plugin) {
+    Class<? extends OperationSkill> klass = plugin.getClass();
+    if (addedPlugins.containsKey(klass)) {
+      addedPlugins.put(klass, addedPlugins.get(klass) + 1);
+    } else {
+      addedPlugins.put(klass, 1);
     }
+  }
+
+  void setSelectedListener(final SelectedListener listener) {
+    this.selectedListener = listener;
+  }
+
+  interface SelectedListener {
+    void onSelected(OperationPluginItemWrapper operationPluginItemWrapper);
+  }
+
+  protected static class OperationPluginItemWrapper {
+    @NonNull final String id;
+    @NonNull final String name;
+    @NonNull final Category category;
+    @Nullable final OperationSkill plugin;
+    OperationPluginItemWrapper(final @NonNull String id,
+                               final @NonNull String name,
+                               final @NonNull Category category,
+                               final @Nullable OperationSkill plugin) {
+      this.id = id;
+      this.name = name;
+      this.category = category;
+      this.plugin = plugin;
+    }
+    public boolean isRemote() { return plugin == null; }
+    public String toString() { return name; }
+  }
+
+  public class PluginListAdapter
+      extends BaseAdapter implements StickyListHeadersAdapter {
+
+    private final List<OperationPluginItemWrapper> operationList =
+        new ArrayList<>();
+    private LayoutInflater inflater;
+
+    PluginListAdapter(final Context context,
+                      final List<OperationPluginItemWrapper> originalList) {
+      inflater = LayoutInflater.from(context);
+      this.operationList.addAll(originalList);
+      Collections.sort(
+          operationList, new Comparator<OperationPluginItemWrapper>() {
+            @Override
+            public int compare(
+                final OperationPluginItemWrapper operationPluginItemWrapper,
+                final OperationPluginItemWrapper t1) {
+              return operationPluginItemWrapper.category.ordinal() -
+                  t1.category.ordinal();
+            }
+          });
+    }
+
+    @Override
+    public int getCount() {
+      return operationList.size();
+    }
+
+    @Override
+    public Object getItem(final int position) {
+      return operationList.get(position);
+    }
+
+    @Override
+    public long getItemId(final int position) {
+      return position;
+    }
+
+    @Override
+    public View getView(final int position, final View convertView,
+                        final ViewGroup parent) {
+      ViewHolder holder;
+
+      if (convertView == null) {
+        holder = new ViewHolder();
+        convertView = inflater.inflate(R.layout.item_operation, parent, false);
+        holder.text = convertView.findViewById(R.id.tv_operation_name);
+        convertView.setTag(holder);
+      } else {
+        holder = (ViewHolder)convertView.getTag();
+      }
+
+      holder.text.setText(operationList.get(position).name);
+
+      return convertView;
+    }
+
+    @Override
+    public View getHeaderView(final int position, final View convertView,
+                              final ViewGroup parent) {
+      HeaderViewHolder holder;
+      if (convertView == null) {
+        holder = new HeaderViewHolder();
+        convertView = inflater.inflate(R.layout.item_header, parent, false);
+        holder.text = convertView.findViewById(R.id.text);
+        convertView.setTag(holder);
+      } else {
+        holder = (HeaderViewHolder)convertView.getTag();
+      }
+      // set header text as first char in name
+      String headerText =
+          operationList.get(position).category.toString(getResources());
+      holder.text.setText(headerText);
+      return convertView;
+    }
+
+    @Override
+    public long getHeaderId(final int position) {
+      // return the first character of the country as ID because this is what
+      // headers are based upon
+      return operationList.get(position).category.ordinal();
+    }
+
+    class HeaderViewHolder {
+      TextView text;
+    }
+
+    class ViewHolder {
+      TextView text;
+    }
+  }
 }

@@ -20,17 +20,18 @@
 package ryey.easer.skills.operation.synchronization;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.InvalidDataInputException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.SwitchSkillViewFragment;
 
-public class SynchronizationSkillViewFragment extends SwitchSkillViewFragment<SynchronizationOperationData> {
+public class SynchronizationSkillViewFragment
+    extends SwitchSkillViewFragment<SynchronizationOperationData> {
 
-    @ValidData
-    @NonNull
-    @Override
-    public SynchronizationOperationData getData() throws InvalidDataInputException {
-        return new SynchronizationOperationData(state());
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public SynchronizationOperationData getData()
+      throws InvalidDataInputException {
+    return new SynchronizationOperationData(state());
+  }
 }

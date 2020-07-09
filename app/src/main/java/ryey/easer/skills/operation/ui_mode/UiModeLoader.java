@@ -21,31 +21,27 @@ package ryey.easer.skills.operation.ui_mode;
 
 import android.app.UiModeManager;
 import android.content.Context;
-
 import androidx.annotation.NonNull;
-
 import com.orhanobut.logger.Logger;
-
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class UiModeLoader extends OperationLoader<UiModeOperationData> {
-    UiModeLoader(final Context context) {
-        super(context);
-    }
+  UiModeLoader(final Context context) { super(context); }
 
-    @Override
-    public boolean load(final @ValidData @NonNull UiModeOperationData data) {
-        UiModeManager uiModeManager = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
-        if (uiModeManager == null) {
-            Logger.wtf("Can't get UiModeManager???");
-            return false;
-        }
-        if (data.ui_mode == UiModeOperationData.UiMode.car) {
-            uiModeManager.enableCarMode(0);
-        } else { // if (data.ui_mode == UiModeOperationData.UiMode.normal) {
-            uiModeManager.disableCarMode(0);
-        }
-        return true;
+  @Override
+  public boolean load(final @ValidData @NonNull UiModeOperationData data) {
+    UiModeManager uiModeManager =
+        (UiModeManager)context.getSystemService(Context.UI_MODE_SERVICE);
+    if (uiModeManager == null) {
+      Logger.wtf("Can't get UiModeManager???");
+      return false;
     }
+    if (data.ui_mode == UiModeOperationData.UiMode.car) {
+      uiModeManager.enableCarMode(0);
+    } else { // if (data.ui_mode == UiModeOperationData.UiMode.normal) {
+      uiModeManager.disableCarMode(0);
+    }
+    return true;
+  }
 }

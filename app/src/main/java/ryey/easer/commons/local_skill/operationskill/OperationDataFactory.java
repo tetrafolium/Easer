@@ -20,22 +20,19 @@
 package ryey.easer.commons.local_skill.operationskill;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.DataFactory;
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.plugin.PluginDataFormat;
 
+public interface OperationDataFactory<T extends OperationData>
+    extends DataFactory<T> {
+  @NonNull Class<T> dataClass();
 
-public interface OperationDataFactory<T extends OperationData> extends DataFactory<T> {
-    @NonNull
-    Class<T> dataClass();
+  @ValidData @NonNull T dummyData();
 
-    @ValidData
-    @NonNull
-    T dummyData();
-
-    @ValidData
-    @NonNull
-    T parse(@NonNull String data, @NonNull PluginDataFormat format, int version) throws IllegalStorageDataException;
+  @ValidData
+  @NonNull
+  T parse(@NonNull String data, @NonNull PluginDataFormat format, int version)
+      throws IllegalStorageDataException;
 }

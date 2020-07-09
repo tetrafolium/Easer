@@ -20,70 +20,45 @@
 package ryey.easer.core.data;
 
 import androidx.annotation.NonNull;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import ryey.easer.commons.local_skill.eventskill.EventData;
 
 /*
- * Events are linked together as trees. This class represents that structure and relevant methods.
+ * Events are linked together as trees. This class represents that structure and
+ * relevant methods.
  *
- * TODO: Remove delegations which don't appear to be relevant to the "script tree" (but rather, related to the exact Script when triggered).
+ * TODO: Remove delegations which don't appear to be relevant to the "script
+ * tree" (but rather, related to the exact Script when triggered).
  */
 final public class ScriptTree {
-    final ScriptStructure data;
-    @NonNull final List<ScriptTree> subs;
-    public ScriptTree(final @NonNull ScriptStructure scriptStructure) {
-        this.data = scriptStructure;
-        this.subs = new LinkedList<>();
-    }
-    public ScriptTree(final @NonNull ScriptStructure data, final @NonNull List<ScriptTree> subs) {
-        this.data = data;
-        this.subs = subs;
-    }
-    public String getName() {
-        return data.name;
-    }
-    public boolean isEvent() {
-        return data.getEvent() != null;
-    }
-    public boolean isCondition() {
-        return data.getCondition() != null;
-    }
-    public EventStructure getEvent() {
-        return data.getEvent();
-    }
-    public ConditionStructure getCondition() {
-        return data.getCondition();
-    }
-    public EventData getEventData() {
-        return data.getEvent().getEventData();
-    }
-    public boolean isReversed() {
-        return data.isReverse();
-    }
-    public boolean isRepeatable() {
-        return data.isRepeatable();
-    }
-    public boolean isPersistent() {
-        return data.isPersistent();
-    }
-    public void addSub(final ScriptTree sub) {
-        subs.add(sub);
-    }
-    @NonNull
-    public List<ScriptTree> getSubs() {
-        return subs;
-    }
-    public String getProfile() {
-        return data.profileName;
-    }
-    public boolean isActive() {
-        return data.isActive();
-    }
+  final ScriptStructure data;
+  @NonNull final List<ScriptTree> subs;
+  public ScriptTree(final @NonNull ScriptStructure scriptStructure) {
+    this.data = scriptStructure;
+    this.subs = new LinkedList<>();
+  }
+  public ScriptTree(final @NonNull ScriptStructure data,
+                    final @NonNull List<ScriptTree> subs) {
+    this.data = data;
+    this.subs = subs;
+  }
+  public String getName() { return data.name; }
+  public boolean isEvent() { return data.getEvent() != null; }
+  public boolean isCondition() { return data.getCondition() != null; }
+  public EventStructure getEvent() { return data.getEvent(); }
+  public ConditionStructure getCondition() { return data.getCondition(); }
+  public EventData getEventData() { return data.getEvent().getEventData(); }
+  public boolean isReversed() { return data.isReverse(); }
+  public boolean isRepeatable() { return data.isRepeatable(); }
+  public boolean isPersistent() { return data.isPersistent(); }
+  public void addSub(final ScriptTree sub) { subs.add(sub); }
+  @NonNull
+  public List<ScriptTree> getSubs() {
+    return subs;
+  }
+  public String getProfile() { return data.profileName; }
+  public boolean isActive() { return data.isActive(); }
 
-    public ScriptStructure getData() {
-        return data;
-    }
+  public ScriptStructure getData() { return data; }
 }

@@ -24,42 +24,48 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.InvalidDataInputException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillViewFragment;
 import ryey.easer.skills.operation.EditExtraFragment;
 
-public class LaunchAppSkillViewFragment extends SkillViewFragment<LaunchAppOperationData> {
-    EditText et_app_package;
-    EditText et_class;
-    EditExtraFragment editExtraFragment;
+public class LaunchAppSkillViewFragment
+    extends SkillViewFragment<LaunchAppOperationData> {
+  EditText et_app_package;
+  EditText et_class;
+  EditExtraFragment editExtraFragment;
 
-    @NonNull
-    @Override
-    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.plugin_operation__launch_app, container, false);
-        et_app_package = view.findViewById(R.id.editText_app_package);
-        et_class = view.findViewById(R.id.editText_app_activity);
-        editExtraFragment = (EditExtraFragment) getChildFragmentManager().findFragmentById(R.id.fragment_edit_extra);
-        return view;
-    }
+  @NonNull
+  @Override
+  public View onCreateView(final @NonNull LayoutInflater inflater,
+                           final @Nullable ViewGroup container,
+                           final @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.plugin_operation__launch_app,
+                                 container, false);
+    et_app_package = view.findViewById(R.id.editText_app_package);
+    et_class = view.findViewById(R.id.editText_app_activity);
+    editExtraFragment =
+        (EditExtraFragment)getChildFragmentManager().findFragmentById(
+            R.id.fragment_edit_extra);
+    return view;
+  }
 
-    @Override
-    protected void _fill(final @ValidData @NonNull LaunchAppOperationData data) {
-        et_app_package.setText(data.app_package);
-        et_class.setText(data.app_class);
-        editExtraFragment.fillExtras(data.extras);
-    }
+  @Override
+  protected void _fill(final @ValidData @NonNull LaunchAppOperationData data) {
+    et_app_package.setText(data.app_package);
+    et_class.setText(data.app_class);
+    editExtraFragment.fillExtras(data.extras);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public LaunchAppOperationData getData() throws InvalidDataInputException {
-        return new LaunchAppOperationData(et_app_package.getText().toString(), et_class.getText().toString(), editExtraFragment.getExtras());
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public LaunchAppOperationData getData() throws InvalidDataInputException {
+    return new LaunchAppOperationData(et_app_package.getText().toString(),
+                                      et_class.getText().toString(),
+                                      editExtraFragment.getExtras());
+  }
 }

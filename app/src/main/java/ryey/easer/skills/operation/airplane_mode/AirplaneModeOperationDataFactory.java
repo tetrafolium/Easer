@@ -20,30 +20,33 @@
 package ryey.easer.skills.operation.airplane_mode;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
-class AirplaneModeOperationDataFactory implements OperationDataFactory<AirplaneModeOperationData> {
-    @NonNull
-    @Override
-    public Class<AirplaneModeOperationData> dataClass() {
-        return AirplaneModeOperationData.class;
-    }
+class AirplaneModeOperationDataFactory
+    implements OperationDataFactory<AirplaneModeOperationData> {
+  @NonNull
+  @Override
+  public Class<AirplaneModeOperationData> dataClass() {
+    return AirplaneModeOperationData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public AirplaneModeOperationData dummyData() {
-        return new AirplaneModeOperationData(true);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public AirplaneModeOperationData dummyData() {
+    return new AirplaneModeOperationData(true);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public AirplaneModeOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new AirplaneModeOperationData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public AirplaneModeOperationData parse(final @NonNull String data,
+                                         final @NonNull PluginDataFormat format,
+                                         final int version)
+      throws IllegalStorageDataException {
+    return new AirplaneModeOperationData(data, format, version);
+  }
 }

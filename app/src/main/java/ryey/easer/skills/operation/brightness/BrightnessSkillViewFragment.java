@@ -27,72 +27,80 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.InvalidDataInputException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillViewFragment;
 
-public class BrightnessSkillViewFragment extends SkillViewFragment<BrightnessOperationData> {
-    private Switch mIsAuto;
-    private SeekBar mBrightnessLevel;
+public class BrightnessSkillViewFragment
+    extends SkillViewFragment<BrightnessOperationData> {
+  private Switch mIsAuto;
+  private SeekBar mBrightnessLevel;
 
-    @NonNull
-    @Override
-    public ViewGroup onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
-        LinearLayout view = new LinearLayout(getContext());
-        view.setOrientation(LinearLayout.VERTICAL);
+  @NonNull
+  @Override
+  public ViewGroup onCreateView(final @NonNull LayoutInflater inflater,
+                                final @Nullable ViewGroup container,
+                                final @Nullable Bundle savedInstanceState) {
+    LinearLayout view = new LinearLayout(getContext());
+    view.setOrientation(LinearLayout.VERTICAL);
 
-        LinearLayout auto_layout = new LinearLayout(getContext());
-        auto_layout.setOrientation(LinearLayout.HORIZONTAL);
-        TextView tv_auto = new TextView(getContext());
-        tv_auto.setText(getResources().getString(R.string.operation_brightness_desc_autobrightness));
-        mIsAuto = new Switch(getContext());
-        mIsAuto.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        mBrightnessLevel = new SeekBar(getContext());
-        mBrightnessLevel.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        mBrightnessLevel.setMax(255);
-        mBrightnessLevel.setEnabled(false);
-        mIsAuto.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-                if (isChecked)
-                    mBrightnessLevel.setEnabled(false);
-                else
-                    mBrightnessLevel.setEnabled(true);
-            }
+    LinearLayout auto_layout = new LinearLayout(getContext());
+    auto_layout.setOrientation(LinearLayout.HORIZONTAL);
+    TextView tv_auto = new TextView(getContext());
+    tv_auto.setText(getResources().getString(
+        R.string.operation_brightness_desc_autobrightness));
+    mIsAuto = new Switch(getContext());
+    mIsAuto.setLayoutParams(
+        new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                   ViewGroup.LayoutParams.WRAP_CONTENT));
+    mBrightnessLevel = new SeekBar(getContext());
+    mBrightnessLevel.setLayoutParams(
+        new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                   ViewGroup.LayoutParams.WRAP_CONTENT));
+    mBrightnessLevel.setMax(255);
+    mBrightnessLevel.setEnabled(false);
+    mIsAuto.setOnCheckedChangeListener(
+        new CompoundButton.OnCheckedChangeListener() {
+          @Override
+          public void onCheckedChanged(final CompoundButton buttonView,
+                                       final boolean isChecked) {
+            if (isChecked)
+              mBrightnessLevel.setEnabled(false);
+            else
+              mBrightnessLevel.setEnabled(true);
+          }
         });
-        auto_layout.addView(mIsAuto);
-        auto_layout.addView(tv_auto);
+    auto_layout.addView(mIsAuto);
+    auto_layout.addView(tv_auto);
 
-        view.addView(auto_layout);
-        view.addView(mBrightnessLevel);
+    view.addView(auto_layout);
+    view.addView(mBrightnessLevel);
 
-        return view;
+    return view;
+  }
+
+  @Override
+  protected void _fill(final @ValidData @NonNull BrightnessOperationData data) {
+    BrightnessOperationData idata = data;
+    if (idata.isAuto()) {
+      mIsAuto.setChecked(true);
+    } else {
+      mIsAuto.setChecked(false);
+      mBrightnessLevel.setProgress(idata.get());
     }
+  }
 
-    @Override
-    protected void _fill(final @ValidData @NonNull BrightnessOperationData data) {
-        BrightnessOperationData idata = data;
-        if (idata.isAuto()) {
-            mIsAuto.setChecked(true);
-        } else {
-            mIsAuto.setChecked(false);
-            mBrightnessLevel.setProgress(idata.get());
-        }
+  @ValidData
+  @NonNull
+  @Override
+  public BrightnessOperationData getData() throws InvalidDataInputException {
+    if (mIsAuto.isChecked())
+      return new BrightnessOperationData(true);
+    else {
+      return new BrightnessOperationData(mBrightnessLevel.getProgress());
     }
-
-    @ValidData
-    @NonNull
-    @Override
-    public BrightnessOperationData getData() throws InvalidDataInputException {
-        if (mIsAuto.isChecked())
-            return new BrightnessOperationData(true);
-        else {
-            return new BrightnessOperationData(mBrightnessLevel.getProgress());
-        }
-    }
+  }
 }

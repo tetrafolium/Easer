@@ -23,9 +23,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.SourceCategory;
 import ryey.easer.commons.local_skill.ValidData;
@@ -38,68 +36,73 @@ import ryey.easer.skills.SkillViewFragment;
 
 public class CallUSourceSkill implements USourceSkill<CallUSourceData> {
 
-    @NonNull
-    @Override
-    public String id() {
-        return "call";
-    }
+  @NonNull
+  @Override
+  public String id() {
+    return "call";
+  }
 
-    @Override
-    public int name() {
-        return R.string.usource_call;
-    }
+  @Override
+  public int name() {
+    return R.string.usource_call;
+  }
 
-    @NonNull
-    @Override
-    public SourceCategory category() {
-        return SourceCategory.personal;
-    }
+  @NonNull
+  @Override
+  public SourceCategory category() {
+    return SourceCategory.personal;
+  }
 
-    @Override
-    public boolean isCompatible(@NonNull final Context context) {
-        return true;
-    }
+  @Override
+  public boolean isCompatible(@NonNull final Context context) {
+    return true;
+  }
 
-    @Override
-    public Boolean checkPermissions(final @NonNull Context context) {
-        return SkillUtils.checkPermission(context,
-                                          Manifest.permission.READ_CALL_LOG);
-    }
+  @Override
+  public Boolean checkPermissions(final @NonNull Context context) {
+    return SkillUtils.checkPermission(context,
+                                      Manifest.permission.READ_CALL_LOG);
+  }
 
-    @Override
-    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
-        SkillUtils.requestPermission(activity, requestCode, Manifest.permission.READ_CALL_LOG);
-    }
+  @Override
+  public void requestPermissions(final @NonNull Activity activity,
+                                 final int requestCode) {
+    SkillUtils.requestPermission(activity, requestCode,
+                                 Manifest.permission.READ_CALL_LOG);
+  }
 
-    @NonNull
-    @Override
-    public USourceDataFactory<CallUSourceData> dataFactory() {
-        return new CallUSourceDataFactory();
-    }
+  @NonNull
+  @Override
+  public USourceDataFactory<CallUSourceData> dataFactory() {
+    return new CallUSourceDataFactory();
+  }
 
-    @NonNull
-    @Override
-    public SkillViewFragment<CallUSourceData> view() {
-        return new CallSkillViewFragment();
-    }
+  @NonNull
+  @Override
+  public SkillViewFragment<CallUSourceData> view() {
+    return new CallSkillViewFragment();
+  }
 
-    @Override
-    public Slot<CallUSourceData> slot(final @NonNull Context context, final @NonNull CallUSourceData data) {
-        return new CallSlot(context, data);
-    }
+  @Override
+  public Slot<CallUSourceData> slot(final @NonNull Context context,
+                                    final @NonNull CallUSourceData data) {
+    return new CallSlot(context, data);
+  }
 
-    @Override
-    public Slot<CallUSourceData> slot(final @NonNull Context context, final @NonNull CallUSourceData data, final boolean retriggerable, final boolean persistent) {
-        return new CallSlot(context, data, retriggerable, persistent);
-    }
+  @Override
+  public Slot<CallUSourceData>
+  slot(final @NonNull Context context, final @NonNull CallUSourceData data,
+       final boolean retriggerable, final boolean persistent) {
+    return new CallSlot(context, data, retriggerable, persistent);
+  }
 
-    @NonNull
-    @Override
-    public Tracker<CallUSourceData> tracker(final @NonNull Context context,
-                                            final @ValidData @NonNull CallUSourceData data,
-                                            final @NonNull PendingIntent event_positive,
-                                            final @NonNull PendingIntent event_negative) {
-        return new CallTracker(context, data, event_positive, event_negative);
-    }
-
+  @NonNull
+  @Override
+  public Tracker<CallUSourceData>
+  tracker(final @NonNull Context context,
+          final @ValidData @NonNull CallUSourceData data,
+          final @NonNull PendingIntent event_positive,
+          final @NonNull PendingIntent event_negative) {
+    return new CallTracker(context, data, event_positive, event_negative);
+  }
 }

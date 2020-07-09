@@ -20,30 +20,33 @@
 package ryey.easer.skills.operation.wifi;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
-class WifiOperationDataFactory implements OperationDataFactory<WifiOperationData> {
-    @NonNull
-    @Override
-    public Class<WifiOperationData> dataClass() {
-        return WifiOperationData.class;
-    }
+class WifiOperationDataFactory
+    implements OperationDataFactory<WifiOperationData> {
+  @NonNull
+  @Override
+  public Class<WifiOperationData> dataClass() {
+    return WifiOperationData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public WifiOperationData dummyData() {
-        return new WifiOperationData(true);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public WifiOperationData dummyData() {
+    return new WifiOperationData(true);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public WifiOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new WifiOperationData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public WifiOperationData parse(final @NonNull String data,
+                                 final @NonNull PluginDataFormat format,
+                                 final int version)
+      throws IllegalStorageDataException {
+    return new WifiOperationData(data, format, version);
+  }
 }

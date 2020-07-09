@@ -24,44 +24,46 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.InvalidDataInputException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillViewFragment;
 
-public class WifiEnabledSkillViewFragment extends SkillViewFragment<WifiEnabledUSourceData> {
+public class WifiEnabledSkillViewFragment
+    extends SkillViewFragment<WifiEnabledUSourceData> {
 
-    RadioButton radioButton_enabled, radioButton_disabled;
+  RadioButton radioButton_enabled, radioButton_disabled;
 
-    @NonNull
-    @Override
-    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.plugin_usource_wifi_enabled, container, false);
+  @NonNull
+  @Override
+  public View onCreateView(final @NonNull LayoutInflater inflater,
+                           final @Nullable ViewGroup container,
+                           final @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.plugin_usource_wifi_enabled,
+                                 container, false);
 
-        radioButton_enabled = view.findViewById(R.id.radioButton_yes);
-        radioButton_disabled = view.findViewById(R.id.radioButton_no);
+    radioButton_enabled = view.findViewById(R.id.radioButton_yes);
+    radioButton_disabled = view.findViewById(R.id.radioButton_no);
 
-        return view;
+    return view;
+  }
+
+  @Override
+  protected void _fill(final @ValidData @NonNull WifiEnabledUSourceData data) {
+    if (data.enabled) {
+      radioButton_enabled.setChecked(true);
+    } else {
+      radioButton_disabled.setChecked(true);
     }
+  }
 
-    @Override
-    protected void _fill(final @ValidData @NonNull WifiEnabledUSourceData data) {
-        if (data.enabled) {
-            radioButton_enabled.setChecked(true);
-        } else {
-            radioButton_disabled.setChecked(true);
-        }
-    }
-
-    @ValidData
-    @NonNull
-    @Override
-    public WifiEnabledUSourceData getData() throws InvalidDataInputException {
-        boolean enabled = radioButton_enabled.isChecked();
-        return new WifiEnabledUSourceData(enabled);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public WifiEnabledUSourceData getData() throws InvalidDataInputException {
+    boolean enabled = radioButton_enabled.isChecked();
+    return new WifiEnabledUSourceData(enabled);
+  }
 }

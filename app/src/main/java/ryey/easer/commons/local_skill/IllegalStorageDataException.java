@@ -23,23 +23,27 @@ import ryey.easer.plugin.PluginDataFormat;
 
 public class IllegalStorageDataException extends Exception {
 
-    public IllegalStorageDataException(final String detailMessage) {
-        super(detailMessage);
-    }
+  public IllegalStorageDataException(final String detailMessage) {
+    super(detailMessage);
+  }
 
-    public IllegalStorageDataException(final Exception e) {
-        this(e.getMessage());
-    }
+  public IllegalStorageDataException(final Exception e) {
+    this(e.getMessage());
+  }
 
-    public IllegalStorageDataException(final PluginDataFormat format) {
-        super(String.format("Illegal %s data", format));
-    }
+  public IllegalStorageDataException(final PluginDataFormat format) {
+    super(String.format("Illegal %s data", format));
+  }
 
-    public IllegalStorageDataException(final PluginDataFormat format, final String field) {
-        super(String.format("Illegal %s data: invalid field <%s>", format, field));
-    }
+  public IllegalStorageDataException(final PluginDataFormat format,
+                                     final String field) {
+    super(String.format("Illegal %s data: invalid field <%s>", format, field));
+  }
 
-    public IllegalStorageDataException(final PluginDataFormat format, final String field, final String expected) {
-        super(String.format("Illegal %s data: field <%s> doesn't have %s", format, field, expected));
-    }
+  public IllegalStorageDataException(final PluginDataFormat format,
+                                     final String field,
+                                     final String expected) {
+    super(String.format("Illegal %s data: field <%s> doesn't have %s", format,
+                        field, expected));
+  }
 }

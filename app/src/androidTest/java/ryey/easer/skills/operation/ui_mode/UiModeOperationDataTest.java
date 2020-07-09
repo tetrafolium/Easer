@@ -19,22 +19,21 @@
 
 package ryey.easer.skills.operation.ui_mode;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class UiModeOperationDataTest {
 
-    @Test
-    public void testParcel() {
-        UiModeOperationData dummyData = new UiModeOperationDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        UiModeOperationData parceledData = UiModeOperationData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    UiModeOperationData dummyData =
+        new UiModeOperationDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    UiModeOperationData parceledData =
+        UiModeOperationData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

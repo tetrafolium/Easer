@@ -20,20 +20,21 @@
 package ryey.easer.core.ui.data.event;
 
 import java.util.List;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.eventskill.EventSkill;
 import ryey.easer.core.ui.data.SourceSelectorDialogFragment;
 import ryey.easer.skills.LocalSkillRegistry;
 
-public class EventSelectorDialogFragment extends SourceSelectorDialogFragment<EventSkill> {
-    @Override
-    protected int titleRes() {
-        return R.string.title_select_event;
-    }
+public class EventSelectorDialogFragment
+    extends SourceSelectorDialogFragment<EventSkill> {
+  @Override
+  protected int titleRes() {
+    return R.string.title_select_event;
+  }
 
-    @Override
-    protected List<EventSkill> skillList() {
-        return LocalSkillRegistry.getInstance().event().getEnabledSkills(getContext());
-    }
+  @Override
+  protected List<EventSkill> skillList() {
+    return LocalSkillRegistry.getInstance().event().getEnabledSkills(
+        getContext());
+  }
 }

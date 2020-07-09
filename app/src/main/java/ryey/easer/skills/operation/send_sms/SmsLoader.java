@@ -21,25 +21,21 @@ package ryey.easer.skills.operation.send_sms;
 
 import android.content.Context;
 import android.telephony.SmsManager;
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class SmsLoader extends OperationLoader<SmsOperationData> {
-    public SmsLoader(final Context context) {
-        super(context);
-    }
+  public SmsLoader(final Context context) { super(context); }
 
-    @Override
-    public boolean load(final @ValidData @NonNull SmsOperationData data) {
-        String destination = data.destination;
-        String content = data.content;
-        SmsManager smsManager = SmsManager.getDefault();
-        if (smsManager == null)
-            return false;
-        smsManager.sendTextMessage(destination, null, content, null, null);
-        return true;
-    }
+  @Override
+  public boolean load(final @ValidData @NonNull SmsOperationData data) {
+    String destination = data.destination;
+    String content = data.content;
+    SmsManager smsManager = SmsManager.getDefault();
+    if (smsManager == null)
+      return false;
+    smsManager.sendTextMessage(destination, null, content, null, null);
+    return true;
+  }
 }

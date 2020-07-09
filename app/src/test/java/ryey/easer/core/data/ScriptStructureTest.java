@@ -19,90 +19,90 @@
 
 package ryey.easer.core.data;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import ryey.easer.commons.C;
-import ryey.easer.commons.local_skill.eventskill.EventData;
-import ryey.easer.skills.usource.wifi.WifiUSourceSkill;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import ryey.easer.commons.C;
+import ryey.easer.commons.local_skill.eventskill.EventData;
+import ryey.easer.skills.usource.wifi.WifiUSourceSkill;
+
 public class ScriptStructureTest {
 
-    ScriptStructure scriptStructure, scriptStructure2;
-    static final String name = "name to test";
-    static final String parentName = "parent name";
-    static final String profileName = "profile name";
-    static EventStructure scenario;
-    static EventData eventData;
+  ScriptStructure scriptStructure, scriptStructure2;
+  static final String name = "name to test";
+  static final String parentName = "parent name";
+  static final String profileName = "profile name";
+  static EventStructure scenario;
+  static EventData eventData;
 
-    @BeforeClass
-    public static void setUpAll() {
-        eventData = new WifiUSourceSkill().dataFactory().dummyData();
-        scenario = new EventStructure(C.VERSION_CREATED_IN_RUNTIME, "myScenario", eventData);
-    }
+  @BeforeClass
+  public static void setUpAll() {
+    eventData = new WifiUSourceSkill().dataFactory().dummyData();
+    scenario = new EventStructure(C.VERSION_CREATED_IN_RUNTIME, "myScenario",
+                                  eventData);
+  }
 
-    @Before
-    public void setUp() {
-        scriptStructure = new ScriptStructure(C.VERSION_CREATED_IN_RUNTIME);
-        scriptStructure2 = new ScriptStructure(C.VERSION_CREATED_IN_RUNTIME);
-    }
+  @Before
+  public void setUp() {
+    scriptStructure = new ScriptStructure(C.VERSION_CREATED_IN_RUNTIME);
+    scriptStructure2 = new ScriptStructure(C.VERSION_CREATED_IN_RUNTIME);
+  }
 
-    @Test
-    public void setAndGetName() throws Exception {
-        assertEquals(scriptStructure.getName(), null);
-        scriptStructure.setName(name);
-        assertEquals(scriptStructure.name, name);
-        assertEquals(scriptStructure.getName(), name);
-    }
+  @Test
+  public void setAndGetName() throws Exception {
+    assertEquals(scriptStructure.getName(), null);
+    scriptStructure.setName(name);
+    assertEquals(scriptStructure.name, name);
+    assertEquals(scriptStructure.getName(), name);
+  }
 
-    @Test
-    public void setAndGetProfileName() throws Exception {
-        assertEquals(scriptStructure.getProfileName(), null);
-        scriptStructure.setProfileName(profileName);
-        assertEquals(scriptStructure.getProfileName(), profileName);
-    }
+  @Test
+  public void setAndGetProfileName() throws Exception {
+    assertEquals(scriptStructure.getProfileName(), null);
+    scriptStructure.setProfileName(profileName);
+    assertEquals(scriptStructure.getProfileName(), profileName);
+  }
 
-    @Test
-    public void setAndGetParentName() throws Exception {
-        assertEquals(scriptStructure.getParentName(), null);
-        scriptStructure.setParentName(parentName);
-        assertEquals(scriptStructure.getParentName(), parentName);
-    }
+  @Test
+  public void setAndGetParentName() throws Exception {
+    assertEquals(scriptStructure.getParentName(), null);
+    scriptStructure.setParentName(parentName);
+    assertEquals(scriptStructure.getParentName(), parentName);
+  }
 
-    @Test
-    public void getAndSetScenario() throws Exception {
-        assertEquals(scriptStructure.getEvent(), null);
-        scriptStructure.setEvent(scenario);
-        assertEquals(scriptStructure.getEvent(), scenario);
-    }
+  @Test
+  public void getAndSetScenario() throws Exception {
+    assertEquals(scriptStructure.getEvent(), null);
+    scriptStructure.setEvent(scenario);
+    assertEquals(scriptStructure.getEvent(), scenario);
+  }
 
-    @Test
-    public void setAndTestActive() throws Exception {
-        scriptStructure.setActive(true);
-        assertTrue(scriptStructure.isActive());
-        scriptStructure.setActive(false);
-        assertFalse(scriptStructure.isActive());
-        scriptStructure.setActive(true);
-        assertTrue(scriptStructure.isActive());
-    }
+  @Test
+  public void setAndTestActive() throws Exception {
+    scriptStructure.setActive(true);
+    assertTrue(scriptStructure.isActive());
+    scriptStructure.setActive(false);
+    assertFalse(scriptStructure.isActive());
+    scriptStructure.setActive(true);
+    assertTrue(scriptStructure.isActive());
+  }
 
-    @Test
-    public void isValid() throws Exception {
-        assertFalse(scriptStructure.isValid());
-        scriptStructure.setName(name);
-        assertFalse(scriptStructure.isValid());
-        scriptStructure.setEvent(scenario);
-        assertTrue(scriptStructure.isActive());
+  @Test
+  public void isValid() throws Exception {
+    assertFalse(scriptStructure.isValid());
+    scriptStructure.setName(name);
+    assertFalse(scriptStructure.isValid());
+    scriptStructure.setEvent(scenario);
+    assertTrue(scriptStructure.isActive());
 
-        assertFalse(scriptStructure2.isValid());
-        scriptStructure2.setEvent(scenario);
-        assertFalse(scriptStructure2.isValid());
-        scriptStructure2.setName(name);
-        assertTrue(scriptStructure2.isActive());
-    }
+    assertFalse(scriptStructure2.isValid());
+    scriptStructure2.setEvent(scenario);
+    assertFalse(scriptStructure2.isValid());
+    scriptStructure2.setName(name);
+    assertTrue(scriptStructure2.isActive());
+  }
 }

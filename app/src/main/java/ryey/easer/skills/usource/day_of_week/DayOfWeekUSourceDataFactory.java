@@ -21,32 +21,34 @@ package ryey.easer.skills.usource.day_of_week;
 
 import androidx.annotation.NonNull;
 import androidx.collection.ArraySet;
-
 import java.util.Arrays;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.usource.USourceDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
-class DayOfWeekUSourceDataFactory implements USourceDataFactory<DayOfWeekUSourceData> {
-    @NonNull
-    @Override
-    public Class<DayOfWeekUSourceData> dataClass() {
-        return DayOfWeekUSourceData.class;
-    }
+class DayOfWeekUSourceDataFactory
+    implements USourceDataFactory<DayOfWeekUSourceData> {
+  @NonNull
+  @Override
+  public Class<DayOfWeekUSourceData> dataClass() {
+    return DayOfWeekUSourceData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public DayOfWeekUSourceData dummyData() {
-        return new DayOfWeekUSourceData(new ArraySet<>(Arrays.asList(2, 4, 5)));
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public DayOfWeekUSourceData dummyData() {
+    return new DayOfWeekUSourceData(new ArraySet<>(Arrays.asList(2, 4, 5)));
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public DayOfWeekUSourceData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new DayOfWeekUSourceData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public DayOfWeekUSourceData parse(final @NonNull String data,
+                                    final @NonNull PluginDataFormat format,
+                                    final int version)
+      throws IllegalStorageDataException {
+    return new DayOfWeekUSourceData(data, format, version);
+  }
 }

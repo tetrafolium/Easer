@@ -30,16 +30,12 @@ import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PatternMatcher;
-
 import androidx.collection.ArraySet;
-
 import com.orhanobut.logger.Logger;
-
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-
 import ryey.easer.commons.local_skill.conditionskill.ConditionData;
 import ryey.easer.commons.local_skill.conditionskill.Tracker;
 import ryey.easer.core.data.ConditionStructure;
@@ -49,130 +45,143 @@ import ryey.easer.skills.event.condition_event.ConditionEventEventData;
 
 public class ConditionHolderService extends Service {
 
-    private static final String ACTION_TRACKER_SATISFIED = "ryey.easer.triggerlotus.action.TRACKER_SATISFIED";
-    private static final String ACTION_TRACKER_UNSATISFIED = "ryey.easer.triggerlotus.action.TRACKER_UNSATISFIED";
-    private static final String CATEGORY_NOTIFY_HOLDER = "ryey.easer.triggerlotus.category.NOTIFY_HOLDER";
+  private static final String ACTION_TRACKER_SATISFIED =
+      "ryey.easer.triggerlotus.action.TRACKER_SATISFIED";
+  private static final String ACTION_TRACKER_UNSATISFIED =
+      "ryey.easer.triggerlotus.action.TRACKER_UNSATISFIED";
+  private static final String CATEGORY_NOTIFY_HOLDER =
+      "ryey.easer.triggerlotus.category.NOTIFY_HOLDER";
 
-    private static Bundle dynamicsForConditionEvent(final String conditionName) {
-        Bundle dynamics = new Bundle();
-        dynamics.putString(ConditionEventEventData.ConditionNameDynamics.id, conditionName);
-        return dynamics;
-    }
+  private static Bundle dynamicsForConditionEvent(final String conditionName) {
+    Bundle dynamics = new Bundle();
+    dynamics.putString(ConditionEventEventData.ConditionNameDynamics.id,
+                       conditionName);
+    return dynamics;
+  }
 
-    //FIXME concurrent
-    private Map<String, Tracker> trackerMap = new HashMap<>();
-    private Map<String, Set<Uri>> associateMap = new HashMap<>();
+  // FIXME concurrent
+  private Map<String, Tracker> trackerMap = new HashMap<>();
+  private Map<String, Set<Uri>> associateMap = new HashMap<>();
 
-    private final Uri uri = Uri.parse(String.format(Locale.US, "conditionholder://%d/", hashCode()));
+  private final Uri uri =
+      Uri.parse(String.format(Locale.US, "conditionholder://%d/", hashCode()));
 
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-            try {
-                if (ACTION_TRACKER_SATISFIED.equals(intent.getAction()) || ACTION_TRACKER_UNSATISFIED.equals(intent.getAction())) {
-                    String name = intent.getData().getLastPathSegment();
-                    if (intent.getAction().equals(ACTION_TRACKER_SATISFIED)) {
-                        for (Uri data : associateMap.get(name)) {
-                            Intent notifyIntent =  Lotus.NotifyIntentPrototype.obtainPositiveIntent(data, dynamicsForConditionEvent(name));
-                            context.sendBroadcast(notifyIntent);
-                        }
-                    } else if (intent.getAction().equals(ACTION_TRACKER_UNSATISFIED)) {
-                        for (Uri data : associateMap.get(name)) {
-                            Intent notifyIntent =  Lotus.NotifyIntentPrototype.obtainNegativeIntent(data, dynamicsForConditionEvent(name));
-                            context.sendBroadcast(notifyIntent);
-                        }
-                    }
-                }
-            } catch (NullPointerException e) {
-                Logger.e(e, "ConditionHolder's BroadcastListener shouldn't hear invalid Intent");
+  private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(final Context context, final Intent intent) {
+      try {
+        if (ACTION_TRACKER_SATISFIED.equals(intent.getAction()) ||
+            ACTION_TRACKER_UNSATISFIED.equals(intent.getAction())) {
+          String name = intent.getData().getLastPathSegment();
+          if (intent.getAction().equals(ACTION_TRACKER_SATISFIED)) {
+            for (Uri data : associateMap.get(name)) {
+              Intent notifyIntent =
+                  Lotus.NotifyIntentPrototype.obtainPositiveIntent(
+                      data, dynamicsForConditionEvent(name));
+              context.sendBroadcast(notifyIntent);
             }
-        }
-    };
-    private final IntentFilter filter;
-
-    {
-        filter = new IntentFilter();
-        filter.addAction(ACTION_TRACKER_SATISFIED);
-        filter.addAction(ACTION_TRACKER_UNSATISFIED);
-        filter.addCategory(CATEGORY_NOTIFY_HOLDER);
-        filter.addDataScheme(uri.getScheme());
-        filter.addDataAuthority(uri.getAuthority(), null);
-        filter.addDataPath(uri.getPath(), PatternMatcher.PATTERN_PREFIX);
-    }
-
-    public ConditionHolderService() {
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        ServiceUtils.Companion.startNotification(this);
-        registerReceiver(mReceiver, filter);
-        setTrackers();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ServiceUtils.Companion.stopNotification(this);
-        unregisterReceiver(mReceiver);
-        cancelTrackers();
-    }
-
-    @Override
-    public IBinder onBind(final Intent intent) {
-        return new CHBinder();
-    }
-
-    private void setTrackers() {
-        ConditionDataStorage conditionDataStorage = new ConditionDataStorage(this);
-        for (String name : conditionDataStorage.list()) {
-            Intent intent = new Intent(ACTION_TRACKER_SATISFIED);
-            Uri turi = uri.buildUpon().appendPath(name).build();
-            intent.addCategory(CATEGORY_NOTIFY_HOLDER);
-            intent.setData(turi);
-            PendingIntent positive = PendingIntent.getBroadcast(this, 0, intent, 0);
-            intent.setAction(ACTION_TRACKER_UNSATISFIED);
-            PendingIntent negative = PendingIntent.getBroadcast(this, 0, intent, 0);
-
-            ConditionStructure conditionStructure = conditionDataStorage.get(name);
-            ConditionData conditionData = conditionStructure.getData();
-            Tracker tracker = LocalSkillRegistry.getInstance().condition().findSkill(conditionData)
-                              .tracker(this, conditionData, positive, negative);
-            tracker.start();
-            trackerMap.put(name, tracker);
-            associateMap.put(name, new ArraySet<Uri>());
-        }
-    }
-
-    private void cancelTrackers() {
-        for (Tracker tracker : trackerMap.values()) {
-            tracker.stop();
-        }
-        trackerMap.clear();
-        associateMap.clear();
-    }
-
-    class CHBinder extends Binder {
-        void registerAssociation(final String conditionName, final Uri data) {
-            associateMap.get(conditionName).add(data);
-        }
-        void unregisterAssociation(final String conditionName, final Uri data) {
-            associateMap.get(conditionName).remove(data);
-        }
-        void clearAssociation() {
-            for (String name :associateMap.keySet()) {
-                associateMap.get(name).clear();
+          } else if (intent.getAction().equals(ACTION_TRACKER_UNSATISFIED)) {
+            for (Uri data : associateMap.get(name)) {
+              Intent notifyIntent =
+                  Lotus.NotifyIntentPrototype.obtainNegativeIntent(
+                      data, dynamicsForConditionEvent(name));
+              context.sendBroadcast(notifyIntent);
             }
+          }
         }
-        Boolean conditionState(final String conditionName) {
-            Tracker tracker = trackerMap.get(conditionName);
-            return tracker.state();
-        }
-        void reload() {
-            //TODO: fine-grained cancel and reset
-            cancelTrackers();
-            setTrackers();
-        }
+      } catch (NullPointerException e) {
+        Logger.e(
+            e,
+            "ConditionHolder's BroadcastListener shouldn't hear invalid Intent");
+      }
     }
+  };
+  private final IntentFilter filter;
+
+  {
+    filter = new IntentFilter();
+    filter.addAction(ACTION_TRACKER_SATISFIED);
+    filter.addAction(ACTION_TRACKER_UNSATISFIED);
+    filter.addCategory(CATEGORY_NOTIFY_HOLDER);
+    filter.addDataScheme(uri.getScheme());
+    filter.addDataAuthority(uri.getAuthority(), null);
+    filter.addDataPath(uri.getPath(), PatternMatcher.PATTERN_PREFIX);
+  }
+
+  public ConditionHolderService() {}
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    ServiceUtils.Companion.startNotification(this);
+    registerReceiver(mReceiver, filter);
+    setTrackers();
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    ServiceUtils.Companion.stopNotification(this);
+    unregisterReceiver(mReceiver);
+    cancelTrackers();
+  }
+
+  @Override
+  public IBinder onBind(final Intent intent) {
+    return new CHBinder();
+  }
+
+  private void setTrackers() {
+    ConditionDataStorage conditionDataStorage = new ConditionDataStorage(this);
+    for (String name : conditionDataStorage.list()) {
+      Intent intent = new Intent(ACTION_TRACKER_SATISFIED);
+      Uri turi = uri.buildUpon().appendPath(name).build();
+      intent.addCategory(CATEGORY_NOTIFY_HOLDER);
+      intent.setData(turi);
+      PendingIntent positive = PendingIntent.getBroadcast(this, 0, intent, 0);
+      intent.setAction(ACTION_TRACKER_UNSATISFIED);
+      PendingIntent negative = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+      ConditionStructure conditionStructure = conditionDataStorage.get(name);
+      ConditionData conditionData = conditionStructure.getData();
+      Tracker tracker = LocalSkillRegistry.getInstance()
+                            .condition()
+                            .findSkill(conditionData)
+                            .tracker(this, conditionData, positive, negative);
+      tracker.start();
+      trackerMap.put(name, tracker);
+      associateMap.put(name, new ArraySet<Uri>());
+    }
+  }
+
+  private void cancelTrackers() {
+    for (Tracker tracker : trackerMap.values()) {
+      tracker.stop();
+    }
+    trackerMap.clear();
+    associateMap.clear();
+  }
+
+  class CHBinder extends Binder {
+    void registerAssociation(final String conditionName, final Uri data) {
+      associateMap.get(conditionName).add(data);
+    }
+    void unregisterAssociation(final String conditionName, final Uri data) {
+      associateMap.get(conditionName).remove(data);
+    }
+    void clearAssociation() {
+      for (String name : associateMap.keySet()) {
+        associateMap.get(name).clear();
+      }
+    }
+    Boolean conditionState(final String conditionName) {
+      Tracker tracker = trackerMap.get(conditionName);
+      return tracker.state();
+    }
+    void reload() {
+      // TODO: fine-grained cancel and reset
+      cancelTrackers();
+      setTrackers();
+    }
+  }
 }

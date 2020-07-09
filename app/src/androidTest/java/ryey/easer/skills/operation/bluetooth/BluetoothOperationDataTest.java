@@ -19,22 +19,21 @@
 
 package ryey.easer.skills.operation.bluetooth;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class BluetoothOperationDataTest {
 
-    @Test
-    public void testParcel() {
-        BluetoothOperationData dummyData = new BluetoothOperationDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        BluetoothOperationData parceledData = BluetoothOperationData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    BluetoothOperationData dummyData =
+        new BluetoothOperationDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    BluetoothOperationData parceledData =
+        BluetoothOperationData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

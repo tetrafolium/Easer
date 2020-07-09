@@ -19,22 +19,21 @@
 
 package ryey.easer.skills.event.condition_event;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class ConditionEventEventDataTest {
 
-    @Test
-    public void testParcel() {
-        ConditionEventEventData dummyData = new ConditionEventEventDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        ConditionEventEventData parceledData = ConditionEventEventData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    ConditionEventEventData dummyData =
+        new ConditionEventEventDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    ConditionEventEventData parceledData =
+        ConditionEventEventData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

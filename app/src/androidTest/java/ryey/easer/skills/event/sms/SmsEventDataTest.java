@@ -19,22 +19,19 @@
 
 package ryey.easer.skills.event.sms;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class SmsEventDataTest {
 
-    @Test
-    public void testParcel() {
-        SmsEventData dummyData = new SmsEventDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        SmsEventData parceledData = SmsEventData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    SmsEventData dummyData = new SmsEventDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    SmsEventData parceledData = SmsEventData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

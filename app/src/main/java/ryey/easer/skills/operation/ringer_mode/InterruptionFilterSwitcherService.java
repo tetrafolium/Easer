@@ -26,54 +26,57 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.ConditionVariable;
 import android.service.notification.NotificationListenerService;
-
 import androidx.annotation.RequiresApi;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import com.orhanobut.logger.Logger;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class InterruptionFilterSwitcherService extends NotificationListenerService {
-    private static final String ACTION_CHANGE = "ryey.easer.skills.operation.ringer_mode.action.CHANGE";
-    private static final String EXTRA_MODE = "ryey.easer.skills.operation.ringer_mode.extra.MODE";
+public class InterruptionFilterSwitcherService
+    extends NotificationListenerService {
+  private static final String ACTION_CHANGE =
+      "ryey.easer.skills.operation.ringer_mode.action.CHANGE";
+  private static final String EXTRA_MODE =
+      "ryey.easer.skills.operation.ringer_mode.extra.MODE";
 
-    private ConditionVariable cv = new ConditionVariable();
+  private ConditionVariable cv = new ConditionVariable();
 
-    private final IntentFilter mFilter = new IntentFilter(ACTION_CHANGE);
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-            String action = intent.getAction();
-            if (action == null || !action.equals(ACTION_CHANGE))
-                throw new IllegalAccessError();
-            int mode = intent.getIntExtra(EXTRA_MODE, -1);
-            cv.block();
-            requestInterruptionFilter(mode);
-        }
-    };
-
-    static void setInterruptionFilter(final Context context, final int mode) {
-        Intent intent = new Intent(ACTION_CHANGE);
-        intent.putExtra(EXTRA_MODE, mode);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-    }
-
+  private final IntentFilter mFilter = new IntentFilter(ACTION_CHANGE);
+  private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
     @Override
-    public void onListenerConnected() {
-        cv.open();
+    public void onReceive(final Context context, final Intent intent) {
+      String action = intent.getAction();
+      if (action == null || !action.equals(ACTION_CHANGE))
+        throw new IllegalAccessError();
+      int mode = intent.getIntExtra(EXTRA_MODE, -1);
+      cv.block();
+      requestInterruptionFilter(mode);
     }
+  };
 
-    @Override
-    public void onCreate() {
-        Logger.i("InterruptionFilterSwitcherService onCreate()");
-        super.onCreate();
-        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(mReceiver, mFilter);
-    }
+  static void setInterruptionFilter(final Context context, final int mode) {
+    Intent intent = new Intent(ACTION_CHANGE);
+    intent.putExtra(EXTRA_MODE, mode);
+    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+  }
 
-    @Override
-    public void onDestroy() {
-        Logger.i("InterruptionFilterSwitcherService onDestroy()");
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(mReceiver);
-    }
+  @Override
+  public void onListenerConnected() {
+    cv.open();
+  }
+
+  @Override
+  public void onCreate() {
+    Logger.i("InterruptionFilterSwitcherService onCreate()");
+    super.onCreate();
+    LocalBroadcastManager.getInstance(getApplicationContext())
+        .registerReceiver(mReceiver, mFilter);
+  }
+
+  @Override
+  public void onDestroy() {
+    Logger.i("InterruptionFilterSwitcherService onDestroy()");
+    super.onDestroy();
+    LocalBroadcastManager.getInstance(getApplicationContext())
+        .unregisterReceiver(mReceiver);
+  }
 }

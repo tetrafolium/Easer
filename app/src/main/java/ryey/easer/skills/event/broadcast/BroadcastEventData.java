@@ -21,14 +21,11 @@ package ryey.easer.skills.event.broadcast;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import ryey.easer.R;
 import ryey.easer.Utils;
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
@@ -38,185 +35,192 @@ import ryey.easer.skills.event.AbstractEventData;
 
 public class BroadcastEventData extends AbstractEventData {
 
-    private static final String K_ACTION = "action";
-    private static final String K_CATEGORY = "category";
+  private static final String K_ACTION = "action";
+  private static final String K_CATEGORY = "category";
 
-    ReceiverSideIntentData intentData;
+  ReceiverSideIntentData intentData;
 
-    BroadcastEventData(final ReceiverSideIntentData intentData) {
-        this.intentData = intentData;
-    }
+  BroadcastEventData(final ReceiverSideIntentData intentData) {
+    this.intentData = intentData;
+  }
 
-    BroadcastEventData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        parse(data, format, version);
-    }
+  BroadcastEventData(final @NonNull String data,
+                     final @NonNull PluginDataFormat format, final int version)
+      throws IllegalStorageDataException {
+    parse(data, format, version);
+  }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean isValid() {
-        if ((intentData.action == null || intentData.action.size() == 0)
-                && (intentData.category == null || intentData.category.size() == 0))
-            return false;
-        return true;
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean isValid() {
+    if ((intentData.action == null || intentData.action.size() == 0) &&
+        (intentData.category == null || intentData.category.size() == 0))
+      return false;
+    return true;
+  }
 
-    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        intentData = new ReceiverSideIntentData();
-        switch (format) {
-        default:
-            try {
-                JSONObject jsonObject = new JSONObject(data);
-                JSONArray jsonArray_action = jsonObject.getJSONArray(K_ACTION);
-                for (int i = 0; i < jsonArray_action.length(); i++) {
-                    intentData.action.add(jsonArray_action.getString(i));
-                }
-                JSONArray jsonArray_category = jsonObject.getJSONArray(K_CATEGORY);
-                for (int i = 0; i < jsonArray_category.length(); i++) {
-                    intentData.category.add(jsonArray_category.getString(i));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                throw new IllegalStorageDataException(e);
-            }
+  public void parse(final @NonNull String data,
+                    final @NonNull PluginDataFormat format, final int version)
+      throws IllegalStorageDataException {
+    intentData = new ReceiverSideIntentData();
+    switch (format) {
+    default:
+      try {
+        JSONObject jsonObject = new JSONObject(data);
+        JSONArray jsonArray_action = jsonObject.getJSONArray(K_ACTION);
+        for (int i = 0; i < jsonArray_action.length(); i++) {
+          intentData.action.add(jsonArray_action.getString(i));
         }
-    }
-
-    @NonNull
-    @Override
-    public String serialize(final @NonNull PluginDataFormat format) {
-        String res;
-        switch (format) {
-        default:
-            try {
-                JSONObject jsonObject = new JSONObject();
-                JSONArray jsonArray_action = new JSONArray();
-                if (intentData.action != null) {
-                    for (String action : intentData.action) {
-                        jsonArray_action.put(action);
-                    }
-                }
-                jsonObject.put(K_ACTION, jsonArray_action);
-                JSONArray jsonArray_category = new JSONArray();
-                if (intentData.category != null) {
-                    for (String category : intentData.category) {
-                        jsonArray_category.put(category);
-                    }
-                }
-                jsonObject.put(K_CATEGORY, jsonArray_category);
-                res = jsonObject.toString();
-            } catch (JSONException e) {
-                e.printStackTrace();
-                throw new IllegalStateException(e.getMessage());
-            }
+        JSONArray jsonArray_category = jsonObject.getJSONArray(K_CATEGORY);
+        for (int i = 0; i < jsonArray_category.length(); i++) {
+          intentData.category.add(jsonArray_category.getString(i));
         }
-        return res;
+      } catch (JSONException e) {
+        e.printStackTrace();
+        throw new IllegalStorageDataException(e);
+      }
     }
+  }
 
-    @Nullable
-    @Override
-    public Dynamics[] dynamics() {
-        return new Dynamics[] {new ActionDynamics(), new CategoryDynamics(), new TypeDynamics(), new DataDynamics()};
+  @NonNull
+  @Override
+  public String serialize(final @NonNull PluginDataFormat format) {
+    String res;
+    switch (format) {
+    default:
+      try {
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray_action = new JSONArray();
+        if (intentData.action != null) {
+          for (String action : intentData.action) {
+            jsonArray_action.put(action);
+          }
+        }
+        jsonObject.put(K_ACTION, jsonArray_action);
+        JSONArray jsonArray_category = new JSONArray();
+        if (intentData.category != null) {
+          for (String category : intentData.category) {
+            jsonArray_category.put(category);
+          }
+        }
+        jsonObject.put(K_CATEGORY, jsonArray_category);
+        res = jsonObject.toString();
+      } catch (JSONException e) {
+        e.printStackTrace();
+        throw new IllegalStateException(e.getMessage());
+      }
     }
+    return res;
+  }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean equals(final Object obj) {
-        if (obj == this)
-            return true;
-        if (!(obj instanceof BroadcastEventData))
-            return false;
-        if (!Utils.nullableEqual(intentData.action, ((BroadcastEventData) obj).intentData.action))
-            return false;
-        if (!Utils.nullableEqual(intentData.category, ((BroadcastEventData) obj).intentData.category))
-            return false;
-        return true;
-    }
+  @Nullable
+  @Override
+  public Dynamics[] dynamics() {
+    return new Dynamics[] {new ActionDynamics(), new CategoryDynamics(),
+                           new TypeDynamics(), new DataDynamics()};
+  }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+    if (!(obj instanceof BroadcastEventData))
+      return false;
+    if (!Utils.nullableEqual(intentData.action,
+                             ((BroadcastEventData)obj).intentData.action))
+      return false;
+    if (!Utils.nullableEqual(intentData.category,
+                             ((BroadcastEventData)obj).intentData.category))
+      return false;
+    return true;
+  }
 
-    @Override
-    public void writeToParcel(final Parcel dest, final int flags) {
-        dest.writeStringList(intentData.action);
-        dest.writeStringList(intentData.category);
-    }
+  @Override
+  public int describeContents() {
+    return 0;
+  }
 
-    public static final Parcelable.Creator<BroadcastEventData> CREATOR
-    = new Parcelable.Creator<BroadcastEventData>() {
+  @Override
+  public void writeToParcel(final Parcel dest, final int flags) {
+    dest.writeStringList(intentData.action);
+    dest.writeStringList(intentData.category);
+  }
+
+  public static final Parcelable.Creator<BroadcastEventData> CREATOR =
+      new Parcelable.Creator<BroadcastEventData>() {
         public BroadcastEventData createFromParcel(final Parcel in) {
-            return new BroadcastEventData(in);
+          return new BroadcastEventData(in);
         }
 
         public BroadcastEventData[] newArray(final int size) {
-            return new BroadcastEventData[size];
+          return new BroadcastEventData[size];
         }
-    };
+      };
 
-    private BroadcastEventData(final Parcel in) {
-        intentData = new ReceiverSideIntentData();
-        in.readStringList(intentData.action);
-        in.readStringList(intentData.category);
+  private BroadcastEventData(final Parcel in) {
+    intentData = new ReceiverSideIntentData();
+    in.readStringList(intentData.action);
+    in.readStringList(intentData.category);
+  }
+
+  static class ActionDynamics implements Dynamics {
+
+    static final String id = "ryey.easer.skills.event.broadcast.action";
+
+    @Override
+    public String id() {
+      return id;
     }
 
-    static class ActionDynamics implements Dynamics {
+    @Override
+    public int nameRes() {
+      return R.string.broadcast_action;
+    }
+  }
 
-        static final String id = "ryey.easer.skills.event.broadcast.action";
+  static class CategoryDynamics implements Dynamics {
 
-        @Override
-        public String id() {
-            return id;
-        }
+    static final String id = "ryey.easer.skills.event.broadcast.category";
 
-        @Override
-        public int nameRes() {
-            return R.string.broadcast_action;
-        }
+    @Override
+    public String id() {
+      return id;
     }
 
-    static class CategoryDynamics implements Dynamics {
+    @Override
+    public int nameRes() {
+      return R.string.broadcast_category;
+    }
+  }
 
-        static final String id = "ryey.easer.skills.event.broadcast.category";
+  static class TypeDynamics implements Dynamics {
 
-        @Override
-        public String id() {
-            return id;
-        }
+    static final String id = "ryey.easer.skills.event.broadcast.type";
 
-        @Override
-        public int nameRes() {
-            return R.string.broadcast_category;
-        }
+    @Override
+    public String id() {
+      return id;
     }
 
-    static class TypeDynamics implements Dynamics {
+    @Override
+    public int nameRes() {
+      return R.string.broadcast_type;
+    }
+  }
 
-        static final String id = "ryey.easer.skills.event.broadcast.type";
+  static class DataDynamics implements Dynamics {
 
-        @Override
-        public String id() {
-            return id;
-        }
+    static final String id = "ryey.easer.skills.event.broadcast.data";
 
-        @Override
-        public int nameRes() {
-            return R.string.broadcast_type;
-        }
+    @Override
+    public String id() {
+      return id;
     }
 
-    static class DataDynamics implements Dynamics {
-
-        static final String id = "ryey.easer.skills.event.broadcast.data";
-
-        @Override
-        public String id() {
-            return id;
-        }
-
-        @Override
-        public int nameRes() {
-            return R.string.broadcast_data;
-        }
+    @Override
+    public int nameRes() {
+      return R.string.broadcast_data;
     }
+  }
 }

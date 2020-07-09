@@ -19,22 +19,20 @@
 
 package ryey.easer.skills.usource.call;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class CallUSourceDataTest {
 
-    @Test
-    public void testParcel() {
-        CallUSourceData dummyData = new CallUSourceDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        CallUSourceData parceledData = CallUSourceData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    CallUSourceData dummyData = new CallUSourceDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    CallUSourceData parceledData =
+        CallUSourceData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

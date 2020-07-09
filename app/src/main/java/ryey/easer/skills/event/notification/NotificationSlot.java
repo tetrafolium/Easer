@@ -22,45 +22,44 @@ package ryey.easer.skills.event.notification;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-
 import androidx.annotation.RequiresApi;
-
 import com.orhanobut.logger.Logger;
-
 import ryey.easer.skills.event.SelfNotifiableSlot;
 
-public class NotificationSlot extends SelfNotifiableSlot<NotificationEventData> {
+public class NotificationSlot
+    extends SelfNotifiableSlot<NotificationEventData> {
 
-    public NotificationSlot(final Context context, final NotificationEventData data) {
-        this(context, data, true, PERSISTENT_DEFAULT);
-    }
+  public NotificationSlot(final Context context,
+                          final NotificationEventData data) {
+    this(context, data, true, PERSISTENT_DEFAULT);
+  }
 
-    NotificationSlot(final Context context, final NotificationEventData data, final boolean retriggerable, final boolean persistent) {
-        super(context, data, retriggerable, persistent);
-    }
+  NotificationSlot(final Context context, final NotificationEventData data,
+                   final boolean retriggerable, final boolean persistent) {
+    super(context, data, retriggerable, persistent);
+  }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
-    public void listen() {
-        NotificationEventListenerService.listen(context, eventData, uri);
-    }
+  @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+  @Override
+  public void listen() {
+    NotificationEventListenerService.listen(context, eventData, uri);
+  }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
-    public void cancel() {
-        NotificationEventListenerService.cancel(context, eventData, uri);
-    }
+  @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+  @Override
+  public void cancel() {
+    NotificationEventListenerService.cancel(context, eventData, uri);
+  }
 
-    @Override
-    protected void onPositiveNotified(final Intent intent) {
-        Logger.v("onPositiveNotified");
-        changeSatisfiedState(true, intent.getExtras());
-    }
+  @Override
+  protected void onPositiveNotified(final Intent intent) {
+    Logger.v("onPositiveNotified");
+    changeSatisfiedState(true, intent.getExtras());
+  }
 
-    @Override
-    protected void onNegativeNotified(final Intent intent) {
-        Logger.v("onNegativeNotified");
-        changeSatisfiedState(false, intent.getExtras());
-    }
-
+  @Override
+  protected void onNegativeNotified(final Intent intent) {
+    Logger.v("onNegativeNotified");
+    changeSatisfiedState(false, intent.getExtras());
+  }
 }

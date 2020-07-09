@@ -22,5 +22,4 @@ package ryey.easer.commons.local_skill.usource;
 import ryey.easer.commons.local_skill.conditionskill.ConditionData;
 import ryey.easer.commons.local_skill.eventskill.EventData;
 
-public interface USourceData extends EventData, ConditionData {
-}
+public interface USourceData extends EventData, ConditionData {}

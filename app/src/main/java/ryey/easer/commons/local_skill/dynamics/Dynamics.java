@@ -22,9 +22,7 @@ package ryey.easer.commons.local_skill.dynamics;
 import androidx.annotation.StringRes;
 
 public interface Dynamics {
-    String id();
+  String id();
 
-    @StringRes
-    int nameRes();
-
+  @StringRes int nameRes();
 }

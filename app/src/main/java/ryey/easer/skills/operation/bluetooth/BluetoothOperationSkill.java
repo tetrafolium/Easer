@@ -23,10 +23,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.SkillView;
 import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
@@ -36,84 +34,86 @@ import ryey.easer.plugin.operation.Category;
 import ryey.easer.skills.SkillUtils;
 import ryey.easer.skills.operation.OperationLoader;
 
-public class BluetoothOperationSkill implements OperationSkill<BluetoothOperationData> {
+public class BluetoothOperationSkill
+    implements OperationSkill<BluetoothOperationData> {
 
-    @NonNull
-    @Override
-    public String id() {
-        return "bluetooth";
+  @NonNull
+  @Override
+  public String id() {
+    return "bluetooth";
+  }
+
+  @Override
+  public int name() {
+    return R.string.operation_bluetooth;
+  }
+
+  @Override
+  public boolean isCompatible(@NonNull final Context context) {
+    BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+    return adapter != null;
+  }
+
+  @NonNull
+  @Override
+  public PrivilegeUsage privilege() {
+    return PrivilegeUsage.no_root;
+  }
+
+  @Override
+  public int maxExistence() {
+    return 1;
+  }
+
+  @NonNull
+  @Override
+  public Category category() {
+    return Category.system_config;
+  }
+
+  @Nullable
+  @Override
+  public Boolean checkPermissions(final @NonNull Context context) {
+    return SkillUtils.checkPermission(context, Manifest.permission.BLUETOOTH,
+                                      Manifest.permission.BLUETOOTH_ADMIN);
+  }
+
+  @Override
+  public void requestPermissions(final @NonNull Activity activity,
+                                 final int requestCode) {
+    boolean can_access_bluetooth =
+        SkillUtils.checkPermission(activity, Manifest.permission.BLUETOOTH);
+    boolean can_bluetooth_admin = SkillUtils.checkPermission(
+        activity, Manifest.permission.BLUETOOTH_ADMIN);
+    if (!can_access_bluetooth && !can_bluetooth_admin) {
+      SkillUtils.requestPermission(activity, requestCode,
+                                   Manifest.permission.BLUETOOTH,
+                                   Manifest.permission.BLUETOOTH_ADMIN);
+    } else if (!can_access_bluetooth) {
+      SkillUtils.requestPermission(activity, requestCode,
+                                   Manifest.permission.BLUETOOTH);
+    } else {
+      SkillUtils.requestPermission(activity, requestCode,
+                                   Manifest.permission.BLUETOOTH_ADMIN);
     }
+  }
 
-    @Override
-    public int name() {
-        return R.string.operation_bluetooth;
-    }
+  @NonNull
+  @Override
+  public OperationDataFactory<BluetoothOperationData> dataFactory() {
+    return new BluetoothOperationDataFactory();
+  }
 
-    @Override
-    public boolean isCompatible(@NonNull final Context context) {
-        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-        return adapter != null;
-    }
+  @NonNull
+  @Override
+  public SkillView<BluetoothOperationData> view() {
+    return new BluetoothSkillViewFragment();
+  }
 
-    @NonNull
-    @Override
-    public PrivilegeUsage privilege() {
-        return PrivilegeUsage.no_root;
-    }
-
-    @Override
-    public int maxExistence() {
-        return 1;
-    }
-
-    @NonNull
-    @Override
-    public Category category() {
-        return Category.system_config;
-    }
-
-    @Nullable
-    @Override
-    public Boolean checkPermissions(final @NonNull Context context) {
-        return SkillUtils.checkPermission(context,
-                                          Manifest.permission.BLUETOOTH,
-                                          Manifest.permission.BLUETOOTH_ADMIN);
-    }
-
-    @Override
-    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
-        boolean can_access_bluetooth = SkillUtils.checkPermission(activity, Manifest.permission.BLUETOOTH);
-        boolean can_bluetooth_admin = SkillUtils.checkPermission(activity, Manifest.permission.BLUETOOTH_ADMIN);
-        if (!can_access_bluetooth && !can_bluetooth_admin) {
-            SkillUtils.requestPermission(activity, requestCode,
-                                         Manifest.permission.BLUETOOTH,
-                                         Manifest.permission.BLUETOOTH_ADMIN);
-        } else if (!can_access_bluetooth) {
-            SkillUtils.requestPermission(activity, requestCode,
-                                         Manifest.permission.BLUETOOTH);
-        } else {
-            SkillUtils.requestPermission(activity, requestCode,
-                                         Manifest.permission.BLUETOOTH_ADMIN);
-        }
-    }
-
-    @NonNull
-    @Override
-    public OperationDataFactory<BluetoothOperationData> dataFactory() {
-        return new BluetoothOperationDataFactory();
-
-    }
-
-    @NonNull
-    @Override
-    public SkillView<BluetoothOperationData> view() {
-        return new BluetoothSkillViewFragment();
-    }
-
-    @NonNull
-    @Override
-    public OperationLoader<BluetoothOperationData> loader(final @NonNull Context context) {
-        return new BluetoothLoader(context);
-    }
-
+  @NonNull
+  @Override
+  public OperationLoader<BluetoothOperationData>
+  loader(final @NonNull Context context) {
+    return new BluetoothLoader(context);
+  }
 }

@@ -21,5 +21,5 @@ package ryey.easer.core.data.storage.backend;
 
 import ryey.easer.core.data.EventStructure;
 
-public interface EventDataStorageBackendInterface extends DataStorageBackendCommonInterface<EventStructure> {
-}
+public interface EventDataStorageBackendInterface
+    extends DataStorageBackendCommonInterface<EventStructure> {}

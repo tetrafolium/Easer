@@ -21,10 +21,8 @@ package ryey.easer.skills.operation.broadcast;
 
 import android.app.Activity;
 import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.SkillView;
 import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
@@ -33,69 +31,68 @@ import ryey.easer.commons.local_skill.operationskill.PrivilegeUsage;
 import ryey.easer.plugin.operation.Category;
 import ryey.easer.skills.operation.OperationLoader;
 
-public class BroadcastOperationSkill implements OperationSkill<BroadcastOperationData> {
+public class BroadcastOperationSkill
+    implements OperationSkill<BroadcastOperationData> {
 
-    @NonNull
-    @Override
-    public String id() {
-        return "send_broadcast";
-    }
+  @NonNull
+  @Override
+  public String id() {
+    return "send_broadcast";
+  }
 
-    @Override
-    public int name() {
-        return R.string.operation_broadcast;
-    }
+  @Override
+  public int name() {
+    return R.string.operation_broadcast;
+  }
 
-    @Override
-    public boolean isCompatible(@NonNull final Context context) {
-        return true;
-    }
+  @Override
+  public boolean isCompatible(@NonNull final Context context) {
+    return true;
+  }
 
-    @NonNull
-    @Override
-    public PrivilegeUsage privilege() {
-        return PrivilegeUsage.no_root;
-    }
+  @NonNull
+  @Override
+  public PrivilegeUsage privilege() {
+    return PrivilegeUsage.no_root;
+  }
 
-    @Override
-    public int maxExistence() {
-        return 0;
-    }
+  @Override
+  public int maxExistence() {
+    return 0;
+  }
 
-    @NonNull
-    @Override
-    public Category category() {
-        return Category.android;
-    }
+  @NonNull
+  @Override
+  public Category category() {
+    return Category.android;
+  }
 
-    @Nullable
-    @Override
-    public Boolean checkPermissions(final @NonNull Context context) {
-        return null;
-    }
+  @Nullable
+  @Override
+  public Boolean checkPermissions(final @NonNull Context context) {
+    return null;
+  }
 
-    @Override
-    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
+  @Override
+  public void requestPermissions(final @NonNull Activity activity,
+                                 final int requestCode) {}
 
-    }
+  @NonNull
+  @Override
+  public OperationDataFactory<BroadcastOperationData> dataFactory() {
+    return new BroadcastOperationDataFactory();
+  }
 
-    @NonNull
-    @Override
-    public OperationDataFactory<BroadcastOperationData> dataFactory() {
-        return new BroadcastOperationDataFactory();
+  @NonNull
+  @Override
+  public SkillView<BroadcastOperationData> view() {
+    return new BroadcastSkillViewFragment();
+  }
 
-    }
-
-    @NonNull
-    @Override
-    public SkillView<BroadcastOperationData> view() {
-        return new BroadcastSkillViewFragment();
-    }
-
-    @NonNull
-    @Override
-    public OperationLoader<BroadcastOperationData> loader(final @NonNull Context context) {
-        return new BroadcastLoader(context);
-    }
-
+  @NonNull
+  @Override
+  public OperationLoader<BroadcastOperationData>
+  loader(final @NonNull Context context) {
+    return new BroadcastLoader(context);
+  }
 }

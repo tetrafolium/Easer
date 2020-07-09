@@ -19,11 +19,9 @@
 
 package ryey.easer.core.data.storage.backend.json.script;
 
+import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Map;
-
 import ryey.easer.commons.local_skill.dynamics.DynamicsLink;
 import ryey.easer.commons.local_skill.eventskill.EventData;
 import ryey.easer.core.data.ConditionStructure;
@@ -37,82 +35,87 @@ import ryey.easer.skills.LocalSkillRegistry;
 
 class ScriptSerializer implements Serializer<ScriptStructure> {
 
-    /**
-     * {@inheritDoc}
-     * This method assumes the scenario has already been serialized, so the name can uniquely identify a scenario
-     */
-    public String serialize(final ScriptStructure script) throws UnableToSerializeException {
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put(C.NAME, script.getName());
-            jsonObject.put(C.VERSION, C.VERSION_CURRENT);
-            jsonObject.put(C.ACTIVE, script.isActive());
-            jsonObject.put(C.PROFILE, script.getProfileName());
-            jsonObject.put(C.AFTER, script.getParentName());
+  /**
+   * {@inheritDoc}
+   * This method assumes the scenario has already been serialized, so the name
+   * can uniquely identify a scenario
+   */
+  public String serialize(final ScriptStructure script)
+      throws UnableToSerializeException {
+    try {
+      JSONObject jsonObject = new JSONObject();
+      jsonObject.put(C.NAME, script.getName());
+      jsonObject.put(C.VERSION, C.VERSION_CURRENT);
+      jsonObject.put(C.ACTIVE, script.isActive());
+      jsonObject.put(C.PROFILE, script.getProfileName());
+      jsonObject.put(C.AFTER, script.getParentName());
 
-            if (script.getEvent() != null) {
-                JSONObject trigger = serialize_scenario_trigger(script.getEvent());
-                jsonObject.put(C.TRIG, trigger);
+      if (script.getEvent() != null) {
+        JSONObject trigger = serialize_scenario_trigger(script.getEvent());
+        jsonObject.put(C.TRIG, trigger);
 
-                if (!script.getEvent().isTmpEvent()) {
-                    jsonObject.put(C.REVERSE, script.isReverse());
-                    jsonObject.put(C.REPEATABLE, script.isRepeatable());
-                    jsonObject.put(C.PERSISTENT, script.isPersistent());
-                }
-            } else { // if (script.getCondition() != null) {
-                JSONObject trigger = serialize_condition_trigger(script.getCondition());
-                jsonObject.put(C.TRIG, trigger);
-                jsonObject.put(C.REVERSE, script.isReverse());
-            }
-
-            // dynamics
-            DynamicsLink dynamicsLink = script.getDynamicsLink();
-            if (dynamicsLink != null) {
-                JSONObject json_dynamics = new JSONObject();
-                Map<String, String> dynamicsMap = dynamicsLink.identityMap();
-                for (String placeholder : dynamicsMap.keySet()) {
-                    String property = dynamicsMap.get(placeholder);
-                    json_dynamics.put(placeholder, property);
-                }
-                jsonObject.put(C.DYNAMICS, json_dynamics);
-            }
-
-            return jsonObject.toString();
-        } catch (JSONException e) {
-            throw new UnableToSerializeException(e.getMessage());
+        if (!script.getEvent().isTmpEvent()) {
+          jsonObject.put(C.REVERSE, script.isReverse());
+          jsonObject.put(C.REPEATABLE, script.isRepeatable());
+          jsonObject.put(C.PERSISTENT, script.isPersistent());
         }
-    }
+      } else { // if (script.getCondition() != null) {
+        JSONObject trigger = serialize_condition_trigger(script.getCondition());
+        jsonObject.put(C.TRIG, trigger);
+        jsonObject.put(C.REVERSE, script.isReverse());
+      }
 
-    JSONObject serialize_scenario_trigger(final EventStructure scenario) throws JSONException {
-        if (scenario.isTmpEvent())
-            return serialize_event(scenario.getEventData());
-        else {
-            JSONObject json_trigger = new JSONObject();
-            json_trigger.put(C.TYPE, C.TriggerType.T_PRE);
-            json_trigger.put(C.EVENT, scenario.getName());
-            return json_trigger;
+      // dynamics
+      DynamicsLink dynamicsLink = script.getDynamicsLink();
+      if (dynamicsLink != null) {
+        JSONObject json_dynamics = new JSONObject();
+        Map<String, String> dynamicsMap = dynamicsLink.identityMap();
+        for (String placeholder : dynamicsMap.keySet()) {
+          String property = dynamicsMap.get(placeholder);
+          json_dynamics.put(placeholder, property);
         }
-    }
+        jsonObject.put(C.DYNAMICS, json_dynamics);
+      }
 
-    JSONObject serialize_event(final EventData event) throws JSONException {
-        JSONObject json_trigger_raw = new JSONObject();
-        json_trigger_raw.put(C.TYPE, C.TriggerType.T_RAW);
-        json_trigger_raw.put(C.SIT, serialize_situation(event));
-        return json_trigger_raw;
+      return jsonObject.toString();
+    } catch (JSONException e) {
+      throw new UnableToSerializeException(e.getMessage());
     }
+  }
 
-    JSONObject serialize_situation(final EventData event) throws JSONException {
-        JSONObject json_situation = new JSONObject();
-        json_situation.put(C.SPEC, LocalSkillRegistry.getInstance().event().findSkill(event).id());
-        json_situation.put(C.DATA, event.serialize(PluginDataFormat.JSON));
-        return json_situation;
+  JSONObject serialize_scenario_trigger(final EventStructure scenario)
+      throws JSONException {
+    if (scenario.isTmpEvent())
+      return serialize_event(scenario.getEventData());
+    else {
+      JSONObject json_trigger = new JSONObject();
+      json_trigger.put(C.TYPE, C.TriggerType.T_PRE);
+      json_trigger.put(C.EVENT, scenario.getName());
+      return json_trigger;
     }
+  }
 
-    private JSONObject serialize_condition_trigger(final ConditionStructure condition) throws JSONException {
-        JSONObject json_trigger = new JSONObject();
-        json_trigger.put(C.TYPE, C.TriggerType.T_CONDITION);
-        json_trigger.put(C.CONDITION, condition.getName());
-        return json_trigger;
-    }
+  JSONObject serialize_event(final EventData event) throws JSONException {
+    JSONObject json_trigger_raw = new JSONObject();
+    json_trigger_raw.put(C.TYPE, C.TriggerType.T_RAW);
+    json_trigger_raw.put(C.SIT, serialize_situation(event));
+    return json_trigger_raw;
+  }
 
+  JSONObject serialize_situation(final EventData event) throws JSONException {
+    JSONObject json_situation = new JSONObject();
+    json_situation.put(
+        C.SPEC, LocalSkillRegistry.getInstance().event().findSkill(event).id());
+    json_situation.put(C.DATA, event.serialize(PluginDataFormat.JSON));
+    return json_situation;
+  }
+
+  private JSONObject
+  serialize_condition_trigger(final ConditionStructure condition)
+      throws JSONException {
+    JSONObject json_trigger = new JSONObject();
+    json_trigger.put(C.TYPE, C.TriggerType.T_CONDITION);
+    json_trigger.put(C.CONDITION, condition.getName());
+    return json_trigger;
+  }
 }

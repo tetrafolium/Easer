@@ -21,10 +21,8 @@ package ryey.easer.skills.event.condition_event;
 
 import android.app.Activity;
 import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.SkillView;
 import ryey.easer.commons.local_skill.SourceCategory;
@@ -36,60 +34,65 @@ import ryey.easer.skills.event.AbstractSlot;
 /**
  * This plugin belongs to core - not likely able to be split out
  */
-public class ConditionEventEventSkill implements EventSkill<ConditionEventEventData> {
+public class ConditionEventEventSkill
+    implements EventSkill<ConditionEventEventData> {
 
-    @NonNull
-    @Override
-    public String id() {
-        return "condition_event";
-    }
+  @NonNull
+  @Override
+  public String id() {
+    return "condition_event";
+  }
 
-    @Override
-    public int name() {
-        return R.string.event_condition_event;
-    }
+  @Override
+  public int name() {
+    return R.string.event_condition_event;
+  }
 
-    @Override
-    public boolean isCompatible(@NonNull final Context context) {
-        return true;
-    }
+  @Override
+  public boolean isCompatible(@NonNull final Context context) {
+    return true;
+  }
 
-    @Nullable
-    @Override
-    public Boolean checkPermissions(final @NonNull Context context) {
-        return null;
-    }
+  @Nullable
+  @Override
+  public Boolean checkPermissions(final @NonNull Context context) {
+    return null;
+  }
 
-    @Override
-    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
-    }
+  @Override
+  public void requestPermissions(final @NonNull Activity activity,
+                                 final int requestCode) {}
 
-    @NonNull
-    @Override
-    public EventDataFactory<ConditionEventEventData> dataFactory() {
-        return new ConditionEventEventDataFactory();
-    }
+  @NonNull
+  @Override
+  public EventDataFactory<ConditionEventEventData> dataFactory() {
+    return new ConditionEventEventDataFactory();
+  }
 
-    @NonNull
-    @Override
-    public SourceCategory category() {
-        return SourceCategory.easer;
-    }
+  @NonNull
+  @Override
+  public SourceCategory category() {
+    return SourceCategory.easer;
+  }
 
-    @NonNull
-    @Override
-    public SkillView<ConditionEventEventData> view() {
-        return new ConditionEventSkillViewFragment();
-    }
+  @NonNull
+  @Override
+  public SkillView<ConditionEventEventData> view() {
+    return new ConditionEventSkillViewFragment();
+  }
 
-    @Override
-    public AbstractSlot<ConditionEventEventData> slot(final @NonNull Context context, final @ValidData @NonNull ConditionEventEventData data) {
-        return new ConditionEventSlot(context, data);
-    }
+  @Override
+  public AbstractSlot<ConditionEventEventData>
+  slot(final @NonNull Context context,
+       final @ValidData @NonNull ConditionEventEventData data) {
+    return new ConditionEventSlot(context, data);
+  }
 
-    @Override
-    public AbstractSlot<ConditionEventEventData> slot(final @NonNull Context context, final @NonNull ConditionEventEventData data, final boolean retriggerable, final boolean persistent) {
-        return new ConditionEventSlot(context, data, retriggerable, persistent);
-    }
-
+  @Override
+  public AbstractSlot<ConditionEventEventData>
+  slot(final @NonNull Context context,
+       final @NonNull ConditionEventEventData data, final boolean retriggerable,
+       final boolean persistent) {
+    return new ConditionEventSlot(context, data, retriggerable, persistent);
+  }
 }

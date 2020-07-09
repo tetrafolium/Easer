@@ -25,71 +25,77 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-
 import java.util.List;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.InvalidDataInputException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillUtils;
 import ryey.easer.skills.SkillViewFragment;
 
-public class CellLocationSkillViewFragment extends SkillViewFragment<CellLocationUSourceData> implements ScannerDialogFragment.ScannerListener {
-    private EditText editText;
+public class CellLocationSkillViewFragment
+    extends SkillViewFragment<CellLocationUSourceData>
+    implements ScannerDialogFragment.ScannerListener {
+  private EditText editText;
 
-    private static final int DIALOG_FRAGMENT = 1;
+  private static final int DIALOG_FRAGMENT = 1;
 
-    @NonNull
-    @Override
-    public View onCreateView(@NonNull final LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.plugin_usource__cell_location, container, false);
+  @NonNull
+  @Override
+  public View onCreateView(@NonNull final LayoutInflater inflater,
+                           final @Nullable ViewGroup container,
+                           final @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.plugin_usource__cell_location,
+                                 container, false);
 
-        editText = view.findViewById(R.id.location_text);
-        view.findViewById(R.id.location_picker).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                if (!SkillUtils.checkPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION))
-                    return;
+    editText = view.findViewById(R.id.location_text);
+    view.findViewById(R.id.location_picker)
+        .setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(final View view) {
+            if (!SkillUtils.checkPermission(
+                    getContext(), Manifest.permission.ACCESS_COARSE_LOCATION))
+              return;
 
-                DialogFragment dialogFrag = new ScannerDialogFragment();
-                dialogFrag.setTargetFragment(CellLocationSkillViewFragment.this, DIALOG_FRAGMENT);
-                dialogFrag.show(getFragmentManager(), "dialog");
-
-            }
+            DialogFragment dialogFrag = new ScannerDialogFragment();
+            dialogFrag.setTargetFragment(CellLocationSkillViewFragment.this,
+                                         DIALOG_FRAGMENT);
+            dialogFrag.show(getFragmentManager(), "dialog");
+          }
         });
 
-        return view;
-    }
+    return view;
+  }
 
-    @Override
-    protected void _fill(final @ValidData @NonNull CellLocationUSourceData data) {
-        editText.setText(data.toString());
-    }
+  @Override
+  protected void _fill(final @ValidData @NonNull CellLocationUSourceData data) {
+    editText.setText(data.toString());
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public CellLocationUSourceData getData() throws InvalidDataInputException {
-        CellLocationUSourceData data = new CellLocationUSourceData(editText.getText().toString().split("\n"));
-        if (data.isValid())
-            return data;
-        throw new InvalidDataInputException();
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public CellLocationUSourceData getData() throws InvalidDataInputException {
+    CellLocationUSourceData data =
+        new CellLocationUSourceData(editText.getText().toString().split("\n"));
+    if (data.isValid())
+      return data;
+    throw new InvalidDataInputException();
+  }
 
-    @Override
-    public void onPositiveClicked(final @NonNull List<CellLocationSingleData> singleDataList) {
-        String display_str = editText.getText().toString();
-        StringBuilder stringBuilder = new StringBuilder(display_str);
-        for (CellLocationSingleData singleData : singleDataList) {
-            stringBuilder.append('\n')
-            .append(singleData.toString());
-        }
-        if (stringBuilder.charAt(0) == '\n')
-            stringBuilder.deleteCharAt(0);
-        editText.setText(stringBuilder.toString());
+  @Override
+  public void
+  onPositiveClicked(final
+                    @NonNull List<CellLocationSingleData> singleDataList) {
+    String display_str = editText.getText().toString();
+    StringBuilder stringBuilder = new StringBuilder(display_str);
+    for (CellLocationSingleData singleData : singleDataList) {
+      stringBuilder.append('\n').append(singleData.toString());
     }
+    if (stringBuilder.charAt(0) == '\n')
+      stringBuilder.deleteCharAt(0);
+    editText.setText(stringBuilder.toString());
+  }
 }

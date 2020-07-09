@@ -21,35 +21,30 @@ package ryey.easer.skills.operation.bluetooth;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.plugin.PluginDataFormat;
 import ryey.easer.skills.operation.BooleanOperationData;
 
 public class BluetoothOperationData extends BooleanOperationData {
-    public BluetoothOperationData(final Boolean state) {
-        super(state);
-    }
+  public BluetoothOperationData(final Boolean state) { super(state); }
 
-    BluetoothOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        super(data, format, version);
-    }
+  BluetoothOperationData(final @NonNull String data,
+                         final @NonNull PluginDataFormat format,
+                         final int version) throws IllegalStorageDataException {
+    super(data, format, version);
+  }
 
-    public static final Parcelable.Creator<BluetoothOperationData> CREATOR
-    = new Parcelable.Creator<BluetoothOperationData>() {
+  public static final Parcelable.Creator<BluetoothOperationData> CREATOR =
+      new Parcelable.Creator<BluetoothOperationData>() {
         public BluetoothOperationData createFromParcel(final Parcel in) {
-            return new BluetoothOperationData(in);
+          return new BluetoothOperationData(in);
         }
 
         public BluetoothOperationData[] newArray(final int size) {
-            return new BluetoothOperationData[size];
+          return new BluetoothOperationData[size];
         }
-    };
+      };
 
-    private BluetoothOperationData(final Parcel in) {
-        super(in);
-    }
-
+  private BluetoothOperationData(final Parcel in) { super(in); }
 }

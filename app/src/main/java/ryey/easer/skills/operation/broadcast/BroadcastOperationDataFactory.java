@@ -20,11 +20,8 @@
 package ryey.easer.skills.operation.broadcast;
 
 import android.net.Uri;
-
 import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
@@ -32,34 +29,38 @@ import ryey.easer.plugin.PluginDataFormat;
 import ryey.easer.skills.operation.ExtraItem;
 import ryey.easer.skills.operation.Extras;
 
-class BroadcastOperationDataFactory implements OperationDataFactory<BroadcastOperationData> {
-    @NonNull
-    @Override
-    public Class<BroadcastOperationData> dataClass() {
-        return BroadcastOperationData.class;
-    }
+class BroadcastOperationDataFactory
+    implements OperationDataFactory<BroadcastOperationData> {
+  @NonNull
+  @Override
+  public Class<BroadcastOperationData> dataClass() {
+    return BroadcastOperationData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public BroadcastOperationData dummyData() {
-        IntentData intentData = new IntentData();
-        intentData.action = "testAction";
-        intentData.category = new ArrayList<>();
-        intentData.category.add("testCategory");
-        intentData.type = "myType";
-        intentData.data = Uri.parse("myprot://seg1/seg2");
-        ArrayList<ExtraItem> extras = new ArrayList<>();
-        ExtraItem extraItem = new ExtraItem("extra_key1", "extra_value1", "string");
-        extras.add(extraItem);
-        intentData.extras = new Extras(extras);
-        return new BroadcastOperationData(intentData);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public BroadcastOperationData dummyData() {
+    IntentData intentData = new IntentData();
+    intentData.action = "testAction";
+    intentData.category = new ArrayList<>();
+    intentData.category.add("testCategory");
+    intentData.type = "myType";
+    intentData.data = Uri.parse("myprot://seg1/seg2");
+    ArrayList<ExtraItem> extras = new ArrayList<>();
+    ExtraItem extraItem = new ExtraItem("extra_key1", "extra_value1", "string");
+    extras.add(extraItem);
+    intentData.extras = new Extras(extras);
+    return new BroadcastOperationData(intentData);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public BroadcastOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new BroadcastOperationData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public BroadcastOperationData parse(final @NonNull String data,
+                                      final @NonNull PluginDataFormat format,
+                                      final int version)
+      throws IllegalStorageDataException {
+    return new BroadcastOperationData(data, format, version);
+  }
 }

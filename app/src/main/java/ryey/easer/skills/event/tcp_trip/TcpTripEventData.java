@@ -20,13 +20,10 @@
 package ryey.easer.skills.event.tcp_trip;
 
 import android.os.Parcel;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import ryey.easer.Utils;
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.dynamics.Dynamics;
@@ -35,144 +32,148 @@ import ryey.easer.skills.event.AbstractEventData;
 
 public class TcpTripEventData extends AbstractEventData {
 
-    private static final String K_RADDR = "remote address";
-    private static final String K_RPORT = "remote port";
-    private static final String K_SEND_DATA = "send data";
-    private static final String K_CHECK_REPLY = "check reply?";
-    private static final String K_REPLY_DATA = "reply data";
+  private static final String K_RADDR = "remote address";
+  private static final String K_RPORT = "remote port";
+  private static final String K_SEND_DATA = "send data";
+  private static final String K_CHECK_REPLY = "check reply?";
+  private static final String K_REPLY_DATA = "reply data";
 
-    String rAddr;
-    int rPort;
-    String send_data;
-    boolean check_reply;
-    String reply_data;
+  String rAddr;
+  int rPort;
+  String send_data;
+  boolean check_reply;
+  String reply_data;
 
-    TcpTripEventData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        parse(data, format, version);
-    }
+  TcpTripEventData(final @NonNull String data,
+                   final @NonNull PluginDataFormat format, final int version)
+      throws IllegalStorageDataException {
+    parse(data, format, version);
+  }
 
-    TcpTripEventData(final String rAddr, final int rPort, final String send_data, final boolean check_reply, final String reply_data) {
-        this.rAddr = rAddr;
-        this.rPort = rPort;
-        this.send_data = send_data;
-        this.check_reply = check_reply;
-        this.reply_data = reply_data;
-    }
+  TcpTripEventData(final String rAddr, final int rPort, final String send_data,
+                   final boolean check_reply, final String reply_data) {
+    this.rAddr = rAddr;
+    this.rPort = rPort;
+    this.send_data = send_data;
+    this.check_reply = check_reply;
+    this.reply_data = reply_data;
+  }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean isValid() {
-        if (rAddr == null)
-            return false;
-        if (rPort <= 0)
-            return false;
-        return true;
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean isValid() {
+    if (rAddr == null)
+      return false;
+    if (rPort <= 0)
+      return false;
+    return true;
+  }
 
-    @Nullable
-    @Override
-    public Dynamics[] dynamics() {
-        return null;
-    }
+  @Nullable
+  @Override
+  public Dynamics[] dynamics() {
+    return null;
+  }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean equals(final Object obj) {
-        if (obj == null || !(obj instanceof TcpTripEventData))
-            return false;
-        if (!Utils.nullableEqual(rAddr, ((TcpTripEventData) obj).rAddr))
-            return false;
-        if (rPort != ((TcpTripEventData) obj).rPort)
-            return false;
-        if (!Utils.nullableEqual(send_data, ((TcpTripEventData) obj).send_data))
-            return false;
-        if (check_reply != ((TcpTripEventData) obj).check_reply)
-            return false;
-        if (!Utils.nullableEqual(reply_data, ((TcpTripEventData) obj).reply_data))
-            return false;
-        return true;
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == null || !(obj instanceof TcpTripEventData))
+      return false;
+    if (!Utils.nullableEqual(rAddr, ((TcpTripEventData)obj).rAddr))
+      return false;
+    if (rPort != ((TcpTripEventData)obj).rPort)
+      return false;
+    if (!Utils.nullableEqual(send_data, ((TcpTripEventData)obj).send_data))
+      return false;
+    if (check_reply != ((TcpTripEventData)obj).check_reply)
+      return false;
+    if (!Utils.nullableEqual(reply_data, ((TcpTripEventData)obj).reply_data))
+      return false;
+    return true;
+  }
 
-    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        switch (format) {
-        default:
-            try {
-                JSONObject jsonObject = new JSONObject(data);
-                rAddr = jsonObject.getString(K_RADDR);
-                rPort = jsonObject.getInt(K_RPORT);
-                send_data = jsonObject.optString(K_SEND_DATA, null);
-                check_reply = jsonObject.getBoolean(K_CHECK_REPLY);
-                if (check_reply) {
-                    reply_data = jsonObject.getString(K_REPLY_DATA);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                throw new IllegalStorageDataException(e);
-            }
-        }
-    }
-
-    @NonNull
-    @Override
-    public String serialize(final @NonNull PluginDataFormat format) {
-        String res;
-        switch (format) {
-        default:
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put(K_RADDR, rAddr);
-                jsonObject.put(K_RPORT, rPort);
-                if (!Utils.isBlank(send_data)) {
-                    jsonObject.put(K_SEND_DATA, send_data);
-                }
-                jsonObject.put(K_CHECK_REPLY, check_reply);
-                if (check_reply) {
-                    jsonObject.put(K_REPLY_DATA, reply_data);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                throw new IllegalStateException(e);
-            }
-            res = jsonObject.toString();
-
-        }
-        return res;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(final Parcel dest, final int flags) {
-        dest.writeString(rAddr);
-        dest.writeInt(rPort);
-        dest.writeString(send_data);
-        dest.writeByte((byte) (check_reply ? 1 : 0));
+  public void parse(final @NonNull String data,
+                    final @NonNull PluginDataFormat format, final int version)
+      throws IllegalStorageDataException {
+    switch (format) {
+    default:
+      try {
+        JSONObject jsonObject = new JSONObject(data);
+        rAddr = jsonObject.getString(K_RADDR);
+        rPort = jsonObject.getInt(K_RPORT);
+        send_data = jsonObject.optString(K_SEND_DATA, null);
+        check_reply = jsonObject.getBoolean(K_CHECK_REPLY);
         if (check_reply) {
-            dest.writeString(reply_data);
+          reply_data = jsonObject.getString(K_REPLY_DATA);
         }
+      } catch (JSONException e) {
+        e.printStackTrace();
+        throw new IllegalStorageDataException(e);
+      }
     }
+  }
 
-    public static final Creator<TcpTripEventData> CREATOR
-    = new Creator<TcpTripEventData>() {
+  @NonNull
+  @Override
+  public String serialize(final @NonNull PluginDataFormat format) {
+    String res;
+    switch (format) {
+    default:
+      JSONObject jsonObject = new JSONObject();
+      try {
+        jsonObject.put(K_RADDR, rAddr);
+        jsonObject.put(K_RPORT, rPort);
+        if (!Utils.isBlank(send_data)) {
+          jsonObject.put(K_SEND_DATA, send_data);
+        }
+        jsonObject.put(K_CHECK_REPLY, check_reply);
+        if (check_reply) {
+          jsonObject.put(K_REPLY_DATA, reply_data);
+        }
+      } catch (JSONException e) {
+        e.printStackTrace();
+        throw new IllegalStateException(e);
+      }
+      res = jsonObject.toString();
+    }
+    return res;
+  }
+
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  @Override
+  public void writeToParcel(final Parcel dest, final int flags) {
+    dest.writeString(rAddr);
+    dest.writeInt(rPort);
+    dest.writeString(send_data);
+    dest.writeByte((byte)(check_reply ? 1 : 0));
+    if (check_reply) {
+      dest.writeString(reply_data);
+    }
+  }
+
+  public static final Creator<TcpTripEventData> CREATOR =
+      new Creator<TcpTripEventData>() {
         public TcpTripEventData createFromParcel(final Parcel in) {
-            return new TcpTripEventData(in);
+          return new TcpTripEventData(in);
         }
 
         public TcpTripEventData[] newArray(final int size) {
-            return new TcpTripEventData[size];
+          return new TcpTripEventData[size];
         }
-    };
+      };
 
-    private TcpTripEventData(final Parcel in) {
-        rAddr = in.readString();
-        rPort = in.readInt();
-        send_data = in.readString();
-        check_reply = in.readByte() != 0;
-        if (check_reply) {
-            reply_data = in.readString();
-        }
+  private TcpTripEventData(final Parcel in) {
+    rAddr = in.readString();
+    rPort = in.readInt();
+    send_data = in.readString();
+    check_reply = in.readByte() != 0;
+    if (check_reply) {
+      reply_data = in.readString();
     }
+  }
 }

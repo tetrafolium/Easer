@@ -20,17 +20,17 @@
 package ryey.easer.skills.operation.hotspot;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.InvalidDataInputException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.SwitchSkillViewFragment;
 
-public class HotspotSkillViewFragment extends SwitchSkillViewFragment<HotspotOperationData> {
+public class HotspotSkillViewFragment
+    extends SwitchSkillViewFragment<HotspotOperationData> {
 
-    @ValidData
-    @NonNull
-    @Override
-    public HotspotOperationData getData() throws InvalidDataInputException {
-        return new HotspotOperationData(state());
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public HotspotOperationData getData() throws InvalidDataInputException {
+    return new HotspotOperationData(state());
+  }
 }

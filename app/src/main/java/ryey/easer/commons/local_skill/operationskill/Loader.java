@@ -20,7 +20,6 @@
 package ryey.easer.commons.local_skill.operationskill;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.ValidData;
 
 /**
@@ -30,9 +29,9 @@ import ryey.easer.commons.local_skill.ValidData;
  * @param <T>
  */
 public interface Loader<T extends OperationData> {
-    /**
-     * Load the operation given its data.
-     * @return whether the load is successful or not.
-     */
-    boolean load(@ValidData @NonNull T data);
+  /**
+   * Load the operation given its data.
+   * @return whether the load is successful or not.
+   */
+  boolean load(@ValidData @NonNull T data);
 }

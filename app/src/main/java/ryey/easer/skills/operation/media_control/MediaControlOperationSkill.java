@@ -25,10 +25,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.SkillView;
 import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
@@ -38,83 +36,89 @@ import ryey.easer.plugin.operation.Category;
 import ryey.easer.skills.SkillUtils;
 import ryey.easer.skills.operation.OperationLoader;
 
-public class MediaControlOperationSkill implements OperationSkill<MediaControlOperationData> {
+public class MediaControlOperationSkill
+    implements OperationSkill<MediaControlOperationData> {
 
-    @NonNull
-    @Override
-    public String id() {
-        return "media_control";
+  @NonNull
+  @Override
+  public String id() {
+    return "media_control";
+  }
+
+  @Override
+  public int name() {
+    return R.string.operation_media_control;
+  }
+
+  @Override
+  public boolean isCompatible(@NonNull final Context context) {
+    return true;
+  }
+
+  @NonNull
+  @Override
+  public PrivilegeUsage privilege() {
+    return PrivilegeUsage.no_root;
+  }
+
+  @Override
+  public int maxExistence() {
+    return 0;
+  }
+
+  @NonNull
+  @Override
+  public Category category() {
+    return Category.android;
+  }
+
+  @Nullable
+  @Override
+  public Boolean checkPermissions(final @NonNull Context context) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      return SkillUtils.isPermissionGrantedForNotificationListenerService(
+          context, MediaControlHelperNotificationListenerService.class);
+    } else {
+      return true;
     }
+  }
 
-    @Override
-    public int name() {
-        return R.string.operation_media_control;
-    }
-
-    @Override
-    public boolean isCompatible(@NonNull final Context context) {
-        return true;
-    }
-
-    @NonNull
-    @Override
-    public PrivilegeUsage privilege() {
-        return PrivilegeUsage.no_root;
-    }
-
-    @Override
-    public int maxExistence() {
-        return 0;
-    }
-
-    @NonNull
-    @Override
-    public Category category() {
-        return Category.android;
-    }
-
-    @Nullable
-    @Override
-    public Boolean checkPermissions(final @NonNull Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            return SkillUtils.isPermissionGrantedForNotificationListenerService(context, MediaControlHelperNotificationListenerService.class);
+  @Override
+  public void requestPermissions(final @NonNull Activity activity,
+                                 final int requestCode) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      if (!SkillUtils.isPermissionGrantedForNotificationListenerService(
+              activity, MediaControlHelperNotificationListenerService.class)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+          activity.startActivity(
+              new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
         } else {
-            return true;
+          SkillUtils.requestPermission(
+              activity, requestCode,
+              Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE);
         }
+        SkillUtils.reenableComponent(
+            activity, MediaControlHelperNotificationListenerService.class);
+      }
     }
+  }
 
-    @Override
-    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (!SkillUtils.isPermissionGrantedForNotificationListenerService(activity, MediaControlHelperNotificationListenerService.class)) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    activity.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-                } else {
-                    SkillUtils.requestPermission(activity, requestCode,
-                                                 Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE);
-                }
-                SkillUtils.reenableComponent(activity, MediaControlHelperNotificationListenerService.class);
-            }
-        }
-    }
+  @NonNull
+  @Override
+  public OperationDataFactory<MediaControlOperationData> dataFactory() {
+    return new MediaControlOperationDataFactory();
+  }
 
-    @NonNull
-    @Override
-    public OperationDataFactory<MediaControlOperationData> dataFactory() {
-        return new MediaControlOperationDataFactory();
+  @NonNull
+  @Override
+  public SkillView<MediaControlOperationData> view() {
+    return new MediaControlSkillViewFragment();
+  }
 
-    }
-
-    @NonNull
-    @Override
-    public SkillView<MediaControlOperationData> view() {
-        return new MediaControlSkillViewFragment();
-    }
-
-    @NonNull
-    @Override
-    public OperationLoader<MediaControlOperationData> loader(final @NonNull Context context) {
-        return new MediaControlLoader(context);
-    }
-
+  @NonNull
+  @Override
+  public OperationLoader<MediaControlOperationData>
+  loader(final @NonNull Context context) {
+    return new MediaControlLoader(context);
+  }
 }

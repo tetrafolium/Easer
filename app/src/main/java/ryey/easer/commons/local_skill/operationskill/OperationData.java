@@ -21,16 +21,13 @@ package ryey.easer.commons.local_skill.operationskill;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import java.util.Set;
-
 import ryey.easer.commons.local_skill.StorageData;
 import ryey.easer.commons.local_skill.dynamics.SolidDynamicsAssignment;
 
 public interface OperationData extends StorageData {
-    @Nullable
-    Set<String> placeholders();
+  @Nullable Set<String> placeholders();
 
-    @NonNull
-    OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment);
+  @NonNull
+  OperationData applyDynamics(SolidDynamicsAssignment dynamicsAssignment);
 }

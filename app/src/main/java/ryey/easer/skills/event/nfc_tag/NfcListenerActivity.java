@@ -22,25 +22,23 @@ package ryey.easer.skills.event.nfc_tag;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
-
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import ryey.easer.commons.ui.CommonBaseActivity;
 
 public class NfcListenerActivity extends CommonBaseActivity {
 
-    @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        String action = getIntent().getAction();
-        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)
-                || NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)
-                || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
-            Intent iIntent = new Intent(NfcListenerService.ACTION_NFC_SCANNED);
-            iIntent.putExtras(getIntent());
-            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(iIntent);
-        }
-        finish();
+  @Override
+  protected void onCreate(final Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    String action = getIntent().getAction();
+    if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action) ||
+        NfcAdapter.ACTION_TECH_DISCOVERED.equals(action) ||
+        NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
+      Intent iIntent = new Intent(NfcListenerService.ACTION_NFC_SCANNED);
+      iIntent.putExtras(getIntent());
+      LocalBroadcastManager.getInstance(getApplicationContext())
+          .sendBroadcast(iIntent);
     }
-
+    finish();
+  }
 }

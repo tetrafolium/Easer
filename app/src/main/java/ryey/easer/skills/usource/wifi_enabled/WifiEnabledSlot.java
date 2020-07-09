@@ -24,48 +24,51 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.skills.event.AbstractSlot;
 
 public class WifiEnabledSlot extends AbstractSlot<WifiEnabledUSourceData> {
 
-    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-            if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(intent.getAction())) {
-                int extraWifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, WifiManager.WIFI_STATE_UNKNOWN);
+  private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(final Context context, final Intent intent) {
+      if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(intent.getAction())) {
+        int extraWifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,
+                                                WifiManager.WIFI_STATE_UNKNOWN);
 
-                switch (extraWifiState)
-                {
-                case WifiManager.WIFI_STATE_DISABLED:
-                    changeSatisfiedState(!eventData.enabled);
-                    break;
-                case WifiManager.WIFI_STATE_ENABLED:
-                    changeSatisfiedState(eventData.enabled);
-                    break;
-                }
-            }
+        switch (extraWifiState) {
+        case WifiManager.WIFI_STATE_DISABLED:
+          changeSatisfiedState(!eventData.enabled);
+          break;
+        case WifiManager.WIFI_STATE_ENABLED:
+          changeSatisfiedState(eventData.enabled);
+          break;
         }
-    };
-    private final IntentFilter intentFilter = new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION);
-
-    WifiEnabledSlot(final @NonNull Context context, final @NonNull WifiEnabledUSourceData data) {
-        this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+      }
     }
+  };
+  private final IntentFilter intentFilter =
+      new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION);
 
-    public WifiEnabledSlot(final @NonNull Context context, final @NonNull WifiEnabledUSourceData data, final boolean retriggerable, final boolean persistent) {
-        super(context, data, retriggerable, persistent);
-    }
+  WifiEnabledSlot(final @NonNull Context context,
+                  final @NonNull WifiEnabledUSourceData data) {
+    this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+  }
 
-    @Override
-    public void listen() {
-        context.registerReceiver(broadcastReceiver, intentFilter);
-    }
+  public WifiEnabledSlot(final @NonNull Context context,
+                         final @NonNull WifiEnabledUSourceData data,
+                         final boolean retriggerable,
+                         final boolean persistent) {
+    super(context, data, retriggerable, persistent);
+  }
 
-    @Override
-    public void cancel() {
-        context.unregisterReceiver(broadcastReceiver);
-    }
+  @Override
+  public void listen() {
+    context.registerReceiver(broadcastReceiver, intentFilter);
+  }
+
+  @Override
+  public void cancel() {
+    context.unregisterReceiver(broadcastReceiver);
+  }
 }

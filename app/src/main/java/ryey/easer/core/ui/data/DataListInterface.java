@@ -20,7 +20,6 @@
 package ryey.easer.core.ui.data;
 
 import android.content.Intent;
-
 import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,21 +27,19 @@ import androidx.annotation.StringRes;
 
 public interface DataListInterface {
 
-    void registerContainer(@NonNull DataListContainerInterface container);
+  void registerContainer(@NonNull DataListContainerInterface container);
 
-    @NonNull
-    String title();
+  @NonNull String title();
 
-    @StringRes
-    int helpTextRes();
+  @StringRes int helpTextRes();
 
-    @MenuRes
-    @Nullable
-    default Integer extraMenu() {
-        return null;
-    }
+  @MenuRes
+  @Nullable
+  default Integer extraMenu() {
+    return null;
+  }
 
-    Intent intentForEditDataActivity();
+  Intent intentForEditDataActivity();
 
-    void onEditDataResultCallback(boolean success);
+  void onEditDataResultCallback(boolean success);
 }

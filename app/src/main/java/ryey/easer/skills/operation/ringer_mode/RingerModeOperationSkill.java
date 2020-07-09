@@ -25,10 +25,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.SkillView;
 import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
@@ -38,87 +36,96 @@ import ryey.easer.plugin.operation.Category;
 import ryey.easer.skills.SkillUtils;
 import ryey.easer.skills.operation.OperationLoader;
 
-public class RingerModeOperationSkill implements OperationSkill<RingerModeOperationData> {
+public class RingerModeOperationSkill
+    implements OperationSkill<RingerModeOperationData> {
 
-    @NonNull
-    @Override
-    public String id() {
-        return "ringer_mode";
+  @NonNull
+  @Override
+  public String id() {
+    return "ringer_mode";
+  }
+
+  @Override
+  public int name() {
+    return R.string.operation_ringer_mode;
+  }
+
+  @Override
+  public boolean isCompatible(@NonNull final Context context) {
+    return true;
+  }
+
+  @NonNull
+  @Override
+  public PrivilegeUsage privilege() {
+    return PrivilegeUsage.no_root;
+  }
+
+  @Override
+  public int maxExistence() {
+    return 0;
+  }
+
+  @NonNull
+  @Override
+  public Category category() {
+    return Category.system_config;
+  }
+
+  @Nullable
+  @Override
+  public Boolean checkPermissions(final @NonNull Context context) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+      return SkillUtils.checkPermission(
+          context, Manifest.permission.MODIFY_AUDIO_SETTINGS);
+    } else {
+      return SkillUtils.checkPermission(
+                 context, Manifest.permission.MODIFY_AUDIO_SETTINGS) &&
+          SkillUtils.isPermissionGrantedForNotificationListenerService(
+              context, InterruptionFilterSwitcherService.class);
     }
+  }
 
-    @Override
-    public int name() {
-        return R.string.operation_ringer_mode;
-    }
-
-    @Override
-    public boolean isCompatible(@NonNull final Context context) {
-        return true;
-    }
-
-    @NonNull
-    @Override
-    public PrivilegeUsage privilege() {
-        return PrivilegeUsage.no_root;
-    }
-
-    @Override
-    public int maxExistence() {
-        return 0;
-    }
-
-    @NonNull
-    @Override
-    public Category category() {
-        return Category.system_config;
-    }
-
-    @Nullable
-    @Override
-    public Boolean checkPermissions(final @NonNull Context context) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            return SkillUtils.checkPermission(context, Manifest.permission.MODIFY_AUDIO_SETTINGS);
-        } else {
-            return SkillUtils.checkPermission(context, Manifest.permission.MODIFY_AUDIO_SETTINGS)
-                   && SkillUtils.isPermissionGrantedForNotificationListenerService(
-                       context, InterruptionFilterSwitcherService.class);
+  @Override
+  public void requestPermissions(final @NonNull Activity activity,
+                                 final int requestCode) {
+    if (!SkillUtils.checkPermission(activity,
+                                    Manifest.permission.MODIFY_AUDIO_SETTINGS))
+      SkillUtils.requestPermission(activity, requestCode,
+                                   Manifest.permission.MODIFY_AUDIO_SETTINGS);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      if (!SkillUtils.isPermissionGrantedForNotificationListenerService(
+              activity, InterruptionFilterSwitcherService.class)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+          activity.startActivity(
+              new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+          SkillUtils.requestPermission(
+              activity, requestCode,
+              Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE);
         }
+        SkillUtils.reenableComponent(activity,
+                                     InterruptionFilterSwitcherService.class);
+      }
     }
+  }
 
-    @Override
-    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
-        if (!SkillUtils.checkPermission(activity, Manifest.permission.MODIFY_AUDIO_SETTINGS))
-            SkillUtils.requestPermission(activity, requestCode, Manifest.permission.MODIFY_AUDIO_SETTINGS);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (!SkillUtils.isPermissionGrantedForNotificationListenerService(activity, InterruptionFilterSwitcherService.class)) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    activity.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    SkillUtils.requestPermission(activity, requestCode,
-                                                 Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE);
-                }
-                SkillUtils.reenableComponent(activity, InterruptionFilterSwitcherService.class);
-            }
-        }
-    }
+  @NonNull
+  @Override
+  public OperationDataFactory<RingerModeOperationData> dataFactory() {
+    return new RingerModeOperationDataFactory();
+  }
 
-    @NonNull
-    @Override
-    public OperationDataFactory<RingerModeOperationData> dataFactory() {
-        return new RingerModeOperationDataFactory();
+  @NonNull
+  @Override
+  public SkillView<RingerModeOperationData> view() {
+    return new RingerModeSkillViewFragment();
+  }
 
-    }
-
-    @NonNull
-    @Override
-    public SkillView<RingerModeOperationData> view() {
-        return new RingerModeSkillViewFragment();
-    }
-
-    @NonNull
-    @Override
-    public OperationLoader<RingerModeOperationData> loader(final @NonNull Context context) {
-        return new RingerModeLoader(context);
-    }
-
+  @NonNull
+  @Override
+  public OperationLoader<RingerModeOperationData>
+  loader(final @NonNull Context context) {
+    return new RingerModeLoader(context);
+  }
 }

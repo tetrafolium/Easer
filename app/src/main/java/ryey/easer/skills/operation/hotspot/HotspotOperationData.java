@@ -21,36 +21,31 @@ package ryey.easer.skills.operation.hotspot;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.plugin.PluginDataFormat;
 import ryey.easer.skills.operation.BooleanOperationData;
 
 public class HotspotOperationData extends BooleanOperationData {
 
-    HotspotOperationData(final Boolean state) {
-        super(state);
-    }
+  HotspotOperationData(final Boolean state) { super(state); }
 
-    HotspotOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        super(data, format, version);
-    }
+  HotspotOperationData(final @NonNull String data,
+                       final @NonNull PluginDataFormat format,
+                       final int version) throws IllegalStorageDataException {
+    super(data, format, version);
+  }
 
-    public static final Parcelable.Creator<HotspotOperationData> CREATOR
-    = new Parcelable.Creator<HotspotOperationData>() {
+  public static final Parcelable.Creator<HotspotOperationData> CREATOR =
+      new Parcelable.Creator<HotspotOperationData>() {
         public HotspotOperationData createFromParcel(final Parcel in) {
-            return new HotspotOperationData(in);
+          return new HotspotOperationData(in);
         }
 
         public HotspotOperationData[] newArray(final int size) {
-            return new HotspotOperationData[size];
+          return new HotspotOperationData[size];
         }
-    };
+      };
 
-    private HotspotOperationData(final Parcel in) {
-        super(in);
-    }
-
+  private HotspotOperationData(final Parcel in) { super(in); }
 }

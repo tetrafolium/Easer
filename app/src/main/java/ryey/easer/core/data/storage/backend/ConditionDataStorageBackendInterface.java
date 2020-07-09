@@ -21,5 +21,5 @@ package ryey.easer.core.data.storage.backend;
 
 import ryey.easer.core.data.ConditionStructure;
 
-public interface ConditionDataStorageBackendInterface extends DataStorageBackendCommonInterface<ConditionStructure> {
-}
+public interface ConditionDataStorageBackendInterface
+    extends DataStorageBackendCommonInterface<ConditionStructure> {}

@@ -24,47 +24,50 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import java.util.Calendar;
-
 import ryey.easer.commons.local_skill.InvalidDataInputException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillViewFragment;
 
 @Deprecated
-public class DateEventSkillViewFragment extends SkillViewFragment<DateUSourceData> {
-    private DatePicker datePicker;
+public class DateEventSkillViewFragment
+    extends SkillViewFragment<DateUSourceData> {
+  private DatePicker datePicker;
 
-    @NonNull
-    @Override
-    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
-        datePicker = new DatePicker(getContext());
-        return datePicker;
-    }
+  @NonNull
+  @Override
+  public View onCreateView(final @NonNull LayoutInflater inflater,
+                           final @Nullable ViewGroup container,
+                           final @Nullable Bundle savedInstanceState) {
+    datePicker = new DatePicker(getContext());
+    return datePicker;
+  }
 
-    private static Calendar fromDatePicker(final DatePicker datePicker) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
-        return calendar;
-    }
+  private static Calendar fromDatePicker(final DatePicker datePicker) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.set(datePicker.getYear(), datePicker.getMonth(),
+                 datePicker.getDayOfMonth());
+    return calendar;
+  }
 
-    private static void setDatePicker(final DatePicker datePicker, final Calendar calendar) {
-        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH), null);
-    }
+  private static void setDatePicker(final DatePicker datePicker,
+                                    final Calendar calendar) {
+    datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH), null);
+  }
 
-    @Override
-    protected void _fill(final @ValidData @NonNull DateUSourceData data) {
-        setDatePicker(datePicker, data.date);
-    }
+  @Override
+  protected void _fill(final @ValidData @NonNull DateUSourceData data) {
+    setDatePicker(datePicker, data.date);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public DateUSourceData getData() throws InvalidDataInputException {
-        return new DateUSourceData(fromDatePicker(datePicker), DateUSourceData.Rel.after);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public DateUSourceData getData() throws InvalidDataInputException {
+    return new DateUSourceData(fromDatePicker(datePicker),
+                               DateUSourceData.Rel.after);
+  }
 }

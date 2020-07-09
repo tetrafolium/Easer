@@ -26,55 +26,57 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
-
 import ryey.easer.skills.event.AbstractSlot;
 
 public class HeadsetSlot extends AbstractSlot<HeadsetUSourceData> {
-    private static final String expected_action;
+  private static final String expected_action;
 
-    static {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            expected_action = Intent.ACTION_HEADSET_PLUG;
-        } else {
-            expected_action = AudioManager.ACTION_HEADSET_PLUG;
-        }
+  static {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+      expected_action = Intent.ACTION_HEADSET_PLUG;
+    } else {
+      expected_action = AudioManager.ACTION_HEADSET_PLUG;
     }
+  }
 
-    private final IntentFilter mFilter = new IntentFilter(expected_action);
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-            final Bundle extras = intent.getExtras();
-            if (expected_action.equals(intent.getAction()) && extras != null) {
-                final int state = extras.getInt("state");
-                final int microphone = extras.getInt("microphone");
-                final boolean match = determine_match(eventData, state == 1, microphone == 1);
-                changeSatisfiedState(match);
-            }
-        }
-    };
-
-    HeadsetSlot(final Context context, final HeadsetUSourceData data) {
-        this(context, data, true, PERSISTENT_DEFAULT);
-    }
-
-    HeadsetSlot(final Context context, final HeadsetUSourceData data, final boolean retriggerable, final boolean persistent) {
-        super(context, data, retriggerable, persistent);
-    }
-
+  private final IntentFilter mFilter = new IntentFilter(expected_action);
+  private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
     @Override
-    public void listen() {
-        context.registerReceiver(mReceiver, mFilter);
+    public void onReceive(final Context context, final Intent intent) {
+      final Bundle extras = intent.getExtras();
+      if (expected_action.equals(intent.getAction()) && extras != null) {
+        final int state = extras.getInt("state");
+        final int microphone = extras.getInt("microphone");
+        final boolean match =
+            determine_match(eventData, state == 1, microphone == 1);
+        changeSatisfiedState(match);
+      }
     }
+  };
 
-    @Override
-    public void cancel() {
-        context.unregisterReceiver(mReceiver);
-    }
+  HeadsetSlot(final Context context, final HeadsetUSourceData data) {
+    this(context, data, true, PERSISTENT_DEFAULT);
+  }
 
-    private static boolean determine_match(final HeadsetUSourceData eventData, final boolean plug_in, final boolean has_microphone) {
-        //noinspection ConstantConditions
-        return HeadsetTracker.determine_match(eventData, plug_in, has_microphone);
-    }
+  HeadsetSlot(final Context context, final HeadsetUSourceData data,
+              final boolean retriggerable, final boolean persistent) {
+    super(context, data, retriggerable, persistent);
+  }
 
+  @Override
+  public void listen() {
+    context.registerReceiver(mReceiver, mFilter);
+  }
+
+  @Override
+  public void cancel() {
+    context.unregisterReceiver(mReceiver);
+  }
+
+  private static boolean determine_match(final HeadsetUSourceData eventData,
+                                         final boolean plug_in,
+                                         final boolean has_microphone) {
+    // noinspection ConstantConditions
+    return HeadsetTracker.determine_match(eventData, plug_in, has_microphone);
+  }
 }

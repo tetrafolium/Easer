@@ -20,7 +20,7 @@
 package ryey.easer.commons.local_skill.operationskill;
 
 public enum PrivilegeUsage {
-    no_root,
-    prefer_root,
-    root_only,
+  no_root,
+  prefer_root,
+  root_only,
 }

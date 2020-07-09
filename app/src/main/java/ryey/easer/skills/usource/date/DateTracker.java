@@ -22,41 +22,41 @@ package ryey.easer.skills.usource.date;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
-
 import androidx.annotation.NonNull;
-
 import java.util.Calendar;
-
 import ryey.easer.skills.condition.SelfNotifiableSkeletonTracker;
 
-public class DateTracker extends SelfNotifiableSkeletonTracker<DateUSourceData> {
-    private static AlarmManager mAlarmManager;
+public class DateTracker
+    extends SelfNotifiableSkeletonTracker<DateUSourceData> {
+  private static AlarmManager mAlarmManager;
 
-    DateTracker(final Context context, final DateUSourceData data,
-                final @NonNull PendingIntent event_positive,
-                final @NonNull PendingIntent event_negative) {
-        super(context, data, event_positive, event_negative);
+  DateTracker(final Context context, final DateUSourceData data,
+              final @NonNull PendingIntent event_positive,
+              final @NonNull PendingIntent event_negative) {
+    super(context, data, event_positive, event_negative);
 
-        if (mAlarmManager == null)
-            mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+    if (mAlarmManager == null)
+      mAlarmManager =
+          (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 
-        Calendar cal = Calendar.getInstance();
-        if (cal.get(Calendar.DAY_OF_YEAR) >= data.date.get(Calendar.DAY_OF_YEAR)) {
-            newSatisfiedState(true);
-        } else {
-            newSatisfiedState(false);
-        }
+    Calendar cal = Calendar.getInstance();
+    if (cal.get(Calendar.DAY_OF_YEAR) >= data.date.get(Calendar.DAY_OF_YEAR)) {
+      newSatisfiedState(true);
+    } else {
+      newSatisfiedState(false);
     }
+  }
 
-    @Override
-    public void start() {
-        mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, data.date.getTimeInMillis(),
-                                          AlarmManager.INTERVAL_DAY, notifySelfIntent_positive);
-    }
+  @Override
+  public void start() {
+    mAlarmManager.setInexactRepeating(
+        AlarmManager.RTC_WAKEUP, data.date.getTimeInMillis(),
+        AlarmManager.INTERVAL_DAY, notifySelfIntent_positive);
+  }
 
-    @Override
-    public void stop() {
-        mAlarmManager.cancel(notifySelfIntent_positive);
-        mAlarmManager.cancel(notifySelfIntent_negative);
-    }
+  @Override
+  public void stop() {
+    mAlarmManager.cancel(notifySelfIntent_positive);
+    mAlarmManager.cancel(notifySelfIntent_negative);
+  }
 }

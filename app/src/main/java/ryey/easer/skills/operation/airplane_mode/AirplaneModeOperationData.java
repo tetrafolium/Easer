@@ -21,36 +21,32 @@ package ryey.easer.skills.operation.airplane_mode;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.plugin.PluginDataFormat;
 import ryey.easer.skills.operation.BooleanOperationData;
 
 public class AirplaneModeOperationData extends BooleanOperationData {
 
-    AirplaneModeOperationData(final Boolean state) {
-        super(state);
-    }
+  AirplaneModeOperationData(final Boolean state) { super(state); }
 
-    AirplaneModeOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        super(data, format, version);
-    }
+  AirplaneModeOperationData(final @NonNull String data,
+                            final @NonNull PluginDataFormat format,
+                            final int version)
+      throws IllegalStorageDataException {
+    super(data, format, version);
+  }
 
-    public static final Parcelable.Creator<AirplaneModeOperationData> CREATOR
-    = new Parcelable.Creator<AirplaneModeOperationData>() {
+  public static final Parcelable.Creator<AirplaneModeOperationData> CREATOR =
+      new Parcelable.Creator<AirplaneModeOperationData>() {
         public AirplaneModeOperationData createFromParcel(final Parcel in) {
-            return new AirplaneModeOperationData(in);
+          return new AirplaneModeOperationData(in);
         }
 
         public AirplaneModeOperationData[] newArray(final int size) {
-            return new AirplaneModeOperationData[size];
+          return new AirplaneModeOperationData[size];
         }
-    };
+      };
 
-    private AirplaneModeOperationData(final Parcel in) {
-        super(in);
-    }
-
+  private AirplaneModeOperationData(final Parcel in) { super(in); }
 }

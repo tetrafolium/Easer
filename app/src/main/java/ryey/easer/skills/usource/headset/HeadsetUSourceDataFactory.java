@@ -20,32 +20,35 @@
 package ryey.easer.skills.usource.headset;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.usource.USourceDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
-class HeadsetUSourceDataFactory implements USourceDataFactory<HeadsetUSourceData> {
-    @NonNull
-    @Override
-    public Class<HeadsetUSourceData> dataClass() {
-        return HeadsetUSourceData.class;
-    }
+class HeadsetUSourceDataFactory
+    implements USourceDataFactory<HeadsetUSourceData> {
+  @NonNull
+  @Override
+  public Class<HeadsetUSourceData> dataClass() {
+    return HeadsetUSourceData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public HeadsetUSourceData dummyData() {
-        return new HeadsetUSourceData(
-                   HeadsetUSourceData.HeadsetState.plug_in,
-                   HeadsetUSourceData.HeadsetType.without_microphone);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public HeadsetUSourceData dummyData() {
+    return new HeadsetUSourceData(
+        HeadsetUSourceData.HeadsetState.plug_in,
+        HeadsetUSourceData.HeadsetType.without_microphone);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public HeadsetUSourceData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new HeadsetUSourceData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public HeadsetUSourceData parse(final @NonNull String data,
+                                  final @NonNull PluginDataFormat format,
+                                  final int version)
+      throws IllegalStorageDataException {
+    return new HeadsetUSourceData(data, format, version);
+  }
 }

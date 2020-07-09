@@ -27,179 +27,185 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.DialogFragment;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.Skill;
 import ryey.easer.commons.local_skill.SourceCategory;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-public abstract class SourceSelectorDialogFragment<S extends Skill & SourceCategory.Categorized> extends DialogFragment {
+public abstract class SourceSelectorDialogFragment<
+    S extends Skill & SourceCategory.Categorized> extends DialogFragment {
 
-    private SelectedListener<S> selectedListener = null;
+  private SelectedListener<S> selectedListener = null;
 
-    private List<SkillItemWrapper<S>> availableLocalPluginList;
+  private List<SkillItemWrapper<S>> availableLocalPluginList;
 
-    @StringRes protected abstract int titleRes();
-    protected abstract List<S> skillList();
+  @StringRes protected abstract int titleRes();
+  protected abstract List<S> skillList();
 
-    @Nullable
+  @Nullable
+  @Override
+  public View onCreateView(final @NonNull LayoutInflater inflater,
+                           final @Nullable ViewGroup container,
+                           final @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.fragment_dialog_select_skill,
+                                 container, false);
+    {
+      TextView tvTitle = view.findViewById(android.R.id.title);
+      tvTitle.setText(titleRes());
+    }
+    StickyListHeadersListView list = view.findViewById(android.R.id.list);
+    List<S> localSkillList = skillList();
+    availableLocalPluginList = new ArrayList<>(localSkillList.size());
+    for (S operationSkill : localSkillList) {
+      availableLocalPluginList.add(new SkillItemWrapper<>(
+          operationSkill.id(), operationSkill.view().desc(getResources()),
+          operationSkill.category(), operationSkill));
+    }
+    PluginListAdapter adapter =
+        new PluginListAdapter(getContext(), availableLocalPluginList);
+    list.setAdapter(adapter);
+    list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override
+      public void onItemClick(final AdapterView<?> parent, final View view,
+                              final int position, final long id) {
+        SkillItemWrapper<S> skillItemWrapper =
+            (SkillItemWrapper<S>)parent.getItemAtPosition(position);
+        if (!skillItemWrapper.isRemote()) {
+          S plugin = skillItemWrapper.skill;
+          if (plugin.checkPermissions(getContext()) != Boolean.FALSE) {
+            selectedListener.onSelected(skillItemWrapper);
+            dismiss();
+          } else {
+            plugin.requestPermissions(getActivity(), 0);
+          }
+        } else {
+          selectedListener.onSelected(skillItemWrapper);
+          dismiss();
+        }
+      }
+    });
+    return view;
+  }
+
+  public void setSelectedListener(final SelectedListener<S> listener) {
+    this.selectedListener = listener;
+  }
+
+  public interface SelectedListener<S extends Skill> {
+    void onSelected(SkillItemWrapper<S> skillItemWrapper);
+  }
+
+  public static class SkillItemWrapper<S extends Skill> {
+    @NonNull public final String id;
+    @NonNull public final String name;
+    @NonNull public final SourceCategory category;
+    @Nullable public final S skill;
+    SkillItemWrapper(final @NonNull String id, final @NonNull String name,
+                     final @NonNull SourceCategory category,
+                     final @Nullable S skill) {
+      this.id = id;
+      this.name = name;
+      this.category = category;
+      this.skill = skill;
+    }
+    public boolean isRemote() { return skill == null; }
+    public String toString() { return name; }
+  }
+
+  public class PluginListAdapter
+      extends BaseAdapter implements StickyListHeadersAdapter {
+
+    private final List<SkillItemWrapper<S>> operationList = new ArrayList<>();
+    private LayoutInflater inflater;
+
+    PluginListAdapter(final Context context,
+                      final List<SkillItemWrapper<S>> originalList) {
+      inflater = LayoutInflater.from(context);
+      this.operationList.addAll(originalList);
+      Collections.sort(operationList, new Comparator<SkillItemWrapper<S>>() {
+        @Override
+        public int compare(final SkillItemWrapper<S> skillItemWrapper,
+                           final SkillItemWrapper<S> t1) {
+          return skillItemWrapper.category.ordinal() - t1.category.ordinal();
+        }
+      });
+    }
+
     @Override
-    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_dialog_select_skill, container, false);
-        {
-            TextView tvTitle = view.findViewById(android.R.id.title);
-            tvTitle.setText(titleRes());
-        }
-        StickyListHeadersListView list = view.findViewById(android.R.id.list);
-        List<S> localSkillList = skillList();
-        availableLocalPluginList = new ArrayList<>(localSkillList.size());
-        for (S operationSkill : localSkillList) {
-            availableLocalPluginList.add(new SkillItemWrapper<>(operationSkill.id(),
-                                         operationSkill.view().desc(getResources()),
-                                         operationSkill.category(),
-                                         operationSkill)
-                                        );
-        }
-        PluginListAdapter adapter = new PluginListAdapter(getContext(), availableLocalPluginList);
-        list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                SkillItemWrapper<S> skillItemWrapper = (SkillItemWrapper<S>) parent.getItemAtPosition(position);
-                if (!skillItemWrapper.isRemote()) {
-                    S plugin = skillItemWrapper.skill;
-                    if (plugin.checkPermissions(getContext()) != Boolean.FALSE) {
-                        selectedListener.onSelected(skillItemWrapper);
-                        dismiss();
-                    } else {
-                        plugin.requestPermissions(getActivity(), 0);
-                    }
-                } else {
-                    selectedListener.onSelected(skillItemWrapper);
-                    dismiss();
-                }
-            }
-        });
-        return view;
+    public int getCount() {
+      return operationList.size();
     }
 
-    public void setSelectedListener(final SelectedListener<S> listener) {
-        this.selectedListener = listener;
+    @Override
+    public Object getItem(final int position) {
+      return operationList.get(position);
     }
 
-    public interface SelectedListener<S extends Skill> {
-        void onSelected(SkillItemWrapper<S> skillItemWrapper);
+    @Override
+    public long getItemId(final int position) {
+      return position;
     }
 
-    public static class SkillItemWrapper<S extends Skill> {
-        @NonNull public final String id;
-        @NonNull public final String name;
-        @NonNull public final SourceCategory category;
-        @Nullable public final S skill;
-        SkillItemWrapper(final @NonNull String id, final @NonNull String name, final @NonNull SourceCategory category, final @Nullable S skill) {
-            this.id = id;
-            this.name = name;
-            this.category = category;
-            this.skill = skill;
-        }
-        public boolean isRemote() {
-            return skill == null;
-        }
-        public String toString() {
-            return name;
-        }
+    @Override
+    public View getView(final int position, final View convertView,
+                        final ViewGroup parent) {
+      ViewHolder holder;
+
+      if (convertView == null) {
+        holder = new ViewHolder();
+        convertView = inflater.inflate(R.layout.item_operation, parent, false);
+        holder.text = convertView.findViewById(R.id.tv_operation_name);
+        convertView.setTag(holder);
+      } else {
+        holder = (ViewHolder)convertView.getTag();
+      }
+
+      holder.text.setText(operationList.get(position).name);
+
+      return convertView;
     }
 
-    public class PluginListAdapter extends BaseAdapter implements StickyListHeadersAdapter {
-
-        private final List<SkillItemWrapper<S>> operationList = new ArrayList<>();
-        private LayoutInflater inflater;
-
-        PluginListAdapter(final Context context, final List<SkillItemWrapper<S>> originalList) {
-            inflater = LayoutInflater.from(context);
-            this.operationList.addAll(originalList);
-            Collections.sort(operationList, new Comparator<SkillItemWrapper<S>>() {
-                @Override
-                public int compare(final SkillItemWrapper<S> skillItemWrapper, final SkillItemWrapper<S> t1) {
-                    return skillItemWrapper.category.ordinal() - t1.category.ordinal();
-                }
-            });
-        }
-
-        @Override
-        public int getCount() {
-            return operationList.size();
-        }
-
-        @Override
-        public Object getItem(final int position) {
-            return operationList.get(position);
-        }
-
-        @Override
-        public long getItemId(final int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, final View convertView, final ViewGroup parent) {
-            ViewHolder holder;
-
-            if (convertView == null) {
-                holder = new ViewHolder();
-                convertView = inflater.inflate(R.layout.item_operation, parent, false);
-                holder.text = convertView.findViewById(R.id.tv_operation_name);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            holder.text.setText(operationList.get(position).name);
-
-            return convertView;
-        }
-
-        @Override
-        public View getHeaderView(final int position, final View convertView, final ViewGroup parent) {
-            HeaderViewHolder holder;
-            if (convertView == null) {
-                holder = new HeaderViewHolder();
-                convertView = inflater.inflate(R.layout.item_header, parent, false);
-                holder.text = convertView.findViewById(R.id.text);
-                convertView.setTag(holder);
-            } else {
-                holder = (HeaderViewHolder) convertView.getTag();
-            }
-            //set header text as first char in name
-            String headerText = operationList.get(position).category.toString(getResources());
-            holder.text.setText(headerText);
-            return convertView;
-        }
-
-        @Override
-        public long getHeaderId(final int position) {
-            //return the first character of the country as ID because this is what headers are based upon
-            return operationList.get(position).category.ordinal();
-        }
-
-        class HeaderViewHolder {
-            TextView text;
-        }
-
-        class ViewHolder {
-            TextView text;
-        }
-
+    @Override
+    public View getHeaderView(final int position, final View convertView,
+                              final ViewGroup parent) {
+      HeaderViewHolder holder;
+      if (convertView == null) {
+        holder = new HeaderViewHolder();
+        convertView = inflater.inflate(R.layout.item_header, parent, false);
+        holder.text = convertView.findViewById(R.id.text);
+        convertView.setTag(holder);
+      } else {
+        holder = (HeaderViewHolder)convertView.getTag();
+      }
+      // set header text as first char in name
+      String headerText =
+          operationList.get(position).category.toString(getResources());
+      holder.text.setText(headerText);
+      return convertView;
     }
+
+    @Override
+    public long getHeaderId(final int position) {
+      // return the first character of the country as ID because this is what
+      // headers are based upon
+      return operationList.get(position).category.ordinal();
+    }
+
+    class HeaderViewHolder {
+      TextView text;
+    }
+
+    class ViewHolder {
+      TextView text;
+    }
+  }
 }

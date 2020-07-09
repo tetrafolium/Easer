@@ -20,103 +20,99 @@
 package ryey.easer.skills.event.widget;
 
 import android.os.Parcel;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.dynamics.Dynamics;
-import ryey.easer.skills.event.AbstractEventData;
 import ryey.easer.plugin.PluginDataFormat;
+import ryey.easer.skills.event.AbstractEventData;
 
 public class WidgetEventData extends AbstractEventData {
 
-    private final String K_WIDGET_TAG = "ryey.easer.skills.event.widget.KEY.WIDGET_TAG";
+  private final String K_WIDGET_TAG =
+      "ryey.easer.skills.event.widget.KEY.WIDGET_TAG";
 
-    final String widgetTag;
+  final String widgetTag;
 
-    WidgetEventData(final String widgetTag) {
-        this.widgetTag = widgetTag;
+  WidgetEventData(final String widgetTag) { this.widgetTag = widgetTag; }
+
+  WidgetEventData(final @NonNull String data,
+                  final @NonNull PluginDataFormat format, final int version)
+      throws IllegalStorageDataException {
+    switch (format) {
+    case JSON:
+    default:
+      try {
+        JSONObject jsonObject = new JSONObject(data);
+        widgetTag = jsonObject.getString(K_WIDGET_TAG);
+      } catch (JSONException e) {
+        throw new IllegalStorageDataException(e);
+      }
     }
+  }
 
-    WidgetEventData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        switch (format) {
-        case JSON:
-        default:
-            try {
-                JSONObject jsonObject = new JSONObject(data);
-                widgetTag = jsonObject.getString(K_WIDGET_TAG);
-            } catch (JSONException e) {
-                throw new IllegalStorageDataException(e);
-            }
-        }
+  @NonNull
+  @Override
+  public String serialize(final @NonNull PluginDataFormat format) {
+    String res = "";
+    switch (format) {
+    case JSON:
+    default:
+      try {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(K_WIDGET_TAG, widgetTag);
+        res = jsonObject.toString();
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
     }
+    return res;
+  }
 
-    @NonNull
-    @Override
-    public String serialize(final @NonNull PluginDataFormat format) {
-        String res = "";
-        switch (format) {
-        case JSON:
-        default:
-            try {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put(K_WIDGET_TAG, widgetTag);
-                res = jsonObject.toString();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return res;
-    }
+  @Nullable
+  @Override
+  public Dynamics[] dynamics() {
+    return null;
+  }
 
-    @Nullable
-    @Override
-    public Dynamics[] dynamics() {
-        return null;
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean isValid() {
+    return true;
+  }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean isValid() {
-        return true;
-    }
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean equals(final Object obj) {
+    if (!(obj instanceof WidgetEventData))
+      return false;
+    if (!widgetTag.equals(((WidgetEventData)obj).widgetTag))
+      return false;
+    return true;
+  }
 
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean equals(final Object obj) {
-        if (!(obj instanceof WidgetEventData))
-            return false;
-        if (!widgetTag.equals(((WidgetEventData) obj).widgetTag))
-            return false;
-        return true;
-    }
+  @Override
+  public int describeContents() {
+    return 0;
+  }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+  @Override
+  public void writeToParcel(final Parcel dest, final int flags) {
+    dest.writeString(widgetTag);
+  }
 
-    @Override
-    public void writeToParcel(final Parcel dest, final int flags) {
-        dest.writeString(widgetTag);
-    }
-
-    public static final Creator<WidgetEventData> CREATOR
-    = new Creator<WidgetEventData>() {
+  public static final Creator<WidgetEventData> CREATOR =
+      new Creator<WidgetEventData>() {
         public WidgetEventData createFromParcel(final Parcel in) {
-            return new WidgetEventData(in);
+          return new WidgetEventData(in);
         }
 
         public WidgetEventData[] newArray(final int size) {
-            return new WidgetEventData[size];
+          return new WidgetEventData[size];
         }
-    };
+      };
 
-    private WidgetEventData(final Parcel in) {
-        widgetTag = in.readString();
-    }
+  private WidgetEventData(final Parcel in) { widgetTag = in.readString(); }
 }

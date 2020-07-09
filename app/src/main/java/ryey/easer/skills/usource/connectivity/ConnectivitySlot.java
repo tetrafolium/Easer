@@ -19,17 +19,6 @@
 
 package ryey.easer.skills.usource.connectivity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-
-import java.util.Set;
-
-import ryey.easer.skills.event.AbstractSlot;
-
 import static ryey.easer.skills.usource.connectivity.ConnectivityType.TYPE_BLUETOOTH;
 import static ryey.easer.skills.usource.connectivity.ConnectivityType.TYPE_ETHERNET;
 import static ryey.easer.skills.usource.connectivity.ConnectivityType.TYPE_MOBILE;
@@ -37,76 +26,88 @@ import static ryey.easer.skills.usource.connectivity.ConnectivityType.TYPE_NOT_C
 import static ryey.easer.skills.usource.connectivity.ConnectivityType.TYPE_VPN;
 import static ryey.easer.skills.usource.connectivity.ConnectivityType.TYPE_WIFI;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import java.util.Set;
+import ryey.easer.skills.event.AbstractSlot;
+
 class ConnectivitySlot extends AbstractSlot<ConnectivityEventData> {
 
-    private Set<Integer> connectivity_types;
+  private Set<Integer> connectivity_types;
 
-    private final BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-            switch (intent.getAction()) {
-            case ConnectivityManager.CONNECTIVITY_ACTION:
-                checkConnectivity();
-                break;
-            }
-        }
-    };
-    private final IntentFilter filter;
-
-    {
-        filter = new IntentFilter();
-        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-    }
-
-    public ConnectivitySlot(final Context context, final ConnectivityEventData data) {
-        this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
-    }
-
-    ConnectivitySlot(final Context context, final ConnectivityEventData data, final boolean retriggerable, final boolean persistent) {
-        super(context, data, retriggerable, persistent);
-        connectivity_types = data.connectivity_type;
-    }
-
+  private final BroadcastReceiver receiver = new BroadcastReceiver() {
     @Override
-    public void listen() {
-        context.registerReceiver(receiver, filter);
+    public void onReceive(final Context context, final Intent intent) {
+      switch (intent.getAction()) {
+      case ConnectivityManager.CONNECTIVITY_ACTION:
+        checkConnectivity();
+        break;
+      }
     }
+  };
+  private final IntentFilter filter;
 
-    @Override
-    public void cancel() {
-        context.unregisterReceiver(receiver);
-    }
+  {
+    filter = new IntentFilter();
+    filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+  }
 
-    private void checkConnectivity() {
-        ConnectivityManager connectivityManager
-            = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        determineAndNotify(convertType(activeNetworkInfo));
-    }
+  public ConnectivitySlot(final Context context,
+                          final ConnectivityEventData data) {
+    this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+  }
 
-    private int convertType(final NetworkInfo activeNetworkInfo) {
-        if (activeNetworkInfo == null) {
-            return TYPE_NOT_CONNECTED;
-        }
-        switch (activeNetworkInfo.getType()) {
-        case ConnectivityManager.TYPE_WIFI:
-            return TYPE_WIFI;
-        case ConnectivityManager.TYPE_MOBILE:
-            return TYPE_MOBILE;
-        case ConnectivityManager.TYPE_ETHERNET:
-            return TYPE_ETHERNET;
-        case ConnectivityManager.TYPE_BLUETOOTH:
-            return TYPE_BLUETOOTH;
-        case ConnectivityManager.TYPE_VPN:
-            return TYPE_VPN;
-        }
-        return -1;
-    }
+  ConnectivitySlot(final Context context, final ConnectivityEventData data,
+                   final boolean retriggerable, final boolean persistent) {
+    super(context, data, retriggerable, persistent);
+    connectivity_types = data.connectivity_type;
+  }
 
-    private void determineAndNotify(final int networkType) {
-        if (connectivity_types.contains(networkType))
-            changeSatisfiedState(true);
-        else
-            changeSatisfiedState(false);
+  @Override
+  public void listen() {
+    context.registerReceiver(receiver, filter);
+  }
+
+  @Override
+  public void cancel() {
+    context.unregisterReceiver(receiver);
+  }
+
+  private void checkConnectivity() {
+    ConnectivityManager connectivityManager =
+        (ConnectivityManager)context.getSystemService(
+            Context.CONNECTIVITY_SERVICE);
+    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+    determineAndNotify(convertType(activeNetworkInfo));
+  }
+
+  private int convertType(final NetworkInfo activeNetworkInfo) {
+    if (activeNetworkInfo == null) {
+      return TYPE_NOT_CONNECTED;
     }
+    switch (activeNetworkInfo.getType()) {
+    case ConnectivityManager.TYPE_WIFI:
+      return TYPE_WIFI;
+    case ConnectivityManager.TYPE_MOBILE:
+      return TYPE_MOBILE;
+    case ConnectivityManager.TYPE_ETHERNET:
+      return TYPE_ETHERNET;
+    case ConnectivityManager.TYPE_BLUETOOTH:
+      return TYPE_BLUETOOTH;
+    case ConnectivityManager.TYPE_VPN:
+      return TYPE_VPN;
+    }
+    return -1;
+  }
+
+  private void determineAndNotify(final int networkType) {
+    if (connectivity_types.contains(networkType))
+      changeSatisfiedState(true);
+    else
+      changeSatisfiedState(false);
+  }
 }

@@ -23,10 +23,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.SkillView;
 import ryey.easer.commons.local_skill.SourceCategory;
@@ -38,65 +36,79 @@ import ryey.easer.commons.local_skill.usource.USourceSkill;
 import ryey.easer.skills.SkillUtils;
 import ryey.easer.skills.event.AbstractSlot;
 
-public class ConnectivityUSourceSkill implements USourceSkill<ConnectivityEventData> {
+public class ConnectivityUSourceSkill
+    implements USourceSkill<ConnectivityEventData> {
 
-    @NonNull
-    @Override
-    public String id() {
-        return "connectivity";
-    }
+  @NonNull
+  @Override
+  public String id() {
+    return "connectivity";
+  }
 
-    @Override
-    public int name() {
-        return R.string.usource_connectivity;
-    }
+  @Override
+  public int name() {
+    return R.string.usource_connectivity;
+  }
 
-    @Override
-    public boolean isCompatible(@NonNull final Context context) {
-        return true;
-    }
+  @Override
+  public boolean isCompatible(@NonNull final Context context) {
+    return true;
+  }
 
-    @Nullable
-    @Override
-    public Boolean checkPermissions(final @NonNull Context context) {
-        return SkillUtils.checkPermission(context, Manifest.permission.ACCESS_NETWORK_STATE);
-    }
+  @Nullable
+  @Override
+  public Boolean checkPermissions(final @NonNull Context context) {
+    return SkillUtils.checkPermission(context,
+                                      Manifest.permission.ACCESS_NETWORK_STATE);
+  }
 
-    @Override
-    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
-        SkillUtils.requestPermission(activity, requestCode, Manifest.permission.ACCESS_NETWORK_STATE);
-    }
+  @Override
+  public void requestPermissions(final @NonNull Activity activity,
+                                 final int requestCode) {
+    SkillUtils.requestPermission(activity, requestCode,
+                                 Manifest.permission.ACCESS_NETWORK_STATE);
+  }
 
-    @NonNull
-    @Override
-    public USourceDataFactory<ConnectivityEventData> dataFactory() {
-        return new ConnectivityEventDataFactory();
-    }
+  @NonNull
+  @Override
+  public USourceDataFactory<ConnectivityEventData> dataFactory() {
+    return new ConnectivityEventDataFactory();
+  }
 
-    @NonNull
-    @Override
-    public SourceCategory category() {
-        return SourceCategory.device;
-    }
+  @NonNull
+  @Override
+  public SourceCategory category() {
+    return SourceCategory.device;
+  }
 
-    @NonNull
-    @Override
-    public SkillView<ConnectivityEventData> view() {
-        return new ConnectivitySkillViewFragment();
-    }
+  @NonNull
+  @Override
+  public SkillView<ConnectivityEventData> view() {
+    return new ConnectivitySkillViewFragment();
+  }
 
-    @Override
-    public AbstractSlot<ConnectivityEventData> slot(final @NonNull Context context, final @ValidData @NonNull ConnectivityEventData data) {
-        return new ConnectivitySlot(context, data);
-    }
+  @Override
+  public AbstractSlot<ConnectivityEventData>
+  slot(final @NonNull Context context,
+       final @ValidData @NonNull ConnectivityEventData data) {
+    return new ConnectivitySlot(context, data);
+  }
 
-    @Override
-    public AbstractSlot<ConnectivityEventData> slot(final @NonNull Context context, final @NonNull ConnectivityEventData data, final boolean retriggerable, final boolean persistent) {
-        return new ConnectivitySlot(context, data, retriggerable, persistent);
-    }
+  @Override
+  public AbstractSlot<ConnectivityEventData>
+  slot(final @NonNull Context context,
+       final @NonNull ConnectivityEventData data, final boolean retriggerable,
+       final boolean persistent) {
+    return new ConnectivitySlot(context, data, retriggerable, persistent);
+  }
 
-    @Override
-    public Tracker<ConnectivityEventData> tracker(final @NonNull Context context, final @NonNull ConnectivityEventData data, final @NonNull PendingIntent event_positive, final @NonNull PendingIntent event_negative) {
-        return new ConnectivityTracker(context, data, event_positive, event_negative);
-    }
+  @Override
+  public Tracker<ConnectivityEventData>
+  tracker(final @NonNull Context context,
+          final @NonNull ConnectivityEventData data,
+          final @NonNull PendingIntent event_positive,
+          final @NonNull PendingIntent event_negative) {
+    return new ConnectivityTracker(context, data, event_positive,
+                                   event_negative);
+  }
 }

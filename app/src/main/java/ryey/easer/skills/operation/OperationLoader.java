@@ -20,9 +20,7 @@
 package ryey.easer.skills.operation;
 
 import android.content.Context;
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.operationskill.Loader;
 import ryey.easer.commons.local_skill.operationskill.OperationData;
 
@@ -30,11 +28,11 @@ import ryey.easer.commons.local_skill.operationskill.OperationData;
  * Loader of a operation plugin.
  * Used to perform relevant action given the data (configuration).
  */
-public abstract class OperationLoader<T extends OperationData> implements Loader<T> {
-    protected final Context context;
+public abstract class OperationLoader<T extends OperationData>
+    implements Loader<T> {
+  protected final Context context;
 
-    public OperationLoader(final @NonNull Context context) {
-        this.context = context;
-    }
-
+  public OperationLoader(final @NonNull Context context) {
+    this.context = context;
+  }
 }

@@ -20,32 +20,34 @@
 package ryey.easer.skills.event.nfc_tag;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.eventskill.EventDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class NfcTagEventDataFactory implements EventDataFactory<NfcTagEventData> {
-    @NonNull
-    @Override
-    public Class<NfcTagEventData> dataClass() {
-        return NfcTagEventData.class;
-    }
+  @NonNull
+  @Override
+  public Class<NfcTagEventData> dataClass() {
+    return NfcTagEventData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public NfcTagEventData dummyData() {
-        NfcTagEventData dummyData = new NfcTagEventData();
-        dummyData.id = new byte[] {1, 47, 92, 63};
-        return dummyData;
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public NfcTagEventData dummyData() {
+    NfcTagEventData dummyData = new NfcTagEventData();
+    dummyData.id = new byte[] {1, 47, 92, 63};
+    return dummyData;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public NfcTagEventData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new NfcTagEventData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public NfcTagEventData parse(final @NonNull String data,
+                               final @NonNull PluginDataFormat format,
+                               final int version)
+      throws IllegalStorageDataException {
+    return new NfcTagEventData(data, format, version);
+  }
 }

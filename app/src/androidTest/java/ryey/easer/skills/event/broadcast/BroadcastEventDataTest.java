@@ -19,22 +19,20 @@
 
 package ryey.easer.skills.event.broadcast;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class BroadcastEventDataTest {
 
-    @Test
-    public void testParcel() {
-        BroadcastEventData dummyData = new BroadcastEventDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        BroadcastEventData parceledData = BroadcastEventData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    BroadcastEventData dummyData = new BroadcastEventDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    BroadcastEventData parceledData =
+        BroadcastEventData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

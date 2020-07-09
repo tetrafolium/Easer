@@ -20,49 +20,52 @@
 package ryey.easer.core.data;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.Utils;
 import ryey.easer.commons.C;
 import ryey.easer.commons.local_skill.conditionskill.ConditionData;
 
-public final class ConditionStructure implements Named, Verifiable, WithCreatedVersion {
+public final class ConditionStructure
+    implements Named, Verifiable, WithCreatedVersion {
 
-    private final int createdVersion;
-    @NonNull final String name;
-    @NonNull final ConditionData data;
+  private final int createdVersion;
+  @NonNull final String name;
+  @NonNull final ConditionData data;
 
-    public ConditionStructure(final @NonNull String name, final @NonNull ConditionData data) {
-        this(C.VERSION_CREATED_IN_RUNTIME, name, data);
-    }
+  public ConditionStructure(final @NonNull String name,
+                            final @NonNull ConditionData data) {
+    this(C.VERSION_CREATED_IN_RUNTIME, name, data);
+  }
 
-    public ConditionStructure(final int createdVersion, final @NonNull String name, final @NonNull ConditionData data) {
-        this.createdVersion = createdVersion;
-        this.name = name;
-        this.data = data;
-    }
+  public ConditionStructure(final int createdVersion,
+                            final @NonNull String name,
+                            final @NonNull ConditionData data) {
+    this.createdVersion = createdVersion;
+    this.name = name;
+    this.data = data;
+  }
 
-    @NonNull
-    @Override
-    public String getName() {
-        return name;
-    }
+  @NonNull
+  @Override
+  public String getName() {
+    return name;
+  }
 
-    @NonNull
-    public ConditionData getData() {
-        return data;
-    }
+  @NonNull
+  public ConditionData getData() {
+    return data;
+  }
 
-    @Override
-    public boolean isValid() {
-        if (Utils.isBlank(name))
-            return false;
-        if (!data.isValid())
-            return false;
-        return true;
-    }
+  @Override
+  public boolean isValid() {
+    if (Utils.isBlank(name))
+      return false;
+    if (!data.isValid())
+      return false;
+    return true;
+  }
 
-    @Override
-    public int createdVersion() {
-        return createdVersion;
-    }
+  @Override
+  public int createdVersion() {
+    return createdVersion;
+  }
 }

@@ -20,39 +20,33 @@
 package ryey.easer.skills.operation.command;
 
 import android.content.Context;
-
 import androidx.annotation.NonNull;
-
 import com.orhanobut.logger.Logger;
-
 import java.io.IOException;
-
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.SkillUtils;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class CommandLoader extends OperationLoader<CommandOperationData> {
-    public CommandLoader(final Context context) {
-        super(context);
-    }
+  public CommandLoader(final Context context) { super(context); }
 
-    @Override
-    public boolean load(final @ValidData @NonNull CommandOperationData data) {
-        boolean success = true;
-        String text = data.get();
-        String []commands = text.split("\n");
-        Process process;
-        try {
-            if (SkillUtils.useRootFeature(context)) {
-                process = SkillUtils.executeCommandsAsRoot(commands);
-            } else {
-                process = SkillUtils.executeCommandsContinuously(commands);
-            }
-        } catch (IOException e) {
-            Logger.e(e, "error while launching process");
-            e.printStackTrace();
-            success = false;
-        }
-        return success;
+  @Override
+  public boolean load(final @ValidData @NonNull CommandOperationData data) {
+    boolean success = true;
+    String text = data.get();
+    String[] commands = text.split("\n");
+    Process process;
+    try {
+      if (SkillUtils.useRootFeature(context)) {
+        process = SkillUtils.executeCommandsAsRoot(commands);
+      } else {
+        process = SkillUtils.executeCommandsContinuously(commands);
+      }
+    } catch (IOException e) {
+      Logger.e(e, "error while launching process");
+      e.printStackTrace();
+      success = false;
     }
+    return success;
+  }
 }

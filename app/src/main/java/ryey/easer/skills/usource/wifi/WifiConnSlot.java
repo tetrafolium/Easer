@@ -26,74 +26,79 @@ import android.content.IntentFilter;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.skills.event.AbstractSlot;
 
 public class WifiConnSlot extends AbstractSlot<WifiUSourceData> {
 
-    private final BroadcastReceiver connReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-            String action = intent.getAction();
-            if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(action)) {
-                NetworkInfo networkInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
-                if (networkInfo == null) {
-                    changeSatisfiedState(false);
-                    return;
-                }
-                if (networkInfo.isConnected()) {
-                    WifiInfo wifiInfo = intent.getParcelableExtra(WifiManager.EXTRA_WIFI_INFO);
-                    if (wifiInfo == null) {
-                        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-                        if (wifiManager == null) {
-                            return;
-                        }
-                        wifiInfo = wifiManager.getConnectionInfo();
-                        if (wifiInfo == null)
-                            return;
-                    }
-                    compareAndSignal(wifiInfo);
-                } else if (!networkInfo.isConnectedOrConnecting()) {
-                    WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-                    boolean wifiEnabled = wifiManager.isWifiEnabled();
-                    if (!wifiEnabled) {
-                        return;
-                    }
-                    changeSatisfiedState(false);
-                }
-            }
+  private final BroadcastReceiver connReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(final Context context, final Intent intent) {
+      String action = intent.getAction();
+      if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(action)) {
+        NetworkInfo networkInfo =
+            intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+        if (networkInfo == null) {
+          changeSatisfiedState(false);
+          return;
         }
-    };
-
-    private final IntentFilter filter;
-
-    {
-        filter = new IntentFilter();
-        filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        if (networkInfo.isConnected()) {
+          WifiInfo wifiInfo =
+              intent.getParcelableExtra(WifiManager.EXTRA_WIFI_INFO);
+          if (wifiInfo == null) {
+            WifiManager wifiManager =
+                (WifiManager)context.getApplicationContext().getSystemService(
+                    Context.WIFI_SERVICE);
+            if (wifiManager == null) {
+              return;
+            }
+            wifiInfo = wifiManager.getConnectionInfo();
+            if (wifiInfo == null)
+              return;
+          }
+          compareAndSignal(wifiInfo);
+        } else if (!networkInfo.isConnectedOrConnecting()) {
+          WifiManager wifiManager =
+              (WifiManager)context.getApplicationContext().getSystemService(
+                  Context.WIFI_SERVICE);
+          boolean wifiEnabled = wifiManager.isWifiEnabled();
+          if (!wifiEnabled) {
+            return;
+          }
+          changeSatisfiedState(false);
+        }
+      }
     }
+  };
 
-    WifiConnSlot(final Context context, final WifiUSourceData data) {
-        this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
-    }
+  private final IntentFilter filter;
 
-    WifiConnSlot(final Context context, final WifiUSourceData data, final boolean retriggerable, final boolean persistent) {
-        super(context, data, retriggerable, persistent);
-    }
+  {
+    filter = new IntentFilter();
+    filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+  }
 
-    @Override
-    public void listen() {
-        context.registerReceiver(connReceiver, filter);
-    }
+  WifiConnSlot(final Context context, final WifiUSourceData data) {
+    this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+  }
 
-    @Override
-    public void cancel() {
-        context.unregisterReceiver(connReceiver);
-    }
+  WifiConnSlot(final Context context, final WifiUSourceData data,
+               final boolean retriggerable, final boolean persistent) {
+    super(context, data, retriggerable, persistent);
+  }
 
-    private void compareAndSignal(final @NonNull WifiInfo wifiInfo) {
-        boolean match = Utils.compare(eventData, wifiInfo);
-        changeSatisfiedState(match);
-    }
+  @Override
+  public void listen() {
+    context.registerReceiver(connReceiver, filter);
+  }
+
+  @Override
+  public void cancel() {
+    context.unregisterReceiver(connReceiver);
+  }
+
+  private void compareAndSignal(final @NonNull WifiInfo wifiInfo) {
+    boolean match = Utils.compare(eventData, wifiInfo);
+    changeSatisfiedState(match);
+  }
 }

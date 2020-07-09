@@ -19,6 +19,4 @@
 
 package ryey.easer.core.data;
 
-public interface Named {
-    String getName();
-}
+public interface Named { String getName(); }

@@ -19,18 +19,6 @@
 
 package ryey.easer.skills.usource.connectivity;
 
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-
-import androidx.annotation.NonNull;
-
-import ryey.easer.skills.condition.SkeletonTracker;
-
 import static ryey.easer.skills.usource.connectivity.ConnectivityType.TYPE_BLUETOOTH;
 import static ryey.easer.skills.usource.connectivity.ConnectivityType.TYPE_ETHERNET;
 import static ryey.easer.skills.usource.connectivity.ConnectivityType.TYPE_MOBILE;
@@ -38,72 +26,83 @@ import static ryey.easer.skills.usource.connectivity.ConnectivityType.TYPE_NOT_C
 import static ryey.easer.skills.usource.connectivity.ConnectivityType.TYPE_VPN;
 import static ryey.easer.skills.usource.connectivity.ConnectivityType.TYPE_WIFI;
 
-public class ConnectivityTracker extends SkeletonTracker<ConnectivityEventData> {
-    private final BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-            switch (intent.getAction()) {
-            case ConnectivityManager.CONNECTIVITY_ACTION:
-                check();
-                break;
-            }
-        }
-    };
-    private final IntentFilter filter;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import androidx.annotation.NonNull;
+import ryey.easer.skills.condition.SkeletonTracker;
 
-    {
-        filter = new IntentFilter();
-        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-    }
-
-    ConnectivityTracker(final Context context, final ConnectivityEventData data,
-                        final @NonNull PendingIntent event_positive,
-                        final @NonNull PendingIntent event_negative) {
-        super(context, data, event_positive, event_negative);
+public class ConnectivityTracker
+    extends SkeletonTracker<ConnectivityEventData> {
+  private final BroadcastReceiver receiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(final Context context, final Intent intent) {
+      switch (intent.getAction()) {
+      case ConnectivityManager.CONNECTIVITY_ACTION:
         check();
+        break;
+      }
     }
+  };
+  private final IntentFilter filter;
 
-    @Override
-    public void start() {
-        context.registerReceiver(receiver, filter);
+  {
+    filter = new IntentFilter();
+    filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+  }
+
+  ConnectivityTracker(final Context context, final ConnectivityEventData data,
+                      final @NonNull PendingIntent event_positive,
+                      final @NonNull PendingIntent event_negative) {
+    super(context, data, event_positive, event_negative);
+    check();
+  }
+
+  @Override
+  public void start() {
+    context.registerReceiver(receiver, filter);
+  }
+
+  @Override
+  public void stop() {
+    context.unregisterReceiver(receiver);
+  }
+
+  private void check() {
+    ConnectivityManager connectivityManager =
+        (ConnectivityManager)context.getSystemService(
+            Context.CONNECTIVITY_SERVICE);
+    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+    determineAndNotify(convertType(activeNetworkInfo));
+  }
+
+  private int convertType(final NetworkInfo activeNetworkInfo) {
+    if (activeNetworkInfo == null) {
+      return TYPE_NOT_CONNECTED;
     }
-
-    @Override
-    public void stop() {
-        context.unregisterReceiver(receiver);
+    switch (activeNetworkInfo.getType()) {
+    case ConnectivityManager.TYPE_WIFI:
+      return TYPE_WIFI;
+    case ConnectivityManager.TYPE_MOBILE:
+      return TYPE_MOBILE;
+    case ConnectivityManager.TYPE_ETHERNET:
+      return TYPE_ETHERNET;
+    case ConnectivityManager.TYPE_BLUETOOTH:
+      return TYPE_BLUETOOTH;
+    case ConnectivityManager.TYPE_VPN:
+      return TYPE_VPN;
     }
+    return -1;
+  }
 
-    private void check() {
-        ConnectivityManager connectivityManager
-            = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        determineAndNotify(convertType(activeNetworkInfo));
-    }
-
-    private int convertType(final NetworkInfo activeNetworkInfo) {
-        if (activeNetworkInfo == null) {
-            return TYPE_NOT_CONNECTED;
-        }
-        switch (activeNetworkInfo.getType()) {
-        case ConnectivityManager.TYPE_WIFI:
-            return TYPE_WIFI;
-        case ConnectivityManager.TYPE_MOBILE:
-            return TYPE_MOBILE;
-        case ConnectivityManager.TYPE_ETHERNET:
-            return TYPE_ETHERNET;
-        case ConnectivityManager.TYPE_BLUETOOTH:
-            return TYPE_BLUETOOTH;
-        case ConnectivityManager.TYPE_VPN:
-            return TYPE_VPN;
-        }
-        return -1;
-    }
-
-    private void determineAndNotify(final int networkType) {
-        if (data.connectivity_type.contains(networkType))
-            newSatisfiedState(true);
-        else
-            newSatisfiedState(false);
-    }
-
+  private void determineAndNotify(final int networkType) {
+    if (data.connectivity_type.contains(networkType))
+      newSatisfiedState(true);
+    else
+      newSatisfiedState(false);
+  }
 }

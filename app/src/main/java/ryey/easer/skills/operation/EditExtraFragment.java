@@ -25,119 +25,126 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Spinner;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import ryey.easer.R;
 import ryey.easer.Utils;
 
 public class EditExtraFragment extends Fragment {
 
-    public static EditExtraFragment getInstance() {
-        return new EditExtraFragment();
+  public static EditExtraFragment getInstance() {
+    return new EditExtraFragment();
+  }
+
+  private List<ExtraItemFragment> m_fragment_extra = new ArrayList<>();
+
+  @Nullable
+  @Override
+  public View onCreateView(final @NonNull LayoutInflater inflater,
+                           final @Nullable ViewGroup container,
+                           final @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(
+        R.layout.plugin_operation__broadcast_fragment_edit_extra, container,
+        false);
+
+    view.findViewById(R.id.button_add_extra)
+        .setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(final View v) {
+            ExtraItemFragment fragment = new ExtraItemFragment();
+            getChildFragmentManager()
+                .beginTransaction()
+                .add(R.id.layout_extras, fragment)
+                .commit();
+            m_fragment_extra.add(fragment);
+          }
+        });
+
+    return view;
+  }
+
+  public void fillExtras(final @Nullable Extras extras) {
+    if (extras == null)
+      return;
+    FragmentTransaction transaction =
+        getChildFragmentManager().beginTransaction();
+    if (m_fragment_extra.size() > 0) {
+      for (ExtraItemFragment fragment : m_fragment_extra) {
+        transaction.remove(fragment);
+      }
+      m_fragment_extra.clear();
+    }
+    for (int i = 0; i < extras.extras.size(); i++) {
+      ExtraItem item = extras.extras.get(i);
+      ExtraItemFragment fragment = ExtraItemFragment.createInstance(item);
+      transaction.add(R.id.layout_extras, fragment);
+      m_fragment_extra.add(fragment);
+    }
+    transaction.commit();
+  }
+
+  @Nullable
+  public Extras getExtras() {
+    if (m_fragment_extra.size() > 0) {
+      List<ExtraItem> extraItemList = new ArrayList<>(m_fragment_extra.size());
+      for (ExtraItemFragment fragment : m_fragment_extra) {
+        extraItemList.add(fragment.getData());
+      }
+      return new Extras(extraItemList);
+    }
+    return null;
+  }
+
+  public static class ExtraItemFragment extends Fragment {
+
+    ExtraItem item;
+
+    static ExtraItemFragment createInstance(final ExtraItem item) {
+      ExtraItemFragment fragment = new ExtraItemFragment();
+      fragment.item = item;
+      return fragment;
     }
 
-    private List<ExtraItemFragment> m_fragment_extra = new ArrayList<>();
+    EditText editText_key, editText_value;
+    Spinner spinner_type;
 
     @Nullable
     @Override
-    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.plugin_operation__broadcast_fragment_edit_extra, container, false);
+    public View onCreateView(final @NonNull LayoutInflater inflater,
+                             final @Nullable ViewGroup container,
+                             final @Nullable Bundle savedInstanceState) {
+      View view = inflater.inflate(
+          R.layout.plugin_operation__broadcast_fragment_extra_item, container,
+          false);
+      editText_key = view.findViewById(R.id.editText_key);
+      editText_value = view.findViewById(R.id.editText_value);
+      spinner_type = view.findViewById(R.id.spinner_type);
 
-        view.findViewById(R.id.button_add_extra).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                ExtraItemFragment fragment = new ExtraItemFragment();
-                getChildFragmentManager().beginTransaction()
-                .add(R.id.layout_extras, fragment)
-                .commit();
-                m_fragment_extra.add(fragment);
-            }
-        });
+      if (item != null) {
+        editText_key.setText(item.key);
+        editText_value.setText(item.value);
+        String[] types = getResources().getStringArray(R.array.extra_type);
+        for (int i = 0; i < types.length; i++) {
+          if (types[i].equals(item.type)) {
+            spinner_type.setSelection(i);
+          }
+        }
+      }
 
-        return view;
+      return view;
     }
 
-    public void fillExtras(final @Nullable Extras extras) {
-        if (extras == null)
-            return;
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        if (m_fragment_extra.size() > 0) {
-            for (ExtraItemFragment fragment : m_fragment_extra) {
-                transaction.remove(fragment);
-            }
-            m_fragment_extra.clear();
-        }
-        for (int i = 0; i < extras.extras.size(); i++) {
-            ExtraItem item = extras.extras.get(i);
-            ExtraItemFragment fragment = ExtraItemFragment.createInstance(item);
-            transaction.add(R.id.layout_extras, fragment);
-            m_fragment_extra.add(fragment);
-        }
-        transaction.commit();
-    }
-
-    @Nullable
-    public Extras getExtras() {
-        if (m_fragment_extra.size() > 0) {
-            List<ExtraItem> extraItemList = new ArrayList<>(m_fragment_extra.size());
-            for (ExtraItemFragment fragment : m_fragment_extra) {
-                extraItemList.add(fragment.getData());
-            }
-            return new Extras(extraItemList);
-        }
+    ExtraItem getData() {
+      if (Utils.isBlank(editText_key.getText().toString()))
         return null;
+      String key = editText_key.getText().toString().trim();
+      String value = editText_value.getText().toString();
+      String type = (String)spinner_type.getSelectedItem();
+      return new ExtraItem(key, value, type);
     }
-
-    public static class ExtraItemFragment extends Fragment {
-
-        ExtraItem item;
-
-        static ExtraItemFragment createInstance(final ExtraItem item) {
-            ExtraItemFragment fragment = new ExtraItemFragment();
-            fragment.item = item;
-            return fragment;
-        }
-
-        EditText editText_key, editText_value;
-        Spinner spinner_type;
-
-        @Nullable
-        @Override
-        public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.plugin_operation__broadcast_fragment_extra_item, container, false);
-            editText_key = view.findViewById(R.id.editText_key);
-            editText_value = view.findViewById(R.id.editText_value);
-            spinner_type = view.findViewById(R.id.spinner_type);
-
-            if (item != null) {
-                editText_key.setText(item.key);
-                editText_value.setText(item.value);
-                String[] types = getResources().getStringArray(R.array.extra_type);
-                for (int i = 0; i < types.length; i++) {
-                    if (types[i].equals(item.type)) {
-                        spinner_type.setSelection(i);
-                    }
-                }
-            }
-
-            return view;
-        }
-
-        ExtraItem getData() {
-            if (Utils.isBlank(editText_key.getText().toString()))
-                return null;
-            String key = editText_key.getText().toString().trim();
-            String value = editText_value.getText().toString();
-            String type = (String) spinner_type.getSelectedItem();
-            return new ExtraItem(key, value, type);
-        }
-
-    }
+  }
 }

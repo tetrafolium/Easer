@@ -20,34 +20,35 @@
 package ryey.easer.skills.usource.date;
 
 import androidx.annotation.NonNull;
-
 import java.util.Calendar;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.usource.USourceDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
 class DateUSourceDataFactory implements USourceDataFactory<DateUSourceData> {
-    @NonNull
-    @Override
-    public Class<DateUSourceData> dataClass() {
-        return DateUSourceData.class;
-    }
+  @NonNull
+  @Override
+  public Class<DateUSourceData> dataClass() {
+    return DateUSourceData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public DateUSourceData dummyData() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, 2);
-        return new DateUSourceData(calendar, DateUSourceData.Rel.after);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public DateUSourceData dummyData() {
+    Calendar calendar = Calendar.getInstance();
+    calendar.set(Calendar.DAY_OF_MONTH, 2);
+    return new DateUSourceData(calendar, DateUSourceData.Rel.after);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public DateUSourceData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new DateUSourceData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public DateUSourceData parse(final @NonNull String data,
+                               final @NonNull PluginDataFormat format,
+                               final int version)
+      throws IllegalStorageDataException {
+    return new DateUSourceData(data, format, version);
+  }
 }

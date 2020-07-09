@@ -20,12 +20,10 @@
 package ryey.easer.core.data.storage;
 
 import android.content.Context;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import ryey.easer.commons.local_skill.operationskill.OperationData;
 import ryey.easer.core.data.ProfileStructure;
 import ryey.easer.core.data.RemoteLocalOperationDataWrapper;
@@ -36,97 +34,108 @@ import ryey.easer.core.data.storage.backend.json.script.JsonScriptDataStorageBac
 import ryey.easer.skills.operation.state_control.StateControlOperationData;
 import ryey.easer.skills.operation.state_control.StateControlOperationSkill;
 
-public class ScriptDataStorage extends AbstractDataStorage<ScriptStructure, ScriptDataStorageBackendInterface> {
+public class ScriptDataStorage
+    extends AbstractDataStorage<ScriptStructure,
+                                ScriptDataStorageBackendInterface> {
 
-    public ScriptDataStorage(final Context context) {
-        super(context, new ScriptDataStorageBackendInterface[] {
-                  new JsonScriptDataStorageBackend(context),
-              });
+  public ScriptDataStorage(final Context context) {
+    super(context, new ScriptDataStorageBackendInterface[] {
+                       new JsonScriptDataStorageBackend(context),
+                   });
+  }
+
+  @Override
+  boolean isSafeToDelete(final String name) {
+    for (ScriptStructure scriptStructure : allScripts()) {
+      if (name.equals(scriptStructure.getParentName()))
+        return false;
     }
-
-    @Override
-    boolean isSafeToDelete(final String name) {
-        for (ScriptStructure scriptStructure : allScripts()) {
-            if (name.equals(scriptStructure.getParentName()))
-                return false;
+    ProfileDataStorage profileDataStorage = new ProfileDataStorage(context);
+    String s_id = (new StateControlOperationSkill()).id();
+    for (String pname : profileDataStorage.list()) {
+      ProfileStructure profile = profileDataStorage.get(pname);
+      Collection<RemoteLocalOperationDataWrapper> dataCollection =
+          profile.get(s_id);
+      if (dataCollection != null) {
+        for (RemoteLocalOperationDataWrapper dataWrapper : dataCollection) {
+          if (dataWrapper.isRemote())
+            throw new IllegalStateException(
+                "StateControlOperationData should not be remote");
+          StateControlOperationData stateControlOperationData =
+              (StateControlOperationData)dataWrapper.localData;
+          assert stateControlOperationData != null;
+          if (name.equals(stateControlOperationData.scriptName))
+            return false;
         }
-        ProfileDataStorage profileDataStorage = new ProfileDataStorage(context);
-        String s_id = (new StateControlOperationSkill()).id();
-        for (String pname : profileDataStorage.list()) {
-            ProfileStructure profile = profileDataStorage.get(pname);
-            Collection<RemoteLocalOperationDataWrapper> dataCollection = profile.get(s_id);
-            if (dataCollection != null) {
-                for (RemoteLocalOperationDataWrapper dataWrapper : dataCollection) {
-                    if (dataWrapper.isRemote())
-                        throw new IllegalStateException("StateControlOperationData should not be remote");
-                    StateControlOperationData stateControlOperationData = (StateControlOperationData) dataWrapper.localData;
-                    assert stateControlOperationData != null;
-                    if (name.equals(stateControlOperationData.scriptName))
-                        return false;
-                }
-            }
-        }
-        return true;
+      }
     }
+    return true;
+  }
 
-    public List<ScriptTree> getScriptTrees() {
-        return StorageHelper.eventListToTrees(allScripts());
+  public List<ScriptTree> getScriptTrees() {
+    return StorageHelper.eventListToTrees(allScripts());
+  }
+
+  List<ScriptStructure> allScripts() {
+    List<ScriptStructure> list = null;
+    for (ScriptDataStorageBackendInterface backend : storage_backend_list) {
+      if (list == null)
+        list = backend.all();
+      else
+        list.addAll(backend.all());
     }
+    return list;
+  }
 
-    List<ScriptStructure> allScripts() {
-        List<ScriptStructure> list = null;
-        for (ScriptDataStorageBackendInterface backend : storage_backend_list) {
-            if (list == null)
-                list = backend.all();
-            else
-                list.addAll(backend.all());
-        }
-        return list;
+  @Override
+  protected void handleRename(final String oldName,
+                              final ScriptStructure script) throws IOException {
+    String name = script.getName();
+    // alter subnodes to point to the new name
+    List<ScriptStructure> subs =
+        StorageHelper.scriptParentMap(allScripts()).get(oldName);
+    if (subs != null) {
+      for (ScriptStructure sub : subs) {
+        sub.setParentName(name);
+        update(sub);
+      }
     }
-
-    @Override
-    protected void handleRename(final String oldName, final ScriptStructure script) throws IOException {
-        String name = script.getName();
-        // alter subnodes to point to the new name
-        List<ScriptStructure> subs = StorageHelper.scriptParentMap(allScripts()).get(oldName);
-        if (subs != null) {
-            for (ScriptStructure sub : subs) {
-                sub.setParentName(name);
-                update(sub);
-            }
+    ProfileDataStorage profileDataStorage = new ProfileDataStorage(context);
+    String s_id = (new StateControlOperationSkill()).id();
+    for (String pname : profileDataStorage.list()) {
+      ProfileStructure profile = profileDataStorage.get(pname);
+      Collection<RemoteLocalOperationDataWrapper> dataCollection =
+          profile.get(s_id);
+      if (dataCollection != null) {
+        List<StateControlOperationData> replaceData = new ArrayList<>();
+        for (RemoteLocalOperationDataWrapper operationData : dataCollection) {
+          if (operationData.isRemote())
+            throw new IllegalStateException(
+                "StateControlOperationData should not be remote");
+          OperationData localData = operationData.localData;
+          assert localData != null;
+          StateControlOperationData stateControlOperationData =
+              (StateControlOperationData)localData;
+          if (oldName.equals(stateControlOperationData.scriptName)) {
+            replaceData.add(stateControlOperationData);
+          }
         }
-        ProfileDataStorage profileDataStorage = new ProfileDataStorage(context);
-        String s_id = (new StateControlOperationSkill()).id();
-        for (String pname : profileDataStorage.list()) {
-            ProfileStructure profile = profileDataStorage.get(pname);
-            Collection<RemoteLocalOperationDataWrapper> dataCollection = profile.get(s_id);
-            if (dataCollection != null) {
-                List<StateControlOperationData> replaceData = new ArrayList<>();
-                for (RemoteLocalOperationDataWrapper operationData : dataCollection) {
-                    if (operationData.isRemote())
-                        throw new IllegalStateException("StateControlOperationData should not be remote");
-                    OperationData localData = operationData.localData;
-                    assert localData != null;
-                    StateControlOperationData stateControlOperationData = (StateControlOperationData) localData;
-                    if (oldName.equals(stateControlOperationData.scriptName)) {
-                        replaceData.add(stateControlOperationData);
-                    }
-                }
-                if (replaceData.size() > 0) {
-                    Collection<OperationData> newDataCollection = new ArrayList<>(dataCollection.size());
-                    for (RemoteLocalOperationDataWrapper wrapper : dataCollection) {
-                        newDataCollection.add(wrapper.localData);
-                    }
-                    for (StateControlOperationData operationData : replaceData) {
-                        newDataCollection.remove(operationData);
-                        StateControlOperationData newData = new StateControlOperationData(operationData, name);
-                        newDataCollection.add(newData);
-                    }
-                    profile.set(s_id, newDataCollection);
-                    profileDataStorage.edit(pname, profile);
-                }
-            }
+        if (replaceData.size() > 0) {
+          Collection<OperationData> newDataCollection =
+              new ArrayList<>(dataCollection.size());
+          for (RemoteLocalOperationDataWrapper wrapper : dataCollection) {
+            newDataCollection.add(wrapper.localData);
+          }
+          for (StateControlOperationData operationData : replaceData) {
+            newDataCollection.remove(operationData);
+            StateControlOperationData newData =
+                new StateControlOperationData(operationData, name);
+            newDataCollection.add(newData);
+          }
+          profile.set(s_id, newDataCollection);
+          profileDataStorage.edit(pname, profile);
         }
+      }
     }
-
+  }
 }

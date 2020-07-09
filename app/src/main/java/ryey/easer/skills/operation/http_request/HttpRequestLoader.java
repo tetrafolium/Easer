@@ -21,85 +21,85 @@ package ryey.easer.skills.operation.http_request;
 
 import android.content.Context;
 import android.os.AsyncTask;
-
+import androidx.annotation.NonNull;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
-public class HttpRequestLoader extends OperationLoader<HttpRequestOperationData> {
-    public HttpRequestLoader(final Context context) {
-        super(context);
-    }
+public class HttpRequestLoader
+    extends OperationLoader<HttpRequestOperationData> {
+  public HttpRequestLoader(final Context context) { super(context); }
+
+  @Override
+  public boolean load(final @ValidData @NonNull HttpRequestOperationData data) {
+    // TODO: Async and correctly report
+    HttpTask task = new HttpTask();
+    task.execute(data);
+    return true;
+  }
+
+  private static class HttpTask
+      extends AsyncTask<HttpRequestOperationData, Void, Boolean> {
 
     @Override
-    public boolean load(final @ValidData @NonNull HttpRequestOperationData data) {
-        //TODO: Async and correctly report
-        HttpTask task = new HttpTask();
-        task.execute(data);
-        return true;
-    }
+    protected Boolean
+    doInBackground(final HttpRequestOperationData... httpRequestOperationData) {
+      final HttpRequestOperationData data = httpRequestOperationData[0];
 
-    private static class HttpTask extends AsyncTask<HttpRequestOperationData, Void, Boolean> {
+      HttpURLConnection urlConnection = null;
 
-        @Override
-        protected Boolean doInBackground(final HttpRequestOperationData... httpRequestOperationData) {
-            final HttpRequestOperationData data = httpRequestOperationData[0];
+      try {
+        final URL url = new URL(data.url);
+        urlConnection = (HttpURLConnection)url.openConnection();
+        urlConnection.setRequestMethod(data.requestMethod.name());
 
-            HttpURLConnection urlConnection = null;
-
-            try {
-                final URL url = new URL(data.url);
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod(data.requestMethod.name());
-
-                // set request header
-                final String[] headerLines = data.requestHeader.split("\r?\n");
-                for (String headerLine : headerLines) {
-                    if (headerLine.contains(":")) {
-                        final String[] parts = headerLine.split(":", 2);
-                        urlConnection.addRequestProperty(parts[0].trim(), parts[1].trim());
-                    }
-                }
-
-                switch (data.requestMethod) {
-                case GET:
-                    break;
-
-                case POST:
-                    // set header for POST request
-                    urlConnection.setDoOutput(true);
-                    urlConnection.addRequestProperty("Content-Type", data.contentType);
-                    urlConnection.setFixedLengthStreamingMode(data.postData.length());
-
-                    // send POST data
-                    try (final DataOutputStream out = new DataOutputStream(urlConnection.getOutputStream())) {
-                        out.writeBytes(data.postData);
-                        out.flush();
-                    }
-                    break;
-                }
-
-                // read response
-                try (final InputStream inputStream = urlConnection.getInputStream()) {
-                    //noinspection StatementWithEmptyBody
-                    while (inputStream.read() != -1);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            } finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-            }
-
-            return true;
+        // set request header
+        final String[] headerLines = data.requestHeader.split("\r?\n");
+        for (String headerLine : headerLines) {
+          if (headerLine.contains(":")) {
+            final String[] parts = headerLine.split(":", 2);
+            urlConnection.addRequestProperty(parts[0].trim(), parts[1].trim());
+          }
         }
+
+        switch (data.requestMethod) {
+        case GET:
+          break;
+
+        case POST:
+          // set header for POST request
+          urlConnection.setDoOutput(true);
+          urlConnection.addRequestProperty("Content-Type", data.contentType);
+          urlConnection.setFixedLengthStreamingMode(data.postData.length());
+
+          // send POST data
+          try (final DataOutputStream out =
+                   new DataOutputStream(urlConnection.getOutputStream())) {
+            out.writeBytes(data.postData);
+            out.flush();
+          }
+          break;
+        }
+
+        // read response
+        try (final InputStream inputStream = urlConnection.getInputStream()) {
+          // noinspection StatementWithEmptyBody
+          while (inputStream.read() != -1)
+            ;
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+      } finally {
+        if (urlConnection != null) {
+          urlConnection.disconnect();
+        }
+      }
+
+      return true;
     }
+  }
 }

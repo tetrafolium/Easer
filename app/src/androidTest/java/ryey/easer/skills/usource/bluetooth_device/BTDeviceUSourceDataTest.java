@@ -19,22 +19,21 @@
 
 package ryey.easer.skills.usource.bluetooth_device;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class BTDeviceUSourceDataTest {
 
-    @Test
-    public void testParcel() {
-        BTDeviceUSourceData dummyData = new BTDeviceUSourceDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        BTDeviceUSourceData parceledData = BTDeviceUSourceData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    BTDeviceUSourceData dummyData =
+        new BTDeviceUSourceDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    BTDeviceUSourceData parceledData =
+        BTDeviceUSourceData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

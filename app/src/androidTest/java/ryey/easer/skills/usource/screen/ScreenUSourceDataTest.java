@@ -19,22 +19,20 @@
 
 package ryey.easer.skills.usource.screen;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class ScreenUSourceDataTest {
 
-    @Test
-    public void testParcel() {
-        ScreenUSourceData dummyData = new ScreenUSourceDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        ScreenUSourceData parceledData = ScreenUSourceData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    ScreenUSourceData dummyData = new ScreenUSourceDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    ScreenUSourceData parceledData =
+        ScreenUSourceData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

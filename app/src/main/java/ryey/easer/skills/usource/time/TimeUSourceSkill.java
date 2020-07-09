@@ -22,10 +22,8 @@ package ryey.easer.skills.usource.time;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.SkillView;
 import ryey.easer.commons.local_skill.SourceCategory;
@@ -37,70 +35,74 @@ import ryey.easer.skills.event.AbstractSlot;
 
 public class TimeUSourceSkill implements USourceSkill<TimeUSourceData> {
 
-    @NonNull
-    @Override
-    public String id() {
-        return "time";
-    }
+  @NonNull
+  @Override
+  public String id() {
+    return "time";
+  }
 
-    @Override
-    public int name() {
-        return R.string.usource_time;
-    }
+  @Override
+  public int name() {
+    return R.string.usource_time;
+  }
 
-    @Override
-    public boolean isCompatible(@NonNull final Context context) {
-        return true;
-    }
+  @Override
+  public boolean isCompatible(@NonNull final Context context) {
+    return true;
+  }
 
-    @Nullable
-    @Override
-    public Boolean checkPermissions(final @NonNull Context context) {
-        return null;
-    }
+  @Nullable
+  @Override
+  public Boolean checkPermissions(final @NonNull Context context) {
+    return null;
+  }
 
-    @Override
-    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
+  @Override
+  public void requestPermissions(final @NonNull Activity activity,
+                                 final int requestCode) {}
 
-    }
+  @NonNull
+  @Override
+  public USourceDataFactory<TimeUSourceData> dataFactory() {
+    return new TimeUSourceDataFactory();
+  }
 
-    @NonNull
-    @Override
-    public USourceDataFactory<TimeUSourceData> dataFactory() {
-        return new TimeUSourceDataFactory();
+  @NonNull
+  @Override
+  public SourceCategory category() {
+    return SourceCategory.date_time;
+  }
 
-    }
+  @NonNull
+  @Override
+  public SkillView<TimeUSourceData> view() {
+    return new TimeSkillViewFragment();
+  }
 
-    @NonNull
-    @Override
-    public SourceCategory category() {
-        return SourceCategory.date_time;
-    }
+  @Override
+  public SkillView<TimeUSourceData> eventView() {
+    return new TimeEventSkillViewFragment();
+  }
 
-    @NonNull
-    @Override
-    public SkillView<TimeUSourceData> view() {
-        return new TimeSkillViewFragment();
-    }
+  @Override
+  public AbstractSlot<TimeUSourceData>
+  slot(final @NonNull Context context,
+       final @ValidData @NonNull TimeUSourceData data) {
+    return new TimeSlot(context, data);
+  }
 
-    @Override
-    public SkillView<TimeUSourceData> eventView() {
-        return new TimeEventSkillViewFragment();
-    }
+  @Override
+  public AbstractSlot<TimeUSourceData>
+  slot(final @NonNull Context context, final @NonNull TimeUSourceData data,
+       final boolean retriggerable, final boolean persistent) {
+    return new TimeSlot(context, data, retriggerable, persistent);
+  }
 
-    @Override
-    public AbstractSlot<TimeUSourceData> slot(final @NonNull Context context, final @ValidData @NonNull TimeUSourceData data) {
-        return new TimeSlot(context, data);
-    }
-
-    @Override
-    public AbstractSlot<TimeUSourceData> slot(final @NonNull Context context, final @NonNull TimeUSourceData data, final boolean retriggerable, final boolean persistent) {
-        return new TimeSlot(context, data, retriggerable, persistent);
-    }
-
-    @Override
-    public Tracker<TimeUSourceData> tracker(final @NonNull Context context, final @NonNull TimeUSourceData data, final @NonNull PendingIntent event_positive, final @NonNull PendingIntent event_negative) {
-        return new TimeTracker(context, data, event_positive, event_negative);
-    }
-
+  @Override
+  public Tracker<TimeUSourceData>
+  tracker(final @NonNull Context context, final @NonNull TimeUSourceData data,
+          final @NonNull PendingIntent event_positive,
+          final @NonNull PendingIntent event_negative) {
+    return new TimeTracker(context, data, event_positive, event_negative);
+  }
 }

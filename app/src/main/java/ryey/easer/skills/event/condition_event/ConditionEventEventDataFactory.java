@@ -20,30 +20,34 @@
 package ryey.easer.skills.event.condition_event;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.eventskill.EventDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
-class ConditionEventEventDataFactory implements EventDataFactory<ConditionEventEventData> {
-    @NonNull
-    @Override
-    public Class<ConditionEventEventData> dataClass() {
-        return ConditionEventEventData.class;
-    }
+class ConditionEventEventDataFactory
+    implements EventDataFactory<ConditionEventEventData> {
+  @NonNull
+  @Override
+  public Class<ConditionEventEventData> dataClass() {
+    return ConditionEventEventData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public ConditionEventEventData dummyData() {
-        return new ConditionEventEventData("example_condition", ConditionEventEventData.ConditionEvent.leave);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public ConditionEventEventData dummyData() {
+    return new ConditionEventEventData(
+        "example_condition", ConditionEventEventData.ConditionEvent.leave);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public ConditionEventEventData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new ConditionEventEventData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public ConditionEventEventData parse(final @NonNull String data,
+                                       final @NonNull PluginDataFormat format,
+                                       final int version)
+      throws IllegalStorageDataException {
+    return new ConditionEventEventData(data, format, version);
+  }
 }

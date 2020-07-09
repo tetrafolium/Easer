@@ -26,72 +26,76 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.ContentObserver;
 import android.media.AudioManager;
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.skills.condition.SkeletonTracker;
 
-public class RingerModeTracker extends SkeletonTracker<RingerModeConditionData> {
+public class RingerModeTracker
+    extends SkeletonTracker<RingerModeConditionData> {
 
-    private AudioManager am;
-    private RingerModeConditionData condition;
-    private int curMode, curVolume;
+  private AudioManager am;
+  private RingerModeConditionData condition;
+  private int curMode, curVolume;
 
-    private ContentObserver settingsObserver = new ContentObserver(null) {
-        @Override
-        public void onChange(final boolean selfChange) {
-            updateTrackerVolume(am.getStreamVolume(AudioManager.STREAM_RING));
-        }
-    };
-
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-            if (AudioManager.RINGER_MODE_CHANGED_ACTION.equals(intent.getAction())) {
-                int newMode = intent.getIntExtra(AudioManager.EXTRA_RINGER_MODE, -1);
-                updateTrackerMode(newMode);
-            }
-        }
-    };
-    private static IntentFilter intentFilter = new IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION);
-
-    RingerModeTracker(final Context context, final RingerModeConditionData data,
-                      final @NonNull PendingIntent event_positive,
-                      final @NonNull PendingIntent event_negative) {
-        super(context, data, event_positive, event_negative);
-        this.condition = data;
-        this.am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-    }
-
+  private ContentObserver settingsObserver = new ContentObserver(null) {
     @Override
-    public void start() {
-        context.registerReceiver(broadcastReceiver, intentFilter); // Sticky broadcast, will fire immediately.
-        if (condition.ringerMode == AudioManager.RINGER_MODE_NORMAL)
-            context.getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, settingsObserver);
+    public void onChange(final boolean selfChange) {
+      updateTrackerVolume(am.getStreamVolume(AudioManager.STREAM_RING));
     }
+  };
 
+  private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
     @Override
-    public void stop() {
-        context.unregisterReceiver(broadcastReceiver);
-        if (condition.ringerMode == AudioManager.RINGER_MODE_NORMAL)
-            context.getContentResolver().unregisterContentObserver(settingsObserver);
+    public void onReceive(final Context context, final Intent intent) {
+      if (AudioManager.RINGER_MODE_CHANGED_ACTION.equals(intent.getAction())) {
+        int newMode = intent.getIntExtra(AudioManager.EXTRA_RINGER_MODE, -1);
+        updateTrackerMode(newMode);
+      }
     }
+  };
+  private static IntentFilter intentFilter =
+      new IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION);
 
-    private void updateTrackerMode(final int newMode) {
-        if (curMode == newMode)
-            return;
-        curMode = newMode;
-        if (condition.ringerMode == AudioManager.RINGER_MODE_NORMAL && newMode == AudioManager.RINGER_MODE_NORMAL) {
-            curVolume = am.getStreamVolume(AudioManager.STREAM_RING);
-        }
-        newSatisfiedState(condition.match(curMode, curVolume));
-    }
+  RingerModeTracker(final Context context, final RingerModeConditionData data,
+                    final @NonNull PendingIntent event_positive,
+                    final @NonNull PendingIntent event_negative) {
+    super(context, data, event_positive, event_negative);
+    this.condition = data;
+    this.am = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+  }
 
-    private void updateTrackerVolume(final int newVolume) {
-        if (curVolume == newVolume)
-            return;
-        curVolume = newVolume;
-        curMode = am.getRingerMode();
-        newSatisfiedState(condition.match(curMode, curVolume));
+  @Override
+  public void start() {
+    context.registerReceiver(
+        broadcastReceiver,
+        intentFilter); // Sticky broadcast, will fire immediately.
+    if (condition.ringerMode == AudioManager.RINGER_MODE_NORMAL)
+      context.getContentResolver().registerContentObserver(
+          android.provider.Settings.System.CONTENT_URI, true, settingsObserver);
+  }
+
+  @Override
+  public void stop() {
+    context.unregisterReceiver(broadcastReceiver);
+    if (condition.ringerMode == AudioManager.RINGER_MODE_NORMAL)
+      context.getContentResolver().unregisterContentObserver(settingsObserver);
+  }
+
+  private void updateTrackerMode(final int newMode) {
+    if (curMode == newMode)
+      return;
+    curMode = newMode;
+    if (condition.ringerMode == AudioManager.RINGER_MODE_NORMAL &&
+        newMode == AudioManager.RINGER_MODE_NORMAL) {
+      curVolume = am.getStreamVolume(AudioManager.STREAM_RING);
     }
+    newSatisfiedState(condition.match(curMode, curVolume));
+  }
+
+  private void updateTrackerVolume(final int newVolume) {
+    if (curVolume == newVolume)
+      return;
+    curVolume = newVolume;
+    curMode = am.getRingerMode();
+    newSatisfiedState(condition.match(curMode, curVolume));
+  }
 }

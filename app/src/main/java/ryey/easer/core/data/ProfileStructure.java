@@ -21,98 +21,94 @@ package ryey.easer.core.data;
 
 import androidx.annotation.Nullable;
 import androidx.collection.ArraySet;
-
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
-
 import ryey.easer.commons.local_skill.operationskill.OperationData;
 import ryey.easer.remote_plugin.RemoteOperationData;
 
 /*
  * A Profile is a bundle of several Operation(s).
- * Only the `EditProfileActivity` and `ProfileLoaderService` need to know the detailed structure of a Profile,
- * other classes only need to know the *name* of the Profile.
+ * Only the `EditProfileActivity` and `ProfileLoaderService` need to know the
+ * detailed structure of a Profile, other classes only need to know the *name*
+ * of the Profile.
  */
-final public class ProfileStructure implements Named, Verifiable, WithCreatedVersion {
-    private final int createdVersion;
-    String name;
+final public class ProfileStructure
+    implements Named, Verifiable, WithCreatedVersion {
+  private final int createdVersion;
+  String name;
 
-    final Multimap<String, RemoteLocalOperationDataWrapper> data = LinkedListMultimap.create();
+  final Multimap<String, RemoteLocalOperationDataWrapper> data =
+      LinkedListMultimap.create();
 
-    public ProfileStructure(final int createdVersion) {
-        this.createdVersion = createdVersion;
-    }
+  public ProfileStructure(final int createdVersion) {
+    this.createdVersion = createdVersion;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() { return name; }
 
-    public void setName(final String name) {
-        this.name = name;
-    }
+  public void setName(final String name) { this.name = name; }
 
-    //TODO: concurrent
-    public Set<String> pluginIds() {
-        return data.keySet();
+  // TODO: concurrent
+  public Set<String> pluginIds() { return data.keySet(); }
+  public Collection<RemoteLocalOperationDataWrapper> get(final String key) {
+    return data.get(key);
+  }
+  public void put(final String key, final RemoteOperationData value) {
+    data.put(key, new RemoteLocalOperationDataWrapper(value));
+  }
+  public void put(final String key, final OperationData value) {
+    data.put(key, new RemoteLocalOperationDataWrapper(value));
+  }
+  public void set(final String key,
+                  final Collection<OperationData> dataCollection) {
+    Collection<RemoteLocalOperationDataWrapper> wrapperCollection =
+        new ArrayList<>(dataCollection.size());
+    for (OperationData operationData : dataCollection) {
+      wrapperCollection.add(new RemoteLocalOperationDataWrapper(operationData));
     }
-    public Collection<RemoteLocalOperationDataWrapper> get(final String key) {
-        return data.get(key);
-    }
-    public void put(final String key, final RemoteOperationData value) {
-        data.put(key, new RemoteLocalOperationDataWrapper(value));
-    }
-    public void put(final String key, final OperationData value) {
-        data.put(key, new RemoteLocalOperationDataWrapper(value));
-    }
-    public void set(final String key, final Collection<OperationData> dataCollection) {
-        Collection<RemoteLocalOperationDataWrapper> wrapperCollection = new ArrayList<>(dataCollection.size());
-        for (OperationData operationData : dataCollection) {
-            wrapperCollection.add(new RemoteLocalOperationDataWrapper(operationData));
-        }
-        data.replaceValues(key, wrapperCollection);
-    }
+    data.replaceValues(key, wrapperCollection);
+  }
 
-    @Nullable
-    public Set<String> placeholders() {
-        Set<String> placeholders = new ArraySet<>();
-        for (String key : data.keys()) {
-            for (RemoteLocalOperationDataWrapper dataWrapper : data.get(key)) {
-                if (dataWrapper.isRemote())
-                    break;
-                OperationData operationData = dataWrapper.localData;
-                assert operationData != null;
-                Set<String> ph = operationData.placeholders();
-                if (ph != null)
-                    placeholders.addAll(ph);
-            }
-        }
-        return placeholders;
+  @Nullable
+  public Set<String> placeholders() {
+    Set<String> placeholders = new ArraySet<>();
+    for (String key : data.keys()) {
+      for (RemoteLocalOperationDataWrapper dataWrapper : data.get(key)) {
+        if (dataWrapper.isRemote())
+          break;
+        OperationData operationData = dataWrapper.localData;
+        assert operationData != null;
+        Set<String> ph = operationData.placeholders();
+        if (ph != null)
+          placeholders.addAll(ph);
+      }
     }
+    return placeholders;
+  }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (!(o instanceof ProfileStructure))
-            return false;
-        ProfileStructure ot = (ProfileStructure) o;
-        if (!getName().equals(ot.getName()))
-            return false;
-        if (!data.equals(((ProfileStructure) o).data))
-            return false;
-        return true;
-    }
+  @Override
+  public boolean equals(final Object o) {
+    if (!(o instanceof ProfileStructure))
+      return false;
+    ProfileStructure ot = (ProfileStructure)o;
+    if (!getName().equals(ot.getName()))
+      return false;
+    if (!data.equals(((ProfileStructure)o).data))
+      return false;
+    return true;
+  }
 
-    public boolean isValid() {
-        if ((name == null) || (name.isEmpty()))
-            return false;
-        return true;
-    }
+  public boolean isValid() {
+    if ((name == null) || (name.isEmpty()))
+      return false;
+    return true;
+  }
 
-    @Override
-    public int createdVersion() {
-        return createdVersion;
-    }
+  @Override
+  public int createdVersion() {
+    return createdVersion;
+  }
 }

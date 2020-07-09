@@ -19,22 +19,20 @@
 
 package ryey.easer.skills.operation.alarm;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class AlarmOperationDataTest {
 
-    @Test
-    public void testParcel() {
-        AlarmOperationData dummyData = new AlarmOperationDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        AlarmOperationData parceledData = AlarmOperationData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    AlarmOperationData dummyData = new AlarmOperationDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    AlarmOperationData parceledData =
+        AlarmOperationData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

@@ -20,15 +20,14 @@
 package ryey.easer.skills.event.calendar;
 
 import androidx.collection.ArraySet;
-
 import java.util.Set;
 
 class CalendarData {
-    static final String[] condition_name = new String[] {
-        "start",
-        "end",
-    };
+  static final String[] condition_name = new String[] {
+      "start",
+      "end",
+  };
 
-    long calendar_id;
-    Set<String> conditions = new ArraySet<>(condition_name.length);
+  long calendar_id;
+  Set<String> conditions = new ArraySet<>(condition_name.length);
 }

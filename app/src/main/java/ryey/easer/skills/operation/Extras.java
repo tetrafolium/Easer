@@ -22,146 +22,145 @@ package ryey.easer.skills.operation;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import javax.annotation.Nonnull;
-
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import ryey.easer.Utils;
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.plugin.PluginDataFormat;
 
 /**
- * TODO: implements {@link ryey.easer.commons.local_skill.operationskill.OperationData} ? (especially placeholders)
+ * TODO: implements {@link
+ * ryey.easer.commons.local_skill.operationskill.OperationData} ? (especially
+ * placeholders)
  */
 public class Extras implements Parcelable {
 
-    private static final String KEY = "key";
-    private static final String VALUE = "value";
-    private static final String V_TYPE = "type";
+  private static final String KEY = "key";
+  private static final String VALUE = "value";
+  private static final String V_TYPE = "type";
 
-    @Nullable
-    public static Extras mayParse(final @Nullable String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        if (data == null)
-            return null;
-        return new Extras(data, format, version);
+  @Nullable
+  public static Extras mayParse(final @Nullable String data,
+                                final @NonNull PluginDataFormat format,
+                                final int version)
+      throws IllegalStorageDataException {
+    if (data == null)
+      return null;
+    return new Extras(data, format, version);
+  }
+
+  @Nonnull public final List<ExtraItem> extras;
+
+  public Extras(final @NonNull List<ExtraItem> extras) { this.extras = extras; }
+
+  public Extras(final @NonNull String data,
+                final @NonNull PluginDataFormat format, final int version)
+      throws IllegalStorageDataException {
+    if (Utils.isBlank(data)) {
+      extras = new ArrayList<>();
+      return;
     }
-
-    @Nonnull
-    public final List<ExtraItem> extras;
-
-    public Extras(final @NonNull List<ExtraItem> extras) {
-        this.extras = extras;
+    switch (format) {
+    default:
+      try {
+        JSONArray jsonArray_extras = new JSONArray(data);
+        extras = new ArrayList<>(jsonArray_extras.length());
+        for (int i = 0; i < jsonArray_extras.length(); i++) {
+          JSONObject jsonObject_extra = jsonArray_extras.getJSONObject(i);
+          String key = jsonObject_extra.getString(KEY);
+          String value = jsonObject_extra.getString(VALUE);
+          String type = jsonObject_extra.getString(V_TYPE);
+          extras.add(new ExtraItem(key, value, type));
+        }
+      } catch (JSONException e) {
+        e.printStackTrace();
+        throw new IllegalStorageDataException(e);
+      }
     }
+  }
 
-    public Extras(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        if (Utils.isBlank(data)) {
-            extras = new ArrayList<>();
-            return;
+  @NonNull
+  public String serialize(final @NonNull PluginDataFormat format) {
+    String res = "";
+    switch (format) {
+    default:
+      try {
+        if (extras.size() > 0) {
+          JSONArray jsonArray_extras = new JSONArray();
+          for (ExtraItem item : extras) {
+            JSONObject jsonObject_extra = new JSONObject();
+            jsonObject_extra.put(KEY, item.key);
+            jsonObject_extra.put(VALUE, item.value);
+            jsonObject_extra.put(V_TYPE, item.type);
+            jsonArray_extras.put(jsonObject_extra);
+          }
+          res = jsonArray_extras.toString();
         }
-        switch (format) {
-        default:
-            try {
-                JSONArray jsonArray_extras = new JSONArray(data);
-                extras = new ArrayList<>(jsonArray_extras.length());
-                for (int i = 0; i < jsonArray_extras.length(); i++) {
-                    JSONObject jsonObject_extra = jsonArray_extras.getJSONObject(i);
-                    String key = jsonObject_extra.getString(KEY);
-                    String value = jsonObject_extra.getString(VALUE);
-                    String type = jsonObject_extra.getString(V_TYPE);
-                    extras.add(new ExtraItem(key, value, type));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                throw new IllegalStorageDataException(e);
-            }
-        }
+      } catch (JSONException e) {
+        e.printStackTrace();
+        throw new IllegalStateException(e);
+      }
     }
+    return res;
+  }
 
-    @NonNull
-    public String serialize(final @NonNull PluginDataFormat format) {
-        String res = "";
-        switch (format) {
-        default:
-            try {
-                if (extras.size() > 0) {
-                    JSONArray jsonArray_extras = new JSONArray();
-                    for (ExtraItem item : extras) {
-                        JSONObject jsonObject_extra = new JSONObject();
-                        jsonObject_extra.put(KEY, item.key);
-                        jsonObject_extra.put(VALUE, item.value);
-                        jsonObject_extra.put(V_TYPE, item.type);
-                        jsonArray_extras.put(jsonObject_extra);
-                    }
-                    res = jsonArray_extras.toString();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                throw new IllegalStateException(e);
-            }
-        }
-        return res;
+  @Nonnull
+  public Bundle asBundle() {
+    Bundle bundle = new Bundle();
+    for (ExtraItem item : extras) {
+      switch (item.type) {
+      case "string":
+        bundle.putString(item.key, item.value);
+        break;
+      case "int":
+        bundle.putInt(item.key, Integer.parseInt(item.value));
+        break;
+      }
     }
+    return bundle;
+  }
 
-    @Nonnull
-    public Bundle asBundle() {
-        Bundle bundle = new Bundle();
-        for (ExtraItem item : extras) {
-            switch (item.type) {
-            case "string":
-                bundle.putString(item.key, item.value);
-                break;
-            case "int":
-                bundle.putInt(item.key, Integer.parseInt(item.value));
-                break;
-            }
-        }
-        return bundle;
+  @Override
+  public boolean equals(final @Nullable Object obj) {
+    if (obj == this)
+      return true;
+    if (!(obj instanceof Extras))
+      return false;
+    if (!extras.equals(((Extras)obj).extras))
+      return false;
+    return true;
+  }
+
+  private Extras(final Parcel in) {
+    extras = Objects.requireNonNull(in.createTypedArrayList(ExtraItem.CREATOR));
+  }
+
+  @Override
+  public void writeToParcel(final Parcel dest, final int flags) {
+    dest.writeTypedList(extras);
+  }
+
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  public static final Creator<Extras> CREATOR = new Creator<Extras>() {
+    @Override
+    public Extras createFromParcel(final Parcel in) {
+      return new Extras(in);
     }
 
     @Override
-    public boolean equals(final @Nullable Object obj) {
-        if (obj == this)
-            return true;
-        if (!(obj instanceof Extras))
-            return false;
-        if (!extras.equals(((Extras) obj).extras))
-            return false;
-        return true;
+    public Extras[] newArray(final int size) {
+      return new Extras[size];
     }
-
-    private Extras(final Parcel in) {
-        extras = Objects.requireNonNull(in.createTypedArrayList(ExtraItem.CREATOR));
-    }
-
-    @Override
-    public void writeToParcel(final Parcel dest, final int flags) {
-        dest.writeTypedList(extras);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<Extras> CREATOR = new Creator<Extras>() {
-        @Override
-        public Extras createFromParcel(final Parcel in) {
-            return new Extras(in);
-        }
-
-        @Override
-        public Extras[] newArray(final int size) {
-            return new Extras[size];
-        }
-    };
+  };
 }

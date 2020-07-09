@@ -20,30 +20,33 @@
 package ryey.easer.skills.operation.state_control;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
-class StateControlDataFactory implements OperationDataFactory<StateControlOperationData> {
-    @NonNull
-    @Override
-    public Class<StateControlOperationData> dataClass() {
-        return StateControlOperationData.class;
-    }
+class StateControlDataFactory
+    implements OperationDataFactory<StateControlOperationData> {
+  @NonNull
+  @Override
+  public Class<StateControlOperationData> dataClass() {
+    return StateControlOperationData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public StateControlOperationData dummyData() {
-        return new StateControlOperationData("dummyEventName", false);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public StateControlOperationData dummyData() {
+    return new StateControlOperationData("dummyEventName", false);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public StateControlOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new StateControlOperationData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public StateControlOperationData parse(final @NonNull String data,
+                                         final @NonNull PluginDataFormat format,
+                                         final int version)
+      throws IllegalStorageDataException {
+    return new StateControlOperationData(data, format, version);
+  }
 }

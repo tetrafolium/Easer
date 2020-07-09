@@ -19,34 +19,37 @@
 
 package ryey.easer.skills.condition.calendar;
 
-
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.conditionskill.ConditionDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
-class CalendarConditionDataFactory implements ConditionDataFactory<CalendarConditionData> {
-    @NonNull
-    @Override
-    public Class<CalendarConditionData> dataClass() {
-        return CalendarConditionData.class;
-    }
+class CalendarConditionDataFactory
+    implements ConditionDataFactory<CalendarConditionData> {
+  @NonNull
+  @Override
+  public Class<CalendarConditionData> dataClass() {
+    return CalendarConditionData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public CalendarConditionData dummyData() {
-        CalendarData calendarData = new CalendarData(20, CalendarConditionMatchType.ANY, "%", false);
-        CalendarConditionData dummyData = new CalendarConditionData(calendarData);
-        return dummyData;
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public CalendarConditionData dummyData() {
+    CalendarData calendarData =
+        new CalendarData(20, CalendarConditionMatchType.ANY, "%", false);
+    CalendarConditionData dummyData = new CalendarConditionData(calendarData);
+    return dummyData;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public CalendarConditionData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new CalendarConditionData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public CalendarConditionData parse(final @NonNull String data,
+                                     final @NonNull PluginDataFormat format,
+                                     final int version)
+      throws IllegalStorageDataException {
+    return new CalendarConditionData(data, format, version);
+  }
 }

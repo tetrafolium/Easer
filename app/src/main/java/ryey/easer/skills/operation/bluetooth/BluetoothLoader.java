@@ -23,36 +23,32 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.os.Build;
-
 import androidx.annotation.NonNull;
-
 import com.orhanobut.logger.Logger;
-
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.skills.operation.OperationLoader;
 
 public class BluetoothLoader extends OperationLoader<BluetoothOperationData> {
-    public BluetoothLoader(final Context context) {
-        super(context);
-    }
+  public BluetoothLoader(final Context context) { super(context); }
 
-    @Override
-    public boolean load(final @ValidData @NonNull BluetoothOperationData data) {
-        Boolean state = data.get();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            BluetoothManager bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
-            BluetoothAdapter adapter = bluetoothManager.getAdapter();
-            if (adapter == null) {
-                Logger.w("no BluetoothAdapter");
-                return true;
-            }
-            if (state) {
-                return adapter.enable();
-            } else {
-                return adapter.disable();
-            }
-        }
-        Logger.wtf("System version lower than min requirement");
-        return false;
+  @Override
+  public boolean load(final @ValidData @NonNull BluetoothOperationData data) {
+    Boolean state = data.get();
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+      BluetoothManager bluetoothManager =
+          (BluetoothManager)context.getSystemService(Context.BLUETOOTH_SERVICE);
+      BluetoothAdapter adapter = bluetoothManager.getAdapter();
+      if (adapter == null) {
+        Logger.w("no BluetoothAdapter");
+        return true;
+      }
+      if (state) {
+        return adapter.enable();
+      } else {
+        return adapter.disable();
+      }
     }
+    Logger.wtf("System version lower than min requirement");
+    return false;
+  }
 }

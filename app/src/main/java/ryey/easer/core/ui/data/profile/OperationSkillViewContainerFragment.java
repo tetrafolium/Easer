@@ -26,10 +26,8 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.InvalidDataInputException;
 import ryey.easer.commons.local_skill.operationskill.OperationData;
@@ -37,68 +35,78 @@ import ryey.easer.commons.local_skill.operationskill.OperationSkill;
 import ryey.easer.core.ui.data.SkillViewContainerFragment;
 import ryey.easer.skills.LocalSkillRegistry;
 
-public class OperationSkillViewContainerFragment<T extends OperationData> extends SkillViewContainerFragment<T> {
+public class OperationSkillViewContainerFragment<T extends OperationData>
+    extends SkillViewContainerFragment<T> {
 
-    private static final String EXTRA_PLUGIN = "plugin";
+  private static final String EXTRA_PLUGIN = "plugin";
 
-    static <T extends OperationData> OperationSkillViewContainerFragment<T> createInstance(final OperationSkill<T> plugin) {
-        Bundle bundle = new Bundle();
-        bundle.putString(EXTRA_PLUGIN, plugin.id());
-        OperationSkillViewContainerFragment<T> fragment = new OperationSkillViewContainerFragment<>();
-        fragment.setArguments(bundle);
-        return fragment;
-    }
+  static <T extends OperationData> OperationSkillViewContainerFragment<T>
+  createInstance(final OperationSkill<T> plugin) {
+    Bundle bundle = new Bundle();
+    bundle.putString(EXTRA_PLUGIN, plugin.id());
+    OperationSkillViewContainerFragment<T> fragment =
+        new OperationSkillViewContainerFragment<>();
+    fragment.setArguments(bundle);
+    return fragment;
+  }
 
-    private CheckBox mCheckBox;
+  private CheckBox mCheckBox;
 
-    @Override
-    public void onCreate(final @Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        String plugin_id = getArguments().getString(EXTRA_PLUGIN);
-        @SuppressWarnings("unchecked") OperationSkill<T> plugin = LocalSkillRegistry.getInstance().operation().findSkill(plugin_id);
-        pluginViewFragment = plugin.view();
-    }
+  @Override
+  public void onCreate(final @Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    String plugin_id = getArguments().getString(EXTRA_PLUGIN);
+    @SuppressWarnings("unchecked")
+    OperationSkill<T> plugin =
+        LocalSkillRegistry.getInstance().operation().findSkill(plugin_id);
+    pluginViewFragment = plugin.view();
+  }
 
-    @NonNull
-    @Override
-    public View onCreateView(final @NonNull LayoutInflater inflater, final ViewGroup container,
-                             final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_skillview_container_operation_profile, container, false);
-        getChildFragmentManager().beginTransaction()
+  @NonNull
+  @Override
+  public View onCreateView(final @NonNull LayoutInflater inflater,
+                           final ViewGroup container,
+                           final Bundle savedInstanceState) {
+    View view = inflater.inflate(
+        R.layout.fragment_skillview_container_operation_profile, container,
+        false);
+    getChildFragmentManager()
+        .beginTransaction()
         .replace(R.id.content_pluginview, pluginViewFragment)
         .commit();
-        getChildFragmentManager().executePendingTransactions();
-        mCheckBox = view.findViewById(R.id.checkbox_pluginview_enabled);
-        pluginViewFragment.setEnabled(false);
-        mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(final CompoundButton compoundButton, final boolean b) {
-                pluginViewFragment.setEnabled(b);
-            }
+    getChildFragmentManager().executePendingTransactions();
+    mCheckBox = view.findViewById(R.id.checkbox_pluginview_enabled);
+    pluginViewFragment.setEnabled(false);
+    mCheckBox.setOnCheckedChangeListener(
+        new CompoundButton.OnCheckedChangeListener() {
+          @Override
+          public void onCheckedChanged(final CompoundButton compoundButton,
+                                       final boolean b) {
+            pluginViewFragment.setEnabled(b);
+          }
         });
-        String desc = pluginViewFragment.desc(getResources());
-        ((TextView) view.findViewById(R.id.text_pluginview_desc)).setText(desc);
+    String desc = pluginViewFragment.desc(getResources());
+    ((TextView)view.findViewById(R.id.text_pluginview_desc)).setText(desc);
 
-        return view;
-    }
+    return view;
+  }
 
-    @Override
-    protected void _fill(final @NonNull T data) {
-        mCheckBox.setChecked(true);
-        super._fill(data);
-    }
+  @Override
+  protected void _fill(final @NonNull T data) {
+    mCheckBox.setChecked(true);
+    super._fill(data);
+  }
 
-    @NonNull
-    @Override
-    public T getData() throws InvalidDataInputException {
-        if (mCheckBox.isChecked()) {
-            return super.getData();
-        } else {
-            throw new IllegalStateException("The view should be checked as \"enabled\" before getting its data");
-        }
+  @NonNull
+  @Override
+  public T getData() throws InvalidDataInputException {
+    if (mCheckBox.isChecked()) {
+      return super.getData();
+    } else {
+      throw new IllegalStateException(
+          "The view should be checked as \"enabled\" before getting its data");
     }
+  }
 
-    boolean isEnabled() {
-        return mCheckBox.isChecked();
-    }
+  boolean isEnabled() { return mCheckBox.isChecked(); }
 }

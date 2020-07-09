@@ -20,30 +20,33 @@
 package ryey.easer.skills.operation.rotation;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
-class RotationOperationDataFactory implements OperationDataFactory<RotationOperationData> {
-    @NonNull
-    @Override
-    public Class<RotationOperationData> dataClass() {
-        return RotationOperationData.class;
-    }
+class RotationOperationDataFactory
+    implements OperationDataFactory<RotationOperationData> {
+  @NonNull
+  @Override
+  public Class<RotationOperationData> dataClass() {
+    return RotationOperationData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public RotationOperationData dummyData() {
-        return new RotationOperationData(true);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public RotationOperationData dummyData() {
+    return new RotationOperationData(true);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public RotationOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new RotationOperationData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public RotationOperationData parse(final @NonNull String data,
+                                     final @NonNull PluginDataFormat format,
+                                     final int version)
+      throws IllegalStorageDataException {
+    return new RotationOperationData(data, format, version);
+  }
 }

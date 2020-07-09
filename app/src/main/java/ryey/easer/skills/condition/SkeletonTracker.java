@@ -21,58 +21,56 @@ package ryey.easer.skills.condition;
 
 import android.app.PendingIntent;
 import android.content.Context;
-
 import androidx.annotation.NonNull;
-
 import com.orhanobut.logger.Logger;
-
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
 import ryey.easer.commons.local_skill.conditionskill.ConditionData;
 import ryey.easer.commons.local_skill.conditionskill.Tracker;
 
-public abstract class SkeletonTracker<D extends ConditionData> implements Tracker<D> {
+public abstract class SkeletonTracker<D extends ConditionData>
+    implements Tracker<D> {
 
-    protected final Context context;
-    protected final D data;
-    protected final PendingIntent event_positive, event_negative;
+  protected final Context context;
+  protected final D data;
+  protected final PendingIntent event_positive, event_negative;
 
-    Lock lck_satisfied = new ReentrantLock();
-    protected Boolean satisfied;
+  Lock lck_satisfied = new ReentrantLock();
+  protected Boolean satisfied;
 
-    protected SkeletonTracker(final Context context, final D data,
-                              final @NonNull PendingIntent event_positive,
-                              final @NonNull PendingIntent event_negative) {
-        this.context = context;
-        this.data = data;
-        this.event_positive = event_positive;
-        this.event_negative = event_negative;
+  protected SkeletonTracker(final Context context, final D data,
+                            final @NonNull PendingIntent event_positive,
+                            final @NonNull PendingIntent event_negative) {
+    this.context = context;
+    this.data = data;
+    this.event_positive = event_positive;
+    this.event_negative = event_negative;
+  }
+
+  protected final void newSatisfiedState(final Boolean newState) {
+    lck_satisfied.lock();
+    try {
+      if (satisfied == newState) {
+        return;
+      }
+      satisfied = newState;
+      if (satisfied == null)
+        return;
+      PendingIntent pendingIntent = satisfied ? event_positive : event_negative;
+      try {
+        pendingIntent.send();
+      } catch (PendingIntent.CanceledException e) {
+        Logger.wtf(
+            "PendingIntent for notify in SkeletonTracker cancelled before sending???");
+        e.printStackTrace();
+      }
+    } finally {
+      lck_satisfied.unlock();
     }
+  }
 
-    protected final void newSatisfiedState(final Boolean newState) {
-        lck_satisfied.lock();
-        try {
-            if (satisfied == newState) {
-                return;
-            }
-            satisfied = newState;
-            if (satisfied == null)
-                return;
-            PendingIntent pendingIntent = satisfied ? event_positive : event_negative;
-            try {
-                pendingIntent.send();
-            } catch (PendingIntent.CanceledException e) {
-                Logger.wtf("PendingIntent for notify in SkeletonTracker cancelled before sending???");
-                e.printStackTrace();
-            }
-        } finally {
-            lck_satisfied.unlock();
-        }
-    }
-
-    @Override
-    public Boolean state() {
-        return satisfied;
-    }
+  @Override
+  public Boolean state() {
+    return satisfied;
+  }
 }

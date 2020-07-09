@@ -19,22 +19,21 @@
 
 package ryey.easer.skills.usource.cell_location;
 
-import android.os.Parcel;
-
-import org.junit.Test;
-
-import ryey.easer.skills.TestHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import android.os.Parcel;
+import org.junit.Test;
+import ryey.easer.skills.TestHelper;
 
 public class CellLocationUSourceDataTest {
 
-    @Test
-    public void testParcel() {
-        CellLocationUSourceData dummyData = new CellLocationUSourceDataFactory().dummyData();
-        Parcel parcel = TestHelper.writeToParcel(dummyData);
-        CellLocationUSourceData parceledData = CellLocationUSourceData.CREATOR.createFromParcel(parcel);
-        assertEquals(dummyData, parceledData);
-    }
-
+  @Test
+  public void testParcel() {
+    CellLocationUSourceData dummyData =
+        new CellLocationUSourceDataFactory().dummyData();
+    Parcel parcel = TestHelper.writeToParcel(dummyData);
+    CellLocationUSourceData parceledData =
+        CellLocationUSourceData.CREATOR.createFromParcel(parcel);
+    assertEquals(dummyData, parceledData);
+  }
 }

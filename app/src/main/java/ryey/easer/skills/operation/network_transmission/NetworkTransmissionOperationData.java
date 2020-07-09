@@ -21,15 +21,11 @@ package ryey.easer.skills.operation.network_transmission;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
+import java.util.Set;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Set;
-
 import ryey.easer.Utils;
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.dynamics.SolidDynamicsAssignment;
@@ -38,139 +34,149 @@ import ryey.easer.plugin.PluginDataFormat;
 
 public class NetworkTransmissionOperationData implements OperationData {
 
-    private static final String K_PROTOCOL = "protocol";
-    private static final String K_REMOTE_ADDRESS = "remote_address";
-    private static final String K_REMOTE_PORT = "remote_port";
-    private static final String K_DATA = "data";
+  private static final String K_PROTOCOL = "protocol";
+  private static final String K_REMOTE_ADDRESS = "remote_address";
+  private static final String K_REMOTE_PORT = "remote_port";
+  private static final String K_DATA = "data";
 
-    @Nullable
-    @Override
-    public Set<String> placeholders() {
-        return null;
+  @Nullable
+  @Override
+  public Set<String> placeholders() {
+    return null;
+  }
+
+  @NonNull
+  @Override
+  public OperationData
+  applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
+    return this;
+  }
+
+  enum Protocol {
+    tcp,
+    udp,
+  }
+
+  Protocol protocol;
+  String remote_address;
+  int remote_port;
+  String data; // TODO: change to byte array to support arbitrary data
+
+  NetworkTransmissionOperationData(final Protocol protocol,
+                                   final String remote_address,
+                                   final int remote_port, final String data) {
+    this.protocol = protocol;
+    this.remote_address = remote_address;
+    this.remote_port = remote_port;
+    this.data = data;
+  }
+
+  NetworkTransmissionOperationData(final @NonNull String data,
+                                   final @NonNull PluginDataFormat format,
+                                   final int version)
+      throws IllegalStorageDataException {
+    parse(data, format, version);
+  }
+
+  public void parse(final @NonNull String data,
+                    final @NonNull PluginDataFormat format, final int version)
+      throws IllegalStorageDataException {
+    switch (format) {
+    default:
+      try {
+        JSONObject jsonObject = new JSONObject(data);
+        protocol = Protocol.valueOf(jsonObject.getString(K_PROTOCOL));
+        remote_address = jsonObject.getString(K_REMOTE_ADDRESS);
+        remote_port = jsonObject.getInt(K_REMOTE_PORT);
+        this.data = jsonObject.getString(K_DATA);
+      } catch (JSONException e) {
+        e.printStackTrace();
+        throw new IllegalStorageDataException(e);
+      }
+    }
+  }
+
+  @NonNull
+  @Override
+  public String serialize(final @NonNull PluginDataFormat format) {
+    String res;
+    switch (format) {
+    default:
+      JSONObject jsonObject = new JSONObject();
+      try {
+        jsonObject.put(K_PROTOCOL, protocol.toString());
+        jsonObject.put(K_REMOTE_ADDRESS, remote_address);
+        jsonObject.put(K_REMOTE_PORT, remote_port);
+        jsonObject.put(K_DATA, data);
+        res = jsonObject.toString();
+      } catch (JSONException e) {
+        e.printStackTrace();
+        throw new IllegalStateException(e.getMessage());
+      }
+    }
+    return res;
+  }
+
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean isValid() {
+    if (protocol == null)
+      return false;
+    if (Utils.isBlank(remote_address))
+      return false;
+    if (remote_port <= 0)
+      return false;
+    return true;
+  }
+
+  @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+    if (!(obj instanceof NetworkTransmissionOperationData))
+      return false;
+    if (protocol != ((NetworkTransmissionOperationData)obj).protocol)
+      return false;
+    if (!remote_address.equals(
+            ((NetworkTransmissionOperationData)obj).remote_address))
+      return false;
+    if (remote_port != ((NetworkTransmissionOperationData)obj).remote_port)
+      return false;
+    if (!Utils.nullableEqual(data,
+                             ((NetworkTransmissionOperationData)obj).data))
+      return false;
+    return true;
+  }
+
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  @Override
+  public void writeToParcel(final Parcel dest, final int flags) {
+    dest.writeSerializable(protocol);
+    dest.writeString(remote_address);
+    dest.writeInt(remote_port);
+    dest.writeString(data);
+  }
+
+  public static final Parcelable.Creator<NetworkTransmissionOperationData>
+      CREATOR = new Parcelable.Creator<NetworkTransmissionOperationData>() {
+    public NetworkTransmissionOperationData createFromParcel(final Parcel in) {
+      return new NetworkTransmissionOperationData(in);
     }
 
-    @NonNull
-    @Override
-    public OperationData applyDynamics(final SolidDynamicsAssignment dynamicsAssignment) {
-        return this;
+    public NetworkTransmissionOperationData[] newArray(final int size) {
+      return new NetworkTransmissionOperationData[size];
     }
+  };
 
-    enum Protocol {
-        tcp,
-        udp,
-    }
-
-    Protocol protocol;
-    String remote_address;
-    int remote_port;
-    String data; //TODO: change to byte array to support arbitrary data
-
-    NetworkTransmissionOperationData(final Protocol protocol, final String remote_address, final int remote_port, final String data) {
-        this.protocol = protocol;
-        this.remote_address = remote_address;
-        this.remote_port = remote_port;
-        this.data = data;
-    }
-
-    NetworkTransmissionOperationData(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        parse(data, format, version);
-    }
-
-    public void parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        switch (format) {
-        default:
-            try {
-                JSONObject jsonObject = new JSONObject(data);
-                protocol = Protocol.valueOf(jsonObject.getString(K_PROTOCOL));
-                remote_address = jsonObject.getString(K_REMOTE_ADDRESS);
-                remote_port = jsonObject.getInt(K_REMOTE_PORT);
-                this.data = jsonObject.getString(K_DATA);
-            } catch (JSONException e) {
-                e.printStackTrace();
-                throw new IllegalStorageDataException(e);
-            }
-        }
-    }
-
-    @NonNull
-    @Override
-    public String serialize(final @NonNull PluginDataFormat format) {
-        String res;
-        switch (format) {
-        default:
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put(K_PROTOCOL, protocol.toString());
-                jsonObject.put(K_REMOTE_ADDRESS, remote_address);
-                jsonObject.put(K_REMOTE_PORT, remote_port);
-                jsonObject.put(K_DATA, data);
-                res = jsonObject.toString();
-            } catch (JSONException e) {
-                e.printStackTrace();
-                throw new IllegalStateException(e.getMessage());
-            }
-        }
-        return res;
-    }
-
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean isValid() {
-        if (protocol == null)
-            return false;
-        if (Utils.isBlank(remote_address))
-            return false;
-        if (remote_port <= 0)
-            return false;
-        return true;
-    }
-
-    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
-    @Override
-    public boolean equals(final Object obj) {
-        if (obj == this)
-            return true;
-        if (!(obj instanceof NetworkTransmissionOperationData))
-            return false;
-        if (protocol != ((NetworkTransmissionOperationData) obj).protocol)
-            return false;
-        if (!remote_address.equals(((NetworkTransmissionOperationData) obj).remote_address))
-            return false;
-        if (remote_port != ((NetworkTransmissionOperationData) obj).remote_port)
-            return false;
-        if (!Utils.nullableEqual(data, ((NetworkTransmissionOperationData) obj).data))
-            return false;
-        return true;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(final Parcel dest, final int flags) {
-        dest.writeSerializable(protocol);
-        dest.writeString(remote_address);
-        dest.writeInt(remote_port);
-        dest.writeString(data);
-    }
-
-    public static final Parcelable.Creator<NetworkTransmissionOperationData> CREATOR
-    = new Parcelable.Creator<NetworkTransmissionOperationData>() {
-        public NetworkTransmissionOperationData createFromParcel(final Parcel in) {
-            return new NetworkTransmissionOperationData(in);
-        }
-
-        public NetworkTransmissionOperationData[] newArray(final int size) {
-            return new NetworkTransmissionOperationData[size];
-        }
-    };
-
-    private NetworkTransmissionOperationData(final Parcel in) {
-        protocol = (Protocol) in.readSerializable();
-        remote_address = in.readString();
-        remote_port = in.readInt();
-        data = in.readString();
-    }
+  private NetworkTransmissionOperationData(final Parcel in) {
+    protocol = (Protocol)in.readSerializable();
+    remote_address = in.readString();
+    remote_port = in.readInt();
+    data = in.readString();
+  }
 }

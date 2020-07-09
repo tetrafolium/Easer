@@ -24,10 +24,8 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.SourceCategory;
 import ryey.easer.commons.local_skill.ValidData;
@@ -38,71 +36,79 @@ import ryey.easer.commons.local_skill.usource.USourceSkill;
 import ryey.easer.skills.SkillUtils;
 import ryey.easer.skills.SkillViewFragment;
 
-public class BluetoothEnabledUSourceSkill implements USourceSkill<BluetoothEnabledUSourceData> {
+public class BluetoothEnabledUSourceSkill
+    implements USourceSkill<BluetoothEnabledUSourceData> {
 
-    @NonNull
-    @Override
-    public String id() {
-        return "bluetooth_enabled";
-    }
+  @NonNull
+  @Override
+  public String id() {
+    return "bluetooth_enabled";
+  }
 
-    @Override
-    public int name() {
-        return R.string.usource_bluetooth_enabled;
-    }
+  @Override
+  public int name() {
+    return R.string.usource_bluetooth_enabled;
+  }
 
-    @Override
-    public boolean isCompatible(@NonNull final Context context) {
-        return BluetoothAdapter.getDefaultAdapter() != null;
-    }
+  @Override
+  public boolean isCompatible(@NonNull final Context context) {
+    return BluetoothAdapter.getDefaultAdapter() != null;
+  }
 
-    @Nullable
-    @Override
-    public Boolean checkPermissions(final @NonNull Context context) {
-        return SkillUtils.checkPermission(context,
-                                          Manifest.permission.BLUETOOTH);
-    }
+  @Nullable
+  @Override
+  public Boolean checkPermissions(final @NonNull Context context) {
+    return SkillUtils.checkPermission(context, Manifest.permission.BLUETOOTH);
+  }
 
-    @Override
-    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
-        SkillUtils.requestPermission(activity, requestCode, Manifest.permission.BLUETOOTH);
-    }
+  @Override
+  public void requestPermissions(final @NonNull Activity activity,
+                                 final int requestCode) {
+    SkillUtils.requestPermission(activity, requestCode,
+                                 Manifest.permission.BLUETOOTH);
+  }
 
-    @NonNull
-    @Override
-    public USourceDataFactory<BluetoothEnabledUSourceData> dataFactory() {
-        return new BluetoothEnabledUSourceDataFactory();
-    }
+  @NonNull
+  @Override
+  public USourceDataFactory<BluetoothEnabledUSourceData> dataFactory() {
+    return new BluetoothEnabledUSourceDataFactory();
+  }
 
-    @NonNull
-    @Override
-    public SourceCategory category() {
-        return SourceCategory.device;
-    }
+  @NonNull
+  @Override
+  public SourceCategory category() {
+    return SourceCategory.device;
+  }
 
-    @NonNull
-    @Override
-    public SkillViewFragment<BluetoothEnabledUSourceData> view() {
-        return new BluetoothEnabledSkillViewFragment();
-    }
+  @NonNull
+  @Override
+  public SkillViewFragment<BluetoothEnabledUSourceData> view() {
+    return new BluetoothEnabledSkillViewFragment();
+  }
 
-    @Override
-    public Slot<BluetoothEnabledUSourceData> slot(final @NonNull Context context, final @NonNull BluetoothEnabledUSourceData data) {
-        return new BluetoothEnabledSlot(context, data);
-    }
+  @Override
+  public Slot<BluetoothEnabledUSourceData>
+  slot(final @NonNull Context context,
+       final @NonNull BluetoothEnabledUSourceData data) {
+    return new BluetoothEnabledSlot(context, data);
+  }
 
-    @Override
-    public Slot<BluetoothEnabledUSourceData> slot(final @NonNull Context context, final @NonNull BluetoothEnabledUSourceData data, final boolean retriggerable, final boolean persistent) {
-        return new BluetoothEnabledSlot(context, data, retriggerable, persistent);
-    }
+  @Override
+  public Slot<BluetoothEnabledUSourceData>
+  slot(final @NonNull Context context,
+       final @NonNull BluetoothEnabledUSourceData data,
+       final boolean retriggerable, final boolean persistent) {
+    return new BluetoothEnabledSlot(context, data, retriggerable, persistent);
+  }
 
-    @NonNull
-    @Override
-    public Tracker<BluetoothEnabledUSourceData> tracker(final @NonNull Context context,
-            final @ValidData @NonNull BluetoothEnabledUSourceData data,
-            final @NonNull PendingIntent event_positive,
-            final @NonNull PendingIntent event_negative) {
-        return new BluetoothEnabledTracker(context, data, event_positive, event_negative);
-    }
-
+  @NonNull
+  @Override
+  public Tracker<BluetoothEnabledUSourceData>
+  tracker(final @NonNull Context context,
+          final @ValidData @NonNull BluetoothEnabledUSourceData data,
+          final @NonNull PendingIntent event_positive,
+          final @NonNull PendingIntent event_negative) {
+    return new BluetoothEnabledTracker(context, data, event_positive,
+                                       event_negative);
+  }
 }

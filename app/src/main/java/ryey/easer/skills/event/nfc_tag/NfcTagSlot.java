@@ -25,54 +25,54 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.nfc.Tag;
 import android.os.IBinder;
-
 import java.util.Arrays;
-
 import ryey.easer.skills.event.AbstractSlot;
 
 public class NfcTagSlot extends AbstractSlot<NfcTagEventData> {
 
-    private NfcListenerService.NLSBinder sBinder;
+  private NfcListenerService.NLSBinder sBinder;
 
-    private final Intent sIntent = new Intent(context, NfcListenerService.class);
-    private final ServiceConnection mConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(final ComponentName componentName, final IBinder iBinder) {
-            sBinder = (NfcListenerService.NLSBinder) iBinder;
-            sBinder.registerSlot(NfcTagSlot.this);
-        }
-
-        @Override
-        public void onServiceDisconnected(final ComponentName componentName) {
-            sBinder.unregisterSlot(NfcTagSlot.this);
-            sBinder = null;
-        }
-    };
-
-    public NfcTagSlot(final Context context, final NfcTagEventData data) {
-        this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
-    }
-
-    NfcTagSlot(final Context context, final NfcTagEventData data, final boolean retriggerable, final boolean persistent) {
-        super(context, data, retriggerable, persistent);
+  private final Intent sIntent = new Intent(context, NfcListenerService.class);
+  private final ServiceConnection mConnection = new ServiceConnection() {
+    @Override
+    public void onServiceConnected(final ComponentName componentName,
+                                   final IBinder iBinder) {
+      sBinder = (NfcListenerService.NLSBinder)iBinder;
+      sBinder.registerSlot(NfcTagSlot.this);
     }
 
     @Override
-    public void listen() {
-        context.bindService(sIntent, mConnection, Context.BIND_AUTO_CREATE);
+    public void onServiceDisconnected(final ComponentName componentName) {
+      sBinder.unregisterSlot(NfcTagSlot.this);
+      sBinder = null;
     }
+  };
 
-    @Override
-    public void cancel() {
-        context.unbindService(mConnection);
-    }
+  public NfcTagSlot(final Context context, final NfcTagEventData data) {
+    this(context, data, RETRIGGERABLE_DEFAULT, PERSISTENT_DEFAULT);
+  }
 
-    void checkAndTrigger(final Tag tag) {
-        byte[] tag_id = tag.getId();
-        if (Arrays.equals(tag_id, eventData.id)) {
-            changeSatisfiedState(true);
-        } else {
-            changeSatisfiedState(false);
-        }
+  NfcTagSlot(final Context context, final NfcTagEventData data,
+             final boolean retriggerable, final boolean persistent) {
+    super(context, data, retriggerable, persistent);
+  }
+
+  @Override
+  public void listen() {
+    context.bindService(sIntent, mConnection, Context.BIND_AUTO_CREATE);
+  }
+
+  @Override
+  public void cancel() {
+    context.unbindService(mConnection);
+  }
+
+  void checkAndTrigger(final Tag tag) {
+    byte[] tag_id = tag.getId();
+    if (Arrays.equals(tag_id, eventData.id)) {
+      changeSatisfiedState(true);
+    } else {
+      changeSatisfiedState(false);
     }
+  }
 }

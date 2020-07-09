@@ -24,44 +24,46 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.operationskill.OperationData;
 import ryey.easer.skills.SkillViewFragment;
 
-public abstract class SwitchSkillViewFragment<T extends OperationData> extends SkillViewFragment<T> {
-    private Switch aSwitch;
+public abstract class SwitchSkillViewFragment<T extends OperationData>
+    extends SkillViewFragment<T> {
+  private Switch aSwitch;
 
-    @NonNull
-    @Override
-    public View onCreateView(final @NonNull LayoutInflater inflater, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.plugin_reusable__switch, container, false);
-        aSwitch = view.findViewById(R.id.plugin_reusable__switch);
-        return view;
-    }
+  @NonNull
+  @Override
+  public View onCreateView(final @NonNull LayoutInflater inflater,
+                           final @Nullable ViewGroup container,
+                           final @Nullable Bundle savedInstanceState) {
+    View view =
+        inflater.inflate(R.layout.plugin_reusable__switch, container, false);
+    aSwitch = view.findViewById(R.id.plugin_reusable__switch);
+    return view;
+  }
 
-    private static void setSwitch(final @NonNull Switch sw, final boolean state) {
-        sw.setChecked(state);
-    }
+  private static void setSwitch(final @NonNull Switch sw, final boolean state) {
+    sw.setChecked(state);
+  }
 
-    private static boolean fromSwitch(final @NonNull Switch sw) {
-        return sw.isChecked();
-    }
+  private static boolean fromSwitch(final @NonNull Switch sw) {
+    return sw.isChecked();
+  }
 
-    @Override
-    protected void _fill(final @ValidData @NonNull T data) {
-        if (data instanceof BooleanOperationData) {
-            Boolean state = ((BooleanOperationData) data).get();
-            setSwitch(aSwitch, state);
-        }
+  @Override
+  protected void _fill(final @ValidData @NonNull T data) {
+    if (data instanceof BooleanOperationData) {
+      Boolean state = ((BooleanOperationData)data).get();
+      setSwitch(aSwitch, state);
     }
+  }
 
-    @NonNull
-    protected Boolean state() {
-        return fromSwitch(aSwitch);
-    }
+  @NonNull
+  protected Boolean state() {
+    return fromSwitch(aSwitch);
+  }
 }

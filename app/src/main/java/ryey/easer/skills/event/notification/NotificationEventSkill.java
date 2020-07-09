@@ -25,11 +25,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-
 import ryey.easer.R;
 import ryey.easer.commons.local_skill.SkillView;
 import ryey.easer.commons.local_skill.SourceCategory;
@@ -39,73 +37,83 @@ import ryey.easer.commons.local_skill.eventskill.EventSkill;
 import ryey.easer.skills.SkillUtils;
 import ryey.easer.skills.event.AbstractSlot;
 
-public class NotificationEventSkill implements EventSkill<NotificationEventData> {
+public class NotificationEventSkill
+    implements EventSkill<NotificationEventData> {
 
-    @NonNull
-    @Override
-    public String id() {
-        return "notification";
+  @NonNull
+  @Override
+  public String id() {
+    return "notification";
+  }
+
+  @Override
+  public int name() {
+    return R.string.event_notification;
+  }
+
+  @Override
+  public boolean isCompatible(@NonNull final Context context) {
+    // TODO support Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+  }
+
+  @Nullable
+  @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+  @Override
+  public Boolean checkPermissions(final @NonNull Context context) {
+    return SkillUtils.isPermissionGrantedForNotificationListenerService(
+        context, NotificationEventListenerService.class);
+  }
+
+  @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+  @Override
+  public void requestPermissions(final @NonNull Activity activity,
+                                 final int requestCode) {
+    if (!SkillUtils.isPermissionGrantedForNotificationListenerService(
+            activity, NotificationEventListenerService.class)) {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+        activity.startActivity(
+            new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
+      } else {
+        SkillUtils.requestPermission(
+            activity, requestCode,
+            Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE);
+      }
     }
+    SkillUtils.reenableComponent(activity,
+                                 NotificationEventListenerService.class);
+  }
 
-    @Override
-    public int name() {
-        return R.string.event_notification;
-    }
+  @NonNull
+  @Override
+  public EventDataFactory<NotificationEventData> dataFactory() {
+    return new NotificationEventDataFactory();
+  }
 
-    @Override
-    public boolean isCompatible(@NonNull final Context context) {
-        //TODO support Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-    }
+  @NonNull
+  @Override
+  public SourceCategory category() {
+    return SourceCategory.android;
+  }
 
-    @Nullable
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
-    public Boolean checkPermissions(final @NonNull Context context) {
-        return SkillUtils.isPermissionGrantedForNotificationListenerService(context, NotificationEventListenerService.class);
-    }
+  @NonNull
+  @Override
+  public SkillView<NotificationEventData> view() {
+    return new NotificationSkillViewFragment();
+  }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
-    public void requestPermissions(final @NonNull Activity activity, final int requestCode) {
-        if (!SkillUtils.isPermissionGrantedForNotificationListenerService(activity, NotificationEventListenerService.class)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                activity.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-            } else {
-                SkillUtils.requestPermission(activity, requestCode,
-                                             Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE);
-            }
-        }
-        SkillUtils.reenableComponent(activity, NotificationEventListenerService.class);
-    }
+  @Override
+  public AbstractSlot<NotificationEventData>
+  slot(final @NonNull Context context,
+       final @ValidData @NonNull NotificationEventData data) {
+    return new NotificationSlot(context, data);
+  }
 
-    @NonNull
-    @Override
-    public EventDataFactory<NotificationEventData> dataFactory() {
-        return new NotificationEventDataFactory();
-
-    }
-
-    @NonNull
-    @Override
-    public SourceCategory category() {
-        return SourceCategory.android;
-    }
-
-    @NonNull
-    @Override
-    public SkillView<NotificationEventData> view() {
-        return new NotificationSkillViewFragment();
-    }
-
-    @Override
-    public AbstractSlot<NotificationEventData> slot(final @NonNull Context context, final @ValidData @NonNull NotificationEventData data) {
-        return new NotificationSlot(context, data);
-    }
-
-    @Override
-    public AbstractSlot<NotificationEventData> slot(final @NonNull Context context, final @NonNull NotificationEventData data, final boolean retriggerable, final boolean persistent) {
-        return new NotificationSlot(context, data, retriggerable, persistent);
-    }
-
+  @Override
+  public AbstractSlot<NotificationEventData>
+  slot(final @NonNull Context context,
+       final @NonNull NotificationEventData data, final boolean retriggerable,
+       final boolean persistent) {
+    return new NotificationSlot(context, data, retriggerable, persistent);
+  }
 }

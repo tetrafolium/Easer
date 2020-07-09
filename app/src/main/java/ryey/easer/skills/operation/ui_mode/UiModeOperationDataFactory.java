@@ -20,30 +20,33 @@
 package ryey.easer.skills.operation.ui_mode;
 
 import androidx.annotation.NonNull;
-
 import ryey.easer.commons.local_skill.IllegalStorageDataException;
 import ryey.easer.commons.local_skill.ValidData;
 import ryey.easer.commons.local_skill.operationskill.OperationDataFactory;
 import ryey.easer.plugin.PluginDataFormat;
 
-class UiModeOperationDataFactory implements OperationDataFactory<UiModeOperationData> {
-    @NonNull
-    @Override
-    public Class<UiModeOperationData> dataClass() {
-        return UiModeOperationData.class;
-    }
+class UiModeOperationDataFactory
+    implements OperationDataFactory<UiModeOperationData> {
+  @NonNull
+  @Override
+  public Class<UiModeOperationData> dataClass() {
+    return UiModeOperationData.class;
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public UiModeOperationData dummyData() {
-        return new UiModeOperationData(UiModeOperationData.UiMode.car);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public UiModeOperationData dummyData() {
+    return new UiModeOperationData(UiModeOperationData.UiMode.car);
+  }
 
-    @ValidData
-    @NonNull
-    @Override
-    public UiModeOperationData parse(final @NonNull String data, final @NonNull PluginDataFormat format, final int version) throws IllegalStorageDataException {
-        return new UiModeOperationData(data, format, version);
-    }
+  @ValidData
+  @NonNull
+  @Override
+  public UiModeOperationData parse(final @NonNull String data,
+                                   final @NonNull PluginDataFormat format,
+                                   final int version)
+      throws IllegalStorageDataException {
+    return new UiModeOperationData(data, format, version);
+  }
 }
